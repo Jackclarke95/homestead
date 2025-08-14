@@ -42,21 +42,25 @@ public class DryingRackBlock extends BlockWithEntity {
     // Shapes for the drying rack in different orientations
     private static final VoxelShape SHAPE_NORTH = VoxelShapes.union(
             Block.createCuboidShape(2, 13, 7, 14, 14, 9), // Main horizontal bar (raised by 2)
+            Block.createCuboidShape(2, 9, 7, 14, 13, 9), // Extended interaction area below bar (4 units down)
             Block.createCuboidShape(1, 0, 6, 3, 16, 10), // Left post
             Block.createCuboidShape(13, 0, 6, 15, 16, 10) // Right post
     );
     private static final VoxelShape SHAPE_EAST = VoxelShapes.union(
             Block.createCuboidShape(7, 13, 2, 9, 14, 14), // Main horizontal bar (raised by 2)
+            Block.createCuboidShape(7, 9, 2, 9, 13, 14), // Extended interaction area below bar (4 units down)
             Block.createCuboidShape(6, 0, 1, 10, 16, 3), // Left post (rotated)
             Block.createCuboidShape(6, 0, 13, 10, 16, 15) // Right post (rotated)
     );
     private static final VoxelShape SHAPE_SOUTH = VoxelShapes.union(
             Block.createCuboidShape(2, 13, 7, 14, 14, 9), // Main horizontal bar (raised by 2)
+            Block.createCuboidShape(2, 9, 7, 14, 13, 9), // Extended interaction area below bar (4 units down)
             Block.createCuboidShape(13, 0, 6, 15, 16, 10), // Left post (flipped)
             Block.createCuboidShape(1, 0, 6, 3, 16, 10) // Right post (flipped)
     );
     private static final VoxelShape SHAPE_WEST = VoxelShapes.union(
             Block.createCuboidShape(7, 13, 2, 9, 14, 14), // Main horizontal bar (raised by 2)
+            Block.createCuboidShape(7, 9, 2, 9, 13, 14), // Extended interaction area below bar (4 units down)
             Block.createCuboidShape(6, 0, 13, 10, 16, 15), // Left post (rotated & flipped)
             Block.createCuboidShape(6, 0, 1, 10, 16, 3) // Right post (rotated & flipped)
     );
@@ -103,6 +107,26 @@ public class DryingRackBlock extends BlockWithEntity {
     }
 
     @Override
+    protected void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
+        DryingRack.LOGGER.info("DryingRackBlock.onBlockBreakStart called (left-click attack)");
+
+        if (!world.isClient) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof DryingRackBlockEntity dryingRack) {
+                // Try to withdraw an item
+                ActionResult result = dryingRack.onLeftClick(player, null, state);
+                if (result == ActionResult.SUCCESS) {
+                    // Successfully withdrew an item - don't call super to prevent breaking
+                    return;
+                }
+            }
+        }
+
+        // Call super only if no item was withdrawn
+        super.onBlockBreakStart(state, world, pos, player);
+    }
+
+    @Override
     protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
             PlayerEntity player, Hand hand, BlockHitResult hit) {
         DryingRack.LOGGER.info("DryingRackBlock.onUseWithItem called with item: {}", stack.getItem().toString());
@@ -110,7 +134,7 @@ public class DryingRackBlock extends BlockWithEntity {
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof DryingRackBlockEntity dryingRack) {
-                ActionResult result = dryingRack.onUse(player, hand);
+                ActionResult result = dryingRack.onRightClick(player, hand, hit, state);
                 return result == ActionResult.SUCCESS ? ItemActionResult.SUCCESS
                         : ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
@@ -125,10 +149,16 @@ public class DryingRackBlock extends BlockWithEntity {
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof DryingRackBlockEntity dryingRack) {
-                return dryingRack.onUse(player, Hand.MAIN_HAND);
+                return dryingRack.onRightClick(player, Hand.MAIN_HAND, hit, state);
             }
         }
         return ActionResult.SUCCESS;
+    }
+
+    @Override
+    public float calcBlockBreakingDelta(BlockState state, PlayerEntity player, BlockView world, BlockPos pos) {
+        // Normal breaking speed
+        return super.calcBlockBreakingDelta(state, player, world, pos);
     }
 
     @Override
