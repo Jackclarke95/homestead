@@ -1,37 +1,30 @@
 {
-	"schemaVersion": 1,
-	"id": "drying-rack",
-	"version": "${version}",
-	"name": "Drying Rack",
-	"description": "This is an example description! Tell everyone what your mod is about!",
-	"authors": [
-		"Me!"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
-	},
-	"license": "CC0-1.0",
-	"icon": "assets/drying-rack/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"jackclarke95.dryingrack.DryingRack"
-		],
-		"fabric-datagen": [
-			"jackclarke95.dryingrack.DryingRackDataGenerator"
-		]
-	},
-	"mixins": [
-		"drying-rack.mixins.json"
-	],
-	"depends": {
-		"fabricloader": ">=0.17.2",
-		"minecraft": "~1.21.1",
-		"java": ">=21",
-		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
-	}
+  "schemaVersion": 1,
+  "id": "drying-rack",
+  "version": "${version}",
+  "name": "Drying Rack",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": ["Me!"],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/drying-rack/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["jackclarke95.dryingrack.DryingRack"],
+    "client": ["jackclarke95.dryingrack.client.DryingRackClient"],
+    "fabric-datagen": ["jackclarke95.dryingrack.DryingRackDataGenerator"]
+  },
+  "mixins": ["drying-rack.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
 }

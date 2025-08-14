@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "has_item_0=false,has_item_1=false,has_item_2=false,has_item_3=false": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=true,has_item_1=false,has_item_2=false,has_item_3=false": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=false,has_item_1=true,has_item_2=false,has_item_3=false": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=false,has_item_1=false,has_item_2=true,has_item_3=false": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=false,has_item_1=false,has_item_2=false,has_item_3=true": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=true,has_item_1=true,has_item_2=false,has_item_3=false": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=true,has_item_1=false,has_item_2=true,has_item_3=false": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=true,has_item_1=false,has_item_2=false,has_item_3=true": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=false,has_item_1=true,has_item_2=true,has_item_3=false": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=false,has_item_1=true,has_item_2=false,has_item_3=true": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=false,has_item_1=false,has_item_2=true,has_item_3=true": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=true,has_item_1=true,has_item_2=true,has_item_3=false": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=true,has_item_1=true,has_item_2=false,has_item_3=true": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=true,has_item_1=false,has_item_2=true,has_item_3=true": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=false,has_item_1=true,has_item_2=true,has_item_3=true": {
+      "model": "drying-rack:block/drying_rack"
+    },
+    "has_item_0=true,has_item_1=true,has_item_2=true,has_item_3=true": {
+      "model": "drying-rack:block/drying_rack"
+    }
+  }
+}
