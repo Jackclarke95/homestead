@@ -1,5 +1,6 @@
 package jackclarke95.dryingrack.client.render;
 
+import jackclarke95.dryingrack.block.DryingRackBlock;
 import jackclarke95.dryingrack.block.entity.DryingRackBlockEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -8,6 +9,7 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
 
 public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<DryingRackBlockEntity> {
@@ -32,6 +34,18 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
             System.out.println("DryingRackRenderer: Rendering " + itemCount + " items");
         }
 
+        // Get the block's facing direction
+        Direction facing = entity.getCachedState().get(DryingRackBlock.FACING);
+
+        // Calculate the rotation angle based on facing direction
+        float blockRotation = switch (facing) {
+            case NORTH -> 0f;
+            case EAST -> 90f;
+            case SOUTH -> 180f;
+            case WEST -> 270f;
+            default -> 0f;
+        };
+
         // Render items hanging from the rack
         for (int slot = 0; slot < 4; slot++) {
             ItemStack stack = entity.getStack(slot);
@@ -39,6 +53,11 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
                 System.out.println("Rendering item in slot " + slot + ": " + stack.getItem().toString());
 
                 matrices.push();
+
+                // Apply block rotation first - rotate around the center of the block
+                matrices.translate(0.5f, 0f, 0.5f); // Move to block center
+                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(blockRotation));
+                matrices.translate(-0.5f, 0f, -0.5f); // Move back
 
                 // Calculate positioning based on the actual model dimensions
                 // Horizontal bar runs from X=2 to X=14 (in 16-unit block space)
@@ -59,7 +78,19 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
                 // Effective spaces = 4 items + 3 full gaps + 2 half-edge-gaps = 4 + 3 + 1 = 8
                 // units
                 float spacePerUnit = adjustedUsableWidth / 8.0f;
-                float x = adjustedLeftEdge + spacePerUnit + (slot * 2.0f * spacePerUnit);
+
+                // Determine slot position based on facing direction
+                // We want slots to fill left-to-right from the player's perspective when they
+                // placed the block
+                int visualSlot = slot;
+                if (facing == Direction.SOUTH || facing == Direction.NORTH) {
+                    // For east and north facings, reverse the slot order to maintain
+                    // left-to-right
+                    // filling from the player's placement perspective
+                    visualSlot = 3 - slot;
+                }
+
+                float x = adjustedLeftEdge + spacePerUnit + (visualSlot * 2.0f * spacePerUnit);
 
                 // Position below the horizontal bar (bar is at Y=8-10, so items hang at Y=7)
                 float y = 7.0f / 16.0f; // 0.4375 - just below the horizontal bar
@@ -69,8 +100,8 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
                 // Make items smaller and apply proper rotation
                 matrices.scale(0.4f, 0.4f, 0.4f);
 
-                // Rotate 90 degrees around Y axis so items hang properly
-                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(90.0f));
+                // Rotate items to hang naturally (facing downward)
+                matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0f)); // Hang downward
 
                 // Add slight random tilt for natural hanging effect
                 matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(10.0f + (slot * 7.0f)));

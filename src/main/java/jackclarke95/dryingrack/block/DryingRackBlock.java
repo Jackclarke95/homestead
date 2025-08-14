@@ -9,14 +9,18 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -26,21 +30,38 @@ import org.jetbrains.annotations.Nullable;
 public class DryingRackBlock extends BlockWithEntity {
     public static final MapCodec<DryingRackBlock> CODEC = createCodec(DryingRackBlock::new);
 
+    public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final BooleanProperty HAS_ITEM_0 = BooleanProperty.of("has_item_0");
     public static final BooleanProperty HAS_ITEM_1 = BooleanProperty.of("has_item_1");
     public static final BooleanProperty HAS_ITEM_2 = BooleanProperty.of("has_item_2");
     public static final BooleanProperty HAS_ITEM_3 = BooleanProperty.of("has_item_3");
 
-    // Shape for the drying rack - a simple horizontal bar
-    private static final VoxelShape SHAPE = VoxelShapes.union(
+    // Shapes for the drying rack in different orientations
+    private static final VoxelShape SHAPE_NORTH = VoxelShapes.union(
             Block.createCuboidShape(2, 8, 7, 14, 10, 9), // Main horizontal bar
             Block.createCuboidShape(1, 0, 6, 3, 16, 10), // Left post
             Block.createCuboidShape(13, 0, 6, 15, 16, 10) // Right post
+    );
+    private static final VoxelShape SHAPE_EAST = VoxelShapes.union(
+            Block.createCuboidShape(7, 8, 2, 9, 10, 14), // Main horizontal bar (rotated)
+            Block.createCuboidShape(6, 0, 1, 10, 16, 3), // Left post (rotated)
+            Block.createCuboidShape(6, 0, 13, 10, 16, 15) // Right post (rotated)
+    );
+    private static final VoxelShape SHAPE_SOUTH = VoxelShapes.union(
+            Block.createCuboidShape(2, 8, 7, 14, 10, 9), // Main horizontal bar
+            Block.createCuboidShape(13, 0, 6, 15, 16, 10), // Left post (flipped)
+            Block.createCuboidShape(1, 0, 6, 3, 16, 10) // Right post (flipped)
+    );
+    private static final VoxelShape SHAPE_WEST = VoxelShapes.union(
+            Block.createCuboidShape(7, 8, 2, 9, 10, 14), // Main horizontal bar (rotated)
+            Block.createCuboidShape(6, 0, 13, 10, 16, 15), // Left post (rotated & flipped)
+            Block.createCuboidShape(6, 0, 1, 10, 16, 3) // Right post (rotated & flipped)
     );
 
     public DryingRackBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState()
+                .with(FACING, Direction.NORTH)
                 .with(HAS_ITEM_0, false)
                 .with(HAS_ITEM_1, false)
                 .with(HAS_ITEM_2, false)
@@ -53,13 +74,24 @@ public class DryingRackBlock extends BlockWithEntity {
     }
 
     @Override
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+    }
+
+    @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(HAS_ITEM_0, HAS_ITEM_1, HAS_ITEM_2, HAS_ITEM_3);
+        builder.add(FACING, HAS_ITEM_0, HAS_ITEM_1, HAS_ITEM_2, HAS_ITEM_3);
     }
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPE;
+        return switch (state.get(FACING)) {
+            case NORTH -> SHAPE_NORTH;
+            case EAST -> SHAPE_EAST;
+            case SOUTH -> SHAPE_SOUTH;
+            case WEST -> SHAPE_WEST;
+            default -> SHAPE_NORTH;
+        };
     }
 
     @Override

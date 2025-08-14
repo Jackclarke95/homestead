@@ -1,52 +1,19 @@
 {
   "variants": {
-    "has_item_0=false,has_item_1=false,has_item_2=false,has_item_3=false": {
+    "facing=north": {
       "model": "drying-rack:block/drying_rack"
     },
-    "has_item_0=true,has_item_1=false,has_item_2=false,has_item_3=false": {
-      "model": "drying-rack:block/drying_rack"
+    "facing=east": {
+      "model": "drying-rack:block/drying_rack",
+      "y": 90
     },
-    "has_item_0=false,has_item_1=true,has_item_2=false,has_item_3=false": {
-      "model": "drying-rack:block/drying_rack"
+    "facing=south": {
+      "model": "drying-rack:block/drying_rack",
+      "y": 180
     },
-    "has_item_0=false,has_item_1=false,has_item_2=true,has_item_3=false": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=false,has_item_1=false,has_item_2=false,has_item_3=true": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=true,has_item_1=true,has_item_2=false,has_item_3=false": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=true,has_item_1=false,has_item_2=true,has_item_3=false": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=true,has_item_1=false,has_item_2=false,has_item_3=true": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=false,has_item_1=true,has_item_2=true,has_item_3=false": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=false,has_item_1=true,has_item_2=false,has_item_3=true": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=false,has_item_1=false,has_item_2=true,has_item_3=true": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=true,has_item_1=true,has_item_2=true,has_item_3=false": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=true,has_item_1=true,has_item_2=false,has_item_3=true": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=true,has_item_1=false,has_item_2=true,has_item_3=true": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=false,has_item_1=true,has_item_2=true,has_item_3=true": {
-      "model": "drying-rack:block/drying_rack"
-    },
-    "has_item_0=true,has_item_1=true,has_item_2=true,has_item_3=true": {
-      "model": "drying-rack:block/drying_rack"
+    "facing=west": {
+      "model": "drying-rack:block/drying_rack",
+      "y": 270
     }
   }
 }
