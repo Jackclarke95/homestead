@@ -59,54 +59,52 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
                 matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(blockRotation));
                 matrices.translate(-0.5f, 0f, -0.5f); // Move back
 
-                // Calculate positioning based on the actual model dimensions
-                // Horizontal bar runs from X=2 to X=14 (in 16-unit block space)
-                // Left post: X=1-3, Right post: X=13-15
-                // Usable hanging space: X=3 to X=13 (10 units = 0.625 block width)
-                float leftEdge = 3.0f / 16.0f; // 0.1875 - inner edge of left post
-                float rightEdge = 13.0f / 16.0f; // 0.8125 - inner edge of right post
+                // Calculate positioning for the slanted tabletop surface
+                // Tabletop runs from X=2 to X=14, Z=3 to Z=18 (extended for the slant)
+                // Usable surface: X=3 to X=13 for items
+                float leftEdge = 3.0f / 16.0f; // 0.1875 - start of usable surface
+                float rightEdge = 13.0f / 16.0f; // 0.8125 - end of usable surface
 
-                // Add padding from the posts to avoid touching them
-                float padding = 0.03f; // Small buffer from the posts
+                // Add padding to avoid items being too close to edges
+                float padding = 0.02f;
                 float adjustedLeftEdge = leftEdge + padding;
                 float adjustedRightEdge = rightEdge - padding;
                 float adjustedUsableWidth = adjustedRightEdge - adjustedLeftEdge;
 
-                // CSS space-around: Equal space around each item
-                // For 4 items: [space][item][space][item][space][item][space][item][space]
-                // Total spaces = 8 (2 spaces around each item, but edge spaces are half)
-                // Effective spaces = 4 items + 3 full gaps + 2 half-edge-gaps = 4 + 3 + 1 = 8
-                // units
+                // Space items evenly across the tabletop width
                 float spacePerUnit = adjustedUsableWidth / 8.0f;
 
                 // Determine slot position based on facing direction
-                // We want slots to fill left-to-right from the player's perspective when they
-                // placed the block
                 int visualSlot = slot;
                 if (facing == Direction.SOUTH || facing == Direction.NORTH) {
-                    // For east and north facings, reverse the slot order to maintain
-                    // left-to-right
-                    // filling from the player's placement perspective
+                    // Reverse slot order for consistent left-to-right filling
                     visualSlot = 3 - slot;
                 }
 
                 float x = adjustedLeftEdge + spacePerUnit + (visualSlot * 2.0f * spacePerUnit);
 
-                // Position just below the horizontal bar (bar is now at Y=10-12, so items hang
-                // just below)
-                float y = 11.0f / 16.0f; // 0.6875 - just below the raised horizontal bar
+                // Position items ON the slanted tabletop surface
+                // The tabletop is at Y=12 (0.75) and slopes down slightly due to -10 degree
+                // rotation
+                // We'll place items slightly above the surface to account for the slant
+                float y = 12.5f / 16.0f; // 0.78125 - slightly above the tabletop surface
 
-                matrices.translate(x, y, 0.5f); // Center in Z direction
+                // Position in the middle of the tabletop depth
+                float z = 10.5f / 16.0f; // 0.65625 - middle of the slanted surface depth
 
-                // Make items smaller and apply proper rotation
-                matrices.scale(0.4f, 0.4f, 0.4f);
+                matrices.translate(x, y, z);
+
+                // Make items smaller for tabletop display
+                matrices.scale(0.3f, 0.3f, 0.3f);
 
                 // Flip texture for north/south facings to correct mirroring
                 if (facing == Direction.NORTH || facing == Direction.SOUTH) {
                     matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f));
                 }
 
-                matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(45.0f));
+                // Apply the slant rotation to match the tabletop angle (-10 degrees around X
+                // axis)
+                matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-10.0f));
 
                 // Render the item
                 itemRenderer.renderItem(

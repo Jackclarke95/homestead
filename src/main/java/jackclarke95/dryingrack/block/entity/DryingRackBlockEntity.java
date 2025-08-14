@@ -201,10 +201,10 @@ public class DryingRackBlockEntity extends BlockEntity {
     }
 
     /**
-     * Withdraw item from left to right, skipping empty slots
+     * Withdraw item from right to left, skipping empty slots
      */
     private ActionResult withdrawItemLeftToRight(PlayerEntity player) {
-        for (int slot = 0; slot < 4; slot++) {
+        for (int slot = 3; slot >= 0; slot--) {
             if (!inventory.get(slot).isEmpty()) {
                 return withdrawItemFromSlot(slot, player);
             }
