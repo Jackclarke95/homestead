@@ -41,22 +41,22 @@ public class DryingRackBlock extends BlockWithEntity {
 
     // Shapes for the drying rack in different orientations
     private static final VoxelShape SHAPE_NORTH = VoxelShapes.union(
-            Block.createCuboidShape(2, 8, 7, 14, 10, 9), // Main horizontal bar
+            Block.createCuboidShape(2, 13, 7, 14, 14, 9), // Main horizontal bar (raised by 2)
             Block.createCuboidShape(1, 0, 6, 3, 16, 10), // Left post
             Block.createCuboidShape(13, 0, 6, 15, 16, 10) // Right post
     );
     private static final VoxelShape SHAPE_EAST = VoxelShapes.union(
-            Block.createCuboidShape(7, 8, 2, 9, 10, 14), // Main horizontal bar (rotated)
+            Block.createCuboidShape(7, 13, 2, 9, 14, 14), // Main horizontal bar (raised by 2)
             Block.createCuboidShape(6, 0, 1, 10, 16, 3), // Left post (rotated)
             Block.createCuboidShape(6, 0, 13, 10, 16, 15) // Right post (rotated)
     );
     private static final VoxelShape SHAPE_SOUTH = VoxelShapes.union(
-            Block.createCuboidShape(2, 8, 7, 14, 10, 9), // Main horizontal bar
+            Block.createCuboidShape(2, 13, 7, 14, 14, 9), // Main horizontal bar (raised by 2)
             Block.createCuboidShape(13, 0, 6, 15, 16, 10), // Left post (flipped)
             Block.createCuboidShape(1, 0, 6, 3, 16, 10) // Right post (flipped)
     );
     private static final VoxelShape SHAPE_WEST = VoxelShapes.union(
-            Block.createCuboidShape(7, 8, 2, 9, 10, 14), // Main horizontal bar (rotated)
+            Block.createCuboidShape(7, 13, 2, 9, 14, 14), // Main horizontal bar (raised by 2)
             Block.createCuboidShape(6, 0, 13, 10, 16, 15), // Left post (rotated & flipped)
             Block.createCuboidShape(6, 0, 1, 10, 16, 3) // Right post (rotated & flipped)
     );

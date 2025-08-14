@@ -92,9 +92,9 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
 
                 float x = adjustedLeftEdge + spacePerUnit + (visualSlot * 2.0f * spacePerUnit);
 
-                // Position just below the horizontal bar (bar is at Y=8-10, so items hang just
-                // below)
-                float y = 6.0f / 16.0f; // 0.375 - just below the horizontal bar
+                // Position just below the horizontal bar (bar is now at Y=10-12, so items hang
+                // just below)
+                float y = 11.0f / 16.0f; // 0.6875 - just below the raised horizontal bar
 
                 matrices.translate(x, y, 0.5f); // Center in Z direction
 
