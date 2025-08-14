@@ -11,6 +11,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.context.LootContextParameterSet;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
@@ -26,6 +27,8 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class DryingRackBlock extends BlockWithEntity {
     public static final MapCodec<DryingRackBlock> CODEC = createCodec(DryingRackBlock::new);
@@ -150,5 +153,11 @@ public class DryingRackBlock extends BlockWithEntity {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state,
             BlockEntityType<T> type) {
         return validateTicker(type, ModBlockEntities.DRYING_RACK, DryingRackBlockEntity::tick);
+    }
+
+    @Override
+    protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+        // Always drop the drying rack block itself
+        return List.of(new ItemStack(this));
     }
 }
