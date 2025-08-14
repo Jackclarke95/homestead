@@ -92,19 +92,21 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
 
                 float x = adjustedLeftEdge + spacePerUnit + (visualSlot * 2.0f * spacePerUnit);
 
-                // Position below the horizontal bar (bar is at Y=8-10, so items hang at Y=7)
-                float y = 7.0f / 16.0f; // 0.4375 - just below the horizontal bar
+                // Position just below the horizontal bar (bar is at Y=8-10, so items hang just
+                // below)
+                float y = 6.0f / 16.0f; // 0.375 - just below the horizontal bar
 
                 matrices.translate(x, y, 0.5f); // Center in Z direction
 
                 // Make items smaller and apply proper rotation
                 matrices.scale(0.4f, 0.4f, 0.4f);
 
-                // Rotate items to hang naturally (facing downward)
-                matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0f)); // Hang downward
+                // Flip texture for north/south facings to correct mirroring
+                if (facing == Direction.NORTH || facing == Direction.SOUTH) {
+                    matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180.0f));
+                }
 
-                // Add slight random tilt for natural hanging effect
-                matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(10.0f + (slot * 7.0f)));
+                matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(45.0f));
 
                 // Render the item
                 itemRenderer.renderItem(
