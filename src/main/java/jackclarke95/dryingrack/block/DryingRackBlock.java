@@ -46,21 +46,21 @@ public class DryingRackBlock extends BlockWithEntity {
             Block.createCuboidShape(14, 0, 0, 16, 13, 2), // Front right leg
             Block.createCuboidShape(0, 0, 14, 2, 16, 16), // Back left leg
             Block.createCuboidShape(14, 0, 14, 16, 16, 16), // Back right leg
-            // Left side rails (stepped)
+            // Left side rails (stepped) - reverted to original
             Block.createCuboidShape(0, 11, 2, 2, 13, 4), // Rail segment 1
             Block.createCuboidShape(0, 12, 4, 2, 14, 8), // Rail segment 2
             Block.createCuboidShape(0, 13, 8, 2, 15, 12), // Rail segment 3
             Block.createCuboidShape(0, 14, 12, 2, 16, 14), // Rail segment 4
-            // Right side rails (stepped)
+            // Right side rails (stepped) - reverted to original
             Block.createCuboidShape(14, 11, 2, 16, 13, 4), // Rail segment 1
             Block.createCuboidShape(14, 12, 4, 16, 14, 8), // Rail segment 2
             Block.createCuboidShape(14, 13, 8, 16, 15, 12), // Rail segment 3
             Block.createCuboidShape(14, 14, 12, 16, 16, 14), // Rail segment 4
-            // Horizontal rack surfaces (drying areas)
-            Block.createCuboidShape(2, 11, 1, 14, 12, 3), // Rack surface 1
-            Block.createCuboidShape(2, 12, 5, 14, 13, 7), // Rack surface 2
-            Block.createCuboidShape(2, 13, 9, 14, 14, 11), // Rack surface 3
-            Block.createCuboidShape(2, 14, 13, 14, 15, 15) // Rack surface 4
+            // Horizontal rack surfaces (drying areas) - expand middle surfaces
+            Block.createCuboidShape(2, 11, 1, 14, 12, 3), // Rack surface 1 (top - no expansion)
+            Block.createCuboidShape(2, 12, 4, 14, 13, 8), // Rack surface 2 (expanded Z: 5-7 -> 4-8)
+            Block.createCuboidShape(2, 13, 8, 14, 14, 12), // Rack surface 3 (expanded Z: 9-11 -> 8-12)
+            Block.createCuboidShape(2, 14, 13, 14, 15, 15) // Rack surface 4 (bottom - no expansion)
     );
     private static final VoxelShape SHAPE_EAST = VoxelShapes.union(
             // 4 legs (rotated 90 degrees)
@@ -68,21 +68,21 @@ public class DryingRackBlock extends BlockWithEntity {
             Block.createCuboidShape(14, 0, 14, 16, 13, 16), // Front right leg
             Block.createCuboidShape(0, 0, 0, 2, 16, 2), // Back left leg
             Block.createCuboidShape(0, 0, 14, 2, 16, 16), // Back right leg
-            // Front side rails (stepped)
+            // Front side rails (stepped) - reverted to original
             Block.createCuboidShape(12, 11, 0, 14, 13, 2), // Rail segment 1
             Block.createCuboidShape(8, 12, 0, 12, 14, 2), // Rail segment 2
             Block.createCuboidShape(4, 13, 0, 8, 15, 2), // Rail segment 3
             Block.createCuboidShape(2, 14, 0, 4, 16, 2), // Rail segment 4
-            // Back side rails (stepped)
+            // Back side rails (stepped) - reverted to original
             Block.createCuboidShape(12, 11, 14, 14, 13, 16), // Rail segment 1
             Block.createCuboidShape(8, 12, 14, 12, 14, 16), // Rail segment 2
             Block.createCuboidShape(4, 13, 14, 8, 15, 16), // Rail segment 3
             Block.createCuboidShape(2, 14, 14, 4, 16, 16), // Rail segment 4
-            // Horizontal rack surfaces (drying areas)
-            Block.createCuboidShape(13, 11, 2, 15, 12, 14), // Rack surface 1
-            Block.createCuboidShape(9, 12, 2, 11, 13, 14), // Rack surface 2
-            Block.createCuboidShape(5, 13, 2, 7, 14, 14), // Rack surface 3
-            Block.createCuboidShape(1, 14, 2, 3, 15, 14) // Rack surface 4
+            // Horizontal rack surfaces (drying areas) - expand middle surfaces
+            Block.createCuboidShape(13, 11, 2, 15, 12, 14), // Rack surface 1 (top - no expansion)
+            Block.createCuboidShape(8, 12, 2, 12, 13, 14), // Rack surface 2 (expanded X: 9-11 -> 8-12)
+            Block.createCuboidShape(4, 13, 2, 8, 14, 14), // Rack surface 3 (expanded X: 5-7 -> 4-8)
+            Block.createCuboidShape(1, 14, 2, 3, 15, 14) // Rack surface 4 (bottom - no expansion)
     );
     private static final VoxelShape SHAPE_SOUTH = VoxelShapes.union(
             // 4 legs (rotated 180 degrees)
@@ -90,21 +90,21 @@ public class DryingRackBlock extends BlockWithEntity {
             Block.createCuboidShape(0, 0, 14, 2, 13, 16), // Front right leg
             Block.createCuboidShape(14, 0, 0, 16, 16, 2), // Back left leg
             Block.createCuboidShape(0, 0, 0, 2, 16, 2), // Back right leg
-            // Right side rails (stepped)
+            // Right side rails (stepped) - reverted to original
             Block.createCuboidShape(14, 11, 12, 16, 13, 14), // Rail segment 1
             Block.createCuboidShape(14, 12, 8, 16, 14, 12), // Rail segment 2
             Block.createCuboidShape(14, 13, 4, 16, 15, 8), // Rail segment 3
             Block.createCuboidShape(14, 14, 2, 16, 16, 4), // Rail segment 4
-            // Left side rails (stepped)
+            // Left side rails (stepped) - reverted to original
             Block.createCuboidShape(0, 11, 12, 2, 13, 14), // Rail segment 1
             Block.createCuboidShape(0, 12, 8, 2, 14, 12), // Rail segment 2
             Block.createCuboidShape(0, 13, 4, 2, 15, 8), // Rail segment 3
             Block.createCuboidShape(0, 14, 2, 2, 16, 4), // Rail segment 4
-            // Horizontal rack surfaces (drying areas)
-            Block.createCuboidShape(2, 11, 13, 14, 12, 15), // Rack surface 1
-            Block.createCuboidShape(2, 12, 9, 14, 13, 11), // Rack surface 2
-            Block.createCuboidShape(2, 13, 5, 14, 14, 7), // Rack surface 3
-            Block.createCuboidShape(2, 14, 1, 14, 15, 3) // Rack surface 4
+            // Horizontal rack surfaces (drying areas) - expand middle surfaces
+            Block.createCuboidShape(2, 11, 13, 14, 12, 15), // Rack surface 1 (top - no expansion)
+            Block.createCuboidShape(2, 12, 8, 14, 13, 12), // Rack surface 2 (expanded Z: 9-11 -> 8-12)
+            Block.createCuboidShape(2, 13, 4, 14, 14, 8), // Rack surface 3 (expanded Z: 5-7 -> 4-8)
+            Block.createCuboidShape(2, 14, 1, 14, 15, 3) // Rack surface 4 (bottom - no expansion)
     );
     private static final VoxelShape SHAPE_WEST = VoxelShapes.union(
             // 4 legs (rotated 270 degrees)
@@ -112,21 +112,21 @@ public class DryingRackBlock extends BlockWithEntity {
             Block.createCuboidShape(0, 0, 0, 2, 13, 2), // Front right leg
             Block.createCuboidShape(14, 0, 14, 16, 16, 16), // Back left leg
             Block.createCuboidShape(14, 0, 0, 16, 16, 2), // Back right leg
-            // Back side rails (stepped)
+            // Back side rails (stepped) - reverted to original
             Block.createCuboidShape(2, 11, 14, 4, 13, 16), // Rail segment 1
             Block.createCuboidShape(4, 12, 14, 8, 14, 16), // Rail segment 2
             Block.createCuboidShape(8, 13, 14, 12, 15, 16), // Rail segment 3
             Block.createCuboidShape(12, 14, 14, 14, 16, 16), // Rail segment 4
-            // Front side rails (stepped)
+            // Front side rails (stepped) - reverted to original
             Block.createCuboidShape(2, 11, 0, 4, 13, 2), // Rail segment 1
             Block.createCuboidShape(4, 12, 0, 8, 14, 2), // Rail segment 2
             Block.createCuboidShape(8, 13, 0, 12, 15, 2), // Rail segment 3
             Block.createCuboidShape(12, 14, 0, 14, 16, 2), // Rail segment 4
-            // Horizontal rack surfaces (drying areas)
-            Block.createCuboidShape(1, 11, 2, 3, 12, 14), // Rack surface 1
-            Block.createCuboidShape(5, 12, 2, 7, 13, 14), // Rack surface 2
-            Block.createCuboidShape(9, 13, 2, 11, 14, 14), // Rack surface 3
-            Block.createCuboidShape(13, 14, 2, 15, 15, 14) // Rack surface 4
+            // Horizontal rack surfaces (drying areas) - expand middle surfaces
+            Block.createCuboidShape(1, 11, 2, 3, 12, 14), // Rack surface 1 (top - no expansion)
+            Block.createCuboidShape(4, 12, 2, 8, 13, 14), // Rack surface 2 (expanded X: 5-7 -> 4-8)
+            Block.createCuboidShape(8, 13, 2, 12, 14, 14), // Rack surface 3 (expanded X: 9-11 -> 8-12)
+            Block.createCuboidShape(13, 14, 2, 15, 15, 14) // Rack surface 4 (bottom - no expansion)
     );
 
     public DryingRackBlock(Settings settings) {
