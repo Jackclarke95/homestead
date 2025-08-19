@@ -88,10 +88,6 @@ public class DryingRackBlockEntity extends BlockEntity {
     public ActionResult onRightClick(PlayerEntity player, Hand hand, BlockHitResult hit, BlockState state) {
         ItemStack handStack = player.getStackInHand(hand);
 
-        // Debug logging
-        if (world != null && !world.isClient) {
-        }
-
         // Only place items if hand is not empty
         if (!handStack.isEmpty()) {
             // Simple left-to-right placement, ignoring position
@@ -105,12 +101,13 @@ public class DryingRackBlockEntity extends BlockEntity {
      * Handle left-click interactions (withdrawing items)
      */
     public ActionResult onLeftClick(PlayerEntity player, BlockHitResult hit, BlockState state) {
-        // Debug logging
-        if (world != null && !world.isClient) {
+        for (int slot = 0; slot <= 3; slot++) {
+            if (!inventory.get(slot).isEmpty()) {
+                return withdrawItemFromSlot(slot, player);
+            }
         }
 
-        // Simple left-to-right withdrawal, ignoring position
-        return withdrawItemLeftToRight(player);
+        return ActionResult.FAIL; // No items to withdraw
     }
 
     /**
@@ -137,12 +134,10 @@ public class DryingRackBlockEntity extends BlockEntity {
 
         inventory.set(slot, handStack.copyWithCount(1));
         handStack.decrement(1);
+
         updateBlockState();
         markDirty();
         sync();
-
-        if (world != null && !world.isClient) {
-        }
 
         return ActionResult.SUCCESS;
     }
@@ -192,37 +187,11 @@ public class DryingRackBlockEntity extends BlockEntity {
         dryingTimes[slot] = 0;
         totalDryingTimes[slot] = 0;
 
-        // Force multiple updates to ensure rendering synchronization
         updateBlockState();
         markDirty();
         sync();
 
-        // Additional forced update with the updated block state
-        if (world != null && !world.isClient) {
-            BlockState updatedState = world.getBlockState(pos);
-            world.updateListeners(pos, updatedState, updatedState, Block.NOTIFY_ALL);
-            // Force a chunk re-render on client side
-            if (world instanceof net.minecraft.server.world.ServerWorld serverWorld) {
-                serverWorld.getChunkManager().markForUpdate(pos);
-            }
-        }
-
-        if (world != null && !world.isClient) {
-        }
-
         return ActionResult.SUCCESS;
-    }
-
-    /**
-     * Withdraw item from right to left, skipping empty slots
-     */
-    private ActionResult withdrawItemLeftToRight(PlayerEntity player) {
-        for (int slot = 0; slot <= 3; slot++) {
-            if (!inventory.get(slot).isEmpty()) {
-                return withdrawItemFromSlot(slot, player);
-            }
-        }
-        return ActionResult.FAIL; // No items to withdraw
     }
 
     private void updateBlockState() {
@@ -232,9 +201,10 @@ public class DryingRackBlockEntity extends BlockEntity {
                     .with(DryingRackBlock.HAS_ITEM_1, !inventory.get(1).isEmpty())
                     .with(DryingRackBlock.HAS_ITEM_2, !inventory.get(2).isEmpty())
                     .with(DryingRackBlock.HAS_ITEM_3, !inventory.get(3).isEmpty());
+
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
 
-            // Force client sync and mark for re-render
+            // Only update listeners on the server - let the server sync to client
             if (!world.isClient) {
                 world.updateListeners(pos, state, state, Block.NOTIFY_ALL);
                 markDirty();

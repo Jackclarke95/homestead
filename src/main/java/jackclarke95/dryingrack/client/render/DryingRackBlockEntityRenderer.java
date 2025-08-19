@@ -44,7 +44,7 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
             default -> 0f;
         };
 
-        // Render items hanging from the rack
+        // Render items lying on the rack
         for (int slot = 0; slot < 4; slot++) {
             ItemStack stack = entity.getStack(slot);
             if (!stack.isEmpty()) {
