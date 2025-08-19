@@ -1,6 +1,5 @@
 package jackclarke95.dryingrack.block.entity;
 
-import jackclarke95.dryingrack.DryingRack;
 import jackclarke95.dryingrack.block.DryingRackBlock;
 import jackclarke95.dryingrack.recipe.DryingRecipe;
 import jackclarke95.dryingrack.recipe.ModRecipeTypes;
@@ -31,7 +30,6 @@ public class DryingRackBlockEntity extends BlockEntity {
 
     public DryingRackBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DRYING_RACK, pos, state);
-        DryingRack.LOGGER.info("DryingRackBlockEntity created at {}", pos);
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, DryingRackBlockEntity blockEntity) {
@@ -90,8 +88,6 @@ public class DryingRackBlockEntity extends BlockEntity {
 
         // Debug logging
         if (world != null && !world.isClient) {
-            DryingRack.LOGGER.info("DryingRack onRightClick called - handStack: {}, isEmpty: {}",
-                    handStack.getItem().toString(), handStack.isEmpty());
         }
 
         // Only place items if hand is not empty
@@ -109,7 +105,6 @@ public class DryingRackBlockEntity extends BlockEntity {
     public ActionResult onLeftClick(PlayerEntity player, BlockHitResult hit, BlockState state) {
         // Debug logging
         if (world != null && !world.isClient) {
-            DryingRack.LOGGER.info("DryingRack onLeftClick called");
         }
 
         // Simple left-to-right withdrawal, ignoring position
@@ -132,7 +127,6 @@ public class DryingRackBlockEntity extends BlockEntity {
         sync();
 
         if (world != null && !world.isClient) {
-            DryingRack.LOGGER.info("Item placed in slot {} (TESTING MODE - no recipe check)", slot);
         }
 
         return ActionResult.SUCCESS;
@@ -194,7 +188,6 @@ public class DryingRackBlockEntity extends BlockEntity {
         }
 
         if (world != null && !world.isClient) {
-            DryingRack.LOGGER.info("Item dropped from slot {} with forced updates", slot);
         }
 
         return ActionResult.SUCCESS;
@@ -259,7 +252,6 @@ public class DryingRackBlockEntity extends BlockEntity {
     public ItemStack getStack(int slot) {
         ItemStack stack = inventory.get(slot);
         if (!stack.isEmpty() && world != null && world.isClient) {
-            DryingRack.LOGGER.info("CLIENT: getStack({}) called, returning: {}", slot, stack.getItem().toString());
         }
         return stack;
     }

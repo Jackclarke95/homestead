@@ -1,6 +1,5 @@
 package jackclarke95.dryingrack.block;
 
-import jackclarke95.dryingrack.DryingRack;
 import jackclarke95.dryingrack.block.entity.DryingRackBlockEntity;
 import jackclarke95.dryingrack.block.entity.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
@@ -66,13 +65,11 @@ public class DryingRackBlock extends BlockWithEntity {
             VoxelShapes.cuboid(0.875, 0.6875, 0.125, 1.0, 0.8125, 0.25),
             VoxelShapes.cuboid(0.875, 0.875, 0.75, 1.0, 1.0, 0.875),
 
-            // Rack surfaces - stretched to eliminate gaps
-            VoxelShapes.cuboid(0.125, 0.6875, 0.0625, 0.875, 0.75, 0.3125), // Surface 1: stretched from Z=1-3 to Z=1-5
-            VoxelShapes.cuboid(0.125, 0.75, 0.3125, 0.875, 0.8125, 0.5625), // Surface 2: stretched from Z=5-7 to Z=5-9
-            VoxelShapes.cuboid(0.125, 0.8125, 0.5625, 0.875, 0.875, 0.8125), // Surface 3: stretched from Z=9-11 to
-                                                                             // Z=9-13
-            VoxelShapes.cuboid(0.125, 0.875, 0.8125, 0.875, 0.9375, 0.9375) // Surface 4: stretched from Z=13-15 to
-                                                                            // Z=13-15 (back edge)
+            // Rack surfaces - extended forward/backward by 1 pixel (except front/back)
+            VoxelShapes.cuboid(0.125, 0.6875, 0.0625, 0.875, 0.75, 0.1875), // Surface 1: Z=1-3 (front, no extension)
+            VoxelShapes.cuboid(0.125, 0.75, 0.25, 0.875, 0.8125, 0.5), // Surface 2: Z=4-8 (extended +1 each way)
+            VoxelShapes.cuboid(0.125, 0.8125, 0.5, 0.875, 0.875, 0.75), // Surface 3: Z=8-12 (extended +1 each way)
+            VoxelShapes.cuboid(0.125, 0.875, 0.8125, 0.875, 0.9375, 0.9375) // Surface 4: Z=13-15 (back, no extension)
     );
     private static final VoxelShape SHAPE_EAST = VoxelShapes.union(
             // Front left leg
@@ -100,13 +97,11 @@ public class DryingRackBlock extends BlockWithEntity {
             VoxelShapes.cuboid(0.75, 0.6875, 0.875, 0.875, 0.8125, 1.0),
             VoxelShapes.cuboid(0.125, 0.875, 0.875, 0.25, 1.0, 1.0),
 
-            // Rack surfaces - stretched to eliminate gaps
-            VoxelShapes.cuboid(0.6875, 0.6875, 0.125, 0.9375, 0.75, 0.875), // Surface 1: stretched from X=11-13 to
-                                                                            // X=11-15
-            VoxelShapes.cuboid(0.4375, 0.75, 0.125, 0.6875, 0.8125, 0.875), // Surface 2: stretched from X=7-9 to X=7-11
-            VoxelShapes.cuboid(0.1875, 0.8125, 0.125, 0.4375, 0.875, 0.875), // Surface 3: stretched from X=3-5 to X=3-7
-            VoxelShapes.cuboid(0.0625, 0.875, 0.125, 0.1875, 0.9375, 0.875) // Surface 4: stretched from X=1-3 to X=1-3
-                                                                            // (front edge)
+            // Rack surfaces - extended forward/backward by 1 pixel (except front/back)
+            VoxelShapes.cuboid(0.8125, 0.6875, 0.125, 0.9375, 0.75, 0.875), // Surface 1: X=13-15 (front, no extension)
+            VoxelShapes.cuboid(0.5, 0.75, 0.125, 0.75, 0.8125, 0.875), // Surface 2: X=8-12 (extended +1 each way)
+            VoxelShapes.cuboid(0.25, 0.8125, 0.125, 0.5, 0.875, 0.875), // Surface 3: X=4-8 (extended +1 each way)
+            VoxelShapes.cuboid(0.0625, 0.875, 0.125, 0.1875, 0.9375, 0.875) // Surface 4: X=1-3 (back, no extension)
     );
     private static final VoxelShape SHAPE_SOUTH = VoxelShapes.union(
             // Front left leg
@@ -134,13 +129,11 @@ public class DryingRackBlock extends BlockWithEntity {
             VoxelShapes.cuboid(0.0, 0.6875, 0.75, 0.125, 0.8125, 0.875),
             VoxelShapes.cuboid(0.0, 0.875, 0.125, 0.125, 1.0, 0.25),
 
-            // Rack surfaces - stretched to eliminate gaps
-            VoxelShapes.cuboid(0.125, 0.6875, 0.6875, 0.875, 0.75, 0.9375), // Surface 1: stretched from Z=11-13 to
-                                                                            // Z=11-15
-            VoxelShapes.cuboid(0.125, 0.75, 0.4375, 0.875, 0.8125, 0.6875), // Surface 2: stretched from Z=7-9 to Z=7-11
-            VoxelShapes.cuboid(0.125, 0.8125, 0.1875, 0.875, 0.875, 0.4375), // Surface 3: stretched from Z=3-5 to Z=3-7
-            VoxelShapes.cuboid(0.125, 0.875, 0.0625, 0.875, 0.9375, 0.1875) // Surface 4: stretched from Z=1-3 to Z=1-3
-                                                                            // (front edge)
+            // Rack surfaces - extended forward/backward by 1 pixel (except front/back)
+            VoxelShapes.cuboid(0.125, 0.6875, 0.8125, 0.875, 0.75, 0.9375), // Surface 1: Z=13-15 (front, no extension)
+            VoxelShapes.cuboid(0.125, 0.75, 0.5, 0.875, 0.8125, 0.75), // Surface 2: Z=8-12 (extended +1 each way)
+            VoxelShapes.cuboid(0.125, 0.8125, 0.25, 0.875, 0.875, 0.5), // Surface 3: Z=4-8 (extended +1 each way)
+            VoxelShapes.cuboid(0.125, 0.875, 0.0625, 0.875, 0.9375, 0.1875) // Surface 4: Z=1-3 (back, no extension)
     );
     private static final VoxelShape SHAPE_WEST = VoxelShapes.union(
             // Front left leg
@@ -168,13 +161,11 @@ public class DryingRackBlock extends BlockWithEntity {
             VoxelShapes.cuboid(0.125, 0.6875, 0.0, 0.25, 0.8125, 0.125),
             VoxelShapes.cuboid(0.75, 0.875, 0.0, 0.875, 1.0, 0.125),
 
-            // Rack surfaces - stretched to eliminate gaps
-            VoxelShapes.cuboid(0.0625, 0.6875, 0.125, 0.3125, 0.75, 0.875), // Surface 1: stretched from X=1-3 to X=1-5
-            VoxelShapes.cuboid(0.3125, 0.75, 0.125, 0.5625, 0.8125, 0.875), // Surface 2: stretched from X=5-7 to X=5-9
-            VoxelShapes.cuboid(0.5625, 0.8125, 0.125, 0.8125, 0.875, 0.875), // Surface 3: stretched from X=9-11 to
-                                                                             // X=9-13
-            VoxelShapes.cuboid(0.8125, 0.875, 0.125, 0.9375, 0.9375, 0.875) // Surface 4: stretched from X=13-15 to
-                                                                            // X=13-15 (back edge)
+            // Rack surfaces - extended forward/backward by 1 pixel (except front/back)
+            VoxelShapes.cuboid(0.0625, 0.6875, 0.125, 0.1875, 0.75, 0.875), // Surface 1: X=1-3 (front, no extension)
+            VoxelShapes.cuboid(0.25, 0.75, 0.125, 0.5, 0.8125, 0.875), // Surface 2: X=4-8 (extended +1 each way)
+            VoxelShapes.cuboid(0.5, 0.8125, 0.125, 0.75, 0.875, 0.875), // Surface 3: X=8-12 (extended +1 each way)
+            VoxelShapes.cuboid(0.8125, 0.875, 0.125, 0.9375, 0.9375, 0.875) // Surface 4: X=13-15 (back, no extension)
     );
 
     public DryingRackBlock(Settings settings) {
@@ -220,8 +211,6 @@ public class DryingRackBlock extends BlockWithEntity {
 
     @Override
     protected void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
-        DryingRack.LOGGER.info("DryingRackBlock.onBlockBreakStart called (left-click attack)");
-
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof DryingRackBlockEntity dryingRack) {
@@ -241,8 +230,6 @@ public class DryingRackBlock extends BlockWithEntity {
     @Override
     protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
             PlayerEntity player, Hand hand, BlockHitResult hit) {
-        DryingRack.LOGGER.info("DryingRackBlock.onUseWithItem called with item: {}", stack.getItem().toString());
-
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof DryingRackBlockEntity dryingRack) {
@@ -256,8 +243,6 @@ public class DryingRackBlock extends BlockWithEntity {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        DryingRack.LOGGER.info("DryingRackBlock.onUse called (empty hand)");
-
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof DryingRackBlockEntity dryingRack) {

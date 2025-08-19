@@ -17,7 +17,6 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
 
     public DryingRackBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
         this.itemRenderer = context.getItemRenderer();
-        System.out.println("DryingRackBlockEntityRenderer constructor called!");
     }
 
     @Override
@@ -31,7 +30,6 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
         }
 
         if (itemCount > 0) {
-            System.out.println("DryingRackRenderer: Rendering " + itemCount + " items");
         }
 
         // Get the block's facing direction
@@ -50,7 +48,6 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
         for (int slot = 0; slot < 4; slot++) {
             ItemStack stack = entity.getStack(slot);
             if (!stack.isEmpty()) {
-                System.out.println("Rendering item in slot " + slot + ": " + stack.getItem().toString());
 
                 matrices.push();
 
