@@ -41,92 +41,124 @@ public class DryingRackBlock extends BlockWithEntity {
 
     // Shapes for the drying rack table in different orientations
     private static final VoxelShape SHAPE_NORTH = VoxelShapes.union(
-            // 4 legs
-            Block.createCuboidShape(0, 0, 0, 2, 13, 2), // Front left leg
-            Block.createCuboidShape(14, 0, 0, 16, 13, 2), // Front right leg
-            Block.createCuboidShape(0, 0, 14, 2, 16, 16), // Back left leg
-            Block.createCuboidShape(14, 0, 14, 16, 16, 16), // Back right leg
-            // Left side rails (stepped) - reverted to original
-            Block.createCuboidShape(0, 11, 2, 2, 13, 4), // Rail segment 1
-            Block.createCuboidShape(0, 12, 4, 2, 14, 8), // Rail segment 2
-            Block.createCuboidShape(0, 13, 8, 2, 15, 12), // Rail segment 3
-            Block.createCuboidShape(0, 14, 12, 2, 16, 14), // Rail segment 4
-            // Right side rails (stepped) - reverted to original
-            Block.createCuboidShape(14, 11, 2, 16, 13, 4), // Rail segment 1
-            Block.createCuboidShape(14, 12, 4, 16, 14, 8), // Rail segment 2
-            Block.createCuboidShape(14, 13, 8, 16, 15, 12), // Rail segment 3
-            Block.createCuboidShape(14, 14, 12, 16, 16, 14), // Rail segment 4
-            // Horizontal rack surfaces (drying areas) - expand middle surfaces
-            Block.createCuboidShape(2, 11, 1, 14, 12, 3), // Rack surface 1 (top - no expansion)
-            Block.createCuboidShape(2, 12, 4, 14, 13, 8), // Rack surface 2 (expanded Z: 5-7 -> 4-8)
-            Block.createCuboidShape(2, 13, 8, 14, 14, 12), // Rack surface 3 (expanded Z: 9-11 -> 8-12)
-            Block.createCuboidShape(2, 14, 13, 14, 15, 15) // Rack surface 4 (bottom - no expansion)
+            // Front left leg
+            VoxelShapes.cuboid(0.0, 0.0, 0.0, 0.125, 0.6875, 0.125),
+            // Front right leg
+            VoxelShapes.cuboid(0.875, 0.0, 0.0, 1.0, 0.6875, 0.125),
+            // Back right leg
+            VoxelShapes.cuboid(0.875, 0.0, 0.875, 1.0, 1.0, 1.0),
+            // Back left leg
+            VoxelShapes.cuboid(0.0, 0.0, 0.875, 0.125, 1.0, 1.0),
+
+            // Left rail segments
+            VoxelShapes.cuboid(0.0, 0.6875, 0.125, 0.125, 0.8125, 0.25),
+            VoxelShapes.cuboid(0.0, 0.75, 0.25, 0.125, 0.875, 0.5),
+            VoxelShapes.cuboid(0.0, 0.8125, 0.5, 0.125, 0.9375, 0.75),
+            VoxelShapes.cuboid(0.0, 0.875, 0.75, 0.125, 1.0, 0.875),
+
+            // Right rail segments
+            VoxelShapes.cuboid(0.875, 0.8125, 0.5, 1.0, 0.9375, 0.75),
+            VoxelShapes.cuboid(0.875, 0.75, 0.25, 1.0, 0.875, 0.5),
+            VoxelShapes.cuboid(0.875, 0.6875, 0.125, 1.0, 0.8125, 0.25),
+            VoxelShapes.cuboid(0.875, 0.875, 0.75, 1.0, 1.0, 0.875),
+
+            // Rack surfaces - stretched to eliminate gaps
+            VoxelShapes.cuboid(0.125, 0.6875, 0.0625, 0.875, 0.75, 0.3125), // Surface 1: stretched from Z=1-3 to Z=1-5
+            VoxelShapes.cuboid(0.125, 0.75, 0.3125, 0.875, 0.8125, 0.5625), // Surface 2: stretched from Z=5-7 to Z=5-9
+            VoxelShapes.cuboid(0.125, 0.8125, 0.5625, 0.875, 0.875, 0.8125), // Surface 3: stretched from Z=9-11 to
+                                                                             // Z=9-13
+            VoxelShapes.cuboid(0.125, 0.875, 0.8125, 0.875, 0.9375, 0.9375) // Surface 4: stretched from Z=13-15 to
+                                                                            // Z=13-15 (back edge)
     );
     private static final VoxelShape SHAPE_EAST = VoxelShapes.union(
-            // 4 legs (rotated 90 degrees)
-            Block.createCuboidShape(14, 0, 0, 16, 13, 2), // Front left leg
-            Block.createCuboidShape(14, 0, 14, 16, 13, 16), // Front right leg
-            Block.createCuboidShape(0, 0, 0, 2, 16, 2), // Back left leg
-            Block.createCuboidShape(0, 0, 14, 2, 16, 16), // Back right leg
-            // Front side rails (stepped) - reverted to original
-            Block.createCuboidShape(12, 11, 0, 14, 13, 2), // Rail segment 1
-            Block.createCuboidShape(8, 12, 0, 12, 14, 2), // Rail segment 2
-            Block.createCuboidShape(4, 13, 0, 8, 15, 2), // Rail segment 3
-            Block.createCuboidShape(2, 14, 0, 4, 16, 2), // Rail segment 4
-            // Back side rails (stepped) - reverted to original
-            Block.createCuboidShape(12, 11, 14, 14, 13, 16), // Rail segment 1
-            Block.createCuboidShape(8, 12, 14, 12, 14, 16), // Rail segment 2
-            Block.createCuboidShape(4, 13, 14, 8, 15, 16), // Rail segment 3
-            Block.createCuboidShape(2, 14, 14, 4, 16, 16), // Rail segment 4
-            // Horizontal rack surfaces (drying areas) - expand middle surfaces
-            Block.createCuboidShape(13, 11, 2, 15, 12, 14), // Rack surface 1 (top - no expansion)
-            Block.createCuboidShape(8, 12, 2, 12, 13, 14), // Rack surface 2 (expanded X: 9-11 -> 8-12)
-            Block.createCuboidShape(4, 13, 2, 8, 14, 14), // Rack surface 3 (expanded X: 5-7 -> 4-8)
-            Block.createCuboidShape(1, 14, 2, 3, 15, 14) // Rack surface 4 (bottom - no expansion)
+            // Front left leg
+            VoxelShapes.cuboid(0.875, 0.0, 0.0, 1.0, 0.6875, 0.125),
+            // Front right leg
+            VoxelShapes.cuboid(0.875, 0.0, 0.875, 1.0, 0.6875, 1.0),
+            // Back right leg
+            VoxelShapes.cuboid(0.0, 0.0, 0.875, 0.125, 1.0, 1.0),
+            // Back left leg
+            VoxelShapes.cuboid(0.0, 0.0, 0.0, 0.125, 1.0, 0.125),
+
+            // Left rail segments
+            VoxelShapes.cuboid(0.75, 0.6875, 0.0, 0.875, 0.8125, 0.125),
+            VoxelShapes.cuboid(0.5, 0.75, 0.0, 0.75, 0.875, 0.125),
+            VoxelShapes.cuboid(0.25, 0.8125, 0.0, 0.5, 0.9375, 0.125),
+            VoxelShapes.cuboid(0.125, 0.875, 0.0, 0.25, 1.0, 0.125),
+
+            // Right rail segments
+            VoxelShapes.cuboid(0.25, 0.8125, 0.875, 0.5, 0.9375, 1.0),
+            VoxelShapes.cuboid(0.5, 0.75, 0.875, 0.75, 0.875, 1.0),
+            VoxelShapes.cuboid(0.75, 0.6875, 0.875, 0.875, 0.8125, 1.0),
+            VoxelShapes.cuboid(0.125, 0.875, 0.875, 0.25, 1.0, 1.0),
+
+            // Rack surfaces - stretched to eliminate gaps
+            VoxelShapes.cuboid(0.6875, 0.6875, 0.125, 0.9375, 0.75, 0.875), // Surface 1: stretched from X=11-13 to
+                                                                            // X=11-15
+            VoxelShapes.cuboid(0.4375, 0.75, 0.125, 0.6875, 0.8125, 0.875), // Surface 2: stretched from X=7-9 to X=7-11
+            VoxelShapes.cuboid(0.1875, 0.8125, 0.125, 0.4375, 0.875, 0.875), // Surface 3: stretched from X=3-5 to X=3-7
+            VoxelShapes.cuboid(0.0625, 0.875, 0.125, 0.1875, 0.9375, 0.875) // Surface 4: stretched from X=1-3 to X=1-3
+                                                                            // (front edge)
     );
     private static final VoxelShape SHAPE_SOUTH = VoxelShapes.union(
-            // 4 legs (rotated 180 degrees)
-            Block.createCuboidShape(14, 0, 14, 16, 13, 16), // Front left leg
-            Block.createCuboidShape(0, 0, 14, 2, 13, 16), // Front right leg
-            Block.createCuboidShape(14, 0, 0, 16, 16, 2), // Back left leg
-            Block.createCuboidShape(0, 0, 0, 2, 16, 2), // Back right leg
-            // Right side rails (stepped) - reverted to original
-            Block.createCuboidShape(14, 11, 12, 16, 13, 14), // Rail segment 1
-            Block.createCuboidShape(14, 12, 8, 16, 14, 12), // Rail segment 2
-            Block.createCuboidShape(14, 13, 4, 16, 15, 8), // Rail segment 3
-            Block.createCuboidShape(14, 14, 2, 16, 16, 4), // Rail segment 4
-            // Left side rails (stepped) - reverted to original
-            Block.createCuboidShape(0, 11, 12, 2, 13, 14), // Rail segment 1
-            Block.createCuboidShape(0, 12, 8, 2, 14, 12), // Rail segment 2
-            Block.createCuboidShape(0, 13, 4, 2, 15, 8), // Rail segment 3
-            Block.createCuboidShape(0, 14, 2, 2, 16, 4), // Rail segment 4
-            // Horizontal rack surfaces (drying areas) - expand middle surfaces
-            Block.createCuboidShape(2, 11, 13, 14, 12, 15), // Rack surface 1 (top - no expansion)
-            Block.createCuboidShape(2, 12, 8, 14, 13, 12), // Rack surface 2 (expanded Z: 9-11 -> 8-12)
-            Block.createCuboidShape(2, 13, 4, 14, 14, 8), // Rack surface 3 (expanded Z: 5-7 -> 4-8)
-            Block.createCuboidShape(2, 14, 1, 14, 15, 3) // Rack surface 4 (bottom - no expansion)
+            // Front left leg
+            VoxelShapes.cuboid(0.875, 0.0, 0.875, 1.0, 0.6875, 1.0),
+            // Front right leg
+            VoxelShapes.cuboid(0.0, 0.0, 0.875, 0.125, 0.6875, 1.0),
+            // Back right leg
+            VoxelShapes.cuboid(0.0, 0.0, 0.0, 0.125, 1.0, 0.125),
+            // Back left leg
+            VoxelShapes.cuboid(0.875, 0.0, 0.0, 1.0, 1.0, 0.125),
+
+            // Left rail segments
+            VoxelShapes.cuboid(0.875, 0.6875, 0.75, 1.0, 0.8125, 0.875),
+            VoxelShapes.cuboid(0.875, 0.75, 0.5, 1.0, 0.875, 0.75),
+            VoxelShapes.cuboid(0.875, 0.8125, 0.25, 1.0, 0.9375, 0.5),
+            VoxelShapes.cuboid(0.875, 0.875, 0.125, 1.0, 1.0, 0.25),
+
+            // Right rail segments
+            VoxelShapes.cuboid(0.0, 0.8125, 0.25, 0.125, 0.9375, 0.5),
+            VoxelShapes.cuboid(0.0, 0.75, 0.5, 0.125, 0.875, 0.75),
+            VoxelShapes.cuboid(0.0, 0.6875, 0.75, 0.125, 0.8125, 0.875),
+            VoxelShapes.cuboid(0.0, 0.875, 0.125, 0.125, 1.0, 0.25),
+
+            // Rack surfaces - stretched to eliminate gaps
+            VoxelShapes.cuboid(0.125, 0.6875, 0.6875, 0.875, 0.75, 0.9375), // Surface 1: stretched from Z=11-13 to
+                                                                            // Z=11-15
+            VoxelShapes.cuboid(0.125, 0.75, 0.4375, 0.875, 0.8125, 0.6875), // Surface 2: stretched from Z=7-9 to Z=7-11
+            VoxelShapes.cuboid(0.125, 0.8125, 0.1875, 0.875, 0.875, 0.4375), // Surface 3: stretched from Z=3-5 to Z=3-7
+            VoxelShapes.cuboid(0.125, 0.875, 0.0625, 0.875, 0.9375, 0.1875) // Surface 4: stretched from Z=1-3 to Z=1-3
+                                                                            // (front edge)
     );
     private static final VoxelShape SHAPE_WEST = VoxelShapes.union(
-            // 4 legs (rotated 270 degrees)
-            Block.createCuboidShape(0, 0, 14, 2, 13, 16), // Front left leg
-            Block.createCuboidShape(0, 0, 0, 2, 13, 2), // Front right leg
-            Block.createCuboidShape(14, 0, 14, 16, 16, 16), // Back left leg
-            Block.createCuboidShape(14, 0, 0, 16, 16, 2), // Back right leg
-            // Back side rails (stepped) - reverted to original
-            Block.createCuboidShape(2, 11, 14, 4, 13, 16), // Rail segment 1
-            Block.createCuboidShape(4, 12, 14, 8, 14, 16), // Rail segment 2
-            Block.createCuboidShape(8, 13, 14, 12, 15, 16), // Rail segment 3
-            Block.createCuboidShape(12, 14, 14, 14, 16, 16), // Rail segment 4
-            // Front side rails (stepped) - reverted to original
-            Block.createCuboidShape(2, 11, 0, 4, 13, 2), // Rail segment 1
-            Block.createCuboidShape(4, 12, 0, 8, 14, 2), // Rail segment 2
-            Block.createCuboidShape(8, 13, 0, 12, 15, 2), // Rail segment 3
-            Block.createCuboidShape(12, 14, 0, 14, 16, 2), // Rail segment 4
-            // Horizontal rack surfaces (drying areas) - expand middle surfaces
-            Block.createCuboidShape(1, 11, 2, 3, 12, 14), // Rack surface 1 (top - no expansion)
-            Block.createCuboidShape(4, 12, 2, 8, 13, 14), // Rack surface 2 (expanded X: 5-7 -> 4-8)
-            Block.createCuboidShape(8, 13, 2, 12, 14, 14), // Rack surface 3 (expanded X: 9-11 -> 8-12)
-            Block.createCuboidShape(13, 14, 2, 15, 15, 14) // Rack surface 4 (bottom - no expansion)
+            // Front left leg
+            VoxelShapes.cuboid(0.0, 0.0, 0.875, 0.125, 0.6875, 1.0),
+            // Front right leg
+            VoxelShapes.cuboid(0.0, 0.0, 0.0, 0.125, 0.6875, 0.125),
+            // Back right leg
+            VoxelShapes.cuboid(0.875, 0.0, 0.0, 1.0, 1.0, 0.125),
+            // Back left leg
+            VoxelShapes.cuboid(0.875, 0.0, 0.875, 1.0, 1.0, 1.0),
+
+            // Left rail segments
+            VoxelShapes.cuboid(0.125, 0.6875, 0.875, 0.25, 0.8125, 1.0),
+            VoxelShapes.cuboid(0.25, 0.75, 0.875, 0.5, 0.875, 1.0),
+            VoxelShapes.cuboid(0.5, 0.8125, 0.875, 0.75, 0.9375, 1.0),
+            VoxelShapes.cuboid(0.75, 0.875, 0.875, 0.875, 1.0, 1.0),
+
+            // Right rail segments
+            VoxelShapes.cuboid(0.5, 0.8125, 0.0, 0.75, 0.9375, 0.125),
+            VoxelShapes.cuboid(0.25, 0.75, 0.0, 0.5, 0.875, 0.125),
+            VoxelShapes.cuboid(0.125, 0.6875, 0.0, 0.25, 0.8125, 0.125),
+            VoxelShapes.cuboid(0.75, 0.875, 0.0, 0.875, 1.0, 0.125),
+
+            // Rack surfaces - stretched to eliminate gaps
+            VoxelShapes.cuboid(0.0625, 0.6875, 0.125, 0.3125, 0.75, 0.875), // Surface 1: stretched from X=1-3 to X=1-5
+            VoxelShapes.cuboid(0.3125, 0.75, 0.125, 0.5625, 0.8125, 0.875), // Surface 2: stretched from X=5-7 to X=5-9
+            VoxelShapes.cuboid(0.5625, 0.8125, 0.125, 0.8125, 0.875, 0.875), // Surface 3: stretched from X=9-11 to
+                                                                             // X=9-13
+            VoxelShapes.cuboid(0.8125, 0.875, 0.125, 0.9375, 0.9375, 0.875) // Surface 4: stretched from X=13-15 to
+                                                                            // X=13-15 (back edge)
     );
 
     public DryingRackBlock(Settings settings) {
