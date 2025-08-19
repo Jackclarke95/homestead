@@ -1,0 +1,11 @@
+{
+  "type": "drying_rack:drying",
+  "drying_time": 30,
+  "ingredient": {
+    "item": "minecraft:rabbit"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:cooked_rabbit"
+  }
+}

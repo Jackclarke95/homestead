@@ -1,0 +1,11 @@
+{
+  "type": "drying_rack:drying",
+  "drying_time": 90,
+  "ingredient": {
+    "item": "minecraft:potato"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:baked_potato"
+  }
+}

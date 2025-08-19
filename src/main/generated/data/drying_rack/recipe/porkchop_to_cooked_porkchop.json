@@ -1,11 +1,11 @@
 {
   "type": "drying_rack:drying",
+  "drying_time": 50,
   "ingredient": {
     "item": "minecraft:porkchop"
   },
   "result": {
-    "id": "minecraft:cooked_porkchop",
-    "count": 1
-  },
-  "drying_time": 50
+    "count": 1,
+    "id": "minecraft:cooked_porkchop"
+  }
 }

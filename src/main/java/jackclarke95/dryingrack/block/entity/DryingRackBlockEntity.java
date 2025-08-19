@@ -76,7 +76,9 @@ public class DryingRackBlockEntity extends BlockEntity {
         }
 
         if (changed) {
+            blockEntity.updateBlockState();
             blockEntity.markDirty();
+            blockEntity.sync();
         }
     }
 
@@ -119,7 +121,20 @@ public class DryingRackBlockEntity extends BlockEntity {
             return ActionResult.FAIL;
         }
 
-        // TEMPORARY: Accept any item for testing
+        // Check if the item has a valid drying recipe
+        if (world != null && !world.isClient) {
+            SingleStackRecipeInput input = new SingleStackRecipeInput(handStack);
+            DryingRecipe recipe = world.getRecipeManager()
+                    .getFirstMatch(ModRecipeTypes.DRYING, input, world)
+                    .map(entry -> entry.value())
+                    .orElse(null);
+
+            if (recipe == null) {
+                // No recipe found for this item, don't accept it
+                return ActionResult.FAIL;
+            }
+        }
+
         inventory.set(slot, handStack.copyWithCount(1));
         handStack.decrement(1);
         updateBlockState();
@@ -182,9 +197,14 @@ public class DryingRackBlockEntity extends BlockEntity {
         markDirty();
         sync();
 
-        // Additional forced update - try to trigger block update
+        // Additional forced update with the updated block state
         if (world != null && !world.isClient) {
-            world.updateListeners(pos, world.getBlockState(pos), world.getBlockState(pos), Block.NOTIFY_ALL);
+            BlockState updatedState = world.getBlockState(pos);
+            world.updateListeners(pos, updatedState, updatedState, Block.NOTIFY_ALL);
+            // Force a chunk re-render on client side
+            if (world instanceof net.minecraft.server.world.ServerWorld serverWorld) {
+                serverWorld.getChunkManager().markForUpdate(pos);
+            }
         }
 
         if (world != null && !world.isClient) {

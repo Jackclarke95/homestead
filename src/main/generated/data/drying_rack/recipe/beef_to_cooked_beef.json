@@ -1,11 +1,11 @@
 {
   "type": "drying_rack:drying",
+  "drying_time": 40,
   "ingredient": {
     "item": "minecraft:beef"
   },
   "result": {
-    "id": "minecraft:cooked_beef",
-    "count": 1
-  },
-  "drying_time": 40
+    "count": 1,
+    "id": "minecraft:cooked_beef"
+  }
 }
