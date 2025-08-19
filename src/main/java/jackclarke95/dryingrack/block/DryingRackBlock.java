@@ -50,6 +50,10 @@ public class DryingRackBlock extends BlockWithEntity {
             // Back left leg
             VoxelShapes.cuboid(0.0, 0.0, 0.875, 0.125, 1.0, 1.0),
 
+            // Front leg top corner pieces (2x2x2 pixels each)
+            VoxelShapes.cuboid(0.0, 0.6875, 0.0, 0.125, 0.8125, 0.125), // Front left top corner
+            VoxelShapes.cuboid(0.875, 0.6875, 0.0, 1.0, 0.8125, 0.125), // Front right top corner
+
             // Left rail segments
             VoxelShapes.cuboid(0.0, 0.6875, 0.125, 0.125, 0.8125, 0.25),
             VoxelShapes.cuboid(0.0, 0.75, 0.25, 0.125, 0.875, 0.5),
@@ -79,6 +83,10 @@ public class DryingRackBlock extends BlockWithEntity {
             VoxelShapes.cuboid(0.0, 0.0, 0.875, 0.125, 1.0, 1.0),
             // Back left leg
             VoxelShapes.cuboid(0.0, 0.0, 0.0, 0.125, 1.0, 0.125),
+
+            // Front leg top corner pieces (2x2x2 pixels each)
+            VoxelShapes.cuboid(0.875, 0.6875, 0.0, 1.0, 0.8125, 0.125), // Front left top corner
+            VoxelShapes.cuboid(0.875, 0.6875, 0.875, 1.0, 0.8125, 1.0), // Front right top corner
 
             // Left rail segments
             VoxelShapes.cuboid(0.75, 0.6875, 0.0, 0.875, 0.8125, 0.125),
@@ -110,6 +118,10 @@ public class DryingRackBlock extends BlockWithEntity {
             // Back left leg
             VoxelShapes.cuboid(0.875, 0.0, 0.0, 1.0, 1.0, 0.125),
 
+            // Front leg top corner pieces (2x2x2 pixels each)
+            VoxelShapes.cuboid(0.875, 0.6875, 0.875, 1.0, 0.8125, 1.0), // Front left top corner
+            VoxelShapes.cuboid(0.0, 0.6875, 0.875, 0.125, 0.8125, 1.0), // Front right top corner
+
             // Left rail segments
             VoxelShapes.cuboid(0.875, 0.6875, 0.75, 1.0, 0.8125, 0.875),
             VoxelShapes.cuboid(0.875, 0.75, 0.5, 1.0, 0.875, 0.75),
@@ -139,6 +151,10 @@ public class DryingRackBlock extends BlockWithEntity {
             VoxelShapes.cuboid(0.875, 0.0, 0.0, 1.0, 1.0, 0.125),
             // Back left leg
             VoxelShapes.cuboid(0.875, 0.0, 0.875, 1.0, 1.0, 1.0),
+
+            // Front leg top corner pieces (2x2x2 pixels each)
+            VoxelShapes.cuboid(0.0, 0.6875, 0.875, 0.125, 0.8125, 1.0), // Front left top corner
+            VoxelShapes.cuboid(0.0, 0.6875, 0.0, 0.125, 0.8125, 0.125), // Front right top corner
 
             // Left rail segments
             VoxelShapes.cuboid(0.125, 0.6875, 0.875, 0.25, 0.8125, 1.0),
