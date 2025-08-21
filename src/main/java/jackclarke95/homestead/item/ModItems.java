@@ -12,8 +12,10 @@ public class ModItems {
     public static final Item SUSPICIOUS_JERKY = registerItem("suspicious_jerky", new Item(new Item.Settings()));
     public static final Item BEEF_JERKY = registerItem("beef_jerky", new Item(new Item.Settings()));
     public static final Item CHEESE_WHEEL = registerItem("cheese_wheel", new Item(new Item.Settings()));
-    public static final Item CHEESE_SLICE = registerItem("cheese_slice", new Item(new Item.Settings()));
     public static final Item RAW_HIDE = registerItem("raw_hide", new Item(new Item.Settings()));
+
+    public static final Item CHEESE_SLICE = registerItem("cheese_slice",
+            new Item(new Item.Settings().food(ModFoodComponents.CHEESE_SLICE)));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, Identifier.of(Homestead.MOD_ID, name), item);
