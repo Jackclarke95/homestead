@@ -1,7 +1,6 @@
 package jackclarke95.homestead;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
