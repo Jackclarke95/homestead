@@ -1,12 +1,9 @@
 package jackclarke95.homestead;
 
 import net.fabricmc.api.ModInitializer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import jackclarke95.homestead.block.ModBlocks;
-import jackclarke95.homestead.block.entity.ModBlockEntities;
-import jackclarke95.homestead.recipe.ModRecipeTypes;
 
 public class Homestead implements ModInitializer {
 	public static final String MOD_ID = "homestead";
@@ -22,12 +19,6 @@ public class Homestead implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		LOGGER.info("Initializing Homestead mod!");
-
-		ModBlocks.registerModBlocks();
-		ModBlockEntities.registerBlockEntities();
-		ModRecipeTypes.registerRecipeTypes();
-
-		LOGGER.info("Homestead mod initialized successfully!");
+		LOGGER.info("Hello Fabric world!");
 	}
 }
