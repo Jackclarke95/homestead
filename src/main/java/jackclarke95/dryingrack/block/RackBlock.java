@@ -1,6 +1,6 @@
 package jackclarke95.dryingrack.block;
 
-import jackclarke95.dryingrack.block.entity.DryingRackBlockEntity;
+import jackclarke95.dryingrack.block.entity.RackBlockEntity;
 import jackclarke95.dryingrack.block.entity.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.*;
@@ -29,8 +29,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class DryingRackBlock extends BlockWithEntity {
-    public static final MapCodec<DryingRackBlock> CODEC = createCodec(DryingRackBlock::new);
+public class RackBlock extends BlockWithEntity {
+    public static final MapCodec<RackBlock> CODEC = createCodec(RackBlock::new);
 
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final BooleanProperty HAS_ITEM_0 = BooleanProperty.of("has_item_0");
@@ -168,7 +168,7 @@ public class DryingRackBlock extends BlockWithEntity {
             VoxelShapes.cuboid(0.8125, 0.875, 0.125, 0.9375, 0.9375, 0.875) // Surface 4: X=13-15 (back, no extension)
     );
 
-    public DryingRackBlock(Settings settings) {
+    public RackBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState()
                 .with(FACING, Direction.NORTH)
@@ -213,9 +213,9 @@ public class DryingRackBlock extends BlockWithEntity {
     protected void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof DryingRackBlockEntity dryingRack) {
+            if (blockEntity instanceof RackBlockEntity rack) {
                 // Try to withdraw an item
-                ActionResult result = dryingRack.onLeftClick(player, null, state);
+                ActionResult result = rack.onLeftClick(player, null, state);
                 if (result == ActionResult.SUCCESS) {
                     // Successfully withdrew an item - don't call super to prevent breaking
                     return;
@@ -232,8 +232,8 @@ public class DryingRackBlock extends BlockWithEntity {
             PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof DryingRackBlockEntity dryingRack) {
-                ActionResult result = dryingRack.onRightClick(player, hand, hit, state);
+            if (blockEntity instanceof RackBlockEntity rack) {
+                ActionResult result = rack.onRightClick(player, hand, hit, state);
                 return result == ActionResult.SUCCESS ? ItemActionResult.SUCCESS
                         : ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
@@ -245,8 +245,8 @@ public class DryingRackBlock extends BlockWithEntity {
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof DryingRackBlockEntity dryingRack) {
-                return dryingRack.onRightClick(player, Hand.MAIN_HAND, hit, state);
+            if (blockEntity instanceof RackBlockEntity rack) {
+                return rack.onRightClick(player, Hand.MAIN_HAND, hit, state);
             }
         }
         return ActionResult.SUCCESS;
@@ -262,8 +262,8 @@ public class DryingRackBlock extends BlockWithEntity {
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.isOf(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof DryingRackBlockEntity dryingRack) {
-                dryingRack.dropItems(world, pos);
+            if (blockEntity instanceof RackBlockEntity rack) {
+                rack.dropItems(world, pos);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
         }
@@ -272,14 +272,14 @@ public class DryingRackBlock extends BlockWithEntity {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new DryingRackBlockEntity(pos, state);
+        return new RackBlockEntity(pos, state);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state,
             BlockEntityType<T> type) {
-        return validateTicker(type, ModBlockEntities.DRYING_RACK, DryingRackBlockEntity::tick);
+        return validateTicker(type, ModBlockEntities.RACK, RackBlockEntity::tick);
     }
 
     @Override

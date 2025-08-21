@@ -1,5 +1,5 @@
 {
-  "type": "drying_rack:drying",
+  "type": "homestead:drying",
   "drying_time": 45,
   "ingredient": {
     "item": "minecraft:mutton"

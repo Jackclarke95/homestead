@@ -1,5 +1,5 @@
 {
-  "type": "drying_rack:drying",
+  "type": "homestead:drying",
   "drying_time": 75,
   "ingredient": {
     "item": "minecraft:salmon"

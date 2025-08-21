@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north": {
-      "model": "drying_rack:block/drying_rack"
+      "model": "homestead:block/rack"
     },
     "facing=east": {
-      "model": "drying_rack:block/drying_rack",
+      "model": "homestead:block/rack",
       "y": 90
     },
     "facing=south": {
-      "model": "drying_rack:block/drying_rack",
+      "model": "homestead:block/rack",
       "y": 180
     },
     "facing=west": {
-      "model": "drying_rack:block/drying_rack",
+      "model": "homestead:block/rack",
       "y": 270
     }
   }

@@ -1,7 +1,7 @@
 package jackclarke95.dryingrack.client.render;
 
-import jackclarke95.dryingrack.block.DryingRackBlock;
-import jackclarke95.dryingrack.block.entity.DryingRackBlockEntity;
+import jackclarke95.dryingrack.block.RackBlock;
+import jackclarke95.dryingrack.block.entity.RackBlockEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
@@ -12,15 +12,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
 
-public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<DryingRackBlockEntity> {
+public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEntity> {
     private final ItemRenderer itemRenderer;
 
-    public DryingRackBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
+    public RackBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
         this.itemRenderer = context.getItemRenderer();
     }
 
     @Override
-    public void render(DryingRackBlockEntity entity, float tickDelta, MatrixStack matrices,
+    public void render(RackBlockEntity entity, float tickDelta, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light, int overlay) {
         // Debug: Check if we have items to render
         int itemCount = 0;
@@ -33,7 +33,7 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
         }
 
         // Get the block's facing direction
-        Direction facing = entity.getCachedState().get(DryingRackBlock.FACING);
+        Direction facing = entity.getCachedState().get(RackBlock.FACING);
 
         // Calculate the rotation angle based on facing direction
         float blockRotation = switch (facing) {

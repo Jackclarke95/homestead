@@ -1,6 +1,6 @@
 package jackclarke95.dryingrack.block.entity;
 
-import jackclarke95.dryingrack.block.DryingRackBlock;
+import jackclarke95.dryingrack.block.RackBlock;
 import jackclarke95.dryingrack.recipe.DryingRecipe;
 import jackclarke95.dryingrack.recipe.ModRecipeTypes;
 import net.minecraft.block.Block;
@@ -23,16 +23,16 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 
-public class DryingRackBlockEntity extends BlockEntity {
+public class RackBlockEntity extends BlockEntity {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
     private final int[] dryingTimes = new int[4];
     private final int[] totalDryingTimes = new int[4];
 
-    public DryingRackBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.DRYING_RACK, pos, state);
+    public RackBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.RACK, pos, state);
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, DryingRackBlockEntity blockEntity) {
+    public static void tick(World world, BlockPos pos, BlockState state, RackBlockEntity blockEntity) {
         if (world.isClient)
             return;
 
@@ -197,10 +197,10 @@ public class DryingRackBlockEntity extends BlockEntity {
     private void updateBlockState() {
         if (world != null) {
             BlockState state = world.getBlockState(pos)
-                    .with(DryingRackBlock.HAS_ITEM_0, !inventory.get(0).isEmpty())
-                    .with(DryingRackBlock.HAS_ITEM_1, !inventory.get(1).isEmpty())
-                    .with(DryingRackBlock.HAS_ITEM_2, !inventory.get(2).isEmpty())
-                    .with(DryingRackBlock.HAS_ITEM_3, !inventory.get(3).isEmpty());
+                    .with(RackBlock.HAS_ITEM_0, !inventory.get(0).isEmpty())
+                    .with(RackBlock.HAS_ITEM_1, !inventory.get(1).isEmpty())
+                    .with(RackBlock.HAS_ITEM_2, !inventory.get(2).isEmpty())
+                    .with(RackBlock.HAS_ITEM_3, !inventory.get(3).isEmpty());
 
             world.setBlockState(pos, state, Block.NOTIFY_ALL);
 

@@ -1,6 +1,6 @@
 package jackclarke95.dryingrack.recipe;
 
-import jackclarke95.dryingrack.DryingRack;
+import jackclarke95.dryingrack.Homestead;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.registry.Registries;
@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 public class ModRecipeTypes {
     public static final RecipeType<DryingRecipe> DRYING = Registry.register(
             Registries.RECIPE_TYPE,
-            Identifier.of(DryingRack.MOD_ID, "drying"),
+            Identifier.of(Homestead.MOD_ID, "drying"),
             new RecipeType<DryingRecipe>() {
                 @Override
                 public String toString() {
@@ -20,10 +20,10 @@ public class ModRecipeTypes {
 
     public static final RecipeSerializer<DryingRecipe> DRYING_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER,
-            Identifier.of(DryingRack.MOD_ID, "drying"),
+            Identifier.of(Homestead.MOD_ID, "drying"),
             new DryingRecipe.Serializer());
 
     public static void registerRecipeTypes() {
-        DryingRack.LOGGER.info("Registering recipe types for " + DryingRack.MOD_ID);
+        Homestead.LOGGER.info("Registering recipe types for " + Homestead.MOD_ID);
     }
 }

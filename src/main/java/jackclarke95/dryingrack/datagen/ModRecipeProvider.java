@@ -1,6 +1,6 @@
 package jackclarke95.dryingrack.datagen;
 
-import jackclarke95.dryingrack.DryingRack;
+import jackclarke95.dryingrack.Homestead;
 import jackclarke95.dryingrack.recipe.DryingRecipe;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -44,7 +44,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 new ItemStack(output, 1),
                 dryingTime);
 
-        exporter.accept(Identifier.of(DryingRack.MOD_ID, name), recipe, null);
+        exporter.accept(Identifier.of(Homestead.MOD_ID, name), recipe, null);
     }
 
     @Override

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "drying_rack",
+  "id": "homestead",
   "version": "${version}",
-  "name": "Drying Rack",
+  "name": "Homestead",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": ["Me!"],
   "contact": {
@@ -10,14 +10,14 @@
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
   "license": "CC0-1.0",
-  "icon": "assets/drying_rack/icon.png",
+  "icon": "assets/homestead/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": ["jackclarke95.dryingrack.DryingRack"],
-    "client": ["jackclarke95.dryingrack.client.DryingRackClient"],
-    "fabric-datagen": ["jackclarke95.dryingrack.DryingRackDataGenerator"]
+    "main": ["jackclarke95.homestead.Homestead"],
+    "client": ["jackclarke95.homestead.client.HomesteadClient"],
+    "fabric-datagen": ["jackclarke95.homestead.HomesteadDataGenerator"]
   },
-  "mixins": ["drying_rack.mixins.json"],
+  "mixins": ["homestead.mixins.json"],
   "depends": {
     "fabricloader": ">=0.17.2",
     "minecraft": "~1.21.1",

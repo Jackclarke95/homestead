@@ -1,5 +1,5 @@
 {
-  "type": "drying_rack:drying",
+  "type": "homestead:drying",
   "ingredient": {
     "item": "minecraft:beef"
   },

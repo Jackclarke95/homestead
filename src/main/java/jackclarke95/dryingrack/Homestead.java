@@ -7,8 +7,8 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DryingRack implements ModInitializer {
-	public static final String MOD_ID = "drying_rack";
+public class Homestead implements ModInitializer {
+	public static final String MOD_ID = "homestead";
 
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
@@ -21,12 +21,12 @@ public class DryingRack implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		LOGGER.info("Initializing Drying Rack mod!");
+		LOGGER.info("Initializing Homestead mod!");
 
 		ModBlocks.registerModBlocks();
 		ModBlockEntities.registerBlockEntities();
 		ModRecipeTypes.registerRecipeTypes();
 
-		LOGGER.info("Drying Rack mod initialized successfully!");
+		LOGGER.info("Homestead mod initialized successfully!");
 	}
 }
