@@ -3,5 +3,7 @@
   "item.homestead.beef_jerky": "Beef Jerky",
   "item.homestead.cheese_wheel": "Cheese Wheel",
   "item.homestead.cheese_slice": "Cheese Slice",
-  "item.homestead.raw_hide": "Raw Hide"
+  "item.homestead.raw_hide": "Raw Hide",
+
+  "block.homestead.curing_vat": "Curing Vat"
 }

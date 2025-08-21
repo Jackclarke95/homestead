@@ -5,6 +5,7 @@ import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.item.ModItems;
 
 public class Homestead implements ModInitializer {
@@ -15,6 +16,6 @@ public class Homestead implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModItems.registerModItems();
-
+		ModBlocks.registerModBlocks();
 	}
 }
