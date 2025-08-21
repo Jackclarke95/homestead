@@ -5,5 +5,8 @@
   "item.homestead.cheese_slice": "Cheese Slice",
   "item.homestead.raw_hide": "Raw Hide",
 
-  "block.homestead.curing_vat": "Curing Vat"
+  "block.homestead.curing_vat": "Curing Vat",
+
+  "itemGroup.homestead_items": "Homestead Items",
+  "itemGroup.homestead_blocks": "Homestead Blocks"
 }

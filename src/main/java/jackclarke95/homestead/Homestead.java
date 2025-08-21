@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jackclarke95.homestead.block.ModBlocks;
+import jackclarke95.homestead.item.ModItemGroups;
 import jackclarke95.homestead.item.ModItems;
 
 public class Homestead implements ModInitializer {
@@ -15,6 +16,7 @@ public class Homestead implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ModItemGroups.registerItemGroups();
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
 	}
