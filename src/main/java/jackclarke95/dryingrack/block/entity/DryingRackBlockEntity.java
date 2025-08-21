@@ -215,17 +215,11 @@ public class DryingRackBlockEntity extends BlockEntity {
 
     private void sync() {
         if (world != null && !world.isClient) {
-            // Get current state
-            BlockState state = getCachedState();
-
-            // Force a complete block entity update to client
-            world.updateListeners(pos, state, state, Block.NOTIFY_ALL);
-
-            // Additional forced sync for block entity data
             markDirty();
             if (world instanceof net.minecraft.server.world.ServerWorld serverWorld) {
                 serverWorld.getChunkManager().markForUpdate(pos);
             }
+            world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
         }
     }
 
@@ -273,6 +267,19 @@ public class DryingRackBlockEntity extends BlockEntity {
         if (nbt.contains("TotalDryingTimes")) {
             int[] totalTimes = nbt.getIntArray("TotalDryingTimes");
             System.arraycopy(totalTimes, 0, totalDryingTimes, 0, Math.min(totalTimes.length, 4));
+        }
+
+        // On the client, force a full world rerender after BE NBT is updated
+        // (diagnostic)
+        if (world != null && world.isClient) {
+            try {
+                net.minecraft.client.MinecraftClient mc = net.minecraft.client.MinecraftClient.getInstance();
+                if (mc.worldRenderer != null) {
+                    mc.worldRenderer.reload();
+                }
+            } catch (Throwable t) {
+                // Ignore if not on client or in datagen
+            }
         }
     }
 

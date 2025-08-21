@@ -46,10 +46,9 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
 
         // Render items lying on the rack
         for (int slot = 0; slot < 4; slot++) {
+            matrices.push();
             ItemStack stack = entity.getStack(slot);
             if (!stack.isEmpty()) {
-
-                matrices.push();
 
                 // Apply block rotation first - rotate around the center of the block
                 matrices.translate(0.5f, 0f, 0.5f); // Move to block center
@@ -156,9 +155,8 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
                         vertexConsumers,
                         entity.getWorld(),
                         (int) entity.getPos().asLong());
-
-                matrices.pop();
             }
+            matrices.pop();
         }
     }
 }
