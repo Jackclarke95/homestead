@@ -9,11 +9,14 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModItems {
-    public static final Item SUSPICIOUS_JERKY = registerItem("suspicious_jerky", new Item(new Item.Settings()));
-    public static final Item BEEF_JERKY = registerItem("beef_jerky", new Item(new Item.Settings()));
     public static final Item CHEESE_WHEEL = registerItem("cheese_wheel", new Item(new Item.Settings()));
     public static final Item RAW_HIDE = registerItem("raw_hide", new Item(new Item.Settings()));
 
+    // Food
+    public static final Item SUSPICIOUS_JERKY = registerItem("suspicious_jerky",
+            new Item(new Item.Settings().food(ModFoodComponents.SUSPICIOUS_JERKY)));
+    public static final Item BEEF_JERKY = registerItem("beef_jerky",
+            new Item(new Item.Settings().food(ModFoodComponents.BEEF_JERKY)));
     public static final Item CHEESE_SLICE = registerItem("cheese_slice",
             new Item(new Item.Settings().food(ModFoodComponents.CHEESE_SLICE)));
 
