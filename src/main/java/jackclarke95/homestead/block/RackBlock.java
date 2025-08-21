@@ -35,9 +35,6 @@ public class RackBlock extends BlockWithEntity {
 
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final BooleanProperty HAS_ITEM_0 = BooleanProperty.of("has_item_0");
-    public static final BooleanProperty HAS_ITEM_1 = BooleanProperty.of("has_item_1");
-    public static final BooleanProperty HAS_ITEM_2 = BooleanProperty.of("has_item_2");
-    public static final BooleanProperty HAS_ITEM_3 = BooleanProperty.of("has_item_3");
 
     // Shapes for the drying rack table in different orientations
     private static final VoxelShape SHAPE_NORTH = VoxelShapes.union(
@@ -173,10 +170,7 @@ public class RackBlock extends BlockWithEntity {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState()
                 .with(FACING, Direction.NORTH)
-                .with(HAS_ITEM_0, false)
-                .with(HAS_ITEM_1, false)
-                .with(HAS_ITEM_2, false)
-                .with(HAS_ITEM_3, false));
+                .with(HAS_ITEM_0, false));
     }
 
     @Override
@@ -191,7 +185,7 @@ public class RackBlock extends BlockWithEntity {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING, HAS_ITEM_0, HAS_ITEM_1, HAS_ITEM_2, HAS_ITEM_3);
+        builder.add(FACING, HAS_ITEM_0);
     }
 
     @Override
