@@ -36,8 +36,6 @@ public class RackBlockEntity extends BlockEntity {
         if (world.isClient)
             return;
 
-        boolean changed = false;
-
         for (int slot = 0; slot < 4; slot++) {
             ItemStack stack = blockEntity.inventory.get(slot);
             if (!stack.isEmpty()) {
@@ -61,7 +59,6 @@ public class RackBlockEntity extends BlockEntity {
                         blockEntity.inventory.set(slot, result);
                         blockEntity.dryingTimes[slot] = 0;
                         blockEntity.totalDryingTimes[slot] = 0;
-                        changed = true;
                     }
                 } else {
                     // No recipe found, reset timers
@@ -75,11 +72,9 @@ public class RackBlockEntity extends BlockEntity {
             }
         }
 
-        if (changed) {
-            blockEntity.updateBlockState();
-            blockEntity.markDirty();
-            blockEntity.sync();
-        }
+        blockEntity.updateBlockState();
+        blockEntity.markDirty();
+        blockEntity.sync();
     }
 
     /**
