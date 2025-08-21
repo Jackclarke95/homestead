@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    {
+      "item": "homestead:cheese_wheel"
+    }
+  ],
+  "result": {
+    "count": 8,
+    "id": "homestead:cheese_slice"
+  }
+}
