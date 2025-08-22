@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_curing_vat": {
+      "conditions": {
+        "items": [
+          {
+            "items": "homestead:curing_vat"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "homestead:curing_vat"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_curing_vat"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "homestead:curing_vat"
+    ]
+  }
+}

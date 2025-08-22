@@ -6,7 +6,11 @@
       "item": "homestead:cheese_slice"
     }
   },
-  "pattern": ["###", "# #", "###"],
+  "pattern": [
+    "###",
+    "# #",
+    "###"
+  ],
   "result": {
     "count": 1,
     "id": "homestead:cheese_wheel"

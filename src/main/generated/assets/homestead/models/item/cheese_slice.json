@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "homestead:item/raw_hide"
+    "layer0": "homestead:item/cheese_slice"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "homestead:item/beef_jerky"
+    "layer0": "homestead:item/cheese_wheel"
   }
 }

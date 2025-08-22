@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "homestead:item/suspicious_jerky"
+    "layer0": "homestead:item/raw_hide"
   }
 }
