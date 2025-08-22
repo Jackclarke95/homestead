@@ -1,6 +1,7 @@
 package jackclarke95.homestead.block;
 
 import jackclarke95.homestead.Homestead;
+import jackclarke95.homestead.block.custom.CustomBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -15,6 +16,10 @@ import net.minecraft.util.Identifier;
 public class ModBlocks {
     public static final Block CURING_VAT = registerBlock("curing_vat",
             new Block(AbstractBlock.Settings.copy(Blocks.CRAFTING_TABLE)));
+
+    public static final Block CUSTOM_BLOCK = registerBlock("custom_block",
+            new CustomBlock(AbstractBlock.Settings.create()
+                    .strength(1.0f).luminance(state -> state.get(CustomBlock.CLICKED) ? 15 : 0)));
 
     public static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
@@ -32,6 +37,7 @@ public class ModBlocks {
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
             entries.add(ModBlocks.CURING_VAT);
+            entries.add(ModBlocks.CUSTOM_BLOCK);
         });
     }
 }

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "clicked=false": {
+      "model": "homestead:block/custom_block"
+    },
+    "clicked=true": {
+      "model": "homestead:block/custom_block_on"
+    }
+  }
+}

@@ -1,4 +1,8 @@
-// 1.21.1	2025-08-22T00:59:48.5659101	Homestead/Model Definitions
+// 1.21.1	2025-08-22T01:24:08.2234641	Homestead/Model Definitions
+3a8e8091de7863dc80768904b1ee3a60b79063a9 assets\homestead\models\block\custom_block.json
+498a34374db8067ab82152f47b5f8ae8af6cc7fa assets\homestead\blockstates\custom_block.json
+ffdc65eb1fd20eaa04cdf56962cc537e9e9c37b7 assets\homestead\models\item\custom_block.json
+17565c5931172c5045dfb7706577cfd93779de89 assets\homestead\blockstates\curing_vat.json
 4d5c23a921127fffc406b97e1ee80bb14da52e9c assets\homestead\models\item\beef_jerky.json
 1d506fdd92730e1fa481026448871e5d584976a0 assets\homestead\models\item\raw_hide.json
 a3154c08524514961fe5de59f24ab85e15154bba assets\homestead\models\item\cheese_slice.json
@@ -6,4 +10,4 @@ a3154c08524514961fe5de59f24ab85e15154bba assets\homestead\models\item\cheese_sli
 7fba665f4254b52055a01051f93edd506eec6a49 assets\homestead\models\item\suspicious_jerky.json
 9bb574ef10e51b5d3a6dd9997589f5010fc3a874 assets\homestead\models\block\curing_vat.json
 26cb205ada5e1801a58c9908541029980a0c3a5a assets\homestead\models\item\cheese_wheel.json
-17565c5931172c5045dfb7706577cfd93779de89 assets\homestead\blockstates\curing_vat.json
+8aefdd8c786c8c8d0755a0dd694bc36a983e9570 assets\homestead\models\block\custom_block_on.json
