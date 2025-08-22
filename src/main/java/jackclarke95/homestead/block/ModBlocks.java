@@ -2,6 +2,7 @@ package jackclarke95.homestead.block;
 
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.CustomBlock;
+import jackclarke95.homestead.block.custom.RackBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -21,6 +22,9 @@ public class ModBlocks {
             new CustomBlock(AbstractBlock.Settings.create()
                     .strength(1.0f).luminance(state -> state.get(CustomBlock.CLICKED) ? 15 : 0)));
 
+    public static final Block RACK = registerBlock("rack",
+            new RackBlock(AbstractBlock.Settings.copy(Blocks.CRAFTING_TABLE)));
+
     public static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
 
@@ -38,6 +42,7 @@ public class ModBlocks {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
             entries.add(ModBlocks.CURING_VAT);
             entries.add(ModBlocks.CUSTOM_BLOCK);
+            entries.add(ModBlocks.RACK);
         });
     }
 }

@@ -31,6 +31,8 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(ModBlocks.CUSTOM_BLOCK)
                 .coordinate(BlockStateModelGenerator.createBooleanModelMap(CustomBlock.CLICKED, blockOnIdentifier,
                         blockOffIdentifier)));
+
+        blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.RACK);
     }
 
     @Override

@@ -30,6 +30,8 @@ public class ModItemGroups {
                     .displayName(Text.translatable("itemGroup.homestead_blocks"))
                     .entries((displayContext, entries) -> {
                         entries.add(ModBlocks.CURING_VAT);
+                        entries.add(ModBlocks.CUSTOM_BLOCK);
+                        entries.add(ModBlocks.RACK);
                     })
                     .build());
 
