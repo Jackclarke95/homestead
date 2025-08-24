@@ -20,11 +20,12 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class RackBlock extends BlockWithEntity implements BlockEntityProvider {
+public class RackBlock extends BlockWithEntity {
     private static final VoxelShape SHAPE = createShape();
 
     // Combine all shapes
@@ -39,6 +40,11 @@ public class RackBlock extends BlockWithEntity implements BlockEntityProvider {
     @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
+    }
+
+    @Override
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
     }
 
     @Override
