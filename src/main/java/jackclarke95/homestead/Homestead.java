@@ -6,8 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jackclarke95.homestead.block.ModBlocks;
+import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.item.ModItemGroups;
 import jackclarke95.homestead.item.ModItems;
+
+// TODO: LICENSE
 
 public class Homestead implements ModInitializer {
 	public static final String MOD_ID = "homestead";
@@ -20,5 +23,6 @@ public class Homestead implements ModInitializer {
 
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
+		ModBlockEntities.registerBlockEntities();
 	}
 }
