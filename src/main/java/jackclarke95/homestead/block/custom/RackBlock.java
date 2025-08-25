@@ -100,6 +100,8 @@ public class RackBlock extends BlockWithEntity {
         return ItemActionResult.SUCCESS;
     }
 
+    // TODO: On break, drop self and inventory
+
     @Override
     protected BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
