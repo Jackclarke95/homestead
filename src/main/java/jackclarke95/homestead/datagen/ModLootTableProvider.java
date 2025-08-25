@@ -17,5 +17,6 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
     public void generate() {
         addDrop(ModBlocks.CURING_VAT);
         addDrop(ModBlocks.CUSTOM_BLOCK);
+        addDrop(ModBlocks.RACK);
     }
 }
