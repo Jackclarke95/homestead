@@ -29,7 +29,7 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
         ItemStack stack = entity.getStack(0);
 
         matrices.push();
-        matrices.translate(0.5f, 0.76f, 0.5f);
+        matrices.translate(0.5f, 0.7625f, 0.5f);
         matrices.scale(0.5f, 0.5f, 0.5f);
 
         // Get block facing
