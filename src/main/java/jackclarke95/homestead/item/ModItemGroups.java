@@ -32,6 +32,10 @@ public class ModItemGroups {
                         entries.add(ModBlocks.CURING_VAT);
                         entries.add(ModBlocks.CUSTOM_BLOCK);
                         entries.add(ModBlocks.RACK);
+                        entries.add(ModBlocks.COBBLESTONE_BRICKS);
+                        entries.add(ModBlocks.COBBLESTONE_BRICK_SLAB);
+                        entries.add(ModBlocks.COBBLESTONE_BRICK_WALL);
+                        entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
                     })
                     .build());
 
