@@ -104,14 +104,14 @@ public class RackBlock extends BlockWithEntity {
 
                 rackBlockEntity.setStack(0, stack.copyWithCount(1));
 
-                world.playSound(player, pos, SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.BLOCKS, 1f, 1f);
+                world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1f, 1f);
                 stack.decrement(1);
 
                 updateWorld(state, world, pos, rackBlockEntity);
-            } else if (!player.isSneaking()) {
+            } else if (!player.isSneaking() && !stackOnRack.isEmpty()) {
                 giveItemToPlayer(player, stackOnRack);
 
-                world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1f, 1f);
+                world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1f, 1f);
 
                 rackBlockEntity.clear();
 
@@ -137,21 +137,28 @@ public class RackBlock extends BlockWithEntity {
 
             return;
         }
-        // Try inventory
+
+        int firstEmptySlot = -1;
+
         for (int i = 0; i < player.getInventory().main.size(); i++) {
             ItemStack inventoryStack = player.getInventory().main.get(i);
-            if (inventoryStack.isEmpty()) {
-                player.getInventory().main.set(i, itemStack.copy());
 
-                return;
-            } else if (itemStack.getItem() == inventoryStack.getItem()
+            if (itemStack.getItem() == inventoryStack.getItem()
                     && inventoryStack.getCount() < inventoryStack.getMaxCount()) {
                 inventoryStack.increment(itemStack.getCount());
 
                 return;
             }
-        }
 
+            if (firstEmptySlot == -1 && inventoryStack.isEmpty()) {
+                firstEmptySlot = i;
+            }
+        }
+        if (firstEmptySlot != -1) {
+            player.getInventory().main.set(firstEmptySlot, itemStack.copy());
+
+            return;
+        }
         // Drop if no space
         if (!player.getWorld().isClient) {
             player.dropItem(itemStack.copy(), false);
@@ -178,8 +185,6 @@ public class RackBlock extends BlockWithEntity {
         return validateTicker(type, ModBlockEntities.RACK_BE,
                 (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
     }
-
-    // TODO: On break, drop self and inventory
 
     @Override
     protected BlockState rotate(BlockState state, BlockRotation rotation) {
