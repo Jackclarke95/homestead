@@ -38,6 +38,10 @@ public class ModBlocks {
             new StairsBlock(ModBlocks.COBBLESTONE_BRICKS.getDefaultState(),
                     AbstractBlock.Settings.copy(ModBlocks.COBBLESTONE_BRICKS)));
 
+    public static final Block HAY_STAIRS = registerBlock("hay_stairs",
+            new StairsBlock(Blocks.HAY_BLOCK.getDefaultState(),
+                    AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)));
+
     public static void registerModBlocks() {
         Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);
 
@@ -49,6 +53,7 @@ public class ModBlocks {
             entries.add(ModBlocks.COBBLESTONE_BRICK_SLAB);
             entries.add(ModBlocks.COBBLESTONE_BRICK_WALL);
             entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
+            entries.add(ModBlocks.HAY_STAIRS);
         });
     }
 

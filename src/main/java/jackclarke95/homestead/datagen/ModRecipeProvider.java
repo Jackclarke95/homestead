@@ -74,5 +74,9 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 ModBlocks.COBBLESTONE_BRICKS);
         offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICK_WALL,
                 ModBlocks.COBBLESTONE_BRICKS);
+
+        createStairsRecipe(ModBlocks.HAY_STAIRS, Ingredient.ofItems(Blocks.HAY_BLOCK))
+                .criterion("has_hay_block", conditionsFromItem(Blocks.HAY_BLOCK))
+                .offerTo(recipeExporter);
     }
 }

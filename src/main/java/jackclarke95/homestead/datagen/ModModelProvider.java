@@ -1,5 +1,6 @@
 package jackclarke95.homestead.datagen;
 
+import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.custom.CustomBlock;
 import jackclarke95.homestead.item.ModItems;
@@ -41,6 +42,23 @@ public class ModModelProvider extends FabricModelProvider {
                         blockOffIdentifier)));
 
         blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.RACK);
+
+        final TextureMap hayTexture = TextureMap.all(Identifier.of(Homestead.MOD_ID, "block/hay_stairs"));
+
+        final Identifier hayStairsModelId = Models.STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
+                blockStateModelGenerator.modelCollector);
+        final Identifier hayInnerStairsModelId = Models.INNER_STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
+                blockStateModelGenerator.modelCollector);
+        final Identifier hayOuterStairsModelId = Models.OUTER_STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
+                blockStateModelGenerator.modelCollector);
+
+        blockStateModelGenerator.blockStateCollector.accept(
+                BlockStateModelGenerator.createStairsBlockState(
+                        ModBlocks.HAY_STAIRS,
+                        hayInnerStairsModelId,
+                        hayStairsModelId,
+                        hayOuterStairsModelId));
+        blockStateModelGenerator.registerParentedItemModel(ModBlocks.HAY_STAIRS, hayStairsModelId);
     }
 
     @Override
@@ -51,5 +69,4 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.RAW_HIDE, Models.GENERATED);
         itemModelGenerator.register(ModItems.SUSPICIOUS_JERKY, Models.GENERATED);
     }
-
 }

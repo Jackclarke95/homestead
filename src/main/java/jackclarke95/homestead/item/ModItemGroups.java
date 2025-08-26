@@ -36,6 +36,7 @@ public class ModItemGroups {
                         entries.add(ModBlocks.COBBLESTONE_BRICK_SLAB);
                         entries.add(ModBlocks.COBBLESTONE_BRICK_WALL);
                         entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
+                        entries.add(ModBlocks.HAY_STAIRS);
                     })
                     .build());
 
