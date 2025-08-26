@@ -1,7 +1,6 @@
 package jackclarke95.homestead.block.entity.custom;
 
 import net.minecraft.registry.tag.FluidTags;
-import net.minecraft.particle.ParticleTypes;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.recipe.ModRecipes;
@@ -73,10 +72,13 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     public void tick(World world, BlockPos pos, BlockState state) {
         if (hasRecipe()) {
             boolean canProgress = false;
+
             if (currentRecipe != null) {
                 Object value = currentRecipe.value();
+
                 if (value instanceof RinsingRecipe) {
                     canProgress = isRinsingEnvironment(world, pos);
+
                     if (canProgress && world.isClient)
                         spawnRinsingParticles(world, pos);
                 } else if (value instanceof DryingRecipe) {
@@ -89,10 +91,12 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
             }
             if (canProgress) {
                 increaseCraftingProgress();
+
                 markDirty(world, pos, state);
             }
             if (hasCraftingFinished()) {
                 craftItem(state);
+
                 resetProgress();
             }
         } else {
@@ -108,28 +112,25 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         // TODO
     }
 
-    // --- Environmental checks ---
     private boolean isRinsingEnvironment(World world, BlockPos pos) {
-        // Check if raining directly above
-        if (world.hasRain(pos.up())) {
+        if (world.hasRain(pos.up()) || isUnderDripstoneWithWater(world, pos)) {
             return true;
         }
-        // Check for dripstone stalactite with water above
-        if (isUnderDripstoneWithWater(world, pos)) {
-            return true;
-        }
+
         return false;
     }
 
     private boolean isUnderDripstoneWithWater(World world, BlockPos pos) {
-        // Scan upward for pointed dripstone, then check for water above it
         BlockPos.Mutable checkPos = pos.up().mutableCopy();
-        for (int i = 0; i < 16; i++) { // scan up to 16 blocks
+
+        for (int i = 0; i < 16; i++) {
             var state = world.getBlockState(checkPos);
+
             if (state.isAir()) {
                 checkPos.move(0, 1, 0);
                 continue;
             }
+
             if (state.getBlock().getTranslationKey().contains("pointed_dripstone")) {
                 // Found dripstone, check for water above
                 BlockPos above = checkPos.up(2);
@@ -137,20 +138,18 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
                 if (aboveState.getFluidState().isIn(FluidTags.WATER)) {
                     return true;
                 }
+
                 break;
             }
+
             break;
         }
+
         return false;
     }
 
     private boolean isDryingEnvironment(World world, BlockPos pos) {
-        // Check for campfire below
-        if (isAboveCampfire(world, pos)) {
-            return true;
-        }
-        // Check for hot biome
-        if (isInHotBiome(world, pos)) {
+        if (isAboveCampfire(world, pos) || isInHotBiome(world, pos)) {
             return true;
         }
         return false;
