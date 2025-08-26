@@ -9,6 +9,7 @@ import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.item.ModItemGroups;
 import jackclarke95.homestead.item.ModItems;
+import jackclarke95.homestead.recipe.ModRecipes;
 
 // TODO: LICENSE
 
@@ -24,5 +25,7 @@ public class Homestead implements ModInitializer {
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
 		ModBlockEntities.registerBlockEntities();
+
+		ModRecipes.registerRecipes();
 	}
 }

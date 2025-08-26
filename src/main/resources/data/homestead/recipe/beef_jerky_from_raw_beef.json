@@ -1,0 +1,10 @@
+{
+  "type": "homestead:rack",
+  "ingredient": {
+    "item": "minecraft:beef"
+  },
+  "result": {
+    "id": "homestead:beef_jerky"
+  },
+  "process_time": 20
+}

@@ -2,22 +2,25 @@ package jackclarke95.homestead.block.entity.custom;
 
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
-import jackclarke95.homestead.item.ModItems;
+import jackclarke95.homestead.recipe.ModRecipes;
+import jackclarke95.homestead.recipe.RackRecipe;
+import jackclarke95.homestead.recipe.RackRecipeInput;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -70,6 +73,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
             if (hasCraftingFinished()) {
                 craftItem(state);
+
                 resetProgress();
             }
         } else {
@@ -78,10 +82,18 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     private boolean hasRecipe() {
-        Item input = Items.BEEF;
-        ItemStack output = new ItemStack(ModItems.BEEF_JERKY, 1);
+        Optional<RecipeEntry<RackRecipe>> recipe = getCurrentRecipe();
 
-        return this.getStack(0).isOf(input);
+        if (recipe.isEmpty()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public Optional<RecipeEntry<RackRecipe>> getCurrentRecipe() {
+        return this.getWorld().getRecipeManager()
+                .getFirstMatch(ModRecipes.RACK_RECIPE_TYPE, new RackRecipeInput(this.getStack(0)), this.getWorld());
     }
 
     private boolean hasCraftingFinished() {
@@ -94,16 +106,18 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
     private void resetProgress() {
         this.progress = 0;
-        this.maxProgress = 72;
+        this.maxProgress = 20;
     }
 
     private void craftItem(BlockState state) {
-        ItemStack output = new ItemStack(ModItems.BEEF_JERKY, 1);
+        Optional<RecipeEntry<RackRecipe>> recipe = getCurrentRecipe();
+
+        ItemStack output = recipe.get().value().output();
 
         this.removeStack(0, 1);
         this.setStack(0, new ItemStack(output.getItem(), 1));
-        world.updateListeners(pos, state, state, 0);
 
+        world.updateListeners(pos, state, state, 0);
     }
 
     @Override

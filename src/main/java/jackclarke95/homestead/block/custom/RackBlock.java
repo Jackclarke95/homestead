@@ -4,12 +4,16 @@ import com.mojang.serialization.MapCodec;
 
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
+import jackclarke95.homestead.recipe.ModRecipes;
+import jackclarke95.homestead.recipe.RackRecipe;
+import jackclarke95.homestead.recipe.RackRecipeInput;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -27,6 +31,8 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+
+import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -88,13 +94,19 @@ public class RackBlock extends BlockWithEntity {
             PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (world.getBlockEntity(pos) instanceof RackBlockEntity RackBlockEntity) {
             if (RackBlockEntity.isEmpty() && !stack.isEmpty()) {
+                Optional<RecipeEntry<RackRecipe>> recipe = getCurrentRecipe(stack, world);
+
+                if (recipe.isEmpty()) {
+                    return ItemActionResult.SUCCESS;
+                }
+
                 RackBlockEntity.setStack(0, stack.copyWithCount(1));
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1f, 2f);
                 stack.decrement(1);
 
                 RackBlockEntity.markDirty();
                 world.updateListeners(pos, state, state, 0);
-            } else if (stack.isEmpty() && !player.isSneaking()) {
+            } else if ((stack.isEmpty()) && !player.isSneaking()) {
                 ItemStack stackOnRack = RackBlockEntity.getStack(0);
                 player.setStackInHand(Hand.MAIN_HAND, stackOnRack);
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1f, 1f);
@@ -106,6 +118,16 @@ public class RackBlock extends BlockWithEntity {
         }
 
         return ItemActionResult.SUCCESS;
+    }
+
+    private Optional<RecipeEntry<RackRecipe>> getCurrentRecipe(ItemStack stack, World world) {
+        if (world.getServer() == null) {
+            return Optional.empty();
+        }
+
+        return world.getServer()
+                .getRecipeManager()
+                .getFirstMatch(ModRecipes.RACK_RECIPE_TYPE, new RackRecipeInput(stack), world);
     }
 
     @Override
