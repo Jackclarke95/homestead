@@ -10,15 +10,11 @@ import jackclarke95.homestead.recipe.DryingRecipe;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.particle.BlockStateParticleEffect;
-import net.minecraft.particle.ItemStackParticleEffect;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.registry.RegistryWrapper;
@@ -83,14 +79,11 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
                 Object value = currentRecipe.value();
 
                 if (value instanceof RinsingRecipe) {
-                    canProgress = isRinsingEnvironment(world, pos);
-
-                    if (canProgress && !world.isClient)
+                    if (isRinsingEnvironment(world, pos) && !world.isClient)
                         spawnRinsingParticles((ServerWorld) world, pos);
                 } else if (value instanceof DryingRecipe) {
-                    canProgress = isDryingEnvironment(world, pos);
-                    if (canProgress && !world.isClient)
-                        spawnDryingParticles((ServerWorld) world, pos, inventory.get(0));
+                    if (isDryingEnvironment(world, pos) && !world.isClient)
+                        spawnDryingParticles((ServerWorld) world, pos);
                 } else {
                     canProgress = true;
                 }
@@ -112,9 +105,11 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
     private void spawnRinsingParticles(ServerWorld world, BlockPos pos) {
         if (world.random.nextFloat() < 0.05f) {
+            double dx = (world.random.nextDouble() - 0.5) * 0.16; // -0.08 to +0.08
+
             world.spawnParticles(ParticleTypes.DRIPPING_WATER,
-                    pos.getX() + 0.5, pos.getY() + 0.6f,
-                    pos.getZ() + 0.6, 1, 0, 0, 0, 50);
+                    pos.getX() + 0.5 + dx, pos.getY() + 0.6f,
+                    pos.getZ() + 0.55, 1, 0, 0, 0, 50);
         }
     }
 
