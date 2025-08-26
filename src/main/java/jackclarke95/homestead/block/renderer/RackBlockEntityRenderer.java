@@ -41,7 +41,7 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
         matrices.push();
 
         if (stack.getItem() instanceof net.minecraft.item.BlockItem) {
-            matrices.translate(0.5f, 0.887f, 0.5f);
+            matrices.translate(0.5f, 0.88f, 0.5f);
             matrices.scale(0.5f, 0.5f, 0.5f);
             matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(getRotationForFacing(facing)));
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-22.5f));
