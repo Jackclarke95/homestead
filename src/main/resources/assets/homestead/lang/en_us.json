@@ -9,6 +9,11 @@
   "block.homestead.custom_block": "Custom Block",
   "block.homestead.rack": "Rack",
 
+  "block.homestead.cobblestone_bricks": "Cobblestone Bricks",
+  "block.homestead.cobblestone_brick_slab": "Cobblestone Brick Slab",
+  "block.homestead.cobblestone_brick_wall": "Cobblestone Brick Wall",
+  "block.homestead.cobblestone_brick_stairs": "Cobblestone Brick Stairs",
+
   "itemGroup.homestead_items": "Homestead Items",
   "itemGroup.homestead_blocks": "Homestead Blocks"
 }

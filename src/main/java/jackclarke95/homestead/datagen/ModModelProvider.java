@@ -23,6 +23,14 @@ public class ModModelProvider extends FabricModelProvider {
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.CURING_VAT);
 
+        BlockStateModelGenerator.BlockTexturePool cobblestoneBricksPool = blockStateModelGenerator
+                .registerCubeAllModelTexturePool(ModBlocks.COBBLESTONE_BRICKS);
+
+        cobblestoneBricksPool.stairs(ModBlocks.COBBLESTONE_BRICK_STAIRS);
+        cobblestoneBricksPool.slab(ModBlocks.COBBLESTONE_BRICK_SLAB);
+
+        cobblestoneBricksPool.wall(ModBlocks.COBBLESTONE_BRICK_WALL);
+
         Identifier blockOffIdentifier = TexturedModel.CUBE_ALL.upload(ModBlocks.CUSTOM_BLOCK,
                 blockStateModelGenerator.modelCollector);
         Identifier blockOnIdentifier = blockStateModelGenerator.createSubModel(ModBlocks.CUSTOM_BLOCK, "_on",

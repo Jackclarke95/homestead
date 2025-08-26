@@ -7,9 +7,11 @@ import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.registry.tag.ItemTags;
@@ -22,19 +24,19 @@ public class ModRecipeProvider extends FabricRecipeProvider {
     }
 
     @Override
-    public void generate(RecipeExporter exporter) {
+    public void generate(RecipeExporter recipeExporter) {
         ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHEESE_WHEEL)
                 .pattern("###")
                 .pattern("# #")
                 .pattern("###")
                 .input('#', ModItems.CHEESE_SLICE)
                 .criterion(hasItem(ModItems.CHEESE_SLICE), conditionsFromItem(ModItems.CHEESE_SLICE))
-                .offerTo(exporter, Identifier.of(Homestead.MOD_ID, "cheese_wheel_from_cheese_slice"));
+                .offerTo(recipeExporter, Identifier.of(Homestead.MOD_ID, "cheese_wheel_from_cheese_slice"));
 
         ShapelessRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHEESE_SLICE, 8)
                 .input(ModItems.CHEESE_WHEEL)
                 .criterion(hasItem(ModItems.CHEESE_WHEEL), conditionsFromItem(ModItems.CHEESE_WHEEL))
-                .offerTo(exporter, Identifier.of(Homestead.MOD_ID, "cheese_slice_from_cheese_wheel"));
+                .offerTo(recipeExporter, Identifier.of(Homestead.MOD_ID, "cheese_slice_from_cheese_wheel"));
 
         ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.CURING_VAT)
                 .pattern("###")
@@ -43,6 +45,34 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .input('#', ItemTags.WOODEN_SLABS)
                 .input('X', ItemTags.PLANKS)
                 .criterion(hasItem(ModBlocks.CURING_VAT), conditionsFromItem(ModBlocks.CURING_VAT))
-                .offerTo(exporter);
+                .offerTo(recipeExporter);
+
+        offer2x2CompactingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICKS,
+                Blocks.COBBLESTONE);
+
+        offerSlabRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICK_SLAB,
+                ModBlocks.COBBLESTONE_BRICKS);
+        offerWallRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICK_WALL,
+                ModBlocks.COBBLESTONE_BRICKS);
+
+        createStairsRecipe(ModBlocks.COBBLESTONE_BRICK_STAIRS, Ingredient.ofItems(ModBlocks.COBBLESTONE_BRICKS))
+                .criterion("has_cobblestone_bricks", conditionsFromItem(ModBlocks.COBBLESTONE_BRICKS))
+                .offerTo(recipeExporter);
+
+        offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICKS,
+                Blocks.COBBLESTONE);
+        offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICK_SLAB,
+                Blocks.COBBLESTONE);
+        offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICK_STAIRS,
+                Blocks.COBBLESTONE);
+        offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICK_WALL,
+                Blocks.COBBLESTONE);
+
+        offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICK_SLAB,
+                ModBlocks.COBBLESTONE_BRICKS);
+        offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICK_STAIRS,
+                ModBlocks.COBBLESTONE_BRICKS);
+        offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICK_WALL,
+                ModBlocks.COBBLESTONE_BRICKS);
     }
 }
