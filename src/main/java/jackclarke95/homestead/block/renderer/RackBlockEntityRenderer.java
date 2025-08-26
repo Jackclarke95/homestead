@@ -28,10 +28,6 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         ItemStack stack = entity.getStack(0);
 
-        matrices.push();
-        matrices.translate(0.5f, 0.7625f, 0.5f);
-        matrices.scale(0.5f, 0.5f, 0.5f);
-
         // Get block facing
         Direction facing = Direction.WEST;
 
@@ -42,11 +38,27 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
             }
         }
 
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(getRotationForFacing(facing)));
-        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees((90f - 22.5f)));
+        matrices.push();
 
-        itemRenderer.renderItem(stack, ModelTransformationMode.GUI, getLightLevel(entity.getWorld(), entity.getPos()),
-                OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 0);
+        if (stack.getItem() instanceof net.minecraft.item.BlockItem) {
+            matrices.translate(0.5f, 0.887f, 0.5f);
+            matrices.scale(0.5f, 0.5f, 0.5f);
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(getRotationForFacing(facing)));
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-22.5f));
+
+            itemRenderer.renderItem(stack, ModelTransformationMode.FIXED,
+                    getLightLevel(entity.getWorld(), entity.getPos()),
+                    OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 0);
+        } else {
+            matrices.translate(0.5f, 0.7625f, 0.5f);
+            matrices.scale(0.5f, 0.5f, 0.5f);
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(getRotationForFacing(facing)));
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees((90f - 22.5f)));
+
+            itemRenderer.renderItem(stack, ModelTransformationMode.GUI,
+                    getLightLevel(entity.getWorld(), entity.getPos()),
+                    OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 0);
+        }
 
         matrices.pop();
     }

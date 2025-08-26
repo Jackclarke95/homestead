@@ -211,7 +211,7 @@ public class RackBlock extends BlockWithEntity {
         VoxelShape leg2 = Block.createCuboidShape(14, 0, 0, 16, 15, 2);
         VoxelShape leg3 = Block.createCuboidShape(14, 0, 14, 16, 15, 16);
         VoxelShape leg4 = Block.createCuboidShape(0, 0, 14, 2, 15, 16);
-        VoxelShape topRack = Block.createCuboidShape(0, 10, 0, 16, 15, 16);
+        VoxelShape topRack = Block.createCuboidShape(0, 9, 0, 16, 15, 16);
 
         return VoxelShapes.union(leg1, leg2, leg3, leg4, topRack);
     }
