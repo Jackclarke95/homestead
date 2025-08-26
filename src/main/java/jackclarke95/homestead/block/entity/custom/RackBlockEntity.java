@@ -10,11 +10,15 @@ import jackclarke95.homestead.recipe.DryingRecipe;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.particle.BlockStateParticleEffect;
+import net.minecraft.particle.ItemStackParticleEffect;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.registry.RegistryWrapper;
@@ -86,7 +90,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
                 } else if (value instanceof DryingRecipe) {
                     canProgress = isDryingEnvironment(world, pos);
                     if (canProgress && !world.isClient)
-                        spawnDryingParticles((ServerWorld) world, pos);
+                        spawnDryingParticles((ServerWorld) world, pos, inventory.get(0));
                 } else {
                     canProgress = true;
                 }
@@ -107,10 +111,10 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     private void spawnRinsingParticles(ServerWorld world, BlockPos pos) {
-        if (world.random.nextFloat() < 0.02f) {
+        if (world.random.nextFloat() < 0.05f) {
             world.spawnParticles(ParticleTypes.DRIPPING_WATER,
-                    pos.getX() + 0.5, pos.getY() + 0.7625f,
-                    pos.getZ() + 0.5, 1, 0, 0, 0, 0.0);
+                    pos.getX() + 0.5, pos.getY() + 0.6f,
+                    pos.getZ() + 0.6, 1, 0, 0, 0, 50);
         }
     }
 
@@ -138,13 +142,14 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
             if (state.isAir()) {
                 checkPos.move(0, 1, 0);
+
                 continue;
             }
 
             if (state.getBlock().getTranslationKey().contains("pointed_dripstone")) {
-                // Found dripstone, check for water above
                 BlockPos above = checkPos.up(2);
                 var aboveState = world.getBlockState(above);
+
                 if (aboveState.getFluidState().isIn(FluidTags.WATER)) {
                     return true;
                 }
@@ -159,9 +164,10 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     private boolean isDryingEnvironment(World world, BlockPos pos) {
-        if (isAboveCampfire(world, pos) || isInHotBiome(world, pos)) {
+        if (!isUnderDripstoneWithWater(world, pos) && (isAboveCampfire(world, pos) || isInHotBiome(world, pos))) {
             return true;
         }
+
         return false;
     }
 

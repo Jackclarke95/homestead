@@ -10,6 +10,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
@@ -28,43 +29,48 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         ItemStack stack = entity.getStack(0);
 
-        // Get block facing
-        Direction facing = Direction.WEST;
+        matrices.push();
 
+        Direction facing = getBlockFacing(entity);
+        boolean isBlockItem = stack.getItem() instanceof BlockItem;
+
+        matrices.translate(0.5f, getYTranslation(isBlockItem), 0.5f);
+
+        matrices.scale(0.5f, 0.5f, 0.5f);
+
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(getRotationForFacing(facing)));
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(getXRotation(isBlockItem)));
+
+        ModelTransformationMode mode = isBlockItem ? ModelTransformationMode.FIXED : ModelTransformationMode.GUI;
+
+        itemRenderer.renderItem(stack, mode,
+                getLightLevel(entity.getWorld(), entity.getPos()),
+                OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 0);
+
+        matrices.pop();
+    }
+
+    private Direction getBlockFacing(RackBlockEntity entity) {
+        Direction facing = Direction.WEST;
         if (entity.getWorld() != null) {
             net.minecraft.block.BlockState state = entity.getWorld().getBlockState(entity.getPos());
             if (state.contains(RackBlock.FACING)) {
                 facing = state.get(RackBlock.FACING);
             }
         }
+        return facing;
+    }
 
-        matrices.push();
+    private float getYTranslation(boolean isBlockItem) {
+        // Adjust as needed for your visuals
+        return isBlockItem ? 0.8875f : 0.7625f;
+    }
 
-        if (stack.getItem() instanceof net.minecraft.item.BlockItem) {
-            matrices.translate(0.5f, 0.88f, 0.5f);
-            matrices.scale(0.5f, 0.5f, 0.5f);
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(getRotationForFacing(facing)));
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-22.5f));
-
-            itemRenderer.renderItem(stack, ModelTransformationMode.FIXED,
-                    getLightLevel(entity.getWorld(), entity.getPos()),
-                    OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 0);
-        } else {
-            matrices.translate(0.5f, 0.7625f, 0.5f);
-            matrices.scale(0.5f, 0.5f, 0.5f);
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(getRotationForFacing(facing)));
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees((90f - 22.5f)));
-
-            itemRenderer.renderItem(stack, ModelTransformationMode.GUI,
-                    getLightLevel(entity.getWorld(), entity.getPos()),
-                    OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 0);
-        }
-
-        matrices.pop();
+    private float getXRotation(boolean isBlockItem) {
+        return isBlockItem ? -22.5f : (90f - 22.5f);
     }
 
     private float getRotationForFacing(Direction facing) {
-        // WEST is default (90), adjust for others
         switch (facing) {
             case NORTH:
                 return 0f;
