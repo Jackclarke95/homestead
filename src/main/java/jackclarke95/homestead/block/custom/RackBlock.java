@@ -92,32 +92,114 @@ public class RackBlock extends BlockWithEntity {
     @Override
     protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
             PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.getBlockEntity(pos) instanceof RackBlockEntity RackBlockEntity) {
-            if (RackBlockEntity.isEmpty() && !stack.isEmpty()) {
+        if (world.getBlockEntity(pos) instanceof RackBlockEntity rackBlockEntity) {
+            ItemStack stackOnRack = rackBlockEntity.getStack(0);
+
+            if (rackBlockEntity.isEmpty() && !stack.isEmpty()) {
+
                 Optional<RecipeEntry<RackRecipe>> recipe = getCurrentRecipe(stack, world);
 
                 if (recipe.isEmpty()) {
                     return ItemActionResult.SUCCESS;
                 }
 
-                RackBlockEntity.setStack(0, stack.copyWithCount(1));
-                world.playSound(player, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1f, 2f);
+                rackBlockEntity.setStack(0, stack.copyWithCount(1));
+                world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1f, 1f);
                 stack.decrement(1);
 
-                RackBlockEntity.markDirty();
+                rackBlockEntity.markDirty();
                 world.updateListeners(pos, state, state, 0);
-            } else if ((stack.isEmpty()) && !player.isSneaking()) {
-                ItemStack stackOnRack = RackBlockEntity.getStack(0);
+            } else if (player.isSneaking()) {
+                return ItemActionResult.SUCCESS;
+            } else if (stack.isEmpty()) {
                 player.setStackInHand(Hand.MAIN_HAND, stackOnRack);
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.BLOCKS, 1f, 1f);
-                RackBlockEntity.clear();
 
-                RackBlockEntity.markDirty();
+                rackBlockEntity.clear();
+
+                rackBlockEntity.markDirty();
                 world.updateListeners(pos, state, state, 0);
+
+                return ItemActionResult.SUCCESS;
+            } else if (
+            // stack.getItem() == rackBlockEntity.getStack(0).getItem()
+            // &&
+            hasInventorySpaceForItem(player, stack)) {
+                try {
+                    giveItemToInventorySlot(player, stackOnRack, 0);
+
+                    rackBlockEntity.clear();
+
+                    rackBlockEntity.markDirty();
+                    world.updateListeners(pos, state, state, 0);
+
+                    return ItemActionResult.SUCCESS;
+                } catch (IllegalStateException e) {
+                    try {
+                        placeItemInInventory(player, stackOnRack);
+
+                        rackBlockEntity.clear();
+
+                        rackBlockEntity.markDirty();
+                        world.updateListeners(pos, state, state, 0);
+                        return ItemActionResult.SUCCESS;
+                    } catch (IllegalStateException ex) {
+                        return ItemActionResult.SUCCESS;
+                    }
+                }
             }
         }
 
         return ItemActionResult.SUCCESS;
+    }
+
+    private boolean hasInventorySpaceForItem(PlayerEntity player, ItemStack itemStack) {
+        for (ItemStack inventoryStack : player.getInventory().main) {
+            if (inventoryStack.isEmpty()) {
+                return true;
+            } else if (itemStack.getItem() == inventoryStack.getItem()
+                    && inventoryStack.getCount() < inventoryStack.getMaxCount()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // method to give item to given player inventory slot and throw exception if
+    // unable
+    private void giveItemToInventorySlot(PlayerEntity player, ItemStack itemStack, int slot) {
+        ItemStack inventoryStack = player.getInventory().main.get(slot);
+        if (inventoryStack.isEmpty()) {
+            player.getInventory().main.set(slot, itemStack.copy());
+            return;
+        } else if (itemStack.getItem() == inventoryStack.getItem()
+                && inventoryStack.getCount() < inventoryStack.getMaxCount()) {
+            inventoryStack.increment(itemStack.getCount());
+
+            return;
+        }
+
+        throw new IllegalStateException("No available inventory slots");
+    }
+
+    // method to place item in first available slot in inventory and throw exception
+    // if none available
+    private void placeItemInInventory(PlayerEntity player, ItemStack itemStack) {
+        for (int i = 0; i < player.getInventory().main.size(); i++) {
+            ItemStack inventoryStack = player.getInventory().main.get(i);
+            if (inventoryStack.isEmpty()) {
+                player.getInventory().main.set(i, itemStack.copy());
+
+                return;
+            } else if (itemStack.getItem() == inventoryStack.getItem()
+                    && inventoryStack.getCount() < inventoryStack.getMaxCount()) {
+                inventoryStack.increment(itemStack.getCount());
+                return;
+            }
+        }
+
+        throw new IllegalStateException("No available inventory slots");
     }
 
     private Optional<RecipeEntry<RackRecipe>> getCurrentRecipe(ItemStack stack, World world) {
