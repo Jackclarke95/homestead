@@ -108,9 +108,7 @@ public class RackBlock extends BlockWithEntity {
                 stack.decrement(1);
 
                 updateWorld(state, world, pos, rackBlockEntity);
-            } else if (player.isSneaking()) {
-                return ItemActionResult.SUCCESS;
-            } else {
+            } else if (!player.isSneaking()) {
                 giveItemToPlayer(player, stackOnRack);
 
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1f, 1f);
