@@ -7,7 +7,6 @@ import jackclarke95.homestead.recipe.ModRecipes;
 import jackclarke95.homestead.recipe.RackRecipeInput;
 import jackclarke95.homestead.recipe.RinsingRecipe;
 import jackclarke95.homestead.recipe.DryingRecipe;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
@@ -16,7 +15,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.particle.BlockStateParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.registry.RegistryWrapper;
@@ -109,13 +107,13 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     private void spawnRinsingParticles(ServerWorld world, BlockPos pos) {
-        ((ServerWorld) world).spawnParticles(ParticleTypes.DRIPPING_WATER,
+        world.spawnParticles(ParticleTypes.DRIPPING_WATER,
                 pos.getX() + 0.5, pos.getY() + 0.7625f,
                 pos.getZ() + 0.5, 1, 0, 0, 0, 0.0);
     }
 
     private void spawnDryingParticles(ServerWorld world, BlockPos pos) {
-        ((ServerWorld) world).spawnParticles(ParticleTypes.SMOKE,
+        world.spawnParticles(ParticleTypes.SMOKE,
                 pos.getX() + 0.5, pos.getY() + 0.7625f,
                 pos.getZ() + 0.5, 1, 0, 0, 0, 0.0);
     }
