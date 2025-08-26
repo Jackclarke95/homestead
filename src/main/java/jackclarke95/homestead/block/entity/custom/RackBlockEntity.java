@@ -1,10 +1,13 @@
 package jackclarke95.homestead.block.entity.custom;
 
+import net.minecraft.registry.tag.FluidTags;
+import net.minecraft.particle.ParticleTypes;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.recipe.ModRecipes;
-import jackclarke95.homestead.recipe.RackRecipe;
 import jackclarke95.homestead.recipe.RackRecipeInput;
+import jackclarke95.homestead.recipe.RinsingRecipe;
+import jackclarke95.homestead.recipe.DryingRecipe;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
@@ -30,6 +33,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     protected final PropertyDelegate propertyDelegate;
     private int progress = 0;
     private int maxProgress = 20;
+    private RecipeEntry<?> currentRecipe = null;
 
     public RackBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.RACK_BE, pos, state);
@@ -68,12 +72,27 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
     public void tick(World world, BlockPos pos, BlockState state) {
         if (hasRecipe()) {
-            increaseCraftingProgress();
-            markDirty(world, pos, state);
-
+            boolean canProgress = false;
+            if (currentRecipe != null) {
+                Object value = currentRecipe.value();
+                if (value instanceof RinsingRecipe) {
+                    canProgress = isRinsingEnvironment(world, pos);
+                    if (canProgress && world.isClient)
+                        spawnRinsingParticles(world, pos);
+                } else if (value instanceof DryingRecipe) {
+                    canProgress = isDryingEnvironment(world, pos);
+                    if (canProgress && world.isClient)
+                        spawnDryingParticles(world, pos);
+                } else {
+                    canProgress = true;
+                }
+            }
+            if (canProgress) {
+                increaseCraftingProgress();
+                markDirty(world, pos, state);
+            }
             if (hasCraftingFinished()) {
                 craftItem(state);
-
                 resetProgress();
             }
         } else {
@@ -81,19 +100,107 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         }
     }
 
-    private boolean hasRecipe() {
-        Optional<RecipeEntry<RackRecipe>> recipe = getCurrentRecipe();
-
-        if (recipe.isEmpty()) {
-            return false;
-        }
-
-        return true;
+    private void spawnRinsingParticles(World world, BlockPos pos) {
+        // TODO
     }
 
-    public Optional<RecipeEntry<RackRecipe>> getCurrentRecipe() {
-        return this.getWorld().getRecipeManager()
-                .getFirstMatch(ModRecipes.RACK_RECIPE_TYPE, new RackRecipeInput(this.getStack(0)), this.getWorld());
+    private void spawnDryingParticles(World world, BlockPos pos) {
+        // TODO
+    }
+
+    // --- Environmental checks ---
+    private boolean isRinsingEnvironment(World world, BlockPos pos) {
+        // Check if raining directly above
+        if (world.hasRain(pos.up())) {
+            return true;
+        }
+        // Check for dripstone stalactite with water above
+        if (isUnderDripstoneWithWater(world, pos)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isUnderDripstoneWithWater(World world, BlockPos pos) {
+        // Scan upward for pointed dripstone, then check for water above it
+        BlockPos.Mutable checkPos = pos.up().mutableCopy();
+        for (int i = 0; i < 16; i++) { // scan up to 16 blocks
+            var state = world.getBlockState(checkPos);
+            if (state.isAir()) {
+                checkPos.move(0, 1, 0);
+                continue;
+            }
+            if (state.getBlock().getTranslationKey().contains("pointed_dripstone")) {
+                // Found dripstone, check for water above
+                BlockPos above = checkPos.up(2);
+                var aboveState = world.getBlockState(above);
+                if (aboveState.getFluidState().isIn(FluidTags.WATER)) {
+                    return true;
+                }
+                break;
+            }
+            break;
+        }
+        return false;
+    }
+
+    private boolean isDryingEnvironment(World world, BlockPos pos) {
+        // Check for campfire below
+        if (isAboveCampfire(world, pos)) {
+            return true;
+        }
+        // Check for hot biome
+        if (isInHotBiome(world, pos)) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isAboveCampfire(World world, BlockPos pos) {
+        BlockPos below = pos.down();
+        var state = world.getBlockState(below);
+        String key = state.getBlock().getTranslationKey();
+        return key.contains("campfire") || key.contains("soul_campfire");
+    }
+
+    private boolean isInHotBiome(World world, BlockPos pos) {
+        // Use vanilla biome temperature threshold for "hot"
+        float temp = world.getBiome(pos).value().getTemperature();
+        return temp >= 1.5f; // e.g. desert, savanna, nether
+    }
+
+    private boolean hasRecipe() {
+        Optional<RecipeEntry<?>> recipe = getCurrentRecipe();
+        if (recipe.isPresent()) {
+            this.currentRecipe = recipe.get();
+            // Set maxProgress from recipe's time property
+            Object value = currentRecipe.value();
+            if (value instanceof RinsingRecipe rinsing) {
+                this.maxProgress = rinsing.time();
+            } else if (value instanceof DryingRecipe drying) {
+                this.maxProgress = drying.time();
+            }
+            return true;
+        }
+        this.currentRecipe = null;
+        return false;
+    }
+
+    public Optional<RecipeEntry<?>> getCurrentRecipe() {
+        World world = this.getWorld();
+        RackRecipeInput input = new RackRecipeInput(this.getStack(0));
+        // Try Rinsing
+        Optional<RecipeEntry<RinsingRecipe>> rinsing = world.getRecipeManager()
+                .getFirstMatch(ModRecipes.RINSING_RECIPE_TYPE, input, world);
+        if (rinsing.isPresent())
+            return rinsing.map(r -> r);
+        // Try Drying
+        Optional<RecipeEntry<DryingRecipe>> drying = world.getRecipeManager()
+                .getFirstMatch(ModRecipes.DRYING_RECIPE_TYPE, input, world);
+        if (drying.isPresent())
+            return drying.map(r -> r);
+        // No legacy fallback
+        return Optional.empty();
     }
 
     private boolean hasCraftingFinished() {
@@ -107,17 +214,24 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     private void resetProgress() {
         this.progress = 0;
         this.maxProgress = 20;
+        this.currentRecipe = null;
     }
 
     private void craftItem(BlockState state) {
-        Optional<RecipeEntry<RackRecipe>> recipe = getCurrentRecipe();
-
-        ItemStack output = recipe.get().value().output();
-
-        this.removeStack(0, 1);
-        this.setStack(0, new ItemStack(output.getItem(), 1));
-
-        world.updateListeners(pos, state, state, 0);
+        if (this.currentRecipe == null)
+            return;
+        Object value = this.currentRecipe.value();
+        ItemStack output = ItemStack.EMPTY;
+        if (value instanceof RinsingRecipe rinsing) {
+            output = rinsing.output();
+        } else if (value instanceof DryingRecipe drying) {
+            output = drying.output();
+        }
+        if (!output.isEmpty()) {
+            this.removeStack(0, 1);
+            this.setStack(0, new ItemStack(output.getItem(), 1));
+            world.updateListeners(pos, state, state, 0);
+        }
     }
 
     @Override

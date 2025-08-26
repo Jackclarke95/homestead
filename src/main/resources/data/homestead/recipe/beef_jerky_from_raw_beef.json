@@ -1,10 +1,10 @@
 {
-  "type": "homestead:rack",
+  "type": "homestead:drying",
   "ingredient": {
     "item": "minecraft:beef"
   },
   "result": {
     "id": "homestead:beef_jerky"
   },
-  "process_time": 20
+  "time": 600
 }

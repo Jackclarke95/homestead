@@ -2,7 +2,6 @@ package jackclarke95.homestead.recipe;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -14,13 +13,11 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public record RackRecipe(Ingredient inputItem, ItemStack output) implements Recipe<RackRecipeInput> {
+public record RinsingRecipe(Ingredient inputItem, ItemStack output, int time) implements Recipe<RackRecipeInput> {
     @Override
     public DefaultedList<Ingredient> getIngredients() {
         DefaultedList<Ingredient> list = DefaultedList.of();
-
         list.add(inputItem);
-
         return list;
     }
 
@@ -29,7 +26,6 @@ public record RackRecipe(Ingredient inputItem, ItemStack output) implements Reci
         if (world.isClient()) {
             return false;
         }
-
         return inputItem.test(input.getStackInSlot(0));
     }
 
@@ -50,31 +46,38 @@ public record RackRecipe(Ingredient inputItem, ItemStack output) implements Reci
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return ModRecipes.RACK_RECIPE_SERIALIZER;
+        return ModRecipes.RINSING_RECIPE_SERIALIZER;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.RACK_RECIPE_TYPE;
+        return ModRecipes.RINSING_RECIPE_TYPE;
     }
 
-    public static class Serializer implements RecipeSerializer<RackRecipe> {
-        public static final MapCodec<RackRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-                Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("ingredient").forGetter(RackRecipe::inputItem),
-                ItemStack.CODEC.fieldOf("result").forGetter(RackRecipe::output)).apply(inst, RackRecipe::new));
+    public static class Serializer implements RecipeSerializer<RinsingRecipe> {
+        public static final MapCodec<RinsingRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
+                Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("ingredient").forGetter(RinsingRecipe::inputItem),
+                ItemStack.CODEC.fieldOf("result").forGetter(RinsingRecipe::output),
+                com.mojang.serialization.Codec.INT.fieldOf("time").forGetter(RinsingRecipe::time))
+                .apply(inst, RinsingRecipe::new));
 
-        public static final PacketCodec<RegistryByteBuf, RackRecipe> STREAM_CODEC = PacketCodec.tuple(
-                Ingredient.PACKET_CODEC, RackRecipe::inputItem,
-                ItemStack.PACKET_CODEC, RackRecipe::output,
-                RackRecipe::new);
+        public static final PacketCodec<RegistryByteBuf, Integer> INT_CODEC = PacketCodec.of(
+                (value, buf) -> buf.writeVarInt(value),
+                buf -> buf.readVarInt());
+
+        public static final PacketCodec<RegistryByteBuf, RinsingRecipe> STREAM_CODEC = PacketCodec.tuple(
+                Ingredient.PACKET_CODEC, RinsingRecipe::inputItem,
+                ItemStack.PACKET_CODEC, RinsingRecipe::output,
+                INT_CODEC, RinsingRecipe::time,
+                RinsingRecipe::new);
 
         @Override
-        public MapCodec<RackRecipe> codec() {
+        public MapCodec<RinsingRecipe> codec() {
             return CODEC;
         }
 
         @Override
-        public PacketCodec<RegistryByteBuf, RackRecipe> packetCodec() {
+        public PacketCodec<RegistryByteBuf, RinsingRecipe> packetCodec() {
             return STREAM_CODEC;
         }
     }

@@ -5,8 +5,9 @@ import com.mojang.serialization.MapCodec;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.recipe.ModRecipes;
-import jackclarke95.homestead.recipe.RackRecipe;
 import jackclarke95.homestead.recipe.RackRecipeInput;
+import jackclarke95.homestead.recipe.RinsingRecipe;
+import jackclarke95.homestead.recipe.DryingRecipe;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -96,7 +97,7 @@ public class RackBlock extends BlockWithEntity {
             ItemStack stackOnRack = rackBlockEntity.getStack(0);
 
             if (rackBlockEntity.isEmpty() && !stack.isEmpty()) {
-                Optional<RecipeEntry<RackRecipe>> recipe = getCurrentRecipe(stack, world);
+                Optional<RecipeEntry<?>> recipe = getCurrentRecipe(stack, world);
 
                 if (recipe.isEmpty()) {
                     return ItemActionResult.SUCCESS;
@@ -165,14 +166,23 @@ public class RackBlock extends BlockWithEntity {
         }
     }
 
-    private Optional<RecipeEntry<RackRecipe>> getCurrentRecipe(ItemStack stack, World world) {
+    private Optional<RecipeEntry<?>> getCurrentRecipe(ItemStack stack, World world) {
         if (world.getServer() == null) {
             return Optional.empty();
         }
-
-        return world.getServer()
-                .getRecipeManager()
-                .getFirstMatch(ModRecipes.RACK_RECIPE_TYPE, new RackRecipeInput(stack), world);
+        RackRecipeInput input = new RackRecipeInput(stack);
+        // Try Rinsing
+        Optional<RecipeEntry<RinsingRecipe>> rinsing = world.getServer().getRecipeManager()
+                .getFirstMatch(ModRecipes.RINSING_RECIPE_TYPE, input, world);
+        if (rinsing.isPresent())
+            return rinsing.map(r -> r);
+        // Try Drying
+        Optional<RecipeEntry<DryingRecipe>> drying = world.getServer().getRecipeManager()
+                .getFirstMatch(ModRecipes.DRYING_RECIPE_TYPE, input, world);
+        if (drying.isPresent())
+            return drying.map(r -> r);
+        // No legacy fallback
+        return Optional.empty();
     }
 
     @Override
