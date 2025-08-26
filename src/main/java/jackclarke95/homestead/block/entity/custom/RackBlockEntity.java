@@ -107,15 +107,19 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     private void spawnRinsingParticles(ServerWorld world, BlockPos pos) {
-        world.spawnParticles(ParticleTypes.DRIPPING_WATER,
-                pos.getX() + 0.5, pos.getY() + 0.7625f,
-                pos.getZ() + 0.5, 1, 0, 0, 0, 0.0);
+        if (world.random.nextFloat() < 0.02f) {
+            world.spawnParticles(ParticleTypes.DRIPPING_WATER,
+                    pos.getX() + 0.5, pos.getY() + 0.7625f,
+                    pos.getZ() + 0.5, 1, 0, 0, 0, 0.0);
+        }
     }
 
     private void spawnDryingParticles(ServerWorld world, BlockPos pos) {
-        world.spawnParticles(ParticleTypes.SMOKE,
-                pos.getX() + 0.5, pos.getY() + 0.7625f,
-                pos.getZ() + 0.5, 1, 0, 0, 0, 0.0);
+        if (world.random.nextFloat() < 0.02f) {
+            world.spawnParticles(ParticleTypes.SMOKE,
+                    pos.getX() + 0.5, pos.getY() + 0.7625f,
+                    pos.getZ() + 0.5, 1, 0, 0, 0, 0.0);
+        }
     }
 
     private boolean isRinsingEnvironment(World world, BlockPos pos) {
