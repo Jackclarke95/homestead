@@ -1,9 +1,13 @@
 package jackclarke95.homestead.block.custom;
 
 import com.mojang.serialization.MapCodec;
+
+import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundCategory;
@@ -23,6 +27,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+
 import org.jetbrains.annotations.Nullable;
 
 public class RackBlock extends BlockWithEntity {
@@ -67,10 +72,13 @@ public class RackBlock extends BlockWithEntity {
     protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
+
             if (blockEntity instanceof RackBlockEntity) {
                 ItemScatterer.spawn(world, pos, ((RackBlockEntity) blockEntity));
+
                 world.updateComparators(pos, this);
             }
+
             super.onStateReplaced(state, world, pos, newState, moved);
         }
     }
@@ -98,6 +106,17 @@ public class RackBlock extends BlockWithEntity {
         }
 
         return ItemActionResult.SUCCESS;
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state,
+            BlockEntityType<T> type) {
+        if (world.isClient) {
+            return null;
+        }
+
+        return validateTicker(type, ModBlockEntities.RACK_BE,
+                (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
     }
 
     // TODO: On break, drop self and inventory

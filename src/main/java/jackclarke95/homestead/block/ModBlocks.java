@@ -23,7 +23,7 @@ public class ModBlocks {
                     .strength(1.0f).luminance(state -> state.get(CustomBlock.CLICKED) ? 15 : 0)));
 
     public static final Block RACK = registerBlock("rack",
-            new RackBlock(AbstractBlock.Settings.create().nonOpaque()));
+            new RackBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
 
     public static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
