@@ -76,14 +76,14 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
             boolean canProgress = false;
 
             if (currentRecipe != null) {
-                Object value = currentRecipe.value();
+                Object currentRecipeValue = currentRecipe.value();
 
-                if (value instanceof RinsingRecipe) {
+                if (currentRecipeValue instanceof RinsingRecipe) {
                     canProgress = isRinsingEnvironment(world, pos);
 
                     if (canProgress && !world.isClient)
                         spawnRinsingParticles((ServerWorld) world, pos);
-                } else if (value instanceof DryingRecipe) {
+                } else if (currentRecipeValue instanceof DryingRecipe) {
                     canProgress = isDryingEnvironment(world, pos);
 
                     if (canProgress && !world.isClient)
