@@ -79,10 +79,14 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
                 Object value = currentRecipe.value();
 
                 if (value instanceof RinsingRecipe) {
-                    if (isRinsingEnvironment(world, pos) && !world.isClient)
+                    canProgress = isRinsingEnvironment(world, pos);
+
+                    if (canProgress && !world.isClient)
                         spawnRinsingParticles((ServerWorld) world, pos);
                 } else if (value instanceof DryingRecipe) {
-                    if (isDryingEnvironment(world, pos) && !world.isClient)
+                    canProgress = isDryingEnvironment(world, pos);
+
+                    if (canProgress && !world.isClient)
                         spawnDryingParticles((ServerWorld) world, pos);
                 } else {
                     canProgress = true;
@@ -159,7 +163,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     private boolean isDryingEnvironment(World world, BlockPos pos) {
-        if (!isUnderDripstoneWithWater(world, pos) && (isAboveCampfire(world, pos) || isInHotBiome(world, pos))) {
+        if (!isRinsingEnvironment(world, pos) && (isAboveCampfire(world, pos) || isInHotBiome(world, pos))) {
             return true;
         }
 
