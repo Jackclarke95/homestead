@@ -30,11 +30,12 @@ public class CuringVatScreenHandler extends ScreenHandler {
         this.blockEntity = (CuringVatBlockEntity) blockEntity;
         this.propertyDelegate = arrayPropertyDelegate;
 
-        this.addSlot(new Slot(inventory, 0, 26, 17)); // Input ingredient (top left)
-        this.addSlot(new Slot(inventory, 1, 26, 54)); // Input catalyst (bottom left)
-        this.addSlot(new Slot(inventory, 2, 134, 21)); // Output Pending (top right)
-        this.addSlot(new Slot(inventory, 3, 101, 48)); // Output Container (middle right)
-        this.addSlot(new Slot(inventory, 4, 134, 48)); // Output Actual (bottom right)
+        this.addSlot(new Slot(inventory, 0, 44, 17)); // Input ingredient (top left)
+        this.addSlot(new Slot(inventory, 1, 44, 54)); // Input catalyst (bottom left)
+        this.addSlot(new Slot(inventory, 2, 109, 17)); // Output Pending (top right)
+        this.addSlot(new Slot(inventory, 3, 78, 54)); // Output Container (bottom middle-left)
+        this.addSlot(new Slot(inventory, 4, 109, 54)); // Output Actual (bottom middle-right)
+        this.addSlot(new Slot(inventory, 5, 134, 54)); // Output Byproduct (bottom right)
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);

@@ -34,13 +34,14 @@ import net.minecraft.world.World;
 public class CuringVatBlockEntity extends BlockEntity
         implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory {
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(6, ItemStack.EMPTY);
 
     private static final int INPUT_INGREDIENT_SLOT = 0;
     private static final int INPUT_CATALYST_SLOT = 1;
     private static final int OUTPUT_PENDING_SLOT = 2;
     private static final int OUTPUT_CONTAINER_SLOT = 3;
     private static final int OUTPUT_ACTUAL_SLOT = 4;
+    private static final int OUTPUT_BYPRODUCT_SLOT = 5;
 
     private PropertyDelegate propertyDelegate;
     private int progress = 0;
