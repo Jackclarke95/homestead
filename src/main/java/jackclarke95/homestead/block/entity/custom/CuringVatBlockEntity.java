@@ -39,7 +39,7 @@ public class CuringVatBlockEntity extends BlockEntity
     private static final int INPUT_INGREDIENT_SLOT = 0;
     private static final int INPUT_CATALYST_SLOT = 1;
     private static final int OUTPUT_PENDING_SLOT = 2;
-    private static final int OUTPUT_CONTAINER_SLOT = 3;
+    private static final int INPUT_CONTAINER_SLOT = 3;
     private static final int OUTPUT_ACTUAL_SLOT = 4;
     private static final int OUTPUT_BYPRODUCT_SLOT = 5;
 
@@ -144,13 +144,13 @@ public class CuringVatBlockEntity extends BlockEntity
             this.removeStack(INPUT_CATALYST_SLOT, 1);
         }
         // If container is required, check if present and valid
-        boolean hasValidContainer = !recipe.hasContainer() || (!inventory.get(OUTPUT_CONTAINER_SLOT).isEmpty()
-                && recipe.container().test(inventory.get(OUTPUT_CONTAINER_SLOT)));
+        boolean hasValidContainer = !recipe.hasContainer() || (!inventory.get(INPUT_CONTAINER_SLOT).isEmpty()
+                && recipe.container().test(inventory.get(INPUT_CONTAINER_SLOT)));
         // If container is required and present, output goes to actual slot and consume
         // container
         if (hasValidContainer && canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, recipe.output())
                 && canInsertAmountIntoSlot(OUTPUT_ACTUAL_SLOT, recipe.output().getCount())) {
-            this.removeStack(OUTPUT_CONTAINER_SLOT, 1);
+            this.removeStack(INPUT_CONTAINER_SLOT, 1);
             this.setStack(OUTPUT_ACTUAL_SLOT, new ItemStack(recipe.output().getItem(),
                     this.getStack(OUTPUT_ACTUAL_SLOT).getCount() + recipe.output().getCount()));
         } else {
@@ -187,7 +187,7 @@ public class CuringVatBlockEntity extends BlockEntity
                         new CuringVatRecipeInput(
                                 inventory.get(INPUT_INGREDIENT_SLOT),
                                 inventory.get(INPUT_CATALYST_SLOT),
-                                inventory.get(OUTPUT_CONTAINER_SLOT)),
+                                inventory.get(INPUT_CONTAINER_SLOT)),
                         this.getWorld());
     }
 
@@ -214,12 +214,12 @@ public class CuringVatBlockEntity extends BlockEntity
                 .findFirst();
         if (match.isPresent()) {
             CuringVatRecipe recipe = match.get().value();
-            boolean hasValidContainer = !recipe.hasContainer() || (!inventory.get(OUTPUT_CONTAINER_SLOT).isEmpty()
-                    && recipe.container().test(inventory.get(OUTPUT_CONTAINER_SLOT)));
+            boolean hasValidContainer = !recipe.hasContainer() || (!inventory.get(INPUT_CONTAINER_SLOT).isEmpty()
+                    && recipe.container().test(inventory.get(INPUT_CONTAINER_SLOT)));
             boolean canInsertItem = canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, pending);
             boolean canInsertAmount = canInsertAmountIntoSlot(OUTPUT_ACTUAL_SLOT, pending.getCount());
             if (hasValidContainer && canInsertItem && canInsertAmount) {
-                this.removeStack(OUTPUT_CONTAINER_SLOT, pending.getCount());
+                this.removeStack(INPUT_CONTAINER_SLOT, pending.getCount());
                 this.setStack(OUTPUT_ACTUAL_SLOT, new ItemStack(pending.getItem(),
                         this.getStack(OUTPUT_ACTUAL_SLOT).getCount() + pending.getCount()));
                 this.setStack(OUTPUT_PENDING_SLOT, ItemStack.EMPTY);
