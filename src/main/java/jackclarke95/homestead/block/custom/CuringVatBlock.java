@@ -20,7 +20,6 @@ public class CuringVatBlock extends HorizontalFacingBlock {
 
     public CuringVatBlock(Settings settings) {
         super(settings);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -30,7 +29,7 @@ public class CuringVatBlock extends HorizontalFacingBlock {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing());
     }
 
     @Override
