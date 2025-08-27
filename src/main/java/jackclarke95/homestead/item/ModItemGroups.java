@@ -30,7 +30,6 @@ public class ModItemGroups {
             FabricItemGroup.builder().icon(() -> new ItemStack(ModBlocks.CURING_VAT))
                     .displayName(Text.translatable("itemGroup.homestead_blocks"))
                     .entries((displayContext, entries) -> {
-                        entries.add(ModBlocks.CURING_VAT);
                         entries.add(ModBlocks.CUSTOM_BLOCK);
                         entries.add(ModBlocks.RACK);
                         entries.add(ModBlocks.COBBLESTONE_BRICKS);
@@ -38,6 +37,7 @@ public class ModItemGroups {
                         entries.add(ModBlocks.COBBLESTONE_BRICK_WALL);
                         entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
                         entries.add(ModBlocks.HAY_STAIRS);
+                        entries.add(ModBlocks.CURING_VAT);
                     })
                     .build());
 

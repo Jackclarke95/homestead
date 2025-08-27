@@ -16,58 +16,60 @@ import net.minecraft.util.Identifier;
 
 public class ModModelProvider extends FabricModelProvider {
 
-    public ModModelProvider(FabricDataOutput output) {
-        super(output);
-    }
+        public ModModelProvider(FabricDataOutput output) {
+                super(output);
+        }
 
-    @Override
-    public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-        blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.CURING_VAT);
+        @Override
+        public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
 
-        BlockStateModelGenerator.BlockTexturePool cobblestoneBricksPool = blockStateModelGenerator
-                .registerCubeAllModelTexturePool(ModBlocks.COBBLESTONE_BRICKS);
+                BlockStateModelGenerator.BlockTexturePool cobblestoneBricksPool = blockStateModelGenerator
+                                .registerCubeAllModelTexturePool(ModBlocks.COBBLESTONE_BRICKS);
 
-        cobblestoneBricksPool.stairs(ModBlocks.COBBLESTONE_BRICK_STAIRS);
-        cobblestoneBricksPool.slab(ModBlocks.COBBLESTONE_BRICK_SLAB);
+                cobblestoneBricksPool.stairs(ModBlocks.COBBLESTONE_BRICK_STAIRS);
+                cobblestoneBricksPool.slab(ModBlocks.COBBLESTONE_BRICK_SLAB);
 
-        cobblestoneBricksPool.wall(ModBlocks.COBBLESTONE_BRICK_WALL);
+                cobblestoneBricksPool.wall(ModBlocks.COBBLESTONE_BRICK_WALL);
 
-        Identifier blockOffIdentifier = TexturedModel.CUBE_ALL.upload(ModBlocks.CUSTOM_BLOCK,
-                blockStateModelGenerator.modelCollector);
-        Identifier blockOnIdentifier = blockStateModelGenerator.createSubModel(ModBlocks.CUSTOM_BLOCK, "_on",
-                Models.CUBE_ALL, TextureMap::all);
+                Identifier blockOffIdentifier = TexturedModel.CUBE_ALL.upload(ModBlocks.CUSTOM_BLOCK,
+                                blockStateModelGenerator.modelCollector);
+                Identifier blockOnIdentifier = blockStateModelGenerator.createSubModel(ModBlocks.CUSTOM_BLOCK, "_on",
+                                Models.CUBE_ALL, TextureMap::all);
 
-        blockStateModelGenerator.blockStateCollector.accept(VariantsBlockStateSupplier.create(ModBlocks.CUSTOM_BLOCK)
-                .coordinate(BlockStateModelGenerator.createBooleanModelMap(CustomBlock.CLICKED, blockOnIdentifier,
-                        blockOffIdentifier)));
+                blockStateModelGenerator.blockStateCollector
+                                .accept(VariantsBlockStateSupplier.create(ModBlocks.CUSTOM_BLOCK)
+                                                .coordinate(BlockStateModelGenerator.createBooleanModelMap(
+                                                                CustomBlock.CLICKED, blockOnIdentifier,
+                                                                blockOffIdentifier)));
 
-        blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.RACK);
+                blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.RACK);
+                blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.CURING_VAT);
 
-        final TextureMap hayTexture = TextureMap.all(Identifier.of(Homestead.MOD_ID, "block/hay_stairs"));
+                final TextureMap hayTexture = TextureMap.all(Identifier.of(Homestead.MOD_ID, "block/hay_stairs"));
 
-        final Identifier hayStairsModelId = Models.STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
-                blockStateModelGenerator.modelCollector);
-        final Identifier hayInnerStairsModelId = Models.INNER_STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
-                blockStateModelGenerator.modelCollector);
-        final Identifier hayOuterStairsModelId = Models.OUTER_STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
-                blockStateModelGenerator.modelCollector);
+                final Identifier hayStairsModelId = Models.STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
+                                blockStateModelGenerator.modelCollector);
+                final Identifier hayInnerStairsModelId = Models.INNER_STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
+                                blockStateModelGenerator.modelCollector);
+                final Identifier hayOuterStairsModelId = Models.OUTER_STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
+                                blockStateModelGenerator.modelCollector);
 
-        blockStateModelGenerator.blockStateCollector.accept(
-                BlockStateModelGenerator.createStairsBlockState(
-                        ModBlocks.HAY_STAIRS,
-                        hayInnerStairsModelId,
-                        hayStairsModelId,
-                        hayOuterStairsModelId));
-        blockStateModelGenerator.registerParentedItemModel(ModBlocks.HAY_STAIRS, hayStairsModelId);
-    }
+                blockStateModelGenerator.blockStateCollector.accept(
+                                BlockStateModelGenerator.createStairsBlockState(
+                                                ModBlocks.HAY_STAIRS,
+                                                hayInnerStairsModelId,
+                                                hayStairsModelId,
+                                                hayOuterStairsModelId));
+                blockStateModelGenerator.registerParentedItemModel(ModBlocks.HAY_STAIRS, hayStairsModelId);
+        }
 
-    @Override
-    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(ModItems.BEEF_JERKY, Models.GENERATED);
-        itemModelGenerator.register(ModItems.CHEESE_SLICE, Models.GENERATED);
-        itemModelGenerator.register(ModItems.CHEESE_WHEEL, Models.GENERATED);
-        itemModelGenerator.register(ModItems.RAW_HIDE, Models.GENERATED);
-        itemModelGenerator.register(ModItems.SUSPICIOUS_JERKY, Models.GENERATED);
-        itemModelGenerator.register(ModItems.SALT, Models.GENERATED);
-    }
+        @Override
+        public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+                itemModelGenerator.register(ModItems.BEEF_JERKY, Models.GENERATED);
+                itemModelGenerator.register(ModItems.CHEESE_SLICE, Models.GENERATED);
+                itemModelGenerator.register(ModItems.CHEESE_WHEEL, Models.GENERATED);
+                itemModelGenerator.register(ModItems.RAW_HIDE, Models.GENERATED);
+                itemModelGenerator.register(ModItems.SUSPICIOUS_JERKY, Models.GENERATED);
+                itemModelGenerator.register(ModItems.SALT, Models.GENERATED);
+        }
 }
