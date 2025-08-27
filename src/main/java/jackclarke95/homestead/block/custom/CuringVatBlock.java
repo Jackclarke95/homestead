@@ -1,30 +1,45 @@
 package jackclarke95.homestead.block.custom;
 
 import com.mojang.serialization.MapCodec;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.ShapeContext;
+import jackclarke95.homestead.block.entity.ModBlockEntities;
+import jackclarke95.homestead.block.entity.custom.CuringVatBlockEntity;
+import net.minecraft.block.*;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager.Builder;
+import net.minecraft.item.ItemStack;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.Properties;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public class CuringVatBlock extends HorizontalFacingBlock {
-    public static final MapCodec<CuringVatBlock> CODEC = createCodec(CuringVatBlock::new);
-
+public class CuringVatBlock extends BlockWithEntity {
     private static final VoxelShape SHAPE = createShape();
+
+    public static final MapCodec<CuringVatBlock> CODEC = CuringVatBlock.createCodec(CuringVatBlock::new);
+    public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 
     public CuringVatBlock(Settings settings) {
         super(settings);
+        setDefaultState(this.stateManager.getDefaultState().with(FACING, net.minecraft.util.math.Direction.NORTH));
     }
 
     @Override
-    protected MapCodec<? extends HorizontalFacingBlock> getCodec() {
-        return CODEC;
+    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return SHAPE;
     }
 
     @Override
@@ -33,13 +48,65 @@ public class CuringVatBlock extends HorizontalFacingBlock {
     }
 
     @Override
-    protected void appendProperties(Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
+        return CODEC;
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new CuringVatBlockEntity(pos, state);
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPE;
+    protected BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
+    }
+
+    @Override
+    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+
+            if (blockEntity instanceof CuringVatBlockEntity) {
+                // No inventory logic yet
+                world.updateComparators(pos, this);
+            }
+
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
+    }
+
+    @Override
+    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
+            PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (!world.isClient) {
+            NamedScreenHandlerFactory screenHandlerFactory = ((CuringVatBlockEntity) world.getBlockEntity(pos));
+            if (screenHandlerFactory != null) {
+                player.openHandledScreen(screenHandlerFactory);
+            }
+        }
+        return ItemActionResult.SUCCESS;
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state,
+            BlockEntityType<T> type) {
+        if (world.isClient) {
+            return null;
+        }
+        return validateTicker(type, ModBlockEntities.CURING_VAT_BE,
+                (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
+    }
+
+    @Override
+    protected BlockState rotate(BlockState state, BlockRotation rotation) {
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
+    }
+
+    @Override
+    protected BlockState mirror(BlockState state, BlockMirror mirror) {
+        return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
     private static VoxelShape createShape() {
@@ -48,7 +115,11 @@ public class CuringVatBlock extends HorizontalFacingBlock {
         VoxelShape foot3 = Block.createCuboidShape(14, 0, 0, 16, 2, 2);
         VoxelShape foot4 = Block.createCuboidShape(14, 0, 14, 16, 2, 16);
         VoxelShape vat = Block.createCuboidShape(0, 2, 0, 16, 16, 16);
-
         return VoxelShapes.union(foot1, foot2, foot3, foot4, vat);
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(FACING);
     }
 }

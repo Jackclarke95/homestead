@@ -2,6 +2,7 @@ package jackclarke95.homestead.block.entity;
 
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
+import jackclarke95.homestead.block.entity.custom.CuringVatBlockEntity;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
@@ -13,6 +14,13 @@ public class ModBlockEntities {
             Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "rack_be"),
             BlockEntityType.Builder
                     .<RackBlockEntity>create((pos, state) -> new RackBlockEntity(pos, state), ModBlocks.RACK)
+                    .build(null));
+
+    public static final BlockEntityType<CuringVatBlockEntity> CURING_VAT_BE = Registry.register(
+            Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "curing_vat_be"),
+            BlockEntityType.Builder
+                    .<CuringVatBlockEntity>create((pos, state) -> new CuringVatBlockEntity(pos, state),
+                            ModBlocks.CURING_VAT)
                     .build(null));
 
     public static void registerBlockEntities() {
