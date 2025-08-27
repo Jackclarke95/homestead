@@ -12,7 +12,7 @@ public class ModRecipes {
             Registries.RECIPE_SERIALIZER, Identifier.of(Homestead.MOD_ID, "rinsing"),
             new RinsingRecipe.Serializer());
 
-    public static final RecipeType<RinsingRecipe> RINSING_RECIPE_TYPE = Registry.register(
+    public static final RecipeType<RinsingRecipe> RINSING_TYPE = Registry.register(
             Registries.RECIPE_TYPE, Identifier.of(Homestead.MOD_ID, "rinsing"),
             new RecipeType<RinsingRecipe>() {
                 @Override
@@ -25,12 +25,25 @@ public class ModRecipes {
             Registries.RECIPE_SERIALIZER, Identifier.of(Homestead.MOD_ID, "drying"),
             new DryingRecipe.Serializer());
 
-    public static final RecipeType<DryingRecipe> DRYING_RECIPE_TYPE = Registry.register(
+    public static final RecipeType<DryingRecipe> DRYING_TYPE = Registry.register(
             Registries.RECIPE_TYPE, Identifier.of(Homestead.MOD_ID, "drying"),
             new RecipeType<DryingRecipe>() {
                 @Override
                 public String toString() {
                     return "drying";
+                }
+            });
+
+    public static final RecipeSerializer<CuringVatRecipe> CURING_VAT_RECIPE_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER, Identifier.of(Homestead.MOD_ID, "curing_vat"),
+            new CuringVatRecipe.Serializer());
+
+    public static final RecipeType<CuringVatRecipe> CURING_VAT_TYPE = Registry.register(
+            Registries.RECIPE_TYPE, Identifier.of(Homestead.MOD_ID, "curing_vat"),
+            new RecipeType<CuringVatRecipe>() {
+                @Override
+                public String toString() {
+                    return "curing_vat";
                 }
             });
 

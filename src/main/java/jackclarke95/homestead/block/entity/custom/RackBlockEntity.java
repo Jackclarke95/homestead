@@ -196,7 +196,9 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
             }
             return true;
         }
+
         this.currentRecipe = null;
+
         return false;
     }
 
@@ -205,12 +207,12 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         RackRecipeInput input = new RackRecipeInput(this.getStack(0));
         // Try Rinsing
         Optional<RecipeEntry<RinsingRecipe>> rinsing = world.getRecipeManager()
-                .getFirstMatch(ModRecipes.RINSING_RECIPE_TYPE, input, world);
+                .getFirstMatch(ModRecipes.RINSING_TYPE, input, world);
         if (rinsing.isPresent())
             return rinsing.map(r -> r);
         // Try Drying
         Optional<RecipeEntry<DryingRecipe>> drying = world.getRecipeManager()
-                .getFirstMatch(ModRecipes.DRYING_RECIPE_TYPE, input, world);
+                .getFirstMatch(ModRecipes.DRYING_TYPE, input, world);
         if (drying.isPresent())
             return drying.map(r -> r);
         // No legacy fallback

@@ -173,12 +173,12 @@ public class RackBlock extends BlockWithEntity {
         RackRecipeInput input = new RackRecipeInput(stack);
         // Try Rinsing
         Optional<RecipeEntry<RinsingRecipe>> rinsing = world.getServer().getRecipeManager()
-                .getFirstMatch(ModRecipes.RINSING_RECIPE_TYPE, input, world);
+                .getFirstMatch(ModRecipes.RINSING_TYPE, input, world);
         if (rinsing.isPresent())
             return rinsing.map(r -> r);
         // Try Drying
         Optional<RecipeEntry<DryingRecipe>> drying = world.getServer().getRecipeManager()
-                .getFirstMatch(ModRecipes.DRYING_RECIPE_TYPE, input, world);
+                .getFirstMatch(ModRecipes.DRYING_TYPE, input, world);
         if (drying.isPresent())
             return drying.map(r -> r);
         // No legacy fallback

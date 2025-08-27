@@ -3,6 +3,7 @@ package jackclarke95.homestead.recipe;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -14,24 +15,32 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public record DryingRecipe(Ingredient inputItem, ItemStack output, int time) implements Recipe<RackRecipeInput> {
+public record CuringVatRecipe(Ingredient inputItem, ItemStack output, int time)
+        implements Recipe<CuringVatRecipeInput> {
+
     @Override
     public DefaultedList<Ingredient> getIngredients() {
         DefaultedList<Ingredient> list = DefaultedList.of();
         list.add(inputItem);
+
         return list;
     }
 
     @Override
-    public boolean matches(RackRecipeInput input, World world) {
+    public boolean matches(CuringVatRecipeInput input, World world) {
         if (world.isClient()) {
             return false;
         }
-        return inputItem.test(input.getStackInSlot(0));
+
+        if (inputItem.test(input.getStackInSlot(0))) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
-    public ItemStack craft(RackRecipeInput input, WrapperLookup lookup) {
+    public ItemStack craft(CuringVatRecipeInput input, WrapperLookup lookup) {
         return output.copy();
     }
 
@@ -47,38 +56,38 @@ public record DryingRecipe(Ingredient inputItem, ItemStack output, int time) imp
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return ModRecipes.DRYING_RECIPE_SERIALIZER;
+        return ModRecipes.CURING_VAT_RECIPE_SERIALIZER;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.DRYING_TYPE;
+        return ModRecipes.CURING_VAT_TYPE;
     }
 
-    public static class Serializer implements RecipeSerializer<DryingRecipe> {
-        public static final MapCodec<DryingRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
-                Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("ingredient").forGetter(DryingRecipe::inputItem),
-                ItemStack.CODEC.fieldOf("result").forGetter(DryingRecipe::output),
-                Codec.INT.fieldOf("time").forGetter(DryingRecipe::time))
-                .apply(inst, DryingRecipe::new));
+    public static class Serializer implements RecipeSerializer<CuringVatRecipe> {
+        public static final MapCodec<CuringVatRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
+                Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("ingredient").forGetter(CuringVatRecipe::inputItem),
+                ItemStack.CODEC.fieldOf("result").forGetter(CuringVatRecipe::output),
+                Codec.INT.fieldOf("time").forGetter(CuringVatRecipe::time))
+                .apply(inst, CuringVatRecipe::new));
 
         public static final PacketCodec<RegistryByteBuf, Integer> INT_CODEC = PacketCodec.of(
                 (value, buf) -> buf.writeVarInt(value),
                 buf -> buf.readVarInt());
 
-        public static final PacketCodec<RegistryByteBuf, DryingRecipe> STREAM_CODEC = PacketCodec.tuple(
-                Ingredient.PACKET_CODEC, DryingRecipe::inputItem,
-                ItemStack.PACKET_CODEC, DryingRecipe::output,
-                INT_CODEC, DryingRecipe::time,
-                DryingRecipe::new);
+        public static final PacketCodec<RegistryByteBuf, CuringVatRecipe> STREAM_CODEC = PacketCodec.tuple(
+                Ingredient.PACKET_CODEC, CuringVatRecipe::inputItem,
+                ItemStack.PACKET_CODEC, CuringVatRecipe::output,
+                INT_CODEC, CuringVatRecipe::time,
+                CuringVatRecipe::new);
 
         @Override
-        public MapCodec<DryingRecipe> codec() {
+        public MapCodec<CuringVatRecipe> codec() {
             return CODEC;
         }
 
         @Override
-        public PacketCodec<RegistryByteBuf, DryingRecipe> packetCodec() {
+        public PacketCodec<RegistryByteBuf, CuringVatRecipe> packetCodec() {
             return STREAM_CODEC;
         }
     }

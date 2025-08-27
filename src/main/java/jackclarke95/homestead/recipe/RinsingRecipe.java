@@ -51,7 +51,7 @@ public record RinsingRecipe(Ingredient inputItem, ItemStack output, int time) im
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.RINSING_RECIPE_TYPE;
+        return ModRecipes.RINSING_TYPE;
     }
 
     public static class Serializer implements RecipeSerializer<RinsingRecipe> {

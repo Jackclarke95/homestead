@@ -1,0 +1,10 @@
+{
+  "type": "homestead:drying",
+  "ingredient": {
+    "item": "minecraft:milk_bucket"
+  },
+  "result": {
+    "id": "homestead:cheese_wheel"
+  },
+  "time": 60
+}

@@ -1,10 +1,10 @@
 {
   "type": "homestead:drying",
   "ingredient": {
-    "item": "minecraft:beef"
+    "item": "homestead:raw_hide"
   },
   "result": {
-    "id": "homestead:beef_jerky"
+    "id": "minecraft:leather"
   },
-  "time": 600
+  "time": 60
 }

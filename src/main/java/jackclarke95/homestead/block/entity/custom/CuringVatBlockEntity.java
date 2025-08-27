@@ -1,10 +1,14 @@
 package jackclarke95.homestead.block.entity.custom;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.Nullable;
 
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
-import jackclarke95.homestead.item.ModItems;
+import jackclarke95.homestead.recipe.CuringVatRecipe;
+import jackclarke95.homestead.recipe.CuringVatRecipeInput;
+import jackclarke95.homestead.recipe.ModRecipes;
 import jackclarke95.homestead.screen.custom.CuringVatScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
@@ -12,13 +16,12 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
@@ -42,6 +45,7 @@ public class CuringVatBlockEntity extends BlockEntity
     private PropertyDelegate propertyDelegate;
     private int progress = 0;
     private int maxProgress = 100;
+    private RecipeEntry<CuringVatRecipe> currentRecipe = null;
 
     public CuringVatBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CURING_VAT_BE, pos, state);
@@ -114,7 +118,9 @@ public class CuringVatBlockEntity extends BlockEntity
     }
 
     private void craftItem() {
-        ItemStack output = new ItemStack(ModItems.RAW_HIDE, 6);
+        Optional<RecipeEntry<CuringVatRecipe>> recipe = getCurrentRecipe();
+
+        ItemStack output = recipe.get().value().output();
 
         this.removeStack(INPUT_INGREDIENT_SLOT, 1);
         this.setStack(OUTPUT_ACTUAL_SLOT, new ItemStack(output.getItem(),
@@ -130,11 +136,27 @@ public class CuringVatBlockEntity extends BlockEntity
     }
 
     private boolean hasRecipe() {
-        Item input = Items.BEEF;
-        ItemStack output = new ItemStack(ModItems.RAW_HIDE, 6);
+        Optional<RecipeEntry<CuringVatRecipe>> recipe = getCurrentRecipe();
 
-        return this.getStack(INPUT_INGREDIENT_SLOT).isOf(input) &&
-                canInsertAmountIntoOutputSlot(output.getCount()) && canInsertItemIntoOutputSlot(output);
+        if (recipe.isPresent()) {
+            this.currentRecipe = recipe.get();
+
+            CuringVatRecipe value = currentRecipe.value();
+
+            this.maxProgress = value.time();
+            ItemStack output = value.output();
+
+            return canInsertAmountIntoOutputSlot(output.getCount()) && canInsertItemIntoOutputSlot(output);
+        }
+
+        return false;
+    }
+
+    private Optional<RecipeEntry<CuringVatRecipe>> getCurrentRecipe() {
+        return this.getWorld().getRecipeManager()
+                .getFirstMatch(ModRecipes.CURING_VAT_TYPE,
+                        new CuringVatRecipeInput(inventory.get(INPUT_INGREDIENT_SLOT)),
+                        this.getWorld());
     }
 
     private boolean canInsertItemIntoOutputSlot(ItemStack output) {

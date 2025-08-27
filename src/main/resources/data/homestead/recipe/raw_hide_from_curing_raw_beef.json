@@ -1,0 +1,10 @@
+{
+  "type": "homestead:curing_vat",
+  "ingredient": {
+    "item": "minecraft:beef"
+  },
+  "result": {
+    "id": "homestead:raw_hide"
+  },
+  "time": 60
+}
