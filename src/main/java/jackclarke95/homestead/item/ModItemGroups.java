@@ -16,12 +16,19 @@ public class ModItemGroups {
             FabricItemGroup.builder().icon(() -> new ItemStack(ModItems.CHEESE_SLICE))
                     .displayName(Text.translatable("itemGroup.homestead_items"))
                     .entries((displayContext, entries) -> {
-                        entries.add(ModItems.SUSPICIOUS_JERKY);
-                        entries.add(ModItems.BEEF_JERKY);
+                        entries.add(ModItems.RAW_HIDE);
+                        entries.add(ModItems.MUG);
                         entries.add(ModItems.CHEESE_WHEEL);
                         entries.add(ModItems.CHEESE_SLICE);
-                        entries.add(ModItems.RAW_HIDE);
-                        entries.add(ModItems.SALT);
+                        entries.add(ModItems.SUSPICIOUS_JERKY);
+                        entries.add(ModItems.BEEF_JERKY);
+                        entries.add(ModItems.PORK_JERKY);
+                        entries.add(ModItems.MUTTON_JERKY);
+                        entries.add(ModItems.CHICKEN_JERKY);
+                        entries.add(ModItems.RABBIT_JERKY);
+                        entries.add(ModItems.COD_JERKY);
+                        entries.add(ModItems.SALMON_JERKY);
+                        entries.add(ModItems.MUG_OF_VODKA);
                     })
                     .build());
 

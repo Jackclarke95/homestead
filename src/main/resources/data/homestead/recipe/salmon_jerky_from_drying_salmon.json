@@ -1,0 +1,10 @@
+{
+  "type": "homestead:drying",
+  "ingredient": {
+    "item": "minecraft:salmon"
+  },
+  "result": {
+    "id": "homestead:salmon_jerky"
+  },
+  "time": 60
+}

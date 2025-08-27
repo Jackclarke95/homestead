@@ -1,10 +1,7 @@
 {
   "type": "homestead:curing_vat",
-  "ingredient": {
-    "item": "minecraft:porkchop"
-  },
-  "result": {
-    "id": "homestead:raw_hide"
-  },
+  "ingredient": { "item": "minecraft:milk_bucket" },
+  "result": { "id": "homestead:cheese_wheel" },
+  "byproduct": { "id": "minecraft:bucket", "count": 1 },
   "time": 60
 }

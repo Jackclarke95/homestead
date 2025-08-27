@@ -32,10 +32,34 @@ public class CuringVatScreenHandler extends ScreenHandler {
 
         this.addSlot(new Slot(inventory, 0, 44, 17)); // Input ingredient (top left)
         this.addSlot(new Slot(inventory, 1, 44, 54)); // Input catalyst (bottom left)
-        this.addSlot(new Slot(inventory, 2, 109, 17)); // Output Pending (top right)
-        this.addSlot(new Slot(inventory, 3, 78, 54)); // Output Container (bottom middle-left)
-        this.addSlot(new Slot(inventory, 4, 109, 54)); // Output Actual (bottom middle-right)
-        this.addSlot(new Slot(inventory, 5, 134, 54)); // Output Byproduct (bottom right)
+        // Pending output: cannot be removed by player
+        this.addSlot(new Slot(inventory, 2, 109, 17) {
+            @Override
+            public boolean canTakeItems(PlayerEntity playerEntity) {
+                return false;
+            }
+
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return false;
+            }
+        });
+        // Container: allow any item, but only valid containers will be used in logic
+        this.addSlot(new Slot(inventory, 3, 78, 54));
+        // Actual output: cannot insert, can only take
+        this.addSlot(new Slot(inventory, 4, 109, 54) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return false;
+            }
+        });
+        // Byproduct output: cannot insert, can only take
+        this.addSlot(new Slot(inventory, 5, 134, 54) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return false;
+            }
+        });
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
@@ -45,6 +69,12 @@ public class CuringVatScreenHandler extends ScreenHandler {
 
     public boolean isCrafting() {
         return this.propertyDelegate.get(0) > 0;
+    }
+
+    public boolean isProgressBetweenZeroAndMax() {
+        int progress = this.propertyDelegate.get(0);
+        int maxProgress = this.propertyDelegate.get(1);
+        return progress > 0 && progress < maxProgress;
     }
 
     public int getScaledArrowProgress() {

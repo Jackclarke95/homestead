@@ -1,0 +1,12 @@
+{
+  "type": "homestead:curing_vat",
+  "ingredient": { "item": "minecraft:potato" },
+  "catalyst": { "item": "minecraft:water_bucket" },
+  "container": { "item": "homestead:mug" },
+  "result": {
+    "id": "homestead:mug_of_vodka",
+    "count": 1
+  },
+  "byproduct": { "id": "minecraft:bucket", "count": 1 },
+  "time": 120
+}

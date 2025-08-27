@@ -1,6 +1,6 @@
 {
   "type": "homestead:curing_vat",
-  "ingredient": { "item": "minecraft:porkchop" },
+  "ingredient": { "item": "minecraft:rabbit" },
   "catalyst": { "item": "minecraft:bone_meal" },
   "result": { "id": "homestead:raw_hide" },
   "time": 60

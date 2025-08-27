@@ -1,0 +1,10 @@
+{
+  "type": "homestead:drying",
+  "ingredient": {
+    "item": "minecraft:cod"
+  },
+  "result": {
+    "id": "homestead:cod_jerky"
+  },
+  "time": 60
+}

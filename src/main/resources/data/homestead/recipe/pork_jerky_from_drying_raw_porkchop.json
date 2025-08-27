@@ -1,0 +1,10 @@
+{
+  "type": "homestead:drying",
+  "ingredient": {
+    "item": "minecraft:porkchop"
+  },
+  "result": {
+    "id": "homestead:pork_jerky"
+  },
+  "time": 60
+}

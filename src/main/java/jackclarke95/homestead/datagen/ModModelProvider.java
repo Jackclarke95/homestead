@@ -65,11 +65,19 @@ public class ModModelProvider extends FabricModelProvider {
 
         @Override
         public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-                itemModelGenerator.register(ModItems.BEEF_JERKY, Models.GENERATED);
-                itemModelGenerator.register(ModItems.CHEESE_SLICE, Models.GENERATED);
-                itemModelGenerator.register(ModItems.CHEESE_WHEEL, Models.GENERATED);
                 itemModelGenerator.register(ModItems.RAW_HIDE, Models.GENERATED);
+                itemModelGenerator.register(ModItems.MUG, Models.GENERATED);
+                itemModelGenerator.register(ModItems.CHEESE_WHEEL, Models.GENERATED);
+                itemModelGenerator.register(ModItems.CHEESE_SLICE, Models.GENERATED);
                 itemModelGenerator.register(ModItems.SUSPICIOUS_JERKY, Models.GENERATED);
-                itemModelGenerator.register(ModItems.SALT, Models.GENERATED);
+                itemModelGenerator.register(ModItems.BEEF_JERKY, Models.GENERATED);
+                itemModelGenerator.register(ModItems.PORK_JERKY, Models.GENERATED);
+                itemModelGenerator.register(ModItems.MUTTON_JERKY, Models.GENERATED);
+                itemModelGenerator.register(ModItems.CHICKEN_JERKY, Models.GENERATED);
+                itemModelGenerator.register(ModItems.RABBIT_JERKY, Models.GENERATED);
+                itemModelGenerator.register(ModItems.COD_JERKY, Models.GENERATED);
+                itemModelGenerator.register(ModItems.SALMON_JERKY, Models.GENERATED);
+                itemModelGenerator.register(ModItems.MUG_OF_VODKA, Models.GENERATED);
+
         }
 }

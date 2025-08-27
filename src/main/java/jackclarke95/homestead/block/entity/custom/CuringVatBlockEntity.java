@@ -100,17 +100,35 @@ public class CuringVatBlockEntity extends BlockEntity
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
-        if (hasRecipe()) {
+        Optional<RecipeEntry<CuringVatRecipe>> recipeOpt = getCurrentRecipe();
+        if (recipeOpt.isPresent()) {
+            this.currentRecipe = recipeOpt.get();
+            CuringVatRecipe recipe = this.currentRecipe.value();
+            // Check for required inputs
+            boolean hasIngredient = !inventory.get(INPUT_INGREDIENT_SLOT).isEmpty()
+                    && recipe.inputItem().test(inventory.get(INPUT_INGREDIENT_SLOT));
+            boolean hasCatalyst = !recipe.hasCatalyst() || (!inventory.get(INPUT_CATALYST_SLOT).isEmpty()
+                    && recipe.catalyst().test(inventory.get(INPUT_CATALYST_SLOT)));
+            boolean byproductBlocked = recipe.hasByproduct()
+                    && (!canInsertItemIntoSlot(OUTPUT_BYPRODUCT_SLOT, recipe.byproduct())
+                            || !canInsertAmountIntoSlot(OUTPUT_BYPRODUCT_SLOT, recipe.byproduct().getCount()));
+            if (!hasIngredient || !hasCatalyst || byproductBlocked) {
+                resetProgress();
+                return;
+            }
+            // If container is required, allow progress but output goes to pending if not
+            // present
             increaseCraftingProgress();
             markDirty(world, pos, state);
-
             if (hasCraftingFinished()) {
-                craftItem();
+                craftItem(recipe);
                 resetProgress();
             }
         } else {
             resetProgress();
         }
+        // Handle pending -> actual transfer if possible
+        handlePendingTransfer();
     }
 
     private void resetProgress() {
@@ -118,14 +136,39 @@ public class CuringVatBlockEntity extends BlockEntity
         this.maxProgress = 72;
     }
 
-    private void craftItem() {
-        Optional<RecipeEntry<CuringVatRecipe>> recipe = getCurrentRecipe();
-
-        ItemStack output = recipe.get().value().output();
-
+    private void craftItem(CuringVatRecipe recipe) {
+        // Remove ingredient
         this.removeStack(INPUT_INGREDIENT_SLOT, 1);
-        this.setStack(OUTPUT_ACTUAL_SLOT, new ItemStack(output.getItem(),
-                this.getStack(OUTPUT_ACTUAL_SLOT).getCount() + output.getCount()));
+        // Remove catalyst if present
+        if (recipe.hasCatalyst()) {
+            this.removeStack(INPUT_CATALYST_SLOT, 1);
+        }
+        // If container is required, check if present and valid
+        boolean hasValidContainer = !recipe.hasContainer() || (!inventory.get(OUTPUT_CONTAINER_SLOT).isEmpty()
+                && recipe.container().test(inventory.get(OUTPUT_CONTAINER_SLOT)));
+        // If container is required and present, output goes to actual slot and consume
+        // container
+        if (hasValidContainer && canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, recipe.output())
+                && canInsertAmountIntoSlot(OUTPUT_ACTUAL_SLOT, recipe.output().getCount())) {
+            this.removeStack(OUTPUT_CONTAINER_SLOT, 1);
+            this.setStack(OUTPUT_ACTUAL_SLOT, new ItemStack(recipe.output().getItem(),
+                    this.getStack(OUTPUT_ACTUAL_SLOT).getCount() + recipe.output().getCount()));
+        } else {
+            // Otherwise, output goes to pending slot
+            setPendingOutputAndRecipe(recipe.output());
+        }
+        // Handle byproduct
+        if (recipe.hasByproduct() && canInsertItemIntoSlot(OUTPUT_BYPRODUCT_SLOT, recipe.byproduct())
+                && canInsertAmountIntoSlot(OUTPUT_BYPRODUCT_SLOT, recipe.byproduct().getCount())) {
+            this.setStack(OUTPUT_BYPRODUCT_SLOT, new ItemStack(recipe.byproduct().getItem(),
+                    this.getStack(OUTPUT_BYPRODUCT_SLOT).getCount() + recipe.byproduct().getCount()));
+        }
+    }
+
+    // Extracted method for setting pending output and recipe
+    private void setPendingOutputAndRecipe(ItemStack output) {
+        this.setStack(OUTPUT_PENDING_SLOT, new ItemStack(output.getItem(),
+                this.getStack(OUTPUT_PENDING_SLOT).getCount() + output.getCount()));
     }
 
     private boolean hasCraftingFinished() {
@@ -136,41 +179,52 @@ public class CuringVatBlockEntity extends BlockEntity
         this.progress++;
     }
 
-    private boolean hasRecipe() {
-        Optional<RecipeEntry<CuringVatRecipe>> recipe = getCurrentRecipe();
-
-        if (recipe.isPresent()) {
-            this.currentRecipe = recipe.get();
-
-            CuringVatRecipe value = currentRecipe.value();
-
-            this.maxProgress = value.time();
-            ItemStack output = value.output();
-
-            return canInsertAmountIntoOutputSlot(output.getCount()) && canInsertItemIntoOutputSlot(output);
-        }
-
-        return false;
-    }
+    // No longer used; logic is now in tick()
 
     private Optional<RecipeEntry<CuringVatRecipe>> getCurrentRecipe() {
         return this.getWorld().getRecipeManager()
                 .getFirstMatch(ModRecipes.CURING_VAT_TYPE,
-                        new CuringVatRecipeInput(inventory.get(INPUT_INGREDIENT_SLOT)),
+                        new CuringVatRecipeInput(
+                                inventory.get(INPUT_INGREDIENT_SLOT),
+                                inventory.get(INPUT_CATALYST_SLOT),
+                                inventory.get(OUTPUT_CONTAINER_SLOT)),
                         this.getWorld());
     }
 
-    private boolean canInsertItemIntoOutputSlot(ItemStack output) {
-        return this.getStack(OUTPUT_ACTUAL_SLOT).isEmpty()
-                || this.getStack(OUTPUT_ACTUAL_SLOT).getItem() == output.getItem();
+    private boolean canInsertItemIntoSlot(int slot, ItemStack stack) {
+        return this.getStack(slot).isEmpty() || this.getStack(slot).getItem() == stack.getItem();
     }
 
-    private boolean canInsertAmountIntoOutputSlot(int count) {
-        int maxCount = this.getStack(OUTPUT_ACTUAL_SLOT).isEmpty() ? 64
-                : this.getStack(OUTPUT_ACTUAL_SLOT).getMaxCount();
-        int currentCount = this.getStack(OUTPUT_ACTUAL_SLOT).getCount();
-
+    private boolean canInsertAmountIntoSlot(int slot, int count) {
+        int maxCount = this.getStack(slot).isEmpty() ? 64 : this.getStack(slot).getMaxCount();
+        int currentCount = this.getStack(slot).getCount();
         return maxCount >= currentCount + count;
+    }
+
+    // Handles moving pending output to actual output if valid container is present
+    private void handlePendingTransfer() {
+        ItemStack pending = this.getStack(OUTPUT_PENDING_SLOT);
+        if (pending.isEmpty()) {
+            return;
+        }
+        // Find a recipe whose output matches the pending item
+        Optional<RecipeEntry<CuringVatRecipe>> match = this.getWorld().getRecipeManager()
+                .listAllOfType(ModRecipes.CURING_VAT_TYPE).stream()
+                .filter(entry -> entry.value().output().getItem().equals(pending.getItem()))
+                .findFirst();
+        if (match.isPresent()) {
+            CuringVatRecipe recipe = match.get().value();
+            boolean hasValidContainer = !recipe.hasContainer() || (!inventory.get(OUTPUT_CONTAINER_SLOT).isEmpty()
+                    && recipe.container().test(inventory.get(OUTPUT_CONTAINER_SLOT)));
+            boolean canInsertItem = canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, pending);
+            boolean canInsertAmount = canInsertAmountIntoSlot(OUTPUT_ACTUAL_SLOT, pending.getCount());
+            if (hasValidContainer && canInsertItem && canInsertAmount) {
+                this.removeStack(OUTPUT_CONTAINER_SLOT, pending.getCount());
+                this.setStack(OUTPUT_ACTUAL_SLOT, new ItemStack(pending.getItem(),
+                        this.getStack(OUTPUT_ACTUAL_SLOT).getCount() + pending.getCount()));
+                this.setStack(OUTPUT_PENDING_SLOT, ItemStack.EMPTY);
+            }
+        }
     }
 
     @Override

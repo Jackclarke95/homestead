@@ -1,0 +1,10 @@
+{
+  "type": "homestead:drying",
+  "ingredient": {
+    "item": "minecraft:mutton"
+  },
+  "result": {
+    "id": "homestead:mutton_jerky"
+  },
+  "time": 60
+}

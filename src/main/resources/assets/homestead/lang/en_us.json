@@ -1,10 +1,18 @@
 {
+  "item.homestead.raw_hide": "Raw Hide",
+  "item.homestead.mug": "Mug",
+
   "item.homestead.suspicious_jerky": "Suspicious Jerky",
   "item.homestead.beef_jerky": "Beef Jerky",
+  "item.homestead.pork_jerky": "Pork Jerky",
+  "item.homestead.mutton_jerky": "Mutton Jerky",
+  "item.homestead.chicken_jerky": "Chicken Jerky",
+  "item.homestead.rabbit_jerky": "Rabbit Jerky",
+  "item.homestead.cod_jerky": "Cod Jerky",
+  "item.homestead.salmon_jerky": "Salmon Jerky",
   "item.homestead.cheese_wheel": "Cheese Wheel",
   "item.homestead.cheese_slice": "Cheese Slice",
-  "item.homestead.raw_hide": "Raw Hide",
-  "item.homestead.salt": "Salt",
+  "item.homestead.mug_of_vodka": "Mug of Vodka",
 
   "block.homestead.custom_block": "Custom Block",
   "block.homestead.rack": "Rack",
