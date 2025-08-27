@@ -68,5 +68,6 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.CHEESE_WHEEL, Models.GENERATED);
         itemModelGenerator.register(ModItems.RAW_HIDE, Models.GENERATED);
         itemModelGenerator.register(ModItems.SUSPICIOUS_JERKY, Models.GENERATED);
+        itemModelGenerator.register(ModItems.SALT, Models.GENERATED);
     }
 }

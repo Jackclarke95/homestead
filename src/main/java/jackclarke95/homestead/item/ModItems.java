@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 public class ModItems {
     public static final Item CHEESE_WHEEL = registerItem("cheese_wheel", new Item(new Item.Settings()));
     public static final Item RAW_HIDE = registerItem("raw_hide", new Item(new Item.Settings()));
+    public static final Item SALT = registerItem("salt", new Item(new Item.Settings()));
 
     // Food
     public static final Item SUSPICIOUS_JERKY = registerItem("suspicious_jerky",
@@ -33,6 +34,7 @@ public class ModItems {
             entries.add(CHEESE_WHEEL);
             entries.add(CHEESE_SLICE);
             entries.add(RAW_HIDE);
+            entries.add(SALT);
         });
     }
 }

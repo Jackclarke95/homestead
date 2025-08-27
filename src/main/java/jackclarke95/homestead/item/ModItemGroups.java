@@ -21,10 +21,11 @@ public class ModItemGroups {
                         entries.add(ModItems.CHEESE_WHEEL);
                         entries.add(ModItems.CHEESE_SLICE);
                         entries.add(ModItems.RAW_HIDE);
+                        entries.add(ModItems.SALT);
                     })
                     .build());
 
-    public static final ItemGroup HOMESTEAD_BLOCKs = Registry.register(Registries.ITEM_GROUP,
+    public static final ItemGroup HOMESTEAD_BLOCKS = Registry.register(Registries.ITEM_GROUP,
             Identifier.of(Homestead.MOD_ID, "homestead_blocks"),
             FabricItemGroup.builder().icon(() -> new ItemStack(ModBlocks.CURING_VAT))
                     .displayName(Text.translatable("itemGroup.homestead_blocks"))
