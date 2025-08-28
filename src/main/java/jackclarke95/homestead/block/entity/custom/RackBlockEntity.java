@@ -74,6 +74,13 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         return inventory;
     }
 
+    @Override
+    public void clear() {
+        ImplementedInventory.super.clear();
+
+        resetProgress();
+    }
+
     public void tick(World world, BlockPos pos, BlockState state) {
         if (inventory.get(0).isEmpty()) {
             return;
