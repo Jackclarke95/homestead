@@ -4,6 +4,7 @@ import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.CuringVatBlock;
 import jackclarke95.homestead.block.custom.CustomBlock;
 import jackclarke95.homestead.block.custom.RackBlock;
+import jackclarke95.homestead.block.custom.TroughBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -19,6 +20,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModBlocks {
+        public static final Block TROUGH = registerBlock("trough",
+                        new TroughBlock(AbstractBlock.Settings.copy(Blocks.CAULDRON)));
 
         public static final Block CUSTOM_BLOCK = registerBlock("custom_block",
                         new CustomBlock(AbstractBlock.Settings.create()
@@ -56,6 +59,7 @@ public class ModBlocks {
                         entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
                         entries.add(ModBlocks.HAY_STAIRS);
                         entries.add(ModBlocks.CURING_VAT);
+                        entries.add(ModBlocks.TROUGH);
                 });
         }
 

@@ -45,6 +45,7 @@ public class ModItemGroups {
                         entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
                         entries.add(ModBlocks.HAY_STAIRS);
                         entries.add(ModBlocks.CURING_VAT);
+                        entries.add(ModBlocks.TROUGH);
                     })
                     .build());
 
