@@ -38,6 +38,7 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
 
         matrices.scale(0.5f, 0.5f, 0.5f);
 
+        // TODO: Rotate banners and shields to appear properly
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(getRotationForFacing(facing)));
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(getXRotation(isBlockItem)));
 
