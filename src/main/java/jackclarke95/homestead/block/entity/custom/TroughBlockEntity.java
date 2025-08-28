@@ -1,6 +1,7 @@
 
 package jackclarke95.homestead.block.entity.custom;
 
+import java.util.ArrayDeque;
 import java.util.List;
 
 import jackclarke95.homestead.Homestead;
@@ -67,12 +68,7 @@ public class TroughBlockEntity extends BlockEntity implements ImplementedInvento
         }
 
         for (AnimalEntity animal : animals) {
-            double x = animal.getX();
-            double y = animal.getY() + animal.getHeight() + 1.0;
-            double z = animal.getZ();
             if (world != null && !world.isClient) {
-                ((net.minecraft.server.world.ServerWorld) world).spawnParticles(
-                        net.minecraft.particle.ParticleTypes.HAPPY_VILLAGER, x, y, z, 1, 0, 0, 0, 0.0);
                 animal.lovePlayer(null);
             }
         }
@@ -86,7 +82,7 @@ public class TroughBlockEntity extends BlockEntity implements ImplementedInvento
         BlockPos troughBase = pos.down();
         int maxDist = 16;
         Box searchBox = new Box(troughBase).expand(maxDist);
-        java.util.Queue<BlockPos> queue = new java.util.ArrayDeque<>();
+        java.util.Queue<BlockPos> queue = new ArrayDeque<>();
         queue.add(troughBase);
         enclosureArea.add(troughBase);
         int[][] deltas = {
