@@ -111,7 +111,7 @@ public class RackBlock extends BlockWithEntity {
 
                     Homestead.LOGGER.info("Leather armor has dyed color component, can be rinsed");
 
-                    rackBlockEntity.setStack(0, stack.copyWithCount(1));
+                    placeItemOnRack(stack, world, pos, rackBlockEntity);
                 }
 
                 Optional<RecipeEntry<?>> recipe = getCurrentRecipe(stack, world);
@@ -120,10 +120,7 @@ public class RackBlock extends BlockWithEntity {
                     return ItemActionResult.SUCCESS;
                 }
 
-                rackBlockEntity.setStack(0, stack.copyWithCount(1));
-
-                world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1f, 1f);
-                stack.decrement(1);
+                placeItemOnRack(stack, world, pos, rackBlockEntity);
 
                 updateWorld(state, world, pos, rackBlockEntity);
             } else if (!player.isSneaking() && !stackOnRack.isEmpty()) {
@@ -140,6 +137,13 @@ public class RackBlock extends BlockWithEntity {
         }
 
         return ItemActionResult.SUCCESS;
+    }
+
+    private void placeItemOnRack(ItemStack stack, World world, BlockPos pos, RackBlockEntity rackBlockEntity) {
+        rackBlockEntity.setStack(0, stack.copyWithCount(1));
+
+        world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1f, 1f);
+        stack.decrement(1);
     }
 
     public static boolean isLeatherArmor(ItemStack stack) {
@@ -160,9 +164,15 @@ public class RackBlock extends BlockWithEntity {
     // Give item to player: try hand, then inventory, then drop
     private void giveItemToPlayer(PlayerEntity player, ItemStack itemStack) {
         ItemStack handStack = player.getStackInHand(Hand.MAIN_HAND);
+        // If hand is empty, place the item directly in hand
+        if (handStack.isEmpty()) {
+            player.setStackInHand(Hand.MAIN_HAND, itemStack.copy());
+            return;
+        }
+
+        // If hand has the same item and can stack, stack as before
         if (itemStack.getItem() == handStack.getItem() && handStack.getCount() < handStack.getMaxCount()) {
             handStack.increment(itemStack.getCount());
-
             return;
         }
 
