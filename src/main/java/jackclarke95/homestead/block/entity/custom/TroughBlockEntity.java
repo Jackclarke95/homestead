@@ -1,5 +1,6 @@
 package jackclarke95.homestead.block.entity.custom;
 
+import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import net.minecraft.block.BlockState;
@@ -26,5 +27,14 @@ public class TroughBlockEntity extends BlockEntity implements ImplementedInvento
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
         // No custom data for now
+    }
+
+    // Called every tick (server side)
+    public void tick(net.minecraft.world.World world, BlockPos pos, BlockState state) {
+        // No logic for now
+        // every 20 ticks, do something
+        if (world.getTime() % 100 == 0) {
+            Homestead.LOGGER.info("TroughBlockEntity ticking at " + pos);
+        }
     }
 }

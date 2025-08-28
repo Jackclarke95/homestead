@@ -1,15 +1,17 @@
-
 package jackclarke95.homestead.block.custom;
 
 import net.minecraft.block.Block;
 
 import com.mojang.serialization.MapCodec;
+
+import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.TroughBlockEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
@@ -21,6 +23,8 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+import net.minecraft.block.entity.BlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
 public class TroughBlock extends BlockWithEntity {
@@ -107,5 +111,16 @@ public class TroughBlock extends BlockWithEntity {
                 Block.createCuboidShape(11, 0, 14, 12, 2, 16),
                 // base (rotated 90 degrees)
                 Block.createCuboidShape(4, 2, 0, 12, 8, 16));
+    }
+
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state,
+            BlockEntityType<T> type) {
+        if (world.isClient) {
+            return null;
+        }
+
+        return validateTicker(type, ModBlockEntities.TROUGH_BE,
+                (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
     }
 }
