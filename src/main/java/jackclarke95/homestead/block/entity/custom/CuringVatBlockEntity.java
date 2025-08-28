@@ -100,6 +100,10 @@ public class CuringVatBlockEntity extends BlockEntity
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
+        // Always try to move pending output to actual output first, decoupled from
+        // current recipe
+        handlePendingTransfer();
+
         Optional<RecipeEntry<CuringVatRecipe>> recipeOpt = getCurrentRecipe();
         if (recipeOpt.isPresent()) {
             this.currentRecipe = recipeOpt.get();
@@ -132,8 +136,6 @@ public class CuringVatBlockEntity extends BlockEntity
         } else {
             resetProgress();
         }
-        // Handle pending -> actual transfer if possible
-        handlePendingTransfer();
     }
 
     private void resetProgress() {
@@ -214,21 +216,29 @@ public class CuringVatBlockEntity extends BlockEntity
         if (pending.isEmpty()) {
             return;
         }
-        // Find a recipe whose output matches the pending item AND whose container matches the input slot (if required)
+        // Find any recipe whose output matches the pending item
         Optional<CuringVatRecipe> match = this.getWorld().getRecipeManager()
                 .listAllOfType(ModRecipes.CURING_VAT_TYPE).stream()
                 .map(RecipeEntry::value)
                 .filter(recipe -> recipe.output().getItem().equals(pending.getItem()))
-                .filter(recipe -> !recipe.hasContainer() || (!inventory.get(INPUT_CONTAINER_SLOT).isEmpty() && recipe.container().test(inventory.get(INPUT_CONTAINER_SLOT))))
                 .findFirst();
         if (match.isPresent()) {
             CuringVatRecipe recipe = match.get();
-            int containerAvailable = recipe.hasContainer() ? inventory.get(INPUT_CONTAINER_SLOT).getCount() : pending.getCount();
             int pendingCount = pending.getCount();
             int outputSlotSpace = this.getStack(OUTPUT_ACTUAL_SLOT).isEmpty() ? 64
                     : this.getStack(OUTPUT_ACTUAL_SLOT).getMaxCount() - this.getStack(OUTPUT_ACTUAL_SLOT).getCount();
-            int transferAmount = Math.min(pendingCount, Math.min(containerAvailable, outputSlotSpace));
+            int transferAmount = pendingCount;
             boolean canInsertItem = canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, pending);
+            // If a container is required, check that the container in the input slot
+            // matches and limit transferAmount
+            if (recipe.hasContainer()) {
+                int containerAvailable = inventory.get(INPUT_CONTAINER_SLOT).getCount();
+                if (containerAvailable == 0 || !recipe.container().test(inventory.get(INPUT_CONTAINER_SLOT))) {
+                    return;
+                }
+                transferAmount = Math.min(transferAmount, containerAvailable);
+            }
+            transferAmount = Math.min(transferAmount, outputSlotSpace);
             if (canInsertItem && transferAmount > 0) {
                 if (recipe.hasContainer()) {
                     this.removeStack(INPUT_CONTAINER_SLOT, transferAmount);
