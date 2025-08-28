@@ -4,7 +4,6 @@ package jackclarke95.homestead.block.entity.custom;
 import java.util.ArrayDeque;
 import java.util.List;
 
-import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import net.minecraft.block.BlockState;
@@ -42,8 +41,8 @@ public class TroughBlockEntity extends BlockEntity implements ImplementedInvento
 
     public void tick(net.minecraft.world.World world, BlockPos pos, BlockState state) {
         if (world.getTime() % 100 == 0) {
-            Homestead.LOGGER.info("Attempting breeding");
             computeEnclosureArea();
+
             attemptBreeding();
         }
     }
@@ -51,7 +50,6 @@ public class TroughBlockEntity extends BlockEntity implements ImplementedInvento
     private void attemptBreeding() {
         // Only consider animals whose BlockPos is in the enclosure area
         if (enclosureArea.isEmpty()) {
-            Homestead.LOGGER.info("[Trough] No enclosure area found for Trough at " + pos);
             return;
         }
         List<AnimalEntity> animals = world.getEntitiesByClass(
@@ -62,15 +60,16 @@ public class TroughBlockEntity extends BlockEntity implements ImplementedInvento
                         && entity.getBreedingAge() == 0
                         && !entity.isInLove());
 
-        if (animals.isEmpty()) {
-            Homestead.LOGGER.info("[Trough] No eligible animals found at " + pos);
+        if (animals.size() < 2) {
             return;
         }
 
-        for (AnimalEntity animal : animals) {
-            if (world != null && !world.isClient) {
-                animal.lovePlayer(null);
-            }
+        if (world != null && !world.isClient) {
+            AnimalEntity parent1 = animals.get(0);
+            AnimalEntity parent2 = animals.get(1);
+
+            parent1.lovePlayer(null);
+            parent2.lovePlayer(null);
         }
     }
 
