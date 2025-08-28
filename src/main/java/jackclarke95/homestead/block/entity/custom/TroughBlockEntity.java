@@ -9,10 +9,6 @@ import jackclarke95.homestead.block.entity.ModBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Block;
-import net.minecraft.block.WallBlock;
-// import net.minecraft.block.FenceBlock; // Uncomment if available
-// import net.minecraft.block.FenceGateBlock; // Uncomment if available
-// import net.minecraft.registry.tag.BlockTags; // Uncomment if available
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.collection.DefaultedList;
@@ -79,15 +75,6 @@ public class TroughBlockEntity extends BlockEntity implements ImplementedInvento
         }
     }
 
-    /**
-     * Returns true if the given animal can pathfind from the trough to the target
-     * position.
-     * This uses Minecraft's built-in pathfinding for accuracy.
-     *
-     * Usage example:
-     * AnimalEntity animal = ...; // get a real or temporary animal entity
-     * boolean canReach = canAnimalReach(animal, pos);
-     */
     private boolean canAnimalReach(AnimalEntity animal, BlockPos targetPosition) {
         // Custom BFS/flood fill region search to determine if the animal can reach the
         // trough
