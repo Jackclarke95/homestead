@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 
 public record CuringVatRecipe(
         Ingredient inputItem, // required
+        int ingredientCount, // required, from JSON
         Ingredient catalyst, // optional, may be Ingredient.EMPTY
         Ingredient container, // optional, may be Ingredient.EMPTY
         ItemStack output, // required
@@ -92,6 +93,7 @@ public record CuringVatRecipe(
     public static class Serializer implements RecipeSerializer<CuringVatRecipe> {
         public static final MapCodec<CuringVatRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
                 Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("ingredient").forGetter(CuringVatRecipe::inputItem),
+                Codec.INT.optionalFieldOf("ingredientCount", 1).forGetter(CuringVatRecipe::ingredientCount),
                 Ingredient.DISALLOW_EMPTY_CODEC.optionalFieldOf("catalyst", Ingredient.EMPTY)
                         .forGetter(r -> r.catalyst),
                 Ingredient.DISALLOW_EMPTY_CODEC.optionalFieldOf("container", Ingredient.EMPTY)
@@ -101,42 +103,47 @@ public record CuringVatRecipe(
                         .forGetter(r -> (r.byproduct == null || r.byproduct.isEmpty()) ? java.util.Optional.empty()
                                 : java.util.Optional.of(r.byproduct)),
                 Codec.INT.fieldOf("time").forGetter(CuringVatRecipe::time))
-                .apply(inst, (ingredient, catalyst, container, result, byproductOpt,
-                        time) -> new CuringVatRecipe(ingredient, catalyst, container, result,
+                .apply(inst, (ingredient, ingredientCount, catalyst, container, result, byproductOpt,
+                        time) -> new CuringVatRecipe(ingredient, ingredientCount, catalyst, container, result,
                                 byproductOpt.orElse(ItemStack.EMPTY), time)));
 
         public static final PacketCodec<RegistryByteBuf, Integer> INT_CODEC = PacketCodec.of(
                 (value, buf) -> buf.writeVarInt(value),
                 buf -> buf.readVarInt());
 
-        public static final PacketCodec<RegistryByteBuf, CuringVatRecipe> STREAM_CODEC = PacketCodec.tuple(
-                Ingredient.PACKET_CODEC, CuringVatRecipe::inputItem,
-                Ingredient.PACKET_CODEC, CuringVatRecipe::catalyst,
-                Ingredient.PACKET_CODEC, CuringVatRecipe::container,
-                ItemStack.PACKET_CODEC, CuringVatRecipe::output,
+        public static final PacketCodec<RegistryByteBuf, CuringVatRecipe> STREAM_CODEC = new PacketCodec<>() {
+            @Override
+            public void encode(RegistryByteBuf buf, CuringVatRecipe recipe) {
+                Ingredient.PACKET_CODEC.encode(buf, recipe.inputItem());
+                INT_CODEC.encode(buf, recipe.ingredientCount());
+                Ingredient.PACKET_CODEC.encode(buf, recipe.catalyst());
+                Ingredient.PACKET_CODEC.encode(buf, recipe.container());
+                ItemStack.PACKET_CODEC.encode(buf, recipe.output());
                 // Manual optional encoding for byproduct
-                new PacketCodec<RegistryByteBuf, ItemStack>() {
-                    public void encode(RegistryByteBuf buf, ItemStack value) {
-                        boolean present = value != null && !value.isEmpty();
-                        buf.writeBoolean(present);
-                        if (present) {
-                            ItemStack.PACKET_CODEC.encode(buf, value);
-                        }
-                    }
+                boolean hasByproduct = recipe.byproduct() != null && !recipe.byproduct().isEmpty();
+                buf.writeBoolean(hasByproduct);
+                if (hasByproduct) {
+                    ItemStack.PACKET_CODEC.encode(buf, recipe.byproduct());
+                }
+                INT_CODEC.encode(buf, recipe.time());
+            }
 
-                    public ItemStack decode(RegistryByteBuf buf) {
-                        boolean present = buf.readBoolean();
-                        if (present) {
-                            return ItemStack.PACKET_CODEC.decode(buf);
-                        } else {
-                            return ItemStack.EMPTY;
-                        }
-                    }
-                },
-                r -> r.byproduct,
-                INT_CODEC, CuringVatRecipe::time,
-                (input, catalyst, container, output, byproduct, time) -> new CuringVatRecipe(input, catalyst, container,
-                        output, byproduct, time));
+            @Override
+            public CuringVatRecipe decode(RegistryByteBuf buf) {
+                Ingredient input = Ingredient.PACKET_CODEC.decode(buf);
+                int ingredientCount = INT_CODEC.decode(buf);
+                Ingredient catalyst = Ingredient.PACKET_CODEC.decode(buf);
+                Ingredient container = Ingredient.PACKET_CODEC.decode(buf);
+                ItemStack output = ItemStack.PACKET_CODEC.decode(buf);
+                ItemStack byproduct = ItemStack.EMPTY;
+                boolean hasByproduct = buf.readBoolean();
+                if (hasByproduct) {
+                    byproduct = ItemStack.PACKET_CODEC.decode(buf);
+                }
+                int time = INT_CODEC.decode(buf);
+                return new CuringVatRecipe(input, ingredientCount, catalyst, container, output, byproduct, time);
+            }
+        };
 
         @Override
         public MapCodec<CuringVatRecipe> codec() {
