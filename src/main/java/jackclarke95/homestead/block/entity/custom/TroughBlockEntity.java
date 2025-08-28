@@ -52,21 +52,24 @@ public class TroughBlockEntity extends BlockEntity implements ImplementedInvento
         if (enclosureArea.isEmpty()) {
             return;
         }
-        List<AnimalEntity> animals = world.getEntitiesByClass(
+        // List of all animals in the enclosure
+        List<AnimalEntity> animalsInEnclosure = world.getEntitiesByClass(
                 AnimalEntity.class,
                 new Box(pos).expand(8),
-                entity -> enclosureArea.contains(entity.getBlockPos())
-                        && entity.isAlive()
-                        && entity.getBreedingAge() == 0
-                        && !entity.isInLove());
+                entity -> enclosureArea.contains(entity.getBlockPos()));
 
-        if (animals.size() < 2) {
+        // List of animals eligible for breeding
+        List<AnimalEntity> eligibleAnimals = animalsInEnclosure.stream()
+                .filter(entity -> entity.isAlive() && entity.getBreedingAge() == 0 && !entity.isInLove())
+                .toList();
+
+        if (eligibleAnimals.size() < 2 || animalsInEnclosure.size() >= 16) {
             return;
         }
 
         if (world != null && !world.isClient) {
-            AnimalEntity parent1 = animals.get(0);
-            AnimalEntity parent2 = animals.get(1);
+            AnimalEntity parent1 = eligibleAnimals.get(0);
+            AnimalEntity parent2 = eligibleAnimals.get(1);
 
             parent1.lovePlayer(null);
             parent2.lovePlayer(null);
