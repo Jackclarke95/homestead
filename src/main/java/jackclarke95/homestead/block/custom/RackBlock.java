@@ -2,7 +2,6 @@ package jackclarke95.homestead.block.custom;
 
 import com.mojang.serialization.MapCodec;
 
-import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.recipe.ModRecipes;
@@ -100,16 +99,10 @@ public class RackBlock extends BlockWithEntity {
 
             if (rackBlockEntity.isEmpty() && !stack.isEmpty()) {
                 // Handle placing dyed leather armor (with color component) for rinsing
-                if (isLeatherArmor(stack)) {
-                    Homestead.LOGGER.info("Placing dyed leather armor for rinsing");
-
-                    if (!isDyedLeatherArmour(stack)) {
-                        Homestead.LOGGER.info("Leather armor has no dyed color component, cannot be rinsed");
-
+                if (isLeatherArmorOrBannerOrShield(stack)) {
+                    if (!hasDyeOrBanner(stack)) {
                         return ItemActionResult.SUCCESS;
                     }
-
-                    Homestead.LOGGER.info("Leather armor has dyed color component, can be rinsed");
 
                     placeItemOnRack(stack, world, pos, rackBlockEntity);
                 }
@@ -146,14 +139,19 @@ public class RackBlock extends BlockWithEntity {
         stack.decrement(1);
     }
 
-    public static boolean isLeatherArmor(ItemStack stack) {
-        String id = stack.getItem().toString();
-        return id.contains("leather_helmet") || id.contains("leather_chestplate") || id.contains("leather_leggings")
-                || id.contains("leather_boots");
+    public static boolean hasDyeOrBanner(ItemStack stack) {
+        return stack.getComponents().contains(DataComponentTypes.DYED_COLOR)
+                || stack.getComponents().contains(DataComponentTypes.BANNER_PATTERNS);
     }
 
-    public static boolean isDyedLeatherArmour(ItemStack stack) {
-        return stack.getComponents().contains(DataComponentTypes.DYED_COLOR);
+    public static boolean isLeatherArmorOrBannerOrShield(ItemStack stack) {
+        String id = stack.getItem().toString();
+        return id.contains("leather_helmet") ||
+                id.contains("leather_chestplate") ||
+                id.contains("leather_leggings") ||
+                id.contains("leather_boots") ||
+                id.contains("banner") ||
+                id.contains("shield");
     }
 
     private void updateWorld(BlockState state, World world, BlockPos pos, RackBlockEntity rackBlockEntity) {

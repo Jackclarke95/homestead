@@ -79,10 +79,10 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
             return;
         }
 
-        if (RackBlock.isLeatherArmor(inventory.get(0)) && RackBlock.isDyedLeatherArmour(inventory.get(0))) {
-            Homestead.LOGGER.info("Found dyed leather armor");
+        if ((RackBlock.hasDyeOrBanner(inventory.get(0)))) {
+            Homestead.LOGGER.info("Found item to clean (leather armor, banner, or shield)");
 
-            rinseLeatherArmour();
+            removeDyeAndPatternFromItem();
 
             return;
         }
@@ -107,11 +107,13 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
                     canProgress = true;
                 }
             }
+
             if (canProgress) {
                 increaseCraftingProgress();
 
                 markDirty(world, pos, state);
             }
+
             if (hasCraftingFinished()) {
                 craftItem(state);
 
@@ -122,34 +124,34 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         }
     }
 
-    private void rinseLeatherArmour() {
+    private void removeDyeAndPatternFromItem() {
         RackBlockEntity.this.maxProgress = 60;
 
         if (hasCraftingFinished()) {
-            Homestead.LOGGER.info("Crafting finished for leather armor");
+            ItemStack cleaned = inventory.get(0).copy();
 
-            ItemStack stack = inventory.get(0);
-            ItemStack undyed = stack.copy();
+            // Remove both dyed color and banner patterns, regardless of item type
+            cleaned.set(DataComponentTypes.DYED_COLOR, null);
+            cleaned.set(DataComponentTypes.BANNER_PATTERNS, null);
 
-            undyed.set(DataComponentTypes.DYED_COLOR, null);
+            inventory.set(0, cleaned);
 
-            inventory.set(0, undyed);
-
-            BlockState state = world.getBlockState(pos);
-            markDirty(world, pos, state);
-
-            world.updateListeners(pos, state, state, 0);
+            updateWorld();
 
             return;
         }
 
         if (isRinsingEnvironment(world, pos)) {
-            Homestead.LOGGER.info("Increasing crafting progress for leather armor");
 
             spawnRinsingParticles((ServerWorld) world, pos);
             increaseCraftingProgress();
         }
+    }
 
+    private void updateWorld() {
+        BlockState state = world.getBlockState(pos);
+        markDirty(world, pos, state);
+        world.updateListeners(pos, state, state, 0);
     }
 
     private void spawnRinsingParticles(ServerWorld world, BlockPos pos) {
@@ -279,19 +281,24 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     private void craftItem(BlockState state) {
-        if (this.currentRecipe == null)
+        if (this.currentRecipe == null) {
             return;
+        }
+
         Object value = this.currentRecipe.value();
         ItemStack output = ItemStack.EMPTY;
+
         if (value instanceof RinsingRecipe rinsing) {
             output = rinsing.output();
         } else if (value instanceof DryingRecipe drying) {
             output = drying.output();
         }
+
         if (!output.isEmpty()) {
             this.removeStack(0, 1);
             this.setStack(0, new ItemStack(output.getItem(), 1));
-            world.updateListeners(pos, state, state, 0);
+
+            updateWorld();
         }
     }
 
