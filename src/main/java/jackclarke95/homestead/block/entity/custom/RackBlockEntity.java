@@ -1,6 +1,8 @@
 package jackclarke95.homestead.block.entity.custom;
 
 import net.minecraft.registry.tag.FluidTags;
+import jackclarke95.homestead.Homestead;
+import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.recipe.ModRecipes;
@@ -9,6 +11,7 @@ import jackclarke95.homestead.recipe.RinsingRecipe;
 import jackclarke95.homestead.recipe.DryingRecipe;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -72,6 +75,18 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
+        if (inventory.get(0).isEmpty()) {
+            return;
+        }
+
+        if (RackBlock.isLeatherArmor(inventory.get(0)) && RackBlock.isDyedLeatherArmour(inventory.get(0))) {
+            Homestead.LOGGER.info("Found dyed leather armor");
+
+            rinseLeatherArmour();
+
+            return;
+        }
+
         if (hasRecipe()) {
             boolean canProgress = false;
 
@@ -105,6 +120,36 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         } else {
             resetProgress();
         }
+    }
+
+    private void rinseLeatherArmour() {
+        RackBlockEntity.this.maxProgress = 60;
+
+        if (hasCraftingFinished()) {
+            Homestead.LOGGER.info("Crafting finished for leather armor");
+
+            ItemStack stack = inventory.get(0);
+            ItemStack undyed = stack.copy();
+
+            undyed.set(DataComponentTypes.DYED_COLOR, null);
+
+            inventory.set(0, undyed);
+
+            BlockState state = world.getBlockState(pos);
+            markDirty(world, pos, state);
+
+            world.updateListeners(pos, state, state, 0);
+
+            return;
+        }
+
+        if (isRinsingEnvironment(world, pos)) {
+            Homestead.LOGGER.info("Increasing crafting progress for leather armor");
+
+            spawnRinsingParticles((ServerWorld) world, pos);
+            increaseCraftingProgress();
+        }
+
     }
 
     private void spawnRinsingParticles(ServerWorld world, BlockPos pos) {
@@ -163,7 +208,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     private boolean isDryingEnvironment(World world, BlockPos pos) {
-        if (!isRinsingEnvironment(world, pos) && (isAboveCampfire(world, pos) || isInHotBiome(world, pos))) {
+        if (!isUnderDripstoneWithWater(world, pos) && (isAboveCampfire(world, pos) || isInHotBiome(world, pos))) {
             return true;
         }
 
@@ -180,7 +225,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     private boolean isInHotBiome(World world, BlockPos pos) {
         // Use vanilla biome temperature threshold for "hot"
         float temp = world.getBiome(pos).value().getTemperature();
-        return temp >= 1.5f; // e.g. desert, savanna, nether
+        return temp > 1.0f; // e.g. desert, savanna, nether
     }
 
     private boolean hasRecipe() {

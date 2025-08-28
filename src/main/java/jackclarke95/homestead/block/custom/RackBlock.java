@@ -2,6 +2,7 @@ package jackclarke95.homestead.block.custom;
 
 import com.mojang.serialization.MapCodec;
 
+import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.recipe.ModRecipes;
@@ -14,6 +15,7 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -97,6 +99,21 @@ public class RackBlock extends BlockWithEntity {
             ItemStack stackOnRack = rackBlockEntity.getStack(0);
 
             if (rackBlockEntity.isEmpty() && !stack.isEmpty()) {
+                // Handle placing dyed leather armor (with color component) for rinsing
+                if (isLeatherArmor(stack)) {
+                    Homestead.LOGGER.info("Placing dyed leather armor for rinsing");
+
+                    if (!isDyedLeatherArmour(stack)) {
+                        Homestead.LOGGER.info("Leather armor has no dyed color component, cannot be rinsed");
+
+                        return ItemActionResult.SUCCESS;
+                    }
+
+                    Homestead.LOGGER.info("Leather armor has dyed color component, can be rinsed");
+
+                    rackBlockEntity.setStack(0, stack.copyWithCount(1));
+                }
+
                 Optional<RecipeEntry<?>> recipe = getCurrentRecipe(stack, world);
 
                 if (recipe.isEmpty()) {
@@ -123,6 +140,16 @@ public class RackBlock extends BlockWithEntity {
         }
 
         return ItemActionResult.SUCCESS;
+    }
+
+    public static boolean isLeatherArmor(ItemStack stack) {
+        String id = stack.getItem().toString();
+        return id.contains("leather_helmet") || id.contains("leather_chestplate") || id.contains("leather_leggings")
+                || id.contains("leather_boots");
+    }
+
+    public static boolean isDyedLeatherArmour(ItemStack stack) {
+        return stack.getComponents().contains(DataComponentTypes.DYED_COLOR);
     }
 
     private void updateWorld(BlockState state, World world, BlockPos pos, RackBlockEntity rackBlockEntity) {
