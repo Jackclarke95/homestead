@@ -39,7 +39,7 @@ public class TroughBlock extends BlockWithEntity {
     public static final MapCodec<TroughBlock> CODEC = TroughBlock.createCodec(TroughBlock::new);
 
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
-    public static final IntProperty FEED_LEVEL = IntProperty.of("feed_level", 0, 4);
+    public static final IntProperty FEED_LEVEL = IntProperty.of("feed_level", 0, 5);
 
     public TroughBlock(Settings settings) {
         super(settings);

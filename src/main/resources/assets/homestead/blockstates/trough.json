@@ -70,6 +70,22 @@
     "feed_level=4,facing=west": {
       "model": "homestead:block/trough_contents_4",
       "y": 270
+    },
+
+    "feed_level=5,facing=north": {
+      "model": "homestead:block/trough_contents_5"
+    },
+    "feed_level=5,facing=east": {
+      "model": "homestead:block/trough_contents_5",
+      "y": 90
+    },
+    "feed_level=5,facing=south": {
+      "model": "homestead:block/trough_contents_5",
+      "y": 180
+    },
+    "feed_level=5,facing=west": {
+      "model": "homestead:block/trough_contents_5",
+      "y": 270
     }
   }
 }

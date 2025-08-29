@@ -46,14 +46,16 @@ public class TroughBlockEntity extends BlockEntity implements ImplementedInvento
 
         if (ratio == 0) {
             return 0;
-        } else if (ratio < 0.25f) {
+        } else if (stack.getCount() == 1) {
             return 1;
-        } else if (ratio < 0.5f) {
+        } else if (ratio < 0.25f) {
             return 2;
-        } else if (ratio < 0.75f) {
+        } else if (ratio < 0.5f) {
             return 3;
-        } else {
+        } else if (ratio < 0.75f) {
             return 4;
+        } else {
+            return 5;
         }
     }
 
