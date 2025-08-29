@@ -242,13 +242,13 @@ public class RackBlock extends BlockWithEntity {
     }
 
     protected VoxelShape createShape() {
-        VoxelShape leg1 = Block.createCuboidShape(0, 0, 0, 2, 9, 2);
-        VoxelShape leg2 = Block.createCuboidShape(14, 0, 0, 16, 9, 2);
-        VoxelShape leg3 = Block.createCuboidShape(14, 0, 14, 16, 9, 16);
-        VoxelShape leg4 = Block.createCuboidShape(0, 0, 14, 2, 9, 16);
+        VoxelShape backLeftLeg = Block.createCuboidShape(0, 0, 0, 2, 16, 2);
+        VoxelShape backRightLeg = Block.createCuboidShape(14, 0, 0, 16, 16, 2);
+        VoxelShape frontRightLeg = Block.createCuboidShape(14, 0, 14, 16, 9, 16);
+        VoxelShape frontLeftLeg = Block.createCuboidShape(0, 0, 14, 2, 9, 16);
         VoxelShape topRack = Block.createCuboidShape(0, 9, 0, 16, 15, 16);
 
-        return VoxelShapes.union(leg1, leg2, leg3, leg4, topRack);
+        return VoxelShapes.union(backLeftLeg, backRightLeg, frontRightLeg, frontLeftLeg, topRack);
     }
 
     @Override

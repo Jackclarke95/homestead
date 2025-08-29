@@ -7,10 +7,10 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 
 public class ModTags {
-    public static class Blocks {
+    public static class BlockTags {
     }
 
-    public static class Items {
+    public static class ItemTags {
         public static final TagKey<Item> ROOT_VEGETABLES = createTag("root_vegetables");
         public static final TagKey<Item> CROP_SEEDS = createTag("crop_seeds");
 

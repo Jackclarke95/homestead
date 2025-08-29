@@ -45,11 +45,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
                 ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.ANIMAL_FEED, 1)
                                 .input(ModItems.FLOUR)
-                                .input(ModTags.Items.ROOT_VEGETABLES)
+                                .input(ModTags.ItemTags.ROOT_VEGETABLES)
                                 .input(ModItems.SEED_MIX)
                                 .criterion(hasItem(ModItems.FLOUR), conditionsFromItem(ModItems.FLOUR))
                                 .criterion(hasItem(ModItems.SEED_MIX), conditionsFromItem(ModItems.SEED_MIX))
-                                .criterion("has_root_vegetable", conditionsFromTag(ModTags.Items.ROOT_VEGETABLES))
+                                .criterion("has_root_vegetable", conditionsFromTag(ModTags.ItemTags.ROOT_VEGETABLES))
                                 .offerTo(recipeExporter,
                                                 Identifier.of(Homestead.MOD_ID, "animal_feed"));
 
