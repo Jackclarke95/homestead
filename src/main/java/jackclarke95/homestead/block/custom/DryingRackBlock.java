@@ -1,29 +1,71 @@
 package jackclarke95.homestead.block.custom;
 
 import com.mojang.serialization.MapCodec;
+
+import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.DryingRackBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
+import net.minecraft.util.Hand;
+import net.minecraft.util.ItemActionResult;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class DryingRackBlock extends RackBlock {
     private final VoxelShape SHAPE = createShape();
+    public static final BooleanProperty LIT = BooleanProperty.of("lit");
+
     public static final MapCodec<DryingRackBlock> CODEC = DryingRackBlock.createCodec(DryingRackBlock::new);
 
     public DryingRackBlock(Settings settings) {
         super(settings);
-        setDefaultState(this.stateManager.getDefaultState());
+        setDefaultState(this.stateManager.getDefaultState().with(LIT, true));
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        super.appendProperties(builder);
+        builder.add(LIT);
+    }
+
+    @Override
+    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
+            PlayerEntity player, Hand hand, BlockHitResult hit) {
+
+        ItemStack held = player.getStackInHand(Hand.MAIN_HAND);
+
+        if (held.getItem().toString().contains("flint_and_steel")) {
+            if (!world.isClient && !state.get(LIT)) {
+                world.setBlockState(pos, state.with(LIT, true));
+                held.damage(1, player, EquipmentSlot.MAINHAND);
+            }
+
+            return ItemActionResult.SUCCESS;
+        } else if (held.getItem().toString().contains("shovel")) {
+            if (!world.isClient && state.get(LIT)) {
+                world.setBlockState(pos, state.with(LIT, false));
+            }
+
+            return ItemActionResult.SUCCESS;
+        } else {
+            return super.onUseWithItem(stack, state, world, pos, player, hand, hit);
+        }
     }
 
     @Override
