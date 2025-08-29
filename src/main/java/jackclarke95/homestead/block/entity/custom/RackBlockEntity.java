@@ -10,6 +10,7 @@ import jackclarke95.homestead.recipe.RackRecipeInput;
 import jackclarke95.homestead.recipe.RinsingRecipe;
 import jackclarke95.homestead.recipe.DryingRecipe;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.inventory.Inventories;
@@ -188,29 +189,33 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     private boolean isUnderDripstoneWithWater(World world, BlockPos pos) {
-        BlockPos.Mutable checkPos = pos.up().mutableCopy();
-
+        BlockPos checkPos = pos.up();
         for (int i = 0; i < 16; i++) {
-            var state = world.getBlockState(checkPos);
+            BlockState state = world.getBlockState(checkPos);
 
-            if (state.isAir()) {
-                checkPos.move(0, 1, 0);
+            if (state.isOf(Blocks.POINTED_DRIPSTONE)) {
+                BlockPos dripstoneSearchPos = checkPos.up();
 
-                continue;
-            }
+                for (int j = 0; j < 16; j++) {
+                    BlockState aboveState = world.getBlockState(dripstoneSearchPos);
 
-            if (state.getBlock().getTranslationKey().contains("pointed_dripstone")) {
-                BlockPos above = checkPos.up(2);
-                var aboveState = world.getBlockState(above);
+                    if (aboveState.isOf(Blocks.DRIPSTONE_BLOCK)) {
+                        BlockState waterState = world.getBlockState(dripstoneSearchPos.up());
 
-                if (aboveState.getFluidState().isIn(FluidTags.WATER)) {
-                    return true;
+                        if (waterState.isOf(Blocks.WATER) && waterState.getFluidState().isStill()) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+
+                    dripstoneSearchPos = dripstoneSearchPos.up();
                 }
 
-                break;
+                return false;
             }
 
-            break;
+            checkPos = checkPos.up();
         }
 
         return false;
