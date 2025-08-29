@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 
 import com.mojang.serialization.MapCodec;
 
+import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.TroughBlockEntity;
 import net.minecraft.block.BlockState;
@@ -14,6 +15,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -27,14 +29,23 @@ import net.minecraft.world.World;
 import net.minecraft.block.entity.BlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ItemActionResult;
+
 public class TroughBlock extends BlockWithEntity {
     public static final MapCodec<TroughBlock> CODEC = TroughBlock.createCodec(TroughBlock::new);
 
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+    public static final IntProperty FEED_LEVEL = IntProperty.of("feed_level", 0, 4);
 
     public TroughBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, net.minecraft.util.math.Direction.NORTH));
+        this.setDefaultState(this.stateManager.getDefaultState()
+                .with(FACING, net.minecraft.util.math.Direction.NORTH)
+                .with(FEED_LEVEL, 0));
     }
 
     @Override
@@ -60,13 +71,50 @@ public class TroughBlock extends BlockWithEntity {
     }
 
     @Override
+    protected ItemActionResult onUseWithItem(ItemStack heldStack, BlockState state, World world, BlockPos pos,
+            PlayerEntity player, Hand hand, BlockHitResult hit) {
+        if (heldStack.isEmpty() || heldStack.getItem() != jackclarke95.homestead.item.ModItems.ANIMAL_FEED) {
+            return ItemActionResult.SUCCESS;
+        }
+
+        BlockEntity be = world.getBlockEntity(pos);
+
+        if (!(be instanceof TroughBlockEntity trough))
+            return ItemActionResult.SUCCESS;
+
+        ItemStack troughStack = trough.getStack(0);
+
+        Homestead.LOGGER.info("Trough before: " + troughStack);
+        Homestead.LOGGER.info("Max : " + troughStack.getMaxCount());
+
+        if (troughStack.getCount() >= troughStack.getMaxCount()) {
+            return ItemActionResult.SUCCESS;
+        }
+
+        if (!world.isClient) {
+            if (troughStack.isEmpty()) {
+                trough.setStack(0, new ItemStack(heldStack.getItem(), 1));
+            } else {
+                troughStack.increment(1);
+                trough.setStack(0, troughStack);
+            }
+
+            heldStack.decrement(1);
+            trough.markDirty();
+            world.updateListeners(pos, state, state, 3);
+        }
+
+        return ItemActionResult.SUCCESS;
+    }
+
+    @Override
     protected BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, FEED_LEVEL);
     }
 
     @Override

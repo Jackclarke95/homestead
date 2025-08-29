@@ -46,7 +46,7 @@ public class ModModelProvider extends FabricModelProvider {
 
                 blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.RACK);
                 blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.CURING_VAT);
-                blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.TROUGH);
+
                 registerCubeBottomTop(blockStateModelGenerator, ModBlocks.MILL);
 
                 final TextureMap hayTexture = TextureMap.all(Identifier.of(Homestead.MOD_ID, "block/hay_stairs"));

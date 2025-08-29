@@ -1,0 +1,75 @@
+{
+  "variants": {
+    "feed_level=0,facing=north": { "model": "homestead:block/trough" },
+    "feed_level=0,facing=east": { "model": "homestead:block/trough", "y": 90 },
+    "feed_level=0,facing=south": {
+      "model": "homestead:block/trough",
+      "y": 180
+    },
+    "feed_level=0,facing=west": { "model": "homestead:block/trough", "y": 270 },
+
+    "feed_level=1,facing=north": {
+      "model": "homestead:block/trough_contents_1"
+    },
+    "feed_level=1,facing=east": {
+      "model": "homestead:block/trough_contents_1",
+      "y": 90
+    },
+    "feed_level=1,facing=south": {
+      "model": "homestead:block/trough_contents_1",
+      "y": 180
+    },
+    "feed_level=1,facing=west": {
+      "model": "homestead:block/trough_contents_1",
+      "y": 270
+    },
+
+    "feed_level=2,facing=north": {
+      "model": "homestead:block/trough_contents_2"
+    },
+    "feed_level=2,facing=east": {
+      "model": "homestead:block/trough_contents_2",
+      "y": 90
+    },
+    "feed_level=2,facing=south": {
+      "model": "homestead:block/trough_contents_2",
+      "y": 180
+    },
+    "feed_level=2,facing=west": {
+      "model": "homestead:block/trough_contents_2",
+      "y": 270
+    },
+
+    "feed_level=3,facing=north": {
+      "model": "homestead:block/trough_contents_3"
+    },
+    "feed_level=3,facing=east": {
+      "model": "homestead:block/trough_contents_3",
+      "y": 90
+    },
+    "feed_level=3,facing=south": {
+      "model": "homestead:block/trough_contents_3",
+      "y": 180
+    },
+    "feed_level=3,facing=west": {
+      "model": "homestead:block/trough_contents_3",
+      "y": 270
+    },
+
+    "feed_level=4,facing=north": {
+      "model": "homestead:block/trough_contents_4"
+    },
+    "feed_level=4,facing=east": {
+      "model": "homestead:block/trough_contents_4",
+      "y": 90
+    },
+    "feed_level=4,facing=south": {
+      "model": "homestead:block/trough_contents_4",
+      "y": 180
+    },
+    "feed_level=4,facing=west": {
+      "model": "homestead:block/trough_contents_4",
+      "y": 270
+    }
+  }
+}
