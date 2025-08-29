@@ -11,6 +11,16 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_root_vegetable": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#homestead:root_vegetables"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_seed_mix": {
       "conditions": {
         "items": [
@@ -26,16 +36,6 @@
         "recipe": "homestead:animal_feed"
       },
       "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_vegetable": {
-      "conditions": {
-        "items": [
-          {
-            "items": "#homestead:root_vegetables"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
@@ -43,7 +43,7 @@
       "has_the_recipe",
       "has_flour",
       "has_seed_mix",
-      "has_vegetable"
+      "has_root_vegetable"
     ]
   ],
   "rewards": {

@@ -49,7 +49,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .input(ModItems.SEED_MIX)
                                 .criterion(hasItem(ModItems.FLOUR), conditionsFromItem(ModItems.FLOUR))
                                 .criterion(hasItem(ModItems.SEED_MIX), conditionsFromItem(ModItems.SEED_MIX))
-                                .criterion("has_vegetable", conditionsFromTag(ModTags.Items.ROOT_VEGETABLES))
+                                .criterion("has_root_vegetable", conditionsFromTag(ModTags.Items.ROOT_VEGETABLES))
                                 .offerTo(recipeExporter,
                                                 Identifier.of(Homestead.MOD_ID, "animal_feed"));
 
