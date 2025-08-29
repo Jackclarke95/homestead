@@ -242,13 +242,46 @@ public class RackBlock extends BlockWithEntity {
     }
 
     protected VoxelShape createShape() {
-        VoxelShape backLeftLeg = Block.createCuboidShape(0, 0, 0, 2, 16, 2);
-        VoxelShape backRightLeg = Block.createCuboidShape(14, 0, 0, 16, 16, 2);
-        VoxelShape frontRightLeg = Block.createCuboidShape(14, 0, 14, 16, 9, 16);
-        VoxelShape frontLeftLeg = Block.createCuboidShape(0, 0, 14, 2, 9, 16);
-        VoxelShape topRack = Block.createCuboidShape(0, 9, 0, 16, 15, 16);
+        // North: front legs (z=14) are tall
+        VoxelShape north = VoxelShapes.union(
+                Block.createCuboidShape(0, 0, 0, 2, 9, 2), // back left leg (short)
+                Block.createCuboidShape(14, 0, 0, 16, 9, 2), // back right leg (short)
+                Block.createCuboidShape(14, 0, 14, 16, 16, 16), // front right leg (tall)
+                Block.createCuboidShape(0, 0, 14, 2, 16, 16), // front left leg (tall)
+                Block.createCuboidShape(0, 9, 0, 16, 15, 16) // top rack
+        );
+        // South: back legs (z=0) are tall
+        VoxelShape south = VoxelShapes.union(
+                Block.createCuboidShape(0, 0, 0, 2, 16, 2), // back left leg (tall)
+                Block.createCuboidShape(14, 0, 0, 16, 16, 2), // back right leg (tall)
+                Block.createCuboidShape(14, 0, 14, 16, 9, 16), // front right leg (short)
+                Block.createCuboidShape(0, 0, 14, 2, 9, 16), // front left leg (short)
+                Block.createCuboidShape(0, 9, 0, 16, 15, 16) // top rack
+        );
+        // West: left legs (x=0) are tall
+        VoxelShape west = VoxelShapes.union(
+                Block.createCuboidShape(0, 0, 0, 2, 16, 2), // back left leg (tall)
+                Block.createCuboidShape(14, 0, 0, 16, 9, 2), // back right leg (short)
+                Block.createCuboidShape(14, 0, 14, 16, 9, 16), // front right leg (short)
+                Block.createCuboidShape(0, 0, 14, 2, 16, 16), // front left leg (tall)
+                Block.createCuboidShape(0, 9, 0, 16, 15, 16) // top rack
+        );
+        // East: right legs (x=14) are tall
+        VoxelShape east = VoxelShapes.union(
+                Block.createCuboidShape(0, 0, 0, 2, 9, 2), // back left leg (short)
+                Block.createCuboidShape(14, 0, 0, 16, 16, 2), // back right leg (tall)
+                Block.createCuboidShape(14, 0, 14, 16, 16, 16), // front right leg (tall)
+                Block.createCuboidShape(0, 0, 14, 2, 9, 16), // front left leg (short)
+                Block.createCuboidShape(0, 9, 0, 16, 15, 16) // top rack
+        );
 
-        return VoxelShapes.union(backLeftLeg, backRightLeg, frontRightLeg, frontLeftLeg, topRack);
+        return switch (this.getDefaultState().get(FACING)) {
+            case NORTH -> north;
+            case SOUTH -> south;
+            case WEST -> west;
+            case EAST -> east;
+            default -> north;
+        };
     }
 
     @Override
