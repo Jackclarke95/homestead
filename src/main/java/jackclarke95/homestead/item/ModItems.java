@@ -58,7 +58,6 @@ public class ModItems {
                         entries.add(BEEF_JERKY);
                         entries.add(CHEESE_WHEEL);
                         entries.add(CHEESE_SLICE);
-                        entries.add(MUG);
                         entries.add(MUG_OF_VODKA);
                         entries.add(PORK_JERKY);
                         entries.add(MUTTON_JERKY);
