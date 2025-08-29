@@ -2,8 +2,10 @@ package jackclarke95.homestead.datagen;
 
 import java.util.concurrent.CompletableFuture;
 
+import jackclarke95.homestead.util.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.item.Items;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 
 public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
@@ -14,7 +16,9 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(WrapperLookup wrapperLookup) {
-        // TODO Auto-generated method stub
+        getOrCreateTagBuilder(ModTags.Items.VEGETABLES)
+                .add(Items.CARROT)
+                .add(Items.POTATO)
+                .add(Items.BEETROOT);
     }
-
 }
