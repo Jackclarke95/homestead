@@ -36,8 +36,8 @@ public class CuringVatScreen extends HandledScreen<CuringVatScreenHandler> {
 
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if (handler.isCrafting()) {
-            context.drawTexture(ARROW_TEXTURE, x + 72, y + 23, 0, 0,
-                    handler.getScaledArrowProgress(), 16, 24, 16);
+            context.drawTexture(ARROW_TEXTURE, x + 73, y + 23, 0, 0,
+                    handler.getScaledArrowProgress(), 16, 22, 16);
         }
     }
 

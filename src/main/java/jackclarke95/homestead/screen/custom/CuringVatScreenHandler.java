@@ -80,7 +80,7 @@ public class CuringVatScreenHandler extends ScreenHandler {
     public int getScaledArrowProgress() {
         int progress = this.propertyDelegate.get(0);
         int maxProgress = this.propertyDelegate.get(1); // Max Progress
-        int arrowPixelSize = 24; // This is the width in pixels of your arrow
+        int arrowPixelSize = 22; // This is the width in pixels of your arrow
 
         return maxProgress != 0 && progress != 0 ? progress * arrowPixelSize / maxProgress : 0;
     }
