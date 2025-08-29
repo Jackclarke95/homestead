@@ -49,7 +49,7 @@ public class ModBlocks {
                         new CuringVatBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
 
         public static final Block MILL = registerBlock("mill",
-                        new MillBlock(AbstractBlock.Settings.copy(Blocks.FURNACE)));
+                        new MillBlock(AbstractBlock.Settings.copy(Blocks.STONE)));
 
         public static void registerModBlocks() {
                 Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);

@@ -64,12 +64,14 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .offerTo(recipeExporter);
 
                 ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.MILL)
-                                .pattern("###")
+                                .pattern("#-#")
                                 .pattern("XXX")
                                 .pattern("XXX")
                                 .input('#', ItemTags.WOODEN_SLABS)
+                                .input('-', Items.IRON_INGOT)
                                 .input('X', Items.STONE)
                                 .criterion("has_wooden_slabs", conditionsFromTag(ItemTags.WOODEN_SLABS))
+                                .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                                 .criterion(hasItem(Blocks.STONE), conditionsFromItem(Items.STONE))
                                 .offerTo(recipeExporter);
 
