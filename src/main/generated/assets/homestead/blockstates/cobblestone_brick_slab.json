@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "homestead:block/cobblestone_brick_slab"
+    },
+    "type=double": {
+      "model": "homestead:block/cobblestone_bricks"
+    },
+    "type=top": {
+      "model": "homestead:block/cobblestone_brick_slab_top"
+    }
+  }
+}

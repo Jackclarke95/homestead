@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "homestead:block/mill_bottom",
+    "side": "homestead:block/mill_side",
+    "top": "homestead:block/mill_top"
+  }
+}

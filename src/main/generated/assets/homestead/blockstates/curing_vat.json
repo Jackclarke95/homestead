@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "homestead:block/curing_vat",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "homestead:block/curing_vat"
+    },
+    "facing=south": {
+      "model": "homestead:block/curing_vat",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "homestead:block/curing_vat",
+      "y": 270
+    }
+  }
+}

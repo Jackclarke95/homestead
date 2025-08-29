@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "homestead:block/cobblestone_bricks",
+    "side": "homestead:block/cobblestone_bricks",
+    "top": "homestead:block/cobblestone_bricks"
+  }
+}

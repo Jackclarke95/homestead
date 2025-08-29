@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "homestead:flour"
+    },
+    {
+      "tag": "homestead:vegetables"
+    },
+    {
+      "item": "homestead:seed_mix"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "homestead:animal_feed"
+  }
+}
