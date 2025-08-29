@@ -12,6 +12,7 @@ import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.renderer.RackBlockEntityRenderer;
 import jackclarke95.homestead.screen.ModScreenHandlers;
 import jackclarke95.homestead.screen.custom.CuringVatScreen;
+import jackclarke95.homestead.screen.custom.MillScreen;
 
 @Environment(EnvType.CLIENT)
 public class HomesteadClient implements ClientModInitializer {
@@ -22,5 +23,6 @@ public class HomesteadClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(ModBlockEntities.RACK_BE, RackBlockEntityRenderer::new);
 
         HandledScreens.register(ModScreenHandlers.CURING_VAT_SCREEN_HANDLER, CuringVatScreen::new);
+        HandledScreens.register(ModScreenHandlers.MILL_SCREEN_HANDLER, MillScreen::new);
     }
 }

@@ -1,6 +1,6 @@
 package jackclarke95.homestead.screen.custom;
 
-import jackclarke95.homestead.block.entity.custom.CuringVatBlockEntity;
+import jackclarke95.homestead.block.entity.custom.MillBlockEntity;
 import jackclarke95.homestead.screen.ModScreenHandlers;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,48 +13,24 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
 
-public class CuringVatScreenHandler extends ScreenHandler {
+public class MillScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
-    public final CuringVatBlockEntity blockEntity;
+    public final MillBlockEntity blockEntity;
 
-    public CuringVatScreenHandler(int syncId, PlayerInventory inventory, BlockPos pos) {
+    public MillScreenHandler(int syncId, PlayerInventory inventory, BlockPos pos) {
         this(syncId, inventory, inventory.player.getWorld().getBlockEntity(pos), new ArrayPropertyDelegate(2));
     }
 
-    public CuringVatScreenHandler(int syncId, PlayerInventory playerInventory,
+    public MillScreenHandler(int syncId, PlayerInventory playerInventory,
             BlockEntity blockEntity, PropertyDelegate arrayPropertyDelegate) {
-        super(ModScreenHandlers.CURING_VAT_SCREEN_HANDLER, syncId);
-
+        super(ModScreenHandlers.MILL_SCREEN_HANDLER, syncId);
         this.inventory = (Inventory) blockEntity;
-        this.blockEntity = (CuringVatBlockEntity) blockEntity;
+        this.blockEntity = (MillBlockEntity) blockEntity;
         this.propertyDelegate = arrayPropertyDelegate;
 
-        this.addSlot(new Slot(inventory, 0, 44, 17)); // Input ingredient (top left)
-        this.addSlot(new Slot(inventory, 1, 44, 54)); // Input catalyst (bottom left)
-        // Pending output: cannot be removed by player
-        this.addSlot(new Slot(inventory, 2, 109, 17) {
-            @Override
-            public boolean canTakeItems(PlayerEntity playerEntity) {
-                return false;
-            }
-
-            @Override
-            public boolean canInsert(ItemStack stack) {
-                return false;
-            }
-        });
-        // Container: allow any item, but only valid containers will be used in logic
-        this.addSlot(new Slot(inventory, 3, 78, 54));
-        // Actual output: cannot insert, can only take
-        this.addSlot(new Slot(inventory, 4, 109, 54) {
-            @Override
-            public boolean canInsert(ItemStack stack) {
-                return false;
-            }
-        });
-        // Byproduct output: cannot insert, can only take
-        this.addSlot(new Slot(inventory, 5, 134, 54) {
+        this.addSlot(new Slot(inventory, 0, 44, 34));
+        this.addSlot(new Slot(inventory, 1, 116, 34) {
             @Override
             public boolean canInsert(ItemStack stack) {
                 return false;
@@ -63,7 +39,6 @@ public class CuringVatScreenHandler extends ScreenHandler {
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
-
         addProperties(arrayPropertyDelegate);
     }
 
@@ -71,17 +46,10 @@ public class CuringVatScreenHandler extends ScreenHandler {
         return this.propertyDelegate.get(0) > 0;
     }
 
-    public boolean isProgressBetweenZeroAndMax() {
+    public int getScaledProgress() {
         int progress = this.propertyDelegate.get(0);
         int maxProgress = this.propertyDelegate.get(1);
-        return progress > 0 && progress < maxProgress;
-    }
-
-    public int getScaledArrowProgress() {
-        int progress = this.propertyDelegate.get(0);
-        int maxProgress = this.propertyDelegate.get(1); // Max Progress
-        int arrowPixelSize = 24; // This is the width in pixels of your arrow
-
+        int arrowPixelSize = 30;
         return maxProgress != 0 && progress != 0 ? progress * arrowPixelSize / maxProgress : 0;
     }
 
@@ -89,11 +57,9 @@ public class CuringVatScreenHandler extends ScreenHandler {
     public ItemStack quickMove(PlayerEntity player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
-
         if (slot != null && slot.hasStack()) {
             ItemStack originalStack = slot.getStack();
             newStack = originalStack.copy();
-
             if (invSlot < this.inventory.size()) {
                 if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
@@ -101,14 +67,12 @@ public class CuringVatScreenHandler extends ScreenHandler {
             } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
                 return ItemStack.EMPTY;
             }
-
             if (originalStack.isEmpty()) {
                 slot.setStack(ItemStack.EMPTY);
             } else {
                 slot.markDirty();
             }
         }
-
         return newStack;
     }
 

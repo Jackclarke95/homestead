@@ -23,6 +23,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
         public ModRecipeProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> registriesFuture) {
                 super(output, registriesFuture);
+
         }
 
         @Override
@@ -44,11 +45,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
                 ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.ANIMAL_FEED, 1)
                                 .input(ModItems.FLOUR)
-                                .input(ModTags.Items.VEGETABLES)
+                                .input(ModTags.Items.ROOT_VEGETABLES)
                                 .input(ModItems.SEED_MIX)
                                 .criterion(hasItem(ModItems.FLOUR), conditionsFromItem(ModItems.FLOUR))
                                 .criterion(hasItem(ModItems.SEED_MIX), conditionsFromItem(ModItems.SEED_MIX))
-                                .criterion("has_vegetable", conditionsFromTag(ModTags.Items.VEGETABLES))
+                                .criterion("has_vegetable", conditionsFromTag(ModTags.Items.ROOT_VEGETABLES))
                                 .offerTo(recipeExporter,
                                                 Identifier.of(Homestead.MOD_ID, "animal_feed"));
 

@@ -16,9 +16,15 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void configure(WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(ModTags.Items.VEGETABLES)
+        getOrCreateTagBuilder(ModTags.Items.ROOT_VEGETABLES)
                 .add(Items.CARROT)
                 .add(Items.POTATO)
                 .add(Items.BEETROOT);
+
+        getOrCreateTagBuilder(ModTags.Items.CROP_SEEDS)
+                .add(Items.WHEAT_SEEDS)
+                .add(Items.BEETROOT_SEEDS)
+                .add(Items.PUMPKIN_SEEDS)
+                .add(Items.MELON_SEEDS);
     }
 }

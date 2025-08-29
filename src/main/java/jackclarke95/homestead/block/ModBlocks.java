@@ -5,6 +5,7 @@ import jackclarke95.homestead.block.custom.CuringVatBlock;
 import jackclarke95.homestead.block.custom.CustomBlock;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.custom.TroughBlock;
+import jackclarke95.homestead.block.custom.MillBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -47,6 +48,9 @@ public class ModBlocks {
         public static final Block CURING_VAT = registerBlock("curing_vat",
                         new CuringVatBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
 
+        public static final Block MILL = registerBlock("mill",
+                        new MillBlock(AbstractBlock.Settings.copy(Blocks.STONE)));
+
         public static void registerModBlocks() {
                 Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);
 
@@ -55,6 +59,7 @@ public class ModBlocks {
                         entries.add(ModBlocks.RACK);
                         entries.add(ModBlocks.CURING_VAT);
                         entries.add(ModBlocks.TROUGH);
+                        entries.add(ModBlocks.MILL);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
@@ -74,7 +79,6 @@ public class ModBlocks {
 
         private static Block registerBlock(String name, Block block) {
                 registerBlockItem(name, block);
-
                 return Registry.register(Registries.BLOCK, Identifier.of(Homestead.MOD_ID, name), block);
         }
 }

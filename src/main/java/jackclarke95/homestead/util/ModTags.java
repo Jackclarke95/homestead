@@ -11,7 +11,8 @@ public class ModTags {
     }
 
     public static class Items {
-        public static final TagKey<Item> VEGETABLES = createTag("vegetables");
+        public static final TagKey<Item> ROOT_VEGETABLES = createTag("root_vegetables");
+        public static final TagKey<Item> CROP_SEEDS = createTag("crop_seeds");
 
         private static TagKey<Item> createTag(String name) {
             return TagKey.of(RegistryKeys.ITEM, Identifier.of(Homestead.MOD_ID, name));

@@ -1,0 +1,11 @@
+{
+  "type": "homestead:milling",
+  "ingredient": {
+    "tag": "homestead:crop_seeds"
+  },
+  "result": {
+    "id": "homestead:seed_mix",
+    "count": 1
+  },
+  "time": 20
+}

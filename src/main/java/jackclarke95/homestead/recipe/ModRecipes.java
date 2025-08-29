@@ -47,6 +47,19 @@ public class ModRecipes {
                 }
             });
 
+    public static final RecipeSerializer<MillingRecipe> MILLING_RECIPE_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER, Identifier.of(Homestead.MOD_ID, "milling"),
+            new MillingRecipe.Serializer());
+
+    public static final RecipeType<MillingRecipe> MILLING_TYPE = Registry.register(
+            Registries.RECIPE_TYPE, Identifier.of(Homestead.MOD_ID, "milling"),
+            new RecipeType<MillingRecipe>() {
+                @Override
+                public String toString() {
+                    return "milling";
+                }
+            });
+
     public static void registerRecipes() {
         Homestead.LOGGER.info("Registering Custom Recipes for " + Homestead.MOD_ID);
     }

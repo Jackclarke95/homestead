@@ -5,6 +5,7 @@ import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.custom.CuringVatBlockEntity;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.block.entity.custom.TroughBlockEntity;
+import jackclarke95.homestead.block.entity.custom.MillBlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -24,6 +25,13 @@ public class ModBlockEntities {
                                         .<CuringVatBlockEntity>create(
                                                         (pos, state) -> new CuringVatBlockEntity(pos, state),
                                                         ModBlocks.CURING_VAT)
+                                        .build(null));
+
+        public static final BlockEntityType<MillBlockEntity> MILL_BE = Registry.register(
+                        Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "mill_be"),
+                        BlockEntityType.Builder
+                                        .<MillBlockEntity>create((pos, state) -> new MillBlockEntity(pos, state),
+                                                        ModBlocks.MILL)
                                         .build(null));
 
         public static final BlockEntityType<TroughBlockEntity> TROUGH_BE = Registry.register(

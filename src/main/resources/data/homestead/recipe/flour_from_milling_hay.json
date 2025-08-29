@@ -1,0 +1,11 @@
+{
+  "type": "homestead:milling",
+  "ingredient": {
+    "item": "minecraft:hay_block"
+  },
+  "result": {
+    "id": "homestead:flour",
+    "count": 9
+  },
+  "time": 180
+}
