@@ -21,6 +21,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
         getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
                 ModBlocks.RACK,
+                ModBlocks.DRYING_RACK,
                 ModBlocks.MILL,
                 ModBlocks.CURING_VAT);
     }

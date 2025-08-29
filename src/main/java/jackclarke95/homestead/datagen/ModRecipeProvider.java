@@ -85,6 +85,15 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion(hasItem(Items.STRING), conditionsFromItem(Items.STICK))
                                 .offerTo(recipeExporter);
 
+                ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.DRYING_RACK)
+                                .pattern("#")
+                                .pattern("X")
+                                .input('#', ModBlocks.RACK)
+                                .input('X', Blocks.CAMPFIRE)
+                                .criterion(hasItem(ModBlocks.RACK), conditionsFromItem(ModBlocks.RACK))
+                                .criterion(hasItem(Blocks.CAMPFIRE), conditionsFromItem(Blocks.CAMPFIRE))
+                                .offerTo(recipeExporter);
+
                 offer2x2CompactingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICKS,
                                 Blocks.COBBLESTONE);
 

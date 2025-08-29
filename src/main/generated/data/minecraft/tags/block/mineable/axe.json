@@ -1,6 +1,7 @@
 {
   "values": [
     "homestead:rack",
+    "homestead:drying_rack",
     "homestead:mill",
     "homestead:curing_vat"
   ]

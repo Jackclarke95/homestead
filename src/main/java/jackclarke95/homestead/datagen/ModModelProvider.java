@@ -45,6 +45,7 @@ public class ModModelProvider extends FabricModelProvider {
                                                                 blockOffIdentifier)));
 
                 blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.RACK);
+                blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.DRYING_RACK);
                 blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.CURING_VAT);
 
                 registerCubeBottomTop(blockStateModelGenerator, ModBlocks.MILL);

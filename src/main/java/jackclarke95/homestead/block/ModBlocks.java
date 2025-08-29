@@ -3,6 +3,7 @@ package jackclarke95.homestead.block;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.CuringVatBlock;
 import jackclarke95.homestead.block.custom.CustomBlock;
+import jackclarke95.homestead.block.custom.DryingRackBlock;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.custom.TroughBlock;
 import jackclarke95.homestead.block.custom.MillBlock;
@@ -31,6 +32,10 @@ public class ModBlocks {
         public static final Block RACK = registerBlock("rack",
                         new RackBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
 
+        public static final Block DRYING_RACK = registerBlock("drying_rack",
+                        new DryingRackBlock(
+                                        AbstractBlock.Settings.copy(Blocks.CAMPFIRE).nonOpaque()));
+
         public static final Block COBBLESTONE_BRICKS = registerBlock("cobblestone_bricks",
                         new Block((AbstractBlock.Settings.copy(Blocks.COBBLESTONE))));
         public static final Block COBBLESTONE_BRICK_SLAB = registerBlock("cobblestone_brick_slab",
@@ -57,6 +62,7 @@ public class ModBlocks {
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
                         entries.add(ModBlocks.CUSTOM_BLOCK);
                         entries.add(ModBlocks.RACK);
+                        entries.add(ModBlocks.DRYING_RACK);
                         entries.add(ModBlocks.CURING_VAT);
                         entries.add(ModBlocks.TROUGH);
                         entries.add(ModBlocks.MILL);
@@ -73,12 +79,14 @@ public class ModBlocks {
         }
 
         private static void registerBlockItem(String name, Block block) {
-                Registry.register(Registries.ITEM, Identifier.of(Homestead.MOD_ID, name),
+                Registry.register(
+                                Registries.ITEM, Identifier.of(Homestead.MOD_ID, name),
                                 new BlockItem(block, new Item.Settings()));
         }
 
         private static Block registerBlock(String name, Block block) {
                 registerBlockItem(name, block);
+
                 return Registry.register(Registries.BLOCK, Identifier.of(Homestead.MOD_ID, name), block);
         }
 }
