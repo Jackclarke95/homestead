@@ -79,6 +79,8 @@ public class ModModelProvider extends FabricModelProvider {
                 itemModelGenerator.register(ModItems.COD_JERKY, Models.GENERATED);
                 itemModelGenerator.register(ModItems.SALMON_JERKY, Models.GENERATED);
                 itemModelGenerator.register(ModItems.MUG_OF_VODKA, Models.GENERATED);
-
+                itemModelGenerator.register(ModItems.FLOUR, Models.GENERATED);
+                itemModelGenerator.register(ModItems.SEED_MIX, Models.GENERATED);
+                itemModelGenerator.register(ModItems.ANIMAL_FEED, Models.GENERATED);
         }
 }

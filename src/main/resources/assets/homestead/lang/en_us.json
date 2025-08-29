@@ -1,5 +1,4 @@
 {
-  "item.homestead.raw_hide": "Raw Hide",
   "item.homestead.mug": "Mug",
 
   "item.homestead.suspicious_jerky": "Suspicious Jerky",
@@ -14,17 +13,19 @@
   "item.homestead.cheese_slice": "Cheese Slice",
   "item.homestead.mug_of_vodka": "Mug of Vodka",
 
+  "item.homestead.raw_hide": "Raw Hide",
+  "item.homestead.animal_feed": "Animal Feed",
+  "item.homestead.flour": "Flour",
+  "item.homestead.seed_mix": "Seed Mix",
+
   "block.homestead.custom_block": "Custom Block",
   "block.homestead.rack": "Rack",
   "block.homestead.curing_vat": "Curing Vat",
+  "item.homestead.trough": "Trough",
 
   "block.homestead.cobblestone_bricks": "Cobblestone Bricks",
   "block.homestead.cobblestone_brick_slab": "Cobblestone Brick Slab",
   "block.homestead.cobblestone_brick_wall": "Cobblestone Brick Wall",
   "block.homestead.cobblestone_brick_stairs": "Cobblestone Brick Stairs",
-
-  "block.homestead.hay_stairs": "Hay Stairs",
-
-  "itemGroup.homestead_items": "Homestead Items",
-  "itemGroup.homestead_blocks": "Homestead Blocks"
+  "block.homestead.hay_stairs": "Hay Stairs"
 }

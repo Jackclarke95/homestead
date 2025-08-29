@@ -1,53 +1,8 @@
 package jackclarke95.homestead.item;
 
 import jackclarke95.homestead.Homestead;
-import jackclarke95.homestead.block.ModBlocks;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 public class ModItemGroups {
-    public static final ItemGroup HOMESTEAD_ITEMS = Registry.register(Registries.ITEM_GROUP,
-            Identifier.of(Homestead.MOD_ID, "homestead_items"),
-            FabricItemGroup.builder().icon(() -> new ItemStack(ModItems.CHEESE_SLICE))
-                    .displayName(Text.translatable("itemGroup.homestead_items"))
-                    .entries((displayContext, entries) -> {
-                        entries.add(ModItems.RAW_HIDE);
-                        entries.add(ModItems.MUG);
-                        entries.add(ModItems.CHEESE_WHEEL);
-                        entries.add(ModItems.CHEESE_SLICE);
-                        entries.add(ModItems.SUSPICIOUS_JERKY);
-                        entries.add(ModItems.BEEF_JERKY);
-                        entries.add(ModItems.PORK_JERKY);
-                        entries.add(ModItems.MUTTON_JERKY);
-                        entries.add(ModItems.CHICKEN_JERKY);
-                        entries.add(ModItems.RABBIT_JERKY);
-                        entries.add(ModItems.COD_JERKY);
-                        entries.add(ModItems.SALMON_JERKY);
-                        entries.add(ModItems.MUG_OF_VODKA);
-                    })
-                    .build());
-
-    public static final ItemGroup HOMESTEAD_BLOCKS = Registry.register(Registries.ITEM_GROUP,
-            Identifier.of(Homestead.MOD_ID, "homestead_blocks"),
-            FabricItemGroup.builder().icon(() -> new ItemStack(ModBlocks.CURING_VAT))
-                    .displayName(Text.translatable("itemGroup.homestead_blocks"))
-                    .entries((displayContext, entries) -> {
-                        entries.add(ModBlocks.CUSTOM_BLOCK);
-                        entries.add(ModBlocks.RACK);
-                        entries.add(ModBlocks.COBBLESTONE_BRICKS);
-                        entries.add(ModBlocks.COBBLESTONE_BRICK_SLAB);
-                        entries.add(ModBlocks.COBBLESTONE_BRICK_WALL);
-                        entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
-                        entries.add(ModBlocks.HAY_STAIRS);
-                        entries.add(ModBlocks.CURING_VAT);
-                        entries.add(ModBlocks.TROUGH);
-                    })
-                    .build());
 
     public static void registerItemGroups() {
         Homestead.LOGGER.info("Registering item groups for " + Homestead.MOD_ID);

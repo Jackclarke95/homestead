@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.item.ModItems;
+import jackclarke95.homestead.util.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.block.Blocks;
@@ -41,13 +42,24 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .offerTo(recipeExporter,
                                                 Identifier.of(Homestead.MOD_ID, "cheese_slice_from_cheese_wheel"));
 
+                ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.ANIMAL_FEED, 1)
+                                .input(ModItems.FLOUR)
+                                .input(ModTags.Items.VEGETABLES)
+                                .input(ModItems.SEED_MIX)
+                                .criterion(hasItem(ModItems.FLOUR), conditionsFromItem(ModItems.FLOUR))
+                                .criterion(hasItem(ModItems.SEED_MIX), conditionsFromItem(ModItems.SEED_MIX))
+                                .criterion("has_vegetable", conditionsFromTag(ModTags.Items.VEGETABLES))
+                                .offerTo(recipeExporter,
+                                                Identifier.of(Homestead.MOD_ID, "animal_feed"));
+
                 ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.CURING_VAT)
                                 .pattern("###")
                                 .pattern("###")
                                 .pattern("X X")
                                 .input('#', ItemTags.PLANKS)
                                 .input('X', Items.STICK)
-                                .criterion(hasItem(ModBlocks.CURING_VAT), conditionsFromItem(ModBlocks.CURING_VAT))
+                                .criterion("has_planks", conditionsFromTag(ItemTags.PLANKS))
+                                .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
                                 .offerTo(recipeExporter);
 
                 ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.RACK)
@@ -56,7 +68,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .pattern("X X")
                                 .input('#', Items.STRING)
                                 .input('X', Items.STICK)
-                                .criterion(hasItem(ModBlocks.RACK), conditionsFromItem(ModBlocks.RACK))
+                                .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STRING))
+                                .criterion(hasItem(Items.STRING), conditionsFromItem(Items.STICK))
                                 .offerTo(recipeExporter);
 
                 offer2x2CompactingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICKS,
