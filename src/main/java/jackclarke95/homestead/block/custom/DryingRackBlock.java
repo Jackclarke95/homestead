@@ -7,10 +7,6 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.math.BlockPos;
@@ -21,15 +17,13 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class DryingRackBlock extends BlockWithEntity {
-    private static final VoxelShape SHAPE = createShape();
+public class DryingRackBlock extends RackBlock {
+    private final VoxelShape SHAPE = createShape();
     public static final MapCodec<DryingRackBlock> CODEC = DryingRackBlock.createCodec(DryingRackBlock::new);
-    public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
-    public static final BooleanProperty LIT = Properties.LIT;
 
     public DryingRackBlock(Settings settings) {
         super(settings);
-        setDefaultState(this.stateManager.getDefaultState().with(LIT, false));
+        setDefaultState(this.stateManager.getDefaultState());
     }
 
     @Override
@@ -68,20 +62,11 @@ public class DryingRackBlock extends BlockWithEntity {
         return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
-    private static VoxelShape createShape() {
-        VoxelShape leg1 = Block.createCuboidShape(0, 0, 0, 2, 13, 2);
-        VoxelShape leg2 = Block.createCuboidShape(14, 0, 0, 16, 13, 2);
-        VoxelShape leg3 = Block.createCuboidShape(14, 0, 14, 16, 16, 16);
-        VoxelShape leg4 = Block.createCuboidShape(0, 0, 14, 2, 16, 16);
-        VoxelShape topRack = Block.createCuboidShape(0, 13, 0, 16, 16, 16);
-        VoxelShape fire = Block.createCuboidShape(0, 0, 6, 16, 6, 16);
-        return VoxelShapes.union(leg1, leg2, leg3, leg4, topRack, fire);
-    }
-
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        super.appendProperties(builder);
-        builder.add(FACING, LIT);
+    protected VoxelShape createShape() {
+        VoxelShape fire = Block.createCuboidShape(0, 0, 0, 16, 6, 16);
+
+        return VoxelShapes.union(super.createShape(), fire);
     }
 
     @Override

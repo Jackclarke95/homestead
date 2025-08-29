@@ -33,8 +33,7 @@ public class ModBlocks {
                         new RackBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
 
         public static final Block DRYING_RACK = registerBlock("drying_rack",
-                        new DryingRackBlock(
-                                        AbstractBlock.Settings.copy(Blocks.CAMPFIRE).nonOpaque()));
+                        new DryingRackBlock(AbstractBlock.Settings.copy(ModBlocks.RACK).luminance(state -> 15)));
 
         public static final Block COBBLESTONE_BRICKS = registerBlock("cobblestone_bricks",
                         new Block((AbstractBlock.Settings.copy(Blocks.COBBLESTONE))));
