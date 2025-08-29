@@ -3,6 +3,8 @@ package jackclarke95.homestead.block.entity.custom;
 
 import java.util.ArrayDeque;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
@@ -58,21 +60,27 @@ public class TroughBlockEntity extends BlockEntity implements ImplementedInvento
                 new Box(pos).expand(8),
                 entity -> enclosureArea.contains(entity.getBlockPos()));
 
-        // List of animals eligible for breeding
-        List<AnimalEntity> eligibleAnimals = animalsInEnclosure.stream()
-                .filter(entity -> entity.isAlive() && entity.getBreedingAge() == 0 && !entity.isInLove())
-                .toList();
+        // Group animals by type (class)
+        Map<Class<?>, List<AnimalEntity>> animalsByType = animalsInEnclosure.stream()
+                .collect(Collectors.groupingBy(AnimalEntity::getClass));
 
-        if (eligibleAnimals.size() < 2 || animalsInEnclosure.size() >= 16) {
-            return;
-        }
+        for (List<AnimalEntity> group : animalsByType.values()) {
+            // List of animals eligible for breeding in this group
+            List<AnimalEntity> eligibleAnimals = group.stream()
+                    .filter(entity -> entity.isAlive() && entity.getBreedingAge() == 0 && !entity.isInLove())
+                    .toList();
 
-        if (world != null && !world.isClient) {
-            AnimalEntity parent1 = eligibleAnimals.get(0);
-            AnimalEntity parent2 = eligibleAnimals.get(1);
+            if (eligibleAnimals.size() < 2 || group.size() >= 16) {
+                continue;
+            }
 
-            parent1.lovePlayer(null);
-            parent2.lovePlayer(null);
+            if (world != null && !world.isClient) {
+                AnimalEntity parent1 = eligibleAnimals.get(0);
+                AnimalEntity parent2 = eligibleAnimals.get(1);
+
+                parent1.lovePlayer(null);
+                parent2.lovePlayer(null);
+            }
         }
     }
 
