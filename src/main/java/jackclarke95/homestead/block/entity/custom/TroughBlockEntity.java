@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import jackclarke95.homestead.block.custom.TroughBlock;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
+import jackclarke95.homestead.item.ModItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Block;
@@ -18,10 +19,15 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.inventory.Inventories;
 
@@ -106,6 +112,18 @@ public class TroughBlockEntity extends BlockEntity implements ImplementedInvento
                 parent2.lovePlayer(null);
 
                 inventory.get(0).decrement(2);
+
+                ((ServerWorld) world).spawnParticles(
+                        new ItemStackParticleEffect(ParticleTypes.ITEM,
+                                new ItemStack(ModItems.ANIMAL_FEED)),
+                        pos.getX() + 0.5,
+                        pos.getY() + 0.7,
+                        pos.getZ() + 0.5,
+                        8,
+                        0.2, 0.1, 0.2,
+                        0.15);
+
+                world.playSound(null, pos, SoundEvents.BLOCK_COMPOSTER_FILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
 
                 updateFeedLevelProperty();
             }

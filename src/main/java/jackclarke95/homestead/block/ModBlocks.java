@@ -43,13 +43,13 @@ public class ModBlocks {
 
         public static final Block HAY_STAIRS = registerBlock("hay_stairs",
                         new StairsBlock(Blocks.HAY_BLOCK.getDefaultState(),
-                                        AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)));
+                                        AbstractBlock.Settings.copy(Blocks.CRAFTING_TABLE)));
 
         public static final Block CURING_VAT = registerBlock("curing_vat",
                         new CuringVatBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
 
         public static final Block MILL = registerBlock("mill",
-                        new MillBlock(AbstractBlock.Settings.copy(Blocks.STONE)));
+                        new MillBlock(AbstractBlock.Settings.copy(Blocks.FURNACE)));
 
         public static void registerModBlocks() {
                 Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);

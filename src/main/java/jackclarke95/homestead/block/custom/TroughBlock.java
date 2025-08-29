@@ -34,6 +34,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ItemActionResult;
+import net.minecraft.util.ItemScatterer;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 
 public class TroughBlock extends BlockWithEntity {
     public static final MapCodec<TroughBlock> CODEC = TroughBlock.createCodec(TroughBlock::new);
@@ -102,6 +105,9 @@ public class TroughBlock extends BlockWithEntity {
             heldStack.decrement(1);
             trough.markDirty();
             world.updateListeners(pos, state, state, 3);
+
+            // Play sound for adding feed
+            world.playSound(null, pos, SoundEvents.BLOCK_COMPOSTER_FILL, SoundCategory.BLOCKS, 1.0f, 1.0f);
         }
 
         return ItemActionResult.SUCCESS;
@@ -170,5 +176,20 @@ public class TroughBlock extends BlockWithEntity {
 
         return validateTicker(type, ModBlockEntities.TROUGH_BE,
                 (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
+    }
+
+    @Override
+    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+
+            if (blockEntity instanceof TroughBlockEntity) {
+                ItemScatterer.spawn(world, pos, ((TroughBlockEntity) blockEntity));
+
+                world.updateComparators(pos, this);
+            }
+
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
     }
 }

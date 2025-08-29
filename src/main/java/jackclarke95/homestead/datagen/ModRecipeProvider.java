@@ -63,6 +63,16 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
                                 .offerTo(recipeExporter);
 
+                ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.MILL)
+                                .pattern("###")
+                                .pattern("XXX")
+                                .pattern("XXX")
+                                .input('#', ItemTags.WOODEN_SLABS)
+                                .input('X', Items.STONE)
+                                .criterion("has_wooden_slabs", conditionsFromTag(ItemTags.WOODEN_SLABS))
+                                .criterion(hasItem(Blocks.STONE), conditionsFromItem(Items.STONE))
+                                .offerTo(recipeExporter);
+
                 ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.RACK)
                                 .pattern("###")
                                 .pattern("X X")
