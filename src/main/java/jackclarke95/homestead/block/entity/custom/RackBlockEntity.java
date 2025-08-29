@@ -1,6 +1,5 @@
 package jackclarke95.homestead.block.entity.custom;
 
-import net.minecraft.registry.tag.FluidTags;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
@@ -190,6 +189,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
     private boolean isUnderDripstoneWithWater(World world, BlockPos pos) {
         BlockPos checkPos = pos.up();
+
         for (int i = 0; i < 16; i++) {
             BlockState state = world.getBlockState(checkPos);
 
