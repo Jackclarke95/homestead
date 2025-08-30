@@ -4,7 +4,8 @@
     "item": "minecraft:beef"
   },
   "result": {
+    "count": 1,
     "id": "homestead:beef_jerky"
   },
-  "time": 60
+  "time": 1200
 }

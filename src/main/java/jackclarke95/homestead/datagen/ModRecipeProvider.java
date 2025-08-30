@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
+import jackclarke95.homestead.datagen.recipe.custom.DryingRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.custom.RinsingRecipeJsonBuilder;
 import jackclarke95.homestead.item.ModItems;
 import jackclarke95.homestead.util.ModTags;
@@ -227,5 +228,25 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
                 RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PINK_CARPET),
                                 Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+
+                // Jerky drying recipes
+                DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.BEEF),
+                                ModItems.BEEF_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
+                DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.CHICKEN),
+                                ModItems.CHICKEN_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
+                DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.COD),
+                                ModItems.COD_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
+                DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.MUTTON),
+                                ModItems.MUTTON_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
+                DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.PORKCHOP),
+                                ModItems.PORK_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
+                DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.RABBIT),
+                                ModItems.RABBIT_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
+                DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.SALMON),
+                                ModItems.SALMON_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
+
+                DryingRecipeJsonBuilder.create(Ingredient.ofItems(ModItems.RAW_HIDE),
+                                Items.LEATHER.getDefaultStack(), 1200).offerTo(recipeExporter);
+
         }
 }

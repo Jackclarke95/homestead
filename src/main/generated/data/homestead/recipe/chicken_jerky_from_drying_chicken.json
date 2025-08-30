@@ -4,7 +4,8 @@
     "item": "minecraft:chicken"
   },
   "result": {
+    "count": 1,
     "id": "homestead:chicken_jerky"
   },
-  "time": 60
+  "time": 1200
 }

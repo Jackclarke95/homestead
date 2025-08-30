@@ -4,7 +4,8 @@
     "item": "minecraft:salmon"
   },
   "result": {
+    "count": 1,
     "id": "homestead:salmon_jerky"
   },
-  "time": 60
+  "time": 1200
 }

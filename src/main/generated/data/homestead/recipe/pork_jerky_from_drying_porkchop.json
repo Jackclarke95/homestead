@@ -4,7 +4,8 @@
     "item": "minecraft:porkchop"
   },
   "result": {
+    "count": 1,
     "id": "homestead:pork_jerky"
   },
-  "time": 60
+  "time": 1200
 }

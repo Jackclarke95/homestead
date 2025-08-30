@@ -4,7 +4,8 @@
     "item": "homestead:raw_hide"
   },
   "result": {
+    "count": 1,
     "id": "minecraft:leather"
   },
-  "time": 60
+  "time": 1200
 }

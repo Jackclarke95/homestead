@@ -4,7 +4,8 @@
     "item": "minecraft:cod"
   },
   "result": {
+    "count": 1,
     "id": "homestead:cod_jerky"
   },
-  "time": 60
+  "time": 1200
 }
