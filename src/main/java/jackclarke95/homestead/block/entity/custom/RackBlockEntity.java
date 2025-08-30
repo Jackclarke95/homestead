@@ -97,7 +97,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
         // Update environment fields at the start of each tick
         rinsingEnvironment = isRinsingEnvironment(world, pos);
-        dryingEnvironment = !isRinsingEnvironment(world, pos) && isDryingEnvironment(world, pos);
+        dryingEnvironment = isDryingEnvironment(world, pos);
 
         if ((RackBlock.hasDyeOrBanner(inventory.get(0)))) {
             removeDyeAndPatternFromItem();
@@ -144,12 +144,12 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         }
     }
 
-    private boolean isRinsingEnvironment(World world, BlockPos pos) {
+    public boolean isRinsingEnvironment(World world, BlockPos pos) {
         return world.hasRain(pos.up()) || isUnderDripstoneWithWater(world, pos);
     }
 
-    private boolean isDryingEnvironment(World world, BlockPos pos) {
-        return (isAboveCampfire(world, pos) || isInHotBiome(world, pos));
+    public boolean isDryingEnvironment(World world, BlockPos pos) {
+        return !isRinsingEnvironment(world, pos) && isInHotBiome(world, pos);
     }
 
     private void removeDyeAndPatternFromItem() {
@@ -234,18 +234,10 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         return false;
     }
 
-    private boolean isAboveCampfire(World world, BlockPos pos) {
-        BlockPos below = pos.down();
-        var state = world.getBlockState(below);
-        String key = state.getBlock().getTranslationKey();
-
-        return key.contains("campfire") || key.contains("soul_campfire");
-    }
-
     private boolean isInHotBiome(World world, BlockPos pos) {
         float temp = world.getBiome(pos).value().getTemperature();
 
-        return temp > 1.0f;
+        return temp >= 1.0f;
     }
 
     private boolean hasRecipe() {
