@@ -89,4 +89,9 @@ public class DryingRackBlock extends RackBlock {
         return validateTicker(type, ModBlockEntities.DRYING_RACK_BE,
                 (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
     }
+
+    @Override
+    protected Class<? extends BlockEntity> getBlockEntityClass() {
+        return DryingRackBlockEntity.class;
+    }
 }

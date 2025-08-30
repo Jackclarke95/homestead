@@ -2,6 +2,7 @@ package jackclarke95.homestead.block.custom;
 
 import com.mojang.serialization.MapCodec;
 
+import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.recipe.ModRecipes;
@@ -94,17 +95,20 @@ public class RackBlock extends BlockWithEntity {
     @Override
     protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
             PlayerEntity player, Hand hand, BlockHitResult hit) {
-        if (world.getBlockEntity(pos) instanceof RackBlockEntity rackBlockEntity) {
-            ItemStack stackOnRack = rackBlockEntity.getStack(0);
+        BlockEntity be = world.getBlockEntity(pos);
+        Class<? extends BlockEntity> beClass = getBlockEntityClass();
 
-            if (rackBlockEntity.isEmpty() && !stack.isEmpty()) {
+        if (beClass.isInstance(be)) {
+            ItemStack stackOnRack = getStack(be, 0);
+
+            if (isEmpty(be) && !stack.isEmpty()) {
                 // Handle placing dyed leather armor (with color component) for rinsing
                 if (isLeatherArmorOrBannerOrShield(stack)) {
                     if (!hasDyeOrBanner(stack)) {
                         return ItemActionResult.SUCCESS;
                     }
 
-                    placeItemOnRack(stack, world, pos, rackBlockEntity);
+                    placeItemOnRack(stack, world, pos, be);
                 }
 
                 Optional<RecipeEntry<?>> recipe = getCurrentRecipe(stack, world);
@@ -113,17 +117,17 @@ public class RackBlock extends BlockWithEntity {
                     return ItemActionResult.SUCCESS;
                 }
 
-                placeItemOnRack(stack, world, pos, rackBlockEntity);
+                placeItemOnRack(stack, world, pos, be);
 
-                updateWorld(state, world, pos, rackBlockEntity);
+                updateWorld(state, world, pos, be);
             } else if (!player.isSneaking() && !stackOnRack.isEmpty()) {
                 giveItemToPlayer(player, stackOnRack);
 
                 world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1f, 1f);
 
-                rackBlockEntity.clear();
+                clear(be);
 
-                updateWorld(state, world, pos, rackBlockEntity);
+                updateWorld(state, world, pos, be);
 
                 return ItemActionResult.SUCCESS;
             }
@@ -132,11 +136,53 @@ public class RackBlock extends BlockWithEntity {
         return ItemActionResult.SUCCESS;
     }
 
-    private void placeItemOnRack(ItemStack stack, World world, BlockPos pos, RackBlockEntity rackBlockEntity) {
-        rackBlockEntity.setStack(0, stack.copyWithCount(1));
+    /**
+     * Override this in subclasses to specify the block entity type.
+     */
+    protected Class<? extends BlockEntity> getBlockEntityClass() {
+        return RackBlockEntity.class;
+    }
+
+    // --- Generic helpers for inventory access ---
+
+    protected ItemStack getStack(BlockEntity be, int slot) {
+        if (be instanceof ImplementedInventory inv) {
+            return inv.getStack(slot);
+        }
+        return ItemStack.EMPTY;
+    }
+
+    protected boolean isEmpty(BlockEntity be) {
+        if (be instanceof ImplementedInventory inv) {
+            return inv.isEmpty();
+        }
+        return true;
+    }
+
+    protected void setStack(BlockEntity be, int slot, ItemStack stack) {
+        if (be instanceof ImplementedInventory inv) {
+            inv.setStack(slot, stack);
+        }
+    }
+
+    protected void clear(BlockEntity be) {
+        if (be instanceof ImplementedInventory inv) {
+            inv.clear();
+        }
+    }
+
+    // --- Updated placeItemOnRack and updateWorld to use BlockEntity ---
+
+    private void placeItemOnRack(ItemStack stack, World world, BlockPos pos, BlockEntity be) {
+        setStack(be, 0, stack.copyWithCount(1));
 
         world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1f, 1f);
         stack.decrement(1);
+    }
+
+    private void updateWorld(BlockState state, World world, BlockPos pos, BlockEntity be) {
+        be.markDirty();
+        world.updateListeners(pos, state, state, 0);
     }
 
     public static boolean hasDyeOrBanner(ItemStack stack) {
@@ -152,11 +198,6 @@ public class RackBlock extends BlockWithEntity {
                 id.contains("leather_boots") ||
                 id.contains("banner") ||
                 id.contains("shield");
-    }
-
-    private void updateWorld(BlockState state, World world, BlockPos pos, RackBlockEntity rackBlockEntity) {
-        rackBlockEntity.markDirty();
-        world.updateListeners(pos, state, state, 0);
     }
 
     // Give item to player: try hand, then inventory, then drop
