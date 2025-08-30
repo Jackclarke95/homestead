@@ -8,14 +8,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import net.minecraft.state.property.Properties;
 
@@ -25,23 +23,11 @@ public class CampfireBlockMixin {
 	private void onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
 			PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ItemActionResult> cir) {
 		if (stack.getItem() == ModBlocks.RACK.asItem()) {
-			// Get the player's facing direction (opposite so rack faces the player)
-			Direction facing = player.getHorizontalFacing().getOpposite();
-
-			// Get the campfire's lit status
-			boolean isLit = state.contains(Properties.LIT) && state.get(Properties.LIT);
-
-			Homestead.LOGGER.info("Placing Drying Rack facing " + facing + " and lit: " + isLit);
-
-			// Set the FACING and LIT properties if present
-			BlockState dryingRackState = ModBlocks.DRYING_RACK.getDefaultState();
-			if (dryingRackState.contains(Properties.HORIZONTAL_FACING)) {
-				dryingRackState = dryingRackState.with(Properties.HORIZONTAL_FACING, facing);
-			}
-
-			dryingRackState = dryingRackState.with(Properties.LIT, isLit);
-
-			world.setBlockState(pos, dryingRackState);
+			world.setBlockState(pos, ModBlocks.DRYING_RACK.getDefaultState()
+					.with(Properties.HORIZONTAL_FACING,
+							player.getHorizontalFacing().getOpposite())
+					.with(Properties.LIT,
+							state.contains(Properties.LIT) && state.get(Properties.LIT)));
 
 			if (!player.isCreative()) {
 				stack.decrement(1);
