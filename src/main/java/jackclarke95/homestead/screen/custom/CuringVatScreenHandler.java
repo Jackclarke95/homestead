@@ -33,7 +33,7 @@ public class CuringVatScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, 0, 44, 17)); // Input ingredient (top left)
         this.addSlot(new Slot(inventory, 1, 44, 54)); // Input catalyst (bottom left)
         // Pending output: cannot be removed by player
-        this.addSlot(new Slot(inventory, 2, 109, 17) {
+        this.addSlot(new Slot(inventory, 2, 116, 17) { // was 109, now 116
             @Override
             public boolean canTakeItems(PlayerEntity playerEntity) {
                 return false;
@@ -45,16 +45,9 @@ public class CuringVatScreenHandler extends ScreenHandler {
             }
         });
         // Container: allow any item, but only valid containers will be used in logic
-        this.addSlot(new Slot(inventory, 3, 78, 54));
+        this.addSlot(new Slot(inventory, 3, 85, 54)); // was 78, now 85
         // Actual output: cannot insert, can only take
-        this.addSlot(new Slot(inventory, 4, 109, 54) {
-            @Override
-            public boolean canInsert(ItemStack stack) {
-                return false;
-            }
-        });
-        // Byproduct output: cannot insert, can only take
-        this.addSlot(new Slot(inventory, 5, 134, 54) {
+        this.addSlot(new Slot(inventory, 4, 116, 54) { // was 109, now 116
             @Override
             public boolean canInsert(ItemStack stack) {
                 return false;

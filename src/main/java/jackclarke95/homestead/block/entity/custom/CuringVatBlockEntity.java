@@ -34,14 +34,13 @@ import net.minecraft.world.World;
 public class CuringVatBlockEntity extends BlockEntity
         implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory {
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(6, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 
     private static final int INPUT_INGREDIENT_SLOT = 0;
     private static final int INPUT_CATALYST_SLOT = 1;
     private static final int OUTPUT_PENDING_SLOT = 2;
     private static final int INPUT_CONTAINER_SLOT = 3;
     private static final int OUTPUT_ACTUAL_SLOT = 4;
-    private static final int OUTPUT_BYPRODUCT_SLOT = 5;
 
     private PropertyDelegate propertyDelegate;
     private int progress = 0;
@@ -115,13 +114,10 @@ public class CuringVatBlockEntity extends BlockEntity
                     && inputStack.getCount() >= requiredCount;
             boolean hasCatalyst = !recipe.hasCatalyst() || (!inventory.get(INPUT_CATALYST_SLOT).isEmpty()
                     && recipe.catalyst().test(inventory.get(INPUT_CATALYST_SLOT)));
-            boolean byproductBlocked = recipe.hasByproduct()
-                    && (!canInsertItemIntoSlot(OUTPUT_BYPRODUCT_SLOT, recipe.byproduct())
-                            || !canInsertAmountIntoSlot(OUTPUT_BYPRODUCT_SLOT, recipe.byproduct().getCount()));
             // Block crafting if pending slot cannot fit the output
             boolean pendingBlocked = !canInsertItemIntoSlot(OUTPUT_PENDING_SLOT, recipe.output())
                     || !canInsertAmountIntoSlot(OUTPUT_PENDING_SLOT, recipe.output().getCount());
-            if (!hasIngredient || !hasCatalyst || byproductBlocked || pendingBlocked) {
+            if (!hasIngredient || !hasCatalyst || pendingBlocked) {
                 resetProgress();
                 return;
             }
@@ -169,10 +165,8 @@ public class CuringVatBlockEntity extends BlockEntity
             setPendingOutputAndRecipe(new ItemStack(recipe.output().getItem(), toPending));
         }
         // Handle byproduct
-        if (recipe.hasByproduct() && canInsertItemIntoSlot(OUTPUT_BYPRODUCT_SLOT, recipe.byproduct())
-                && canInsertAmountIntoSlot(OUTPUT_BYPRODUCT_SLOT, recipe.byproduct().getCount())) {
-            this.setStack(OUTPUT_BYPRODUCT_SLOT, new ItemStack(recipe.byproduct().getItem(),
-                    this.getStack(OUTPUT_BYPRODUCT_SLOT).getCount() + recipe.byproduct().getCount()));
+        if (recipe.hasByproduct()) {
+            this.setStack(INPUT_CATALYST_SLOT, recipe.byproduct().copy());
         }
     }
 

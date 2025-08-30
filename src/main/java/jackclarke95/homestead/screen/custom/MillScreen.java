@@ -31,7 +31,7 @@ public class MillScreen extends HandledScreen<MillScreenHandler> {
 
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if (handler.isCrafting()) {
-            context.drawTexture(ARROW_TEXTURE, x + 73, y + 36, 0, 0, handler.getScaledProgress(), 12, 30, 12);
+            context.drawTexture(ARROW_TEXTURE, x + 73, y + 35, 0, 0, handler.getScaledProgress(), 12, 30, 12);
         }
     }
 
