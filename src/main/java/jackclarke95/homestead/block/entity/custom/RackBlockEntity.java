@@ -38,6 +38,9 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     private int maxProgress = 20;
     private RecipeEntry<?> currentRecipe = null;
 
+    private boolean rinsingEnvironment = false;
+    private boolean dryingEnvironment = false;
+
     public RackBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.RACK_BE, pos, state);
 
@@ -87,6 +90,10 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
             return;
         }
 
+        // Update environment fields at the start of each tick
+        rinsingEnvironment = isRinsingEnvironment(world, pos);
+        dryingEnvironment = !isRinsingEnvironment(world, pos) && isDryingEnvironment(world, pos);
+
         if ((RackBlock.hasDyeOrBanner(inventory.get(0)))) {
             removeDyeAndPatternFromItem();
 
@@ -100,13 +107,13 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
                 Object currentRecipeValue = currentRecipe.value();
 
                 if (currentRecipeValue instanceof RinsingRecipe) {
-                    canProgress = isRinsingEnvironment(world, pos);
+                    canProgress = rinsingEnvironment;
 
                     if (canProgress && !world.isClient) {
                         spawnRinsingParticles((ServerWorld) world, pos);
                     }
                 } else if (currentRecipeValue instanceof DryingRecipe) {
-                    canProgress = isDryingEnvironment(world, pos);
+                    canProgress = dryingEnvironment;
 
                     if (canProgress && !world.isClient) {
                         spawnDryingParticles((ServerWorld) world, pos);
@@ -132,6 +139,14 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         }
     }
 
+    private boolean isRinsingEnvironment(World world, BlockPos pos) {
+        return world.hasRain(pos.up()) || isUnderDripstoneWithWater(world, pos);
+    }
+
+    private boolean isDryingEnvironment(World world, BlockPos pos) {
+        return (isAboveCampfire(world, pos) || isInHotBiome(world, pos));
+    }
+
     private void removeDyeAndPatternFromItem() {
         RackBlockEntity.this.maxProgress = 60;
 
@@ -148,7 +163,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
             return;
         }
 
-        if (isRinsingEnvironment(world, pos)) {
+        if (rinsingEnvironment) {
             spawnRinsingParticles((ServerWorld) world, pos);
 
             increaseCraftingProgress();
@@ -180,14 +195,6 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         }
     }
 
-    private boolean isRinsingEnvironment(World world, BlockPos pos) {
-        if (world.hasRain(pos.up()) || isUnderDripstoneWithWater(world, pos)) {
-            return true;
-        }
-
-        return false;
-    }
-
     private boolean isUnderDripstoneWithWater(World world, BlockPos pos) {
         BlockPos checkPos = pos.up();
 
@@ -217,14 +224,6 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
             }
 
             checkPos = checkPos.up();
-        }
-
-        return false;
-    }
-
-    private boolean isDryingEnvironment(World world, BlockPos pos) {
-        if (!isUnderDripstoneWithWater(world, pos) && (isAboveCampfire(world, pos) || isInHotBiome(world, pos))) {
-            return true;
         }
 
         return false;
