@@ -161,7 +161,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
             cleaned.set(DataComponentTypes.DYED_COLOR, null);
             cleaned.set(DataComponentTypes.BANNER_PATTERNS, null);
 
-            inventory.set(0, cleaned);
+            resetProgress();
 
             updateWorld();
 

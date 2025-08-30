@@ -2,6 +2,7 @@ package jackclarke95.homestead.recipe;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
@@ -31,7 +32,13 @@ public record RinsingRecipe(Ingredient inputItem, ItemStack output, int time) im
 
     @Override
     public ItemStack craft(RackRecipeInput input, WrapperLookup lookup) {
-        return output.copy();
+        ItemStack inputStack = input.getStackInSlot(0);
+        ItemStack outputStack = output.copy();
+
+        outputStack.copyComponentsToNewStack(inputStack.getItem(), inputStack.getCount());
+
+        return outputStack;
+
     }
 
     @Override

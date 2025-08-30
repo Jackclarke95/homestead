@@ -1,0 +1,10 @@
+{
+  "type": "homestead:rinsing",
+  "ingredient": {
+    "item": "minecraft:black_banner"
+  },
+  "result": {
+    "id": "minecraft:white_banner"
+  },
+  "time": 60
+}
