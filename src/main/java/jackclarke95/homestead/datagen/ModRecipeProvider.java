@@ -85,7 +85,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion(hasItem(Items.STRING), conditionsFromItem(Items.STICK))
                                 .offerTo(recipeExporter);
 
-                ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.DRYING_RACK)
+                ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.HEATED_RACK)
                                 .pattern("#")
                                 .pattern("X")
                                 .input('#', ModBlocks.RACK)

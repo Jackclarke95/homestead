@@ -254,7 +254,7 @@ public class RackBlock extends BlockWithEntity {
             return rinsing.map(r -> r);
         // Try Drying
         Optional<RecipeEntry<DryingRecipe>> drying = world.getServer().getRecipeManager()
-                .getFirstMatch(ModRecipes.DRYING_TYPE, input, world);
+                .getFirstMatch(ModRecipes.HEATED_TYPE, input, world);
         if (drying.isPresent())
             return drying.map(r -> r);
         // No legacy fallback

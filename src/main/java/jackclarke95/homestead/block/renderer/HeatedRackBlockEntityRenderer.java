@@ -1,6 +1,6 @@
 package jackclarke95.homestead.block.renderer;
 
-import jackclarke95.homestead.block.entity.custom.DryingRackBlockEntity;
+import jackclarke95.homestead.block.entity.custom.HeatedRackBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
@@ -15,16 +15,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Direction;
-import jackclarke95.homestead.block.custom.DryingRackBlock;
+import jackclarke95.homestead.block.custom.HeatedRackBlock;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
-public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<DryingRackBlockEntity> {
-    public DryingRackBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
+public class HeatedRackBlockEntityRenderer implements BlockEntityRenderer<HeatedRackBlockEntity> {
+    public HeatedRackBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
     }
 
     @Override
-    public void render(DryingRackBlockEntity entity, float tickDelta, MatrixStack matrices,
+    public void render(HeatedRackBlockEntity entity, float tickDelta, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light, int overlay) {
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         ItemStack stack = entity.getStack(0);
@@ -51,12 +51,12 @@ public class DryingRackBlockEntityRenderer implements BlockEntityRenderer<Drying
         matrices.pop();
     }
 
-    private Direction getBlockFacing(DryingRackBlockEntity entity) {
+    private Direction getBlockFacing(HeatedRackBlockEntity entity) {
         Direction facing = Direction.WEST;
         if (entity.getWorld() != null) {
             net.minecraft.block.BlockState state = entity.getWorld().getBlockState(entity.getPos());
-            if (state.contains(DryingRackBlock.FACING)) {
-                facing = state.get(DryingRackBlock.FACING);
+            if (state.contains(HeatedRackBlock.FACING)) {
+                facing = state.get(HeatedRackBlock.FACING);
             }
         }
         return facing;

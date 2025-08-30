@@ -23,7 +23,7 @@ public class CampfireBlockMixin {
 	private void onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
 			PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ItemActionResult> cir) {
 		if (stack.getItem() == ModBlocks.RACK.asItem()) {
-			world.setBlockState(pos, ModBlocks.DRYING_RACK.getDefaultState()
+			world.setBlockState(pos, ModBlocks.HEATED_RACK.getDefaultState()
 					.with(Properties.HORIZONTAL_FACING,
 							player.getHorizontalFacing().getOpposite())
 					.with(Properties.LIT,

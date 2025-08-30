@@ -1,33 +1,33 @@
 {
   "variants": {
     "lit=false,facing=north": {
-      "model": "homestead:block/drying_rack"
+      "model": "homestead:block/heated_rack"
     },
     "lit=false,facing=east": {
-      "model": "homestead:block/drying_rack",
+      "model": "homestead:block/heated_rack",
       "y": 90
     },
     "lit=false,facing=south": {
-      "model": "homestead:block/drying_rack",
+      "model": "homestead:block/heated_rack",
       "y": 180
     },
     "lit=false,facing=west": {
-      "model": "homestead:block/drying_rack",
+      "model": "homestead:block/heated_rack",
       "y": 270
     },
     "lit=true,facing=north": {
-      "model": "homestead:block/drying_rack_lit"
+      "model": "homestead:block/heated_rack_lit"
     },
     "lit=true,facing=east": {
-      "model": "homestead:block/drying_rack_lit",
+      "model": "homestead:block/heated_rack_lit",
       "y": 90
     },
     "lit=true,facing=south": {
-      "model": "homestead:block/drying_rack_lit",
+      "model": "homestead:block/heated_rack_lit",
       "y": 180
     },
     "lit=true,facing=west": {
-      "model": "homestead:block/drying_rack_lit",
+      "model": "homestead:block/heated_rack_lit",
       "y": 270
     }
   }

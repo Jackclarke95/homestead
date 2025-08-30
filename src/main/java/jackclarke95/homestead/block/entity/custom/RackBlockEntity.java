@@ -276,7 +276,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         }
 
         Optional<RecipeEntry<DryingRecipe>> drying = world.getRecipeManager()
-                .getFirstMatch(ModRecipes.DRYING_TYPE, input, world);
+                .getFirstMatch(ModRecipes.HEATED_TYPE, input, world);
 
         if (drying.isPresent()) {
             return drying.map(r -> r);

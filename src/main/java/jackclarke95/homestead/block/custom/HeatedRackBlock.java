@@ -3,7 +3,7 @@ package jackclarke95.homestead.block.custom;
 import com.mojang.serialization.MapCodec;
 
 import jackclarke95.homestead.block.entity.ModBlockEntities;
-import jackclarke95.homestead.block.entity.custom.DryingRackBlockEntity;
+import jackclarke95.homestead.block.entity.custom.HeatedRackBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -23,12 +23,12 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.state.property.Properties;
 
-public class DryingRackBlock extends RackBlock {
+public class HeatedRackBlock extends RackBlock {
     public static final BooleanProperty LIT = Properties.LIT;
 
-    public static final MapCodec<DryingRackBlock> CODEC = DryingRackBlock.createCodec(DryingRackBlock::new);
+    public static final MapCodec<HeatedRackBlock> CODEC = HeatedRackBlock.createCodec(HeatedRackBlock::new);
 
-    public DryingRackBlock(Settings settings) {
+    public HeatedRackBlock(Settings settings) {
         super(settings);
         setDefaultState(this.stateManager.getDefaultState().with(LIT, true));
     }
@@ -71,7 +71,7 @@ public class DryingRackBlock extends RackBlock {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new DryingRackBlockEntity(pos, state);
+        return new HeatedRackBlockEntity(pos, state);
     }
 
     @Override
@@ -87,12 +87,12 @@ public class DryingRackBlock extends RackBlock {
         if (world.isClient) {
             return null;
         }
-        return validateTicker(type, ModBlockEntities.DRYING_RACK_BE,
+        return validateTicker(type, ModBlockEntities.HEATED_RACK_BE,
                 (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
     }
 
     @Override
     protected Class<? extends BlockEntity> getBlockEntityClass() {
-        return DryingRackBlockEntity.class;
+        return HeatedRackBlockEntity.class;
     }
 }

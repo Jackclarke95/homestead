@@ -21,11 +21,11 @@ public class ModRecipes {
                 }
             });
 
-    public static final RecipeSerializer<DryingRecipe> DRYING_RECIPE_SERIALIZER = Registry.register(
+    public static final RecipeSerializer<DryingRecipe> HEATED_RECIPE_SERIALIZER = Registry.register(
             Registries.RECIPE_SERIALIZER, Identifier.of(Homestead.MOD_ID, "drying"),
             new DryingRecipe.Serializer());
 
-    public static final RecipeType<DryingRecipe> DRYING_TYPE = Registry.register(
+    public static final RecipeType<DryingRecipe> HEATED_TYPE = Registry.register(
             Registries.RECIPE_TYPE, Identifier.of(Homestead.MOD_ID, "drying"),
             new RecipeType<DryingRecipe>() {
                 @Override

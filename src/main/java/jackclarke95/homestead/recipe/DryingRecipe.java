@@ -47,12 +47,12 @@ public record DryingRecipe(Ingredient inputItem, ItemStack output, int time) imp
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return ModRecipes.DRYING_RECIPE_SERIALIZER;
+        return ModRecipes.HEATED_RECIPE_SERIALIZER;
     }
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipes.DRYING_TYPE;
+        return ModRecipes.HEATED_TYPE;
     }
 
     public static class Serializer implements RecipeSerializer<DryingRecipe> {

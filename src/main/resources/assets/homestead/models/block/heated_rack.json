@@ -4,7 +4,7 @@
   "texture_size": [32, 32],
   "textures": {
     "0": "homestead:block/rack",
-    "2": "homestead:block/drying_rack_coals",
+    "2": "homestead:block/heated_rack_coals",
     "particle": "homestead:block/rack"
   },
   "elements": [

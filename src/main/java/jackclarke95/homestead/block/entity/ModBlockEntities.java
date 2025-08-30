@@ -3,7 +3,7 @@ package jackclarke95.homestead.block.entity;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.custom.CuringVatBlockEntity;
-import jackclarke95.homestead.block.entity.custom.DryingRackBlockEntity;
+import jackclarke95.homestead.block.entity.custom.HeatedRackBlockEntity;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.block.entity.custom.TroughBlockEntity;
 import jackclarke95.homestead.block.entity.custom.MillBlockEntity;
@@ -19,10 +19,10 @@ public class ModBlockEntities {
                                         (pos, state) -> new RackBlockEntity(pos, state), ModBlocks.RACK)
                                         .build(null));
 
-        public static final BlockEntityType<DryingRackBlockEntity> DRYING_RACK_BE = Registry.register(
-                        Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "drying_rack_be"),
-                        BlockEntityType.Builder.<DryingRackBlockEntity>create(
-                                        (pos, state) -> new DryingRackBlockEntity(pos, state), ModBlocks.DRYING_RACK)
+        public static final BlockEntityType<HeatedRackBlockEntity> HEATED_RACK_BE = Registry.register(
+                        Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "heated_rack_be"),
+                        BlockEntityType.Builder.<HeatedRackBlockEntity>create(
+                                        (pos, state) -> new HeatedRackBlockEntity(pos, state), ModBlocks.HEATED_RACK)
                                         .build(null));
 
         public static final BlockEntityType<CuringVatBlockEntity> CURING_VAT_BE = Registry.register(

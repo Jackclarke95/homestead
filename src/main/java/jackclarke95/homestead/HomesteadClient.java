@@ -9,7 +9,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
-import jackclarke95.homestead.block.renderer.DryingRackBlockEntityRenderer;
+import jackclarke95.homestead.block.renderer.HeatedRackBlockEntityRenderer;
 import jackclarke95.homestead.block.renderer.RackBlockEntityRenderer;
 import jackclarke95.homestead.screen.ModScreenHandlers;
 import jackclarke95.homestead.screen.custom.CuringVatScreen;
@@ -20,10 +20,10 @@ public class HomesteadClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RACK, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.DRYING_RACK, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.HEATED_RACK, RenderLayer.getCutout());
 
         BlockEntityRendererFactories.register(ModBlockEntities.RACK_BE, RackBlockEntityRenderer::new);
-        BlockEntityRendererFactories.register(ModBlockEntities.DRYING_RACK_BE, DryingRackBlockEntityRenderer::new);
+        BlockEntityRendererFactories.register(ModBlockEntities.HEATED_RACK_BE, HeatedRackBlockEntityRenderer::new);
 
         HandledScreens.register(ModScreenHandlers.CURING_VAT_SCREEN_HANDLER, CuringVatScreen::new);
         HandledScreens.register(ModScreenHandlers.MILL_SCREEN_HANDLER, MillScreen::new);

@@ -3,7 +3,7 @@ package jackclarke95.homestead.block;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.CuringVatBlock;
 import jackclarke95.homestead.block.custom.CustomBlock;
-import jackclarke95.homestead.block.custom.DryingRackBlock;
+import jackclarke95.homestead.block.custom.HeatedRackBlock;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.custom.TroughBlock;
 import jackclarke95.homestead.block.custom.MillBlock;
@@ -32,9 +32,9 @@ public class ModBlocks {
         public static final Block RACK = registerBlock("rack",
                         new RackBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
 
-        public static final Block DRYING_RACK = registerBlock("drying_rack",
-                        new DryingRackBlock(AbstractBlock.Settings.copy(ModBlocks.RACK)
-                                        .luminance(state -> state.get(DryingRackBlock.LIT) ? 15 : 0)));
+        public static final Block HEATED_RACK = registerBlock("heated_rack",
+                        new HeatedRackBlock(AbstractBlock.Settings.copy(ModBlocks.RACK)
+                                        .luminance(state -> state.get(HeatedRackBlock.LIT) ? 15 : 0)));
 
         public static final Block COBBLESTONE_BRICKS = registerBlock("cobblestone_bricks",
                         new Block((AbstractBlock.Settings.copy(Blocks.COBBLESTONE))));
@@ -59,22 +59,21 @@ public class ModBlocks {
         public static void registerModBlocks() {
                 Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);
 
-                ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
-                        entries.add(ModBlocks.CUSTOM_BLOCK);
-                        entries.add(ModBlocks.RACK);
-                        entries.add(ModBlocks.DRYING_RACK);
-                        entries.add(ModBlocks.CURING_VAT);
-                        entries.add(ModBlocks.TROUGH);
-                        entries.add(ModBlocks.MILL);
-                });
-
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
                         entries.add(ModBlocks.COBBLESTONE_BRICKS);
                         entries.add(ModBlocks.COBBLESTONE_BRICK_SLAB);
                         entries.add(ModBlocks.COBBLESTONE_BRICK_WALL);
                         entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
                         entries.add(ModBlocks.HAY_STAIRS);
+                });
+
+                ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
+                        entries.add(ModBlocks.CUSTOM_BLOCK);
+                        entries.add(ModBlocks.RACK);
+                        entries.add(ModBlocks.HEATED_RACK);
+                        entries.add(ModBlocks.CURING_VAT);
                         entries.add(ModBlocks.TROUGH);
+                        entries.add(ModBlocks.MILL);
                 });
         }
 
