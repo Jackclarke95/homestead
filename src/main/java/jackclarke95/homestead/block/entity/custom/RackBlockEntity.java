@@ -1,6 +1,5 @@
 package jackclarke95.homestead.block.entity.custom;
 
-import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
@@ -33,8 +32,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class RackBlockEntity extends BlockEntity implements ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
-
     protected final PropertyDelegate propertyDelegate;
+
     private int progress = 0;
     private int maxProgress = 20;
     private RecipeEntry<?> currentRecipe = null;
@@ -55,10 +54,12 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
             @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case 0:
+                    case 0: {
                         RackBlockEntity.this.progress = value;
-                    case 1:
+                    }
+                    case 1: {
                         RackBlockEntity.this.maxProgress = value;
+                    }
                 }
             }
 
@@ -87,8 +88,6 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         }
 
         if ((RackBlock.hasDyeOrBanner(inventory.get(0)))) {
-            Homestead.LOGGER.info("Found item to clean (leather armor, banner, or shield)");
-
             removeDyeAndPatternFromItem();
 
             return;
@@ -103,13 +102,15 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
                 if (currentRecipeValue instanceof RinsingRecipe) {
                     canProgress = isRinsingEnvironment(world, pos);
 
-                    if (canProgress && !world.isClient)
+                    if (canProgress && !world.isClient) {
                         spawnRinsingParticles((ServerWorld) world, pos);
+                    }
                 } else if (currentRecipeValue instanceof DryingRecipe) {
                     canProgress = isDryingEnvironment(world, pos);
 
-                    if (canProgress && !world.isClient)
+                    if (canProgress && !world.isClient) {
                         spawnDryingParticles((ServerWorld) world, pos);
+                    }
                 } else {
                     canProgress = true;
                 }
@@ -137,7 +138,6 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         if (hasCraftingFinished()) {
             ItemStack cleaned = inventory.get(0).copy();
 
-            // Remove both dyed color and banner patterns, regardless of item type
             cleaned.set(DataComponentTypes.DYED_COLOR, null);
             cleaned.set(DataComponentTypes.BANNER_PATTERNS, null);
 
@@ -149,14 +149,15 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         }
 
         if (isRinsingEnvironment(world, pos)) {
-
             spawnRinsingParticles((ServerWorld) world, pos);
+
             increaseCraftingProgress();
         }
     }
 
     private void updateWorld() {
         BlockState state = world.getBlockState(pos);
+
         markDirty(world, pos, state);
         world.updateListeners(pos, state, state, 0);
     }
@@ -233,26 +234,33 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         BlockPos below = pos.down();
         var state = world.getBlockState(below);
         String key = state.getBlock().getTranslationKey();
+
         return key.contains("campfire") || key.contains("soul_campfire");
     }
 
     private boolean isInHotBiome(World world, BlockPos pos) {
-        // Use vanilla biome temperature threshold for "hot"
         float temp = world.getBiome(pos).value().getTemperature();
-        return temp > 1.0f; // e.g. desert, savanna, nether
+
+        return temp > 1.0f;
     }
 
     private boolean hasRecipe() {
         Optional<RecipeEntry<?>> recipe = getCurrentRecipe();
+
         if (recipe.isPresent()) {
             this.currentRecipe = recipe.get();
-            // Set maxProgress from recipe's time property
             Object value = currentRecipe.value();
+
             if (value instanceof RinsingRecipe rinsing) {
-                this.maxProgress = rinsing.time();
+                {
+                    this.maxProgress = rinsing.time();
+                }
             } else if (value instanceof DryingRecipe drying) {
-                this.maxProgress = drying.time();
+                {
+                    this.maxProgress = drying.time();
+                }
             }
+
             return true;
         }
 
@@ -264,17 +272,20 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     public Optional<RecipeEntry<?>> getCurrentRecipe() {
         World world = this.getWorld();
         RackRecipeInput input = new RackRecipeInput(this.getStack(0));
-        // Try Rinsing
         Optional<RecipeEntry<RinsingRecipe>> rinsing = world.getRecipeManager()
                 .getFirstMatch(ModRecipes.RINSING_TYPE, input, world);
-        if (rinsing.isPresent())
+
+        if (rinsing.isPresent()) {
             return rinsing.map(r -> r);
-        // Try Drying
+        }
+
         Optional<RecipeEntry<DryingRecipe>> drying = world.getRecipeManager()
                 .getFirstMatch(ModRecipes.DRYING_TYPE, input, world);
-        if (drying.isPresent())
+
+        if (drying.isPresent()) {
             return drying.map(r -> r);
-        // No legacy fallback
+        }
+
         return Optional.empty();
     }
 
