@@ -1,6 +1,5 @@
 package jackclarke95.homestead.block.entity.custom;
 
-import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
