@@ -10,6 +10,7 @@ import jackclarke95.homestead.recipe.DryingRecipe;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
@@ -42,7 +43,11 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     private boolean dryingEnvironment = false;
 
     public RackBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.RACK_BE, pos, state);
+        this(ModBlockEntities.RACK_BE, pos, state);
+    }
+
+    public RackBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
 
         this.propertyDelegate = new PropertyDelegate() {
             @Override
