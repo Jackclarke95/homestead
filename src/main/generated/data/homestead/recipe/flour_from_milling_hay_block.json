@@ -4,8 +4,8 @@
     "item": "minecraft:hay_block"
   },
   "result": {
-    "id": "homestead:flour",
-    "count": 9
+    "count": 1,
+    "id": "homestead:flour"
   },
   "time": 180
 }

@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.datagen.recipe.custom.DryingRecipeJsonBuilder;
+import jackclarke95.homestead.datagen.recipe.custom.MillingRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.custom.RinsingRecipeJsonBuilder;
 import jackclarke95.homestead.item.ModItems;
 import jackclarke95.homestead.util.ModTags;
@@ -133,6 +134,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion("has_hay_block", conditionsFromItem(Blocks.HAY_BLOCK))
                                 .offerTo(recipeExporter);
 
+                // #region Rinsing Recipes
+
                 // Wool rinsing recipes
                 RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_GRAY_WOOL),
                                 Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
@@ -229,6 +232,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PINK_CARPET),
                                 Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
 
+                // #endregion Rinsing Recipes
+
                 // Jerky drying recipes
                 DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.BEEF),
                                 ModItems.BEEF_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
@@ -248,5 +253,14 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 DryingRecipeJsonBuilder.create(Ingredient.ofItems(ModItems.RAW_HIDE),
                                 Items.LEATHER.getDefaultStack(), 1200).offerTo(recipeExporter);
 
+                // Milling recipes
+                MillingRecipeJsonBuilder.create(Ingredient.ofItems(Items.WHEAT), ModItems.FLOUR.getDefaultStack(), 20)
+                                .offerTo(recipeExporter);
+                MillingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.HAY_BLOCK), ModItems.FLOUR.getDefaultStack(), 180)
+                                .offerTo(recipeExporter);
+                MillingRecipeJsonBuilder.create(Ingredient.fromTag(ModTags.ItemTags.CROP_SEEDS),
+                                ModItems.FLOUR.getDefaultStack(), 20)
+                                .offerTo(recipeExporter);
         }
 }

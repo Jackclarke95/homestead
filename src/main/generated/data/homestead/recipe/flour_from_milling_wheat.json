@@ -1,11 +1,11 @@
 {
   "type": "homestead:milling",
   "ingredient": {
-    "tag": "homestead:crop_seeds"
+    "item": "minecraft:wheat"
   },
   "result": {
-    "id": "homestead:seed_mix",
-    "count": 1
+    "count": 1,
+    "id": "homestead:flour"
   },
   "time": 20
 }
