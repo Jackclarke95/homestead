@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
+import jackclarke95.homestead.datagen.recipe.custom.RinsingRecipeJsonBuilder;
 import jackclarke95.homestead.item.ModItems;
 import jackclarke95.homestead.util.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -23,7 +24,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
         public ModRecipeProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> registriesFuture) {
                 super(output, registriesFuture);
-
         }
 
         @Override
@@ -131,5 +131,101 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 createStairsRecipe(ModBlocks.HAY_STAIRS, Ingredient.ofItems(Blocks.HAY_BLOCK))
                                 .criterion("has_hay_block", conditionsFromItem(Blocks.HAY_BLOCK))
                                 .offerTo(recipeExporter);
+
+                // Wool rinsing recipes
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_GRAY_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.GRAY_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BLACK_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BROWN_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.RED_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.ORANGE_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.YELLOW_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIME_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.GREEN_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.CYAN_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_BLUE_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BLUE_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PURPLE_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MAGENTA_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PINK_WOOL),
+                                Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
+
+                // Banner rinsing recipes
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_GRAY_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.GRAY_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BLACK_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BROWN_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.RED_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.ORANGE_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.YELLOW_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIME_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.GREEN_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.CYAN_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_BLUE_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BLUE_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PURPLE_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MAGENTA_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PINK_BANNER),
+                                Items.WHITE_BANNER.getDefaultStack(), 60).offerTo(recipeExporter);
+
+                // Carpet rinsing recipes
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_GRAY_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.GRAY_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BLACK_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BROWN_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.RED_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.ORANGE_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.YELLOW_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIME_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.GREEN_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.CYAN_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_BLUE_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BLUE_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PURPLE_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MAGENTA_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PINK_CARPET),
+                                Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
         }
 }

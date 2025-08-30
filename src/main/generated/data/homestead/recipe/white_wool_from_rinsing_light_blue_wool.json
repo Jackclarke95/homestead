@@ -1,10 +1,11 @@
 {
   "type": "homestead:rinsing",
   "ingredient": {
-    "item": "minecraft:red_wool"
+    "item": "minecraft:light_blue_wool"
   },
   "result": {
+    "count": 1,
     "id": "minecraft:white_wool"
   },
-  "time": 600
+  "time": 60
 }

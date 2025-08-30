@@ -1,9 +1,10 @@
 {
   "type": "homestead:rinsing",
   "ingredient": {
-    "item": "minecraft:red_carpet"
+    "item": "minecraft:brown_carpet"
   },
   "result": {
+    "count": 1,
     "id": "minecraft:white_carpet"
   },
   "time": 60

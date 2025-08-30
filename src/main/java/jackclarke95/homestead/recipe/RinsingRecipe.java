@@ -1,5 +1,6 @@
 package jackclarke95.homestead.recipe;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
@@ -65,7 +66,7 @@ public record RinsingRecipe(Ingredient inputItem, ItemStack output, int time) im
         public static final MapCodec<RinsingRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
                 Ingredient.DISALLOW_EMPTY_CODEC.fieldOf("ingredient").forGetter(RinsingRecipe::inputItem),
                 ItemStack.CODEC.fieldOf("result").forGetter(RinsingRecipe::output),
-                com.mojang.serialization.Codec.INT.fieldOf("time").forGetter(RinsingRecipe::time))
+                Codec.INT.fieldOf("time").forGetter(RinsingRecipe::time))
                 .apply(inst, RinsingRecipe::new));
 
         public static final PacketCodec<RegistryByteBuf, Integer> INT_CODEC = PacketCodec.of(
