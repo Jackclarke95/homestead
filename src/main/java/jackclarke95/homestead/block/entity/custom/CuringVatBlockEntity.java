@@ -6,8 +6,8 @@ import org.jetbrains.annotations.Nullable;
 
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
-import jackclarke95.homestead.recipe.CuringVatRecipe;
-import jackclarke95.homestead.recipe.CuringVatRecipeInput;
+import jackclarke95.homestead.recipe.CuringRecipe;
+import jackclarke95.homestead.recipe.CuringRecipeInput;
 import jackclarke95.homestead.recipe.ModRecipes;
 import jackclarke95.homestead.screen.custom.CuringVatScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -46,7 +46,7 @@ public class CuringVatBlockEntity extends BlockEntity
     private PropertyDelegate propertyDelegate;
     private int progress = 0;
     private int maxProgress = 100;
-    private RecipeEntry<CuringVatRecipe> currentRecipe = null;
+    private RecipeEntry<CuringRecipe> currentRecipe = null;
 
     public CuringVatBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.CURING_VAT_BE, pos, state);
@@ -104,10 +104,10 @@ public class CuringVatBlockEntity extends BlockEntity
         // current recipe
         handlePendingTransfer();
 
-        Optional<RecipeEntry<CuringVatRecipe>> recipeOpt = getCurrentRecipe();
+        Optional<RecipeEntry<CuringRecipe>> recipeOpt = getCurrentRecipe();
         if (recipeOpt.isPresent()) {
             this.currentRecipe = recipeOpt.get();
-            CuringVatRecipe recipe = this.currentRecipe.value();
+            CuringRecipe recipe = this.currentRecipe.value();
             // Check for required inputs and counts
             ItemStack inputStack = inventory.get(INPUT_INGREDIENT_SLOT);
             int requiredCount = recipe.ingredientCount();
@@ -143,7 +143,7 @@ public class CuringVatBlockEntity extends BlockEntity
         this.maxProgress = 72;
     }
 
-    private void craftItem(CuringVatRecipe recipe) {
+    private void craftItem(CuringRecipe recipe) {
         // Remove correct amount of ingredient (from recipe input count)
         int ingredientCount = recipe.ingredientCount();
         int outputCount = recipe.output().getCount();
@@ -190,10 +190,10 @@ public class CuringVatBlockEntity extends BlockEntity
         this.progress++;
     }
 
-    private Optional<RecipeEntry<CuringVatRecipe>> getCurrentRecipe() {
+    private Optional<RecipeEntry<CuringRecipe>> getCurrentRecipe() {
         return this.getWorld().getRecipeManager()
-                .getFirstMatch(ModRecipes.CURING_VAT_TYPE,
-                        new CuringVatRecipeInput(
+                .getFirstMatch(ModRecipes.CURING_TYPE,
+                        new CuringRecipeInput(
                                 inventory.get(INPUT_INGREDIENT_SLOT),
                                 inventory.get(INPUT_CATALYST_SLOT),
                                 inventory.get(INPUT_CONTAINER_SLOT)),
@@ -217,13 +217,13 @@ public class CuringVatBlockEntity extends BlockEntity
             return;
         }
         // Find any recipe whose output matches the pending item
-        Optional<CuringVatRecipe> match = this.getWorld().getRecipeManager()
-                .listAllOfType(ModRecipes.CURING_VAT_TYPE).stream()
+        Optional<CuringRecipe> match = this.getWorld().getRecipeManager()
+                .listAllOfType(ModRecipes.CURING_TYPE).stream()
                 .map(RecipeEntry::value)
                 .filter(recipe -> recipe.output().getItem().equals(pending.getItem()))
                 .findFirst();
         if (match.isPresent()) {
-            CuringVatRecipe recipe = match.get();
+            CuringRecipe recipe = match.get();
             int pendingCount = pending.getCount();
             int outputSlotSpace = this.getStack(OUTPUT_ACTUAL_SLOT).isEmpty() ? 64
                     : this.getStack(OUTPUT_ACTUAL_SLOT).getMaxCount() - this.getStack(OUTPUT_ACTUAL_SLOT).getCount();

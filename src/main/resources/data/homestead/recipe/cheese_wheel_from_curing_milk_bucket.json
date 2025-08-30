@@ -1,5 +1,5 @@
 {
-  "type": "homestead:curing_vat",
+  "type": "homestead:curing",
   "ingredient": { "item": "minecraft:milk_bucket" },
   "result": { "id": "homestead:cheese_wheel" },
   "byproduct": { "id": "minecraft:bucket", "count": 1 },

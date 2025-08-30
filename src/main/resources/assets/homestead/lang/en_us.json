@@ -29,5 +29,10 @@
   "block.homestead.cobblestone_brick_slab": "Cobblestone Brick Slab",
   "block.homestead.cobblestone_brick_wall": "Cobblestone Brick Wall",
   "block.homestead.cobblestone_brick_stairs": "Cobblestone Brick Stairs",
-  "block.homestead.hay_stairs": "Hay Stairs"
+  "block.homestead.hay_stairs": "Hay Stairs",
+
+  "tag.item.homestead.drying": "Drying",
+  "tag.item.homestead.curing_vat": "Curing Vat",
+  "tag.item.homestead.milling": "Milling",
+  "tag.item.homestead.rinsing": "Rinsing"
 }

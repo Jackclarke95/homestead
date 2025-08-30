@@ -3,7 +3,7 @@ package jackclarke95.homestead.recipe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.input.RecipeInput;
 
-public record CuringVatRecipeInput(ItemStack ingredient, ItemStack catalyst, ItemStack container)
+public record CuringRecipeInput(ItemStack ingredient, ItemStack catalyst, ItemStack container)
         implements RecipeInput {
     @Override
     public ItemStack getStackInSlot(int slot) {

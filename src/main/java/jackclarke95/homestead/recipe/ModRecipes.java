@@ -34,16 +34,16 @@ public class ModRecipes {
                 }
             });
 
-    public static final RecipeSerializer<CuringVatRecipe> CURING_VAT_RECIPE_SERIALIZER = Registry.register(
-            Registries.RECIPE_SERIALIZER, Identifier.of(Homestead.MOD_ID, "curing_vat"),
-            new CuringVatRecipe.Serializer());
+    public static final RecipeSerializer<CuringRecipe> CURING_RECIPE_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER, Identifier.of(Homestead.MOD_ID, "curing"),
+            new CuringRecipe.Serializer());
 
-    public static final RecipeType<CuringVatRecipe> CURING_VAT_TYPE = Registry.register(
-            Registries.RECIPE_TYPE, Identifier.of(Homestead.MOD_ID, "curing_vat"),
-            new RecipeType<CuringVatRecipe>() {
+    public static final RecipeType<CuringRecipe> CURING_TYPE = Registry.register(
+            Registries.RECIPE_TYPE, Identifier.of(Homestead.MOD_ID, "curing"),
+            new RecipeType<CuringRecipe>() {
                 @Override
                 public String toString() {
-                    return "curing_vat";
+                    return "curing";
                 }
             });
 
