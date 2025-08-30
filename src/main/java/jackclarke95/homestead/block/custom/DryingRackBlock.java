@@ -10,24 +10,19 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class DryingRackBlock extends RackBlock {
-    private final VoxelShape SHAPE = createShape();
     public static final BooleanProperty LIT = BooleanProperty.of("lit");
 
     public static final MapCodec<DryingRackBlock> CODEC = DryingRackBlock.createCodec(DryingRackBlock::new);
@@ -68,16 +63,6 @@ public class DryingRackBlock extends RackBlock {
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPE;
-    }
-
-    @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
-    }
-
-    @Override
     protected MapCodec<? extends BlockWithEntity> getCodec() {
         return CODEC;
     }
@@ -86,21 +71,6 @@ public class DryingRackBlock extends RackBlock {
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new DryingRackBlockEntity(pos, state);
-    }
-
-    @Override
-    protected BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
-
-    @Override
-    protected BlockState rotate(BlockState state, BlockRotation rotation) {
-        return state.with(FACING, rotation.rotate(state.get(FACING)));
-    }
-
-    @Override
-    protected BlockState mirror(BlockState state, BlockMirror mirror) {
-        return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
     @Override
