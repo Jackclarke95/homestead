@@ -51,6 +51,7 @@ public class ModModelProvider extends FabricModelProvider {
                                                 hayInnerStairsModelId,
                                                 hayStairsModelId,
                                                 hayOuterStairsModelId));
+
                 blockStateModelGenerator.registerParentedItemModel(ModBlocks.HAY_STAIRS, hayStairsModelId);
         }
 

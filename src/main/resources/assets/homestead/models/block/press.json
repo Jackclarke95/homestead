@@ -148,9 +148,9 @@
     },
     {
       "name": "shaft",
-      "from": [7, 2, 7],
-      "to": [9, 16, 9],
-      "rotation": { "angle": 0, "axis": "y", "origin": [7, 12, 7] },
+      "from": [7, 1, 7],
+      "to": [9, 15, 9],
+      "rotation": { "angle": 0, "axis": "y", "origin": [7, 11, 7] },
       "faces": {
         "north": { "uv": [0, 9.75, 0.5, 13.25], "texture": "#0" },
         "east": { "uv": [0.5, 9.75, 1, 13.25], "texture": "#0" },
@@ -184,19 +184,6 @@
         "west": { "uv": [11.75, 10.25, 12.5, 10.5], "texture": "#0" },
         "up": { "uv": [5.5, 11.75, 4.75, 11], "texture": "#0" },
         "down": { "uv": [6.25, 11, 5.5, 11.75], "texture": "#0" }
-      }
-    },
-    {
-      "name": "thread",
-      "from": [6.5, 7, 6.5],
-      "to": [9.5, 8, 9.5],
-      "faces": {
-        "north": { "uv": [11.75, 11, 12.5, 11.25], "texture": "#0" },
-        "east": { "uv": [11.75, 11.25, 12.5, 11.5], "texture": "#0" },
-        "south": { "uv": [11.75, 11.5, 12.5, 11.75], "texture": "#0" },
-        "west": { "uv": [11.75, 11.75, 12.5, 12], "texture": "#0" },
-        "up": { "uv": [7, 11.75, 6.25, 11], "texture": "#0" },
-        "down": { "uv": [7.75, 11, 7, 11.75], "texture": "#0" }
       }
     },
     {
@@ -329,7 +316,7 @@
           "name": "screw",
           "origin": [7, 14, 7],
           "color": 0,
-          "children": [9, 10, 11, 12, 13]
+          "children": [9, 10, 11, 12]
         },
         {
           "name": "handles",
@@ -340,17 +327,17 @@
               "name": "handle",
               "origin": [0, 0, 0],
               "color": 0,
-              "children": [14, 15]
+              "children": [13, 14]
             },
             {
               "name": "handle",
               "origin": [0, 0, 0],
               "color": 0,
-              "children": [16, 17]
+              "children": [15, 16]
             }
           ]
         },
-        18
+        17
       ]
     }
   ]

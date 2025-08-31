@@ -9,13 +9,12 @@ import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
 public class PressBlock extends HorizontalFacingBlock {
     public static final MapCodec<PressBlock> CODEC = createCodec(PressBlock::new);
-
-    private static final VoxelShape SHAPE = Block.createCuboidShape(3.0, 0.0, 3.0, 13.0, 16.0, 13.0);
 
     public PressBlock(Settings settings) {
         super(settings);
@@ -23,7 +22,22 @@ public class PressBlock extends HorizontalFacingBlock {
 
     @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPE;
+        VoxelShape baseAndBarrel = Block.createCuboidShape(0, 0, 0, 16, 9, 16);
+        VoxelShape rackHandlesScrew;
+
+        switch (state.get(FACING)) {
+            case NORTH:
+            case SOUTH:
+                rackHandlesScrew = Block.createCuboidShape(0, 9, 5, 16, 16, 11);
+                break;
+
+            case WEST:
+            case EAST:
+            default:
+                rackHandlesScrew = Block.createCuboidShape(5, 9, 0, 11, 16, 16);
+        }
+
+        return VoxelShapes.union(baseAndBarrel, rackHandlesScrew);
     }
 
     @Override
