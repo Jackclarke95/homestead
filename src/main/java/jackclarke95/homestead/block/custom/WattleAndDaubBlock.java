@@ -19,6 +19,10 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.util.ItemScatterer;
+import net.minecraft.item.ItemStack;
+import java.util.Collections;
+import java.util.List;
+import net.minecraft.loot.context.LootContextParameterSet;
 
 public class WattleAndDaubBlock extends HorizontalFacingBlock {
     public static final EnumProperty<VerticalSlabType> TYPE = EnumProperty.of("type", VerticalSlabType.class);
@@ -103,5 +107,11 @@ public class WattleAndDaubBlock extends HorizontalFacingBlock {
         }
 
         return super.canReplace(state, context);
+    }
+
+    @Override
+    public List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+        int count = state.get(TYPE) == VerticalSlabType.FULL ? 2 : 1;
+        return Collections.singletonList(new ItemStack(this.asItem(), count));
     }
 }
