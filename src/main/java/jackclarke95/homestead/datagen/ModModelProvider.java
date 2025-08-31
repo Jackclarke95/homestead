@@ -2,7 +2,6 @@ package jackclarke95.homestead.datagen;
 
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
-import jackclarke95.homestead.block.custom.CustomBlock;
 import jackclarke95.homestead.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
@@ -12,8 +11,6 @@ import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
-import net.minecraft.data.client.TexturedModel;
-import net.minecraft.data.client.VariantsBlockStateSupplier;
 import net.minecraft.util.Identifier;
 
 public class ModModelProvider extends FabricModelProvider {
@@ -32,17 +29,6 @@ public class ModModelProvider extends FabricModelProvider {
                 cobblestoneBricksPool.slab(ModBlocks.COBBLESTONE_BRICK_SLAB);
 
                 cobblestoneBricksPool.wall(ModBlocks.COBBLESTONE_BRICK_WALL);
-
-                Identifier blockOffIdentifier = TexturedModel.CUBE_ALL.upload(ModBlocks.CUSTOM_BLOCK,
-                                blockStateModelGenerator.modelCollector);
-                Identifier blockOnIdentifier = blockStateModelGenerator.createSubModel(ModBlocks.CUSTOM_BLOCK, "_on",
-                                Models.CUBE_ALL, TextureMap::all);
-
-                blockStateModelGenerator.blockStateCollector
-                                .accept(VariantsBlockStateSupplier.create(ModBlocks.CUSTOM_BLOCK)
-                                                .coordinate(BlockStateModelGenerator.createBooleanModelMap(
-                                                                CustomBlock.CLICKED, blockOnIdentifier,
-                                                                blockOffIdentifier)));
 
                 blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.RACK);
                 blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.CURING_VAT);

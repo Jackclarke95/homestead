@@ -19,27 +19,17 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 super(dataOutput, registryLookup);
         }
 
-        // LootCondition.Builder notSilkTouch = InvertedLootCondition.builder(
-        // MatchToolLootCondition.builder(
-        // ItemPredicate.Builder.create()
-        // .enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH,
-        // net.minecraft.predicate.NumberRange.IntRange.atLeast(1)))));
-
         @Override
         public void generate() {
                 addDrop(ModBlocks.CURING_VAT);
-                addDrop(ModBlocks.CUSTOM_BLOCK);
                 addDrop(ModBlocks.RACK);
                 addDrop(ModBlocks.TROUGH);
                 addDrop(ModBlocks.MILL);
 
-                // Drying rack loot table: Silk Touch drops itself, else drops rack and 2 coal
                 addDrop(ModBlocks.HEATED_RACK, block -> LootTable.builder()
-                                // Pool 1: Drop drying rack if Silk Touch
                                 .pool(LootPool.builder()
                                                 .with(ItemEntry.builder(ModBlocks.HEATED_RACK)
                                                                 .conditionally(this.createSilkTouchCondition())))
-                                // Pool 2: Drop rack and 2 coal if NOT Silk Touch
                                 .pool(LootPool.builder()
                                                 .with(ItemEntry.builder(ModBlocks.RACK))
                                                 .conditionally(this.createWithoutSilkTouchCondition())

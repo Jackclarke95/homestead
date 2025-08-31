@@ -2,7 +2,6 @@ package jackclarke95.homestead.block;
 
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.CuringVatBlock;
-import jackclarke95.homestead.block.custom.CustomBlock;
 import jackclarke95.homestead.block.custom.HeatedRackBlock;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.custom.TroughBlock;
@@ -24,10 +23,6 @@ import net.minecraft.util.Identifier;
 public class ModBlocks {
         public static final Block TROUGH = registerBlock("trough",
                         new TroughBlock(AbstractBlock.Settings.copy(Blocks.CAULDRON)));
-
-        public static final Block CUSTOM_BLOCK = registerBlock("custom_block",
-                        new CustomBlock(AbstractBlock.Settings.create()
-                                        .strength(1.0f).luminance(state -> state.get(CustomBlock.CLICKED) ? 15 : 0)));
 
         public static final Block RACK = registerBlock("rack",
                         new RackBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
@@ -68,7 +63,6 @@ public class ModBlocks {
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
-                        entries.add(ModBlocks.CUSTOM_BLOCK);
                         entries.add(ModBlocks.RACK);
                         entries.add(ModBlocks.HEATED_RACK);
                         entries.add(ModBlocks.CURING_VAT);
