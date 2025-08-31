@@ -55,22 +55,36 @@ public class VerticleSlabBlock extends HorizontalFacingBlock {
         Direction facing;
 
         if (face.getAxis().isVertical()) {
-            // Placing on top or bottom face: determine closest horizontal edge
-            double hitX = ctx.getHitPos().x - pos.getX();
-            double hitZ = ctx.getHitPos().z - pos.getZ();
-            // Centered at 0.5,0.5
-            double dx = hitX - 0.5;
-            double dz = hitZ - 0.5;
-            if (Math.abs(dx) > Math.abs(dz)) {
-                // Closer to east or west
-                facing = dx > 0 ? Direction.EAST : Direction.WEST;
+            // If placing on top or bottom, match orientation of slab below/above if present
+            BlockPos neighborPos = face == Direction.UP ? pos.down() : pos.up();
+            BlockState neighborState = ctx.getWorld().getBlockState(neighborPos);
+            if (neighborState.getBlock() == this) {
+                facing = neighborState.get(FACING);
             } else {
-                // Closer to north or south
-                facing = dz > 0 ? Direction.SOUTH : Direction.NORTH;
+                // Otherwise, determine closest horizontal edge
+                double hitX = ctx.getHitPos().x - pos.getX();
+                double hitZ = ctx.getHitPos().z - pos.getZ();
+                // Centered at 0.5,0.5
+                double dx = hitX - 0.5;
+                double dz = hitZ - 0.5;
+                if (Math.abs(dx) > Math.abs(dz)) {
+                    // Closer to east or west
+                    facing = dx > 0 ? Direction.EAST : Direction.WEST;
+                } else {
+                    // Closer to north or south
+                    facing = dz > 0 ? Direction.SOUTH : Direction.NORTH;
+                }
             }
         } else {
-            // Placing on a side face: use opposite of face
-            facing = face.getOpposite();
+            // If placing on the side of a vertical slab, match its orientation
+            BlockPos neighborPos = pos.offset(face.getOpposite());
+            BlockState neighborState = ctx.getWorld().getBlockState(neighborPos);
+            if (neighborState.getBlock() == this) {
+                facing = neighborState.get(FACING);
+            } else {
+                // Default: use opposite of face
+                facing = face.getOpposite();
+            }
         }
 
         return this.getDefaultState()
