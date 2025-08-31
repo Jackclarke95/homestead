@@ -1,15 +1,12 @@
+
 package jackclarke95.homestead.block.entity.custom;
-
-import java.util.Optional;
-
-import org.jetbrains.annotations.Nullable;
 
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
-import jackclarke95.homestead.recipe.CuringRecipe;
+import jackclarke95.homestead.recipe.PressingRecipe;
 import jackclarke95.homestead.recipe.ContainerRecipeInput;
 import jackclarke95.homestead.recipe.ModRecipes;
-import jackclarke95.homestead.screen.custom.CuringVatScreenHandler;
+import jackclarke95.homestead.screen.custom.PressScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -30,26 +27,32 @@ import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
-public class CuringVatBlockEntity extends BlockEntity
+import java.util.Optional;
+
+public class PressBlockEntity extends BlockEntity
         implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory {
+    // 0: input ingredient, 1: pending output, 2: container, 3: actual output
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
+    private void resetProgress() {
+        this.progress = 0;
+        this.maxProgress = 72;
+    }
 
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
     public static final int INPUT_INGREDIENT_SLOT = 0;
-    public static final int INPUT_CATALYST_SLOT = 1;
-    public static final int OUTPUT_PENDING_SLOT = 2;
-    public static final int INPUT_CONTAINER_SLOT = 3;
-    public static final int OUTPUT_ACTUAL_SLOT = 4;
+    public static final int OUTPUT_PENDING_SLOT = 1;
+    public static final int INPUT_CONTAINER_SLOT = 2;
+    public static final int OUTPUT_ACTUAL_SLOT = 3;
 
-    private PropertyDelegate propertyDelegate;
+    private final PropertyDelegate propertyDelegate;
     private int progress = 0;
     private int maxProgress = 100;
-    private RecipeEntry<CuringRecipe> currentRecipe = null;
+    private RecipeEntry<PressingRecipe> currentRecipe = null;
 
-    public CuringVatBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.CURING_VAT_BE, pos, state);
-
+    public PressBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.PRESS_BE, pos, state);
         this.propertyDelegate = new PropertyDelegate() {
             @Override
             public int get(int index) {
@@ -63,12 +66,9 @@ public class CuringVatBlockEntity extends BlockEntity
             @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case 0:
-                        CuringVatBlockEntity.this.progress = value;
-                    case 1:
-                        CuringVatBlockEntity.this.maxProgress = value;
+                    case 0 -> progress = value;
+                    case 1 -> maxProgress = value;
                 }
-
             }
 
             @Override
@@ -90,34 +90,33 @@ public class CuringVatBlockEntity extends BlockEntity
 
     @Override
     public Text getDisplayName() {
-        return Text.translatable("block.homestead.curing_vat");
+        return Text.translatable("block.homestead.press");
     }
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new CuringVatScreenHandler(syncId, playerInventory, this, this.propertyDelegate);
+        return new PressScreenHandler(syncId, playerInventory, this, this.propertyDelegate);
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
-        // Always try to move pending output to actual output first, decoupled from
-        // current recipe
-        handlePendingTransfer();
+        if (world.isClient)
+            return;
+        // Always try to move pending output to actual output first
+        handlePendingTransfer(world);
 
-        Optional<RecipeEntry<CuringRecipe>> recipeOpt = getCurrentRecipe();
+        Optional<RecipeEntry<PressingRecipe>> recipeOpt = getCurrentRecipe(world);
         if (recipeOpt.isPresent()) {
             this.currentRecipe = recipeOpt.get();
-            CuringRecipe recipe = this.currentRecipe.value();
+            PressingRecipe recipe = this.currentRecipe.value();
             // Check for required inputs and counts
             ItemStack inputStack = inventory.get(INPUT_INGREDIENT_SLOT);
             int requiredCount = recipe.ingredientCount();
             boolean hasIngredient = !inputStack.isEmpty() && recipe.inputItem().test(inputStack)
                     && inputStack.getCount() >= requiredCount;
-            boolean hasCatalyst = !recipe.hasCatalyst() || (!inventory.get(INPUT_CATALYST_SLOT).isEmpty()
-                    && recipe.catalyst().test(inventory.get(INPUT_CATALYST_SLOT)));
             // Block crafting if pending slot cannot fit the output
             boolean pendingBlocked = !canInsertItemIntoSlot(OUTPUT_PENDING_SLOT, recipe.output())
                     || !canInsertAmountIntoSlot(OUTPUT_PENDING_SLOT, recipe.output().getCount());
-            if (!hasIngredient || !hasCatalyst || pendingBlocked) {
+            if (!hasIngredient || pendingBlocked) {
                 resetProgress();
                 return;
             }
@@ -134,24 +133,24 @@ public class CuringVatBlockEntity extends BlockEntity
         }
     }
 
-    private void resetProgress() {
-        this.progress = 0;
-        this.maxProgress = 72;
+    private Optional<RecipeEntry<PressingRecipe>> getCurrentRecipe(World world) {
+        return world.getRecipeManager().getFirstMatch(ModRecipes.PRESSING_TYPE,
+                new ContainerRecipeInput(
+                        inventory.get(INPUT_INGREDIENT_SLOT),
+                        ItemStack.EMPTY,
+                        inventory.get(INPUT_CONTAINER_SLOT)),
+                world);
     }
 
-    private void craftItem(CuringRecipe recipe) {
-        // Remove correct amount of ingredient (from recipe input count)
+    private void craftItem(PressingRecipe recipe) {
         int ingredientCount = recipe.ingredientCount();
         int outputCount = recipe.output().getCount();
         int containerAvailable = inventory.get(INPUT_CONTAINER_SLOT).getCount();
-        int canOutputNow = recipe.hasContainer() ? Math.min(outputCount, containerAvailable) : outputCount;
+        int canOutputNow = !recipe.container().isEmpty() ? Math.min(outputCount, containerAvailable) : outputCount;
         int toPending = outputCount - canOutputNow;
 
         this.removeStack(INPUT_INGREDIENT_SLOT, ingredientCount);
-        if (recipe.hasCatalyst()) {
-            this.removeStack(INPUT_CATALYST_SLOT, 1);
-        }
-        if (recipe.hasContainer()) {
+        if (!recipe.container().isEmpty()) {
             this.removeStack(INPUT_CONTAINER_SLOT, canOutputNow);
         }
         // Output as many as possible to actual slot
@@ -164,13 +163,8 @@ public class CuringVatBlockEntity extends BlockEntity
         if (toPending > 0) {
             setPendingOutputAndRecipe(new ItemStack(recipe.output().getItem(), toPending));
         }
-        // Handle byproduct
-        if (recipe.hasByproduct()) {
-            this.setStack(INPUT_CATALYST_SLOT, recipe.byproduct().copy());
-        }
     }
 
-    // Extracted method for setting pending output and recipe
     private void setPendingOutputAndRecipe(ItemStack output) {
         this.setStack(OUTPUT_PENDING_SLOT, new ItemStack(output.getItem(),
                 this.getStack(OUTPUT_PENDING_SLOT).getCount() + output.getCount()));
@@ -184,16 +178,6 @@ public class CuringVatBlockEntity extends BlockEntity
         this.progress++;
     }
 
-    private Optional<RecipeEntry<CuringRecipe>> getCurrentRecipe() {
-        return this.getWorld().getRecipeManager()
-                .getFirstMatch(ModRecipes.CURING_TYPE,
-                        new ContainerRecipeInput(
-                                inventory.get(INPUT_INGREDIENT_SLOT),
-                                inventory.get(INPUT_CATALYST_SLOT),
-                                inventory.get(INPUT_CONTAINER_SLOT)),
-                        this.getWorld());
-    }
-
     private boolean canInsertItemIntoSlot(int slot, ItemStack stack) {
         return this.getStack(slot).isEmpty() || this.getStack(slot).getItem() == stack.getItem();
     }
@@ -205,19 +189,19 @@ public class CuringVatBlockEntity extends BlockEntity
     }
 
     // Handles moving pending output to actual output if valid container is present
-    private void handlePendingTransfer() {
+    private void handlePendingTransfer(World world) {
         ItemStack pending = this.getStack(OUTPUT_PENDING_SLOT);
         if (pending.isEmpty()) {
             return;
         }
         // Find any recipe whose output matches the pending item
-        Optional<CuringRecipe> match = this.getWorld().getRecipeManager()
-                .listAllOfType(ModRecipes.CURING_TYPE).stream()
+        Optional<PressingRecipe> match = world.getRecipeManager()
+                .listAllOfType(ModRecipes.PRESSING_TYPE).stream()
                 .map(RecipeEntry::value)
                 .filter(recipe -> recipe.output().getItem().equals(pending.getItem()))
                 .findFirst();
         if (match.isPresent()) {
-            CuringRecipe recipe = match.get();
+            PressingRecipe recipe = match.get();
             int pendingCount = pending.getCount();
             int outputSlotSpace = this.getStack(OUTPUT_ACTUAL_SLOT).isEmpty() ? 64
                     : this.getStack(OUTPUT_ACTUAL_SLOT).getMaxCount() - this.getStack(OUTPUT_ACTUAL_SLOT).getCount();
@@ -225,7 +209,7 @@ public class CuringVatBlockEntity extends BlockEntity
             boolean canInsertItem = canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, pending);
             // If a container is required, check that the container in the input slot
             // matches and limit transferAmount
-            if (recipe.hasContainer()) {
+            if (!recipe.container().isEmpty()) {
                 int containerAvailable = inventory.get(INPUT_CONTAINER_SLOT).getCount();
                 if (containerAvailable == 0 || !recipe.container().test(inventory.get(INPUT_CONTAINER_SLOT))) {
                     return;
@@ -234,7 +218,7 @@ public class CuringVatBlockEntity extends BlockEntity
             }
             transferAmount = Math.min(transferAmount, outputSlotSpace);
             if (canInsertItem && transferAmount > 0) {
-                if (recipe.hasContainer()) {
+                if (!recipe.container().isEmpty()) {
                     this.removeStack(INPUT_CONTAINER_SLOT, transferAmount);
                 }
                 this.setStack(OUTPUT_ACTUAL_SLOT, new ItemStack(pending.getItem(),
@@ -251,20 +235,16 @@ public class CuringVatBlockEntity extends BlockEntity
     @Override
     protected void writeNbt(NbtCompound nbt, WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
-
         Inventories.writeNbt(nbt, inventory, registryLookup);
-
-        nbt.putInt("curing_vat.progress", progress);
-        nbt.putInt("curing_vat.max_progress", maxProgress);
+        nbt.putInt("press.progress", progress);
+        nbt.putInt("press.max_progress", maxProgress);
     }
 
     @Override
     protected void readNbt(NbtCompound nbt, WrapperLookup registryLookup) {
         Inventories.readNbt(nbt, inventory, registryLookup);
-
-        progress = nbt.getInt("curing_vat.progress");
-        maxProgress = nbt.getInt("curing_vat.max_progress");
-
+        progress = nbt.getInt("press.progress");
+        maxProgress = nbt.getInt("press.max_progress");
         super.readNbt(nbt, registryLookup);
     }
 
@@ -276,6 +256,6 @@ public class CuringVatBlockEntity extends BlockEntity
 
     @Override
     public NbtCompound toInitialChunkDataNbt(WrapperLookup registryLookup) {
-        return createNbt(registryLookup);
+        return createNbtWithIdentifyingData(registryLookup);
     }
 }

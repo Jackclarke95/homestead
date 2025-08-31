@@ -1,7 +1,6 @@
 package jackclarke95.homestead.screen.custom;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import jackclarke95.homestead.Homestead;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -10,13 +9,13 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class CuringVatScreen extends HandledScreen<CuringVatScreenHandler> {
+public class PressScreen extends HandledScreen<PressScreenHandler> {
     private static final Identifier GUI_TEXTURE = Identifier.of(Homestead.MOD_ID,
-            "textures/gui/curing_vat/curing_vat_gui.png");
+            "textures/gui/press/press_gui.png");
     private static final Identifier ARROW_TEXTURE = Identifier.of(Homestead.MOD_ID,
-            "textures/gui/curing_vat/arrow_progress.png");
+            "textures/gui/press/pressing_progress.png");
 
-    public CuringVatScreen(CuringVatScreenHandler handler, PlayerInventory inventory, Text title) {
+    public PressScreen(PressScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
@@ -30,16 +29,15 @@ public class CuringVatScreen extends HandledScreen<CuringVatScreenHandler> {
         int y = (height - backgroundHeight) / 2;
 
         context.drawTexture(GUI_TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
-
         renderProgressArrow(context, x, y);
     }
 
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if (handler.isCrafting()) {
-            int arrowPixelWidth = 24;
-            int arrowPixelHeight = 16;
+            int arrowPixelWidth = 26;
+            int arrowPixelHeight = 11;
 
-            context.drawTexture(ARROW_TEXTURE, x + 74, y + 22, 0, 0,
+            context.drawTexture(ARROW_TEXTURE, x + 74, y + 20, 0, 0,
                     handler.getScaledArrowProgress(arrowPixelWidth), arrowPixelHeight, arrowPixelWidth,
                     arrowPixelHeight);
         }
@@ -48,8 +46,6 @@ public class CuringVatScreen extends HandledScreen<CuringVatScreenHandler> {
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         super.render(context, mouseX, mouseY, delta);
-
         drawMouseoverTooltip(context, mouseX, mouseY);
     }
-
 }

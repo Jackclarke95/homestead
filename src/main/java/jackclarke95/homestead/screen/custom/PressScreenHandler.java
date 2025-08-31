@@ -1,6 +1,6 @@
 package jackclarke95.homestead.screen.custom;
 
-import jackclarke95.homestead.block.entity.custom.MillBlockEntity;
+import jackclarke95.homestead.block.entity.custom.PressBlockEntity;
 import jackclarke95.homestead.screen.ModScreenHandlers;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,24 +13,35 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
 
-public class MillScreenHandler extends ScreenHandler {
+public class PressScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
-    public final MillBlockEntity blockEntity;
 
-    public MillScreenHandler(int syncId, PlayerInventory inventory, BlockPos pos) {
-        this(syncId, inventory, inventory.player.getWorld().getBlockEntity(pos), new ArrayPropertyDelegate(2));
+    public PressScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
+        this(syncId, playerInventory, playerInventory.player.getWorld().getBlockEntity(pos),
+                new ArrayPropertyDelegate(2));
     }
 
-    public MillScreenHandler(int syncId, PlayerInventory playerInventory,
-            BlockEntity blockEntity, PropertyDelegate arrayPropertyDelegate) {
-        super(ModScreenHandlers.MILL_SCREEN_HANDLER, syncId);
+    public PressScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity,
+            PropertyDelegate arrayPropertyDelegate) {
+        super(ModScreenHandlers.PRESS_SCREEN_HANDLER, syncId);
         this.inventory = (Inventory) blockEntity;
-        this.blockEntity = (MillBlockEntity) blockEntity;
         this.propertyDelegate = arrayPropertyDelegate;
 
-        this.addSlot(new Slot(inventory, MillBlockEntity.INPUT_SLOT, 44, 34));
-        this.addSlot(new Slot(inventory, MillBlockEntity.OUTPUT_SLOT, 116, 34) {
+        this.addSlot(new Slot(inventory, PressBlockEntity.INPUT_INGREDIENT_SLOT, 44, 17));
+        this.addSlot(new Slot(inventory, PressBlockEntity.OUTPUT_PENDING_SLOT, 116, 17) {
+            @Override
+            public boolean canTakeItems(PlayerEntity playerEntity) {
+                return false;
+            }
+
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return false;
+            }
+        });
+        this.addSlot(new Slot(inventory, PressBlockEntity.INPUT_CONTAINER_SLOT, 85, 54));
+        this.addSlot(new Slot(inventory, PressBlockEntity.OUTPUT_ACTUAL_SLOT, 116, 54) {
             @Override
             public boolean canInsert(ItemStack stack) {
                 return false;
@@ -46,7 +57,7 @@ public class MillScreenHandler extends ScreenHandler {
         return this.propertyDelegate.get(0) > 0;
     }
 
-    public int getScaledProgress(int arrowPixelSize) {
+    public int getScaledArrowProgress(int arrowPixelSize) {
         int progress = this.propertyDelegate.get(0);
         int maxProgress = this.propertyDelegate.get(1);
 

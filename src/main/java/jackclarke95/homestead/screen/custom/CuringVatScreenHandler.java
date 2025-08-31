@@ -30,10 +30,9 @@ public class CuringVatScreenHandler extends ScreenHandler {
         this.blockEntity = (CuringVatBlockEntity) blockEntity;
         this.propertyDelegate = arrayPropertyDelegate;
 
-        this.addSlot(new Slot(inventory, 0, 44, 17)); // Input ingredient (top left)
-        this.addSlot(new Slot(inventory, 1, 44, 54)); // Input catalyst (bottom left)
-        // Pending output: cannot be removed by player
-        this.addSlot(new Slot(inventory, 2, 116, 17) { // was 109, now 116
+        this.addSlot(new Slot(inventory, CuringVatBlockEntity.INPUT_CONTAINER_SLOT, 44, 17));
+        this.addSlot(new Slot(inventory, CuringVatBlockEntity.INPUT_CATALYST_SLOT, 44, 54));
+        this.addSlot(new Slot(inventory, CuringVatBlockEntity.OUTPUT_PENDING_SLOT, 116, 17) {
             @Override
             public boolean canTakeItems(PlayerEntity playerEntity) {
                 return false;
@@ -44,10 +43,8 @@ public class CuringVatScreenHandler extends ScreenHandler {
                 return false;
             }
         });
-        // Container: allow any item, but only valid containers will be used in logic
-        this.addSlot(new Slot(inventory, 3, 85, 54)); // was 78, now 85
-        // Actual output: cannot insert, can only take
-        this.addSlot(new Slot(inventory, 4, 116, 54) { // was 109, now 116
+        this.addSlot(new Slot(inventory, CuringVatBlockEntity.INPUT_CONTAINER_SLOT, 85, 54));
+        this.addSlot(new Slot(inventory, CuringVatBlockEntity.OUTPUT_ACTUAL_SLOT, 116, 54) {
             @Override
             public boolean canInsert(ItemStack stack) {
                 return false;
@@ -70,10 +67,9 @@ public class CuringVatScreenHandler extends ScreenHandler {
         return progress > 0 && progress < maxProgress;
     }
 
-    public int getScaledArrowProgress() {
+    public int getScaledArrowProgress(int arrowPixelSize) {
         int progress = this.propertyDelegate.get(0);
         int maxProgress = this.propertyDelegate.get(1); // Max Progress
-        int arrowPixelSize = 24; // This is the width in pixels of your arrow
 
         return maxProgress != 0 && progress != 0 ? progress * arrowPixelSize / maxProgress : 0;
     }

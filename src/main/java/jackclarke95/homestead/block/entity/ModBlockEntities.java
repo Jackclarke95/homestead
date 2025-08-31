@@ -7,6 +7,7 @@ import jackclarke95.homestead.block.entity.custom.HeatedRackBlockEntity;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.block.entity.custom.TroughBlockEntity;
 import jackclarke95.homestead.block.entity.custom.MillBlockEntity;
+import jackclarke95.homestead.block.entity.custom.PressBlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -29,6 +30,12 @@ public class ModBlockEntities {
                         Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "curing_vat_be"),
                         BlockEntityType.Builder.<CuringVatBlockEntity>create(
                                         (pos, state) -> new CuringVatBlockEntity(pos, state), ModBlocks.CURING_VAT)
+                                        .build(null));
+
+        public static final BlockEntityType<PressBlockEntity> PRESS_BE = Registry.register(
+                        Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "press_be"),
+                        BlockEntityType.Builder.<PressBlockEntity>create(
+                                        (pos, state) -> new PressBlockEntity(pos, state), ModBlocks.PRESS)
                                         .build(null));
 
         public static final BlockEntityType<MillBlockEntity> MILL_BE = Registry.register(
