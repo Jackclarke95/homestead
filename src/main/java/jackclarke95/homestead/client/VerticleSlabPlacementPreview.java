@@ -52,46 +52,50 @@ public class VerticleSlabPlacementPreview {
             }
 
             BlockPos pos = bhr.getBlockPos();
+
+            if (face == Direction.UP) {
+                BlockPos above = pos.up();
+
+                if (!client.world.getBlockState(above).isAir()) {
+                    return;
+                }
+            } else if (face == Direction.DOWN) {
+                BlockPos below = pos.down();
+
+                if (!client.world.getBlockState(below).isAir()) {
+                    return;
+                }
+            }
+
             Vec3d blockOrigin = Vec3d.of(pos);
             double y = face == Direction.UP ? 1.001 : 0.001;
-            Vec3d center = blockOrigin.add(0.5, y, 0.5);
-            Vec3d north = blockOrigin.add(0.5, y, 0.0);
-            Vec3d south = blockOrigin.add(0.5, y, 1.0);
-            Vec3d east = blockOrigin.add(1.0, y, 0.5);
-            Vec3d west = blockOrigin.add(0.0, y, 0.5);
+            Vec3d vecA1 = blockOrigin.add(0, y, 0);
+            Vec3d vecA2 = blockOrigin.add(1, y, 1);
+            Vec3d vecB1 = blockOrigin.add(0, y, 1);
+            Vec3d vecB2 = blockOrigin.add(1, y, 0.);
 
             VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
-
-            drawTriangle(vc, context.matrixStack(), context.camera(), center, north, east);
-            drawTriangle(vc, context.matrixStack(), context.camera(), center, east, south);
-            drawTriangle(vc, context.matrixStack(), context.camera(), center, south, west);
-            drawTriangle(vc, context.matrixStack(), context.camera(), center, west, north);
+            drawLine(vc, context.matrixStack(), context.camera(), vecA1, vecA2);
+            drawLine(vc, context.matrixStack(), context.camera(), vecB1, vecB2);
         });
     }
 
-    private static void drawTriangle(VertexConsumer vc, MatrixStack matrices, Camera camera, Vec3d v1, Vec3d v2,
-            Vec3d v3) {
+    private static void drawLine(VertexConsumer vc, MatrixStack matrices, Camera camera, Vec3d v1, Vec3d v2) {
         Vec3d cam = camera.getPos();
-        float r = 0.2f, g = 0.8f, b = 1.0f, a = 0.7f;
 
         matrices.push();
         matrices.translate(-cam.x, -cam.y, -cam.z);
         MatrixStack.Entry entry = matrices.peek();
 
-        addVertex(vc, entry, v1, r, g, b, a);
-        addVertex(vc, entry, v2, r, g, b, a);
-        addVertex(vc, entry, v2, r, g, b, a);
-        addVertex(vc, entry, v3, r, g, b, a);
-        addVertex(vc, entry, v3, r, g, b, a);
-        addVertex(vc, entry, v1, r, g, b, a);
+        addVertex(vc, entry, v1);
+        addVertex(vc, entry, v2);
 
         matrices.pop();
     }
 
-    private static void addVertex(VertexConsumer vc, MatrixStack.Entry entry, Vec3d pos, float r, float g, float b,
-            float a) {
+    private static void addVertex(VertexConsumer vc, MatrixStack.Entry entry, Vec3d pos) {
         vc.vertex(entry.getPositionMatrix(), (float) pos.x, (float) pos.y, (float) pos.z)
-                .color(r, g, b, a)
+                .color(0, 0, 0, 255)
                 .light(0xF000F0)
                 .normal(0, 1, 0);
     }
