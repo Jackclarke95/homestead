@@ -6,7 +6,7 @@ import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.recipe.ModRecipes;
-import jackclarke95.homestead.recipe.RackRecipeInput;
+import jackclarke95.homestead.recipe.SimpleTimedRecipeInput;
 import jackclarke95.homestead.recipe.RinsingRecipe;
 import jackclarke95.homestead.recipe.DryingRecipe;
 import net.minecraft.block.*;
@@ -246,7 +246,7 @@ public class RackBlock extends BlockWithEntity {
         if (world.getServer() == null) {
             return Optional.empty();
         }
-        RackRecipeInput input = new RackRecipeInput(stack);
+        SimpleTimedRecipeInput input = new SimpleTimedRecipeInput(stack);
         // Try Rinsing
         Optional<RecipeEntry<RinsingRecipe>> rinsing = world.getServer().getRecipeManager()
                 .getFirstMatch(ModRecipes.RINSING_TYPE, input, world);

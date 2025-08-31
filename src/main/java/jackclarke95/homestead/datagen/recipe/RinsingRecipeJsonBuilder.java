@@ -1,4 +1,4 @@
-package jackclarke95.homestead.datagen.recipe.custom;
+package jackclarke95.homestead.datagen.recipe;
 
 import jackclarke95.homestead.recipe.RinsingRecipe;
 import net.minecraft.data.server.recipe.RecipeExporter;

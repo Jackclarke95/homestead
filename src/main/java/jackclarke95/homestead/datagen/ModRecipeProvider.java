@@ -4,9 +4,9 @@ import java.util.concurrent.CompletableFuture;
 
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
-import jackclarke95.homestead.datagen.recipe.custom.DryingRecipeJsonBuilder;
-import jackclarke95.homestead.datagen.recipe.custom.MillingRecipeJsonBuilder;
-import jackclarke95.homestead.datagen.recipe.custom.RinsingRecipeJsonBuilder;
+import jackclarke95.homestead.datagen.recipe.DryingRecipeJsonBuilder;
+import jackclarke95.homestead.datagen.recipe.MillingRecipeJsonBuilder;
+import jackclarke95.homestead.datagen.recipe.RinsingRecipeJsonBuilder;
 import jackclarke95.homestead.item.ModItems;
 import jackclarke95.homestead.util.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -260,7 +260,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .create(Ingredient.ofItems(Blocks.HAY_BLOCK), ModItems.FLOUR.getDefaultStack(), 180)
                                 .offerTo(recipeExporter);
                 MillingRecipeJsonBuilder.create(Ingredient.fromTag(ModTags.ItemTags.CROP_SEEDS),
-                                ModItems.FLOUR.getDefaultStack(), 20)
+                                ModItems.SEED_MIX.getDefaultStack(), 20)
                                 .offerTo(recipeExporter);
         }
 }

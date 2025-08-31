@@ -15,7 +15,7 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public record RinsingRecipe(Ingredient inputItem, ItemStack output, int time) implements Recipe<RackRecipeInput> {
+public record RinsingRecipe(Ingredient inputItem, ItemStack output, int time) implements Recipe<SimpleTimedRecipeInput> {
     @Override
     public DefaultedList<Ingredient> getIngredients() {
         DefaultedList<Ingredient> list = DefaultedList.of();
@@ -24,7 +24,7 @@ public record RinsingRecipe(Ingredient inputItem, ItemStack output, int time) im
     }
 
     @Override
-    public boolean matches(RackRecipeInput input, World world) {
+    public boolean matches(SimpleTimedRecipeInput input, World world) {
         if (world.isClient()) {
             return false;
         }
@@ -32,7 +32,7 @@ public record RinsingRecipe(Ingredient inputItem, ItemStack output, int time) im
     }
 
     @Override
-    public ItemStack craft(RackRecipeInput input, WrapperLookup lookup) {
+    public ItemStack craft(SimpleTimedRecipeInput input, WrapperLookup lookup) {
         ItemStack inputStack = input.getStackInSlot(0);
         ItemStack outputStack = output.copy();
 

@@ -3,7 +3,7 @@ package jackclarke95.homestead.block.entity.custom;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.recipe.MillingRecipe;
-import jackclarke95.homestead.recipe.MillingRecipeInput;
+import jackclarke95.homestead.recipe.SimpleTimedRecipeInput;
 import jackclarke95.homestead.recipe.ModRecipes;
 import jackclarke95.homestead.screen.custom.MillScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -127,7 +127,7 @@ public class MillBlockEntity extends BlockEntity
 
     private Optional<RecipeEntry<MillingRecipe>> getCurrentRecipe() {
         return this.getWorld().getRecipeManager().getFirstMatch(ModRecipes.MILLING_TYPE,
-                new MillingRecipeInput(inventory.get(INPUT_SLOT)), this.getWorld());
+                new SimpleTimedRecipeInput(inventory.get(INPUT_SLOT)), this.getWorld());
     }
 
     @Override

@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 public record MillingRecipe(
         Ingredient input,
         ItemStack output,
-        int time) implements Recipe<MillingRecipeInput> {
+        int time) implements Recipe<SimpleTimedRecipeInput> {
     @Override
     public DefaultedList<Ingredient> getIngredients() {
         DefaultedList<Ingredient> list = DefaultedList.of();
@@ -26,14 +26,14 @@ public record MillingRecipe(
     }
 
     @Override
-    public boolean matches(MillingRecipeInput input, World world) {
+    public boolean matches(SimpleTimedRecipeInput input, World world) {
         if (world.isClient())
             return false;
         return this.input.test(input.getStackInSlot(0));
     }
 
     @Override
-    public ItemStack craft(MillingRecipeInput input, WrapperLookup lookup) {
+    public ItemStack craft(SimpleTimedRecipeInput input, WrapperLookup lookup) {
         return output.copy();
     }
 

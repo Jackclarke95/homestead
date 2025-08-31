@@ -3,16 +3,14 @@ package jackclarke95.homestead.recipe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.input.RecipeInput;
 
-public record RackRecipeInput(ItemStack input) implements RecipeInput {
-
+public record SimpleTimedRecipeInput(ItemStack input) implements RecipeInput {
     @Override
     public ItemStack getStackInSlot(int slot) {
-        return input;
+        return slot == 0 ? input : ItemStack.EMPTY;
     }
 
     @Override
     public int getSize() {
         return 1;
     }
-
 }

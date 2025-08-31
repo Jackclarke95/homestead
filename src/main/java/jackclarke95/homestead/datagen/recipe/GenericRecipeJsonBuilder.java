@@ -1,4 +1,4 @@
-package jackclarke95.homestead.datagen.recipe.custom;
+package jackclarke95.homestead.datagen.recipe;
 
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.item.ItemStack;
