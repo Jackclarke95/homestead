@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "homestead:block/press",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "homestead:block/press"
+    },
+    "facing=south": {
+      "model": "homestead:block/press",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "homestead:block/press",
+      "y": 270
+    }
+  }
+}

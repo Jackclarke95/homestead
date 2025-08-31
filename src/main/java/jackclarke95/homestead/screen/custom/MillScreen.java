@@ -12,7 +12,7 @@ import net.minecraft.util.Identifier;
 public class MillScreen extends HandledScreen<MillScreenHandler> {
     private static final Identifier GUI_TEXTURE = Identifier.of(Homestead.MOD_ID, "textures/gui/mill/mill_gui.png");
     private static final Identifier ARROW_TEXTURE = Identifier.of(Homestead.MOD_ID,
-            "textures/gui/milling_progress.png");
+            "textures/gui/mill/milling_progress.png");
 
     public MillScreen(MillScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);

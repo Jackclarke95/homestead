@@ -14,7 +14,7 @@ public class CuringVatScreen extends HandledScreen<CuringVatScreenHandler> {
     private static final Identifier GUI_TEXTURE = Identifier.of(Homestead.MOD_ID,
             "textures/gui/curing_vat/curing_vat_gui.png");
     private static final Identifier ARROW_TEXTURE = Identifier.of(Homestead.MOD_ID,
-            "textures/gui/arrow_progress.png");
+            "textures/gui/curing_vat/arrow_progress.png");
 
     public CuringVatScreen(CuringVatScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);

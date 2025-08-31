@@ -20,7 +20,11 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
+import jackclarke95.homestead.block.custom.PressBlock;
+
 public class ModBlocks {
+        public static final Block PRESS = registerBlock("press",
+                        new PressBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
         public static final Block TROUGH = registerBlock("trough",
                         new TroughBlock(AbstractBlock.Settings.copy(Blocks.CAULDRON)));
 
@@ -60,6 +64,7 @@ public class ModBlocks {
                         entries.add(ModBlocks.COBBLESTONE_BRICK_WALL);
                         entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
                         entries.add(ModBlocks.HAY_STAIRS);
+                        entries.add(ModBlocks.PRESS);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
@@ -68,6 +73,7 @@ public class ModBlocks {
                         entries.add(ModBlocks.CURING_VAT);
                         entries.add(ModBlocks.TROUGH);
                         entries.add(ModBlocks.MILL);
+                        entries.add(ModBlocks.PRESS);
                 });
         }
 
