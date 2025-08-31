@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:wheat"
+    },
+    "-": {
+      "item": "minecraft:stick"
+    },
+    "X": {
+      "item": "minecraft:clay_ball"
+    }
+  },
+  "pattern": [
+    "X-X",
+    "-#-",
+    "X-X"
+  ],
+  "result": {
+    "count": 1,
+    "id": "homestead:wattle_and_daub"
+  }
+}

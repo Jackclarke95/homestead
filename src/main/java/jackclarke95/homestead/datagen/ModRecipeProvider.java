@@ -30,6 +30,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
         @Override
         public void generate(RecipeExporter recipeExporter) {
+                // #region Food Recipes
                 ShapedRecipeJsonBuilder.create(RecipeCategory.FOOD, ModItems.CHEESE_WHEEL)
                                 .pattern("###")
                                 .pattern("# #")
@@ -44,7 +45,9 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion(hasItem(ModItems.CHEESE_WHEEL), conditionsFromItem(ModItems.CHEESE_WHEEL))
                                 .offerTo(recipeExporter,
                                                 Identifier.of(Homestead.MOD_ID, "cheese_slice_from_cheese_wheel"));
+                // #endregion Food Recipes
 
+                // #region Misc Recipes
                 ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.ANIMAL_FEED, 1)
                                 .input(ModItems.FLOUR)
                                 .input(ModTags.ItemTags.ROOT_VEGETABLES)
@@ -52,15 +55,10 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion(hasItem(ModItems.FLOUR), conditionsFromItem(ModItems.FLOUR))
                                 .criterion(hasItem(ModItems.SEED_MIX), conditionsFromItem(ModItems.SEED_MIX))
                                 .criterion("has_root_vegetable", conditionsFromTag(ModTags.ItemTags.ROOT_VEGETABLES))
-                                .offerTo(recipeExporter,
-                                                Identifier.of(Homestead.MOD_ID, "animal_feed"));
-
-                createStairsRecipe(ModBlocks.HAY_STAIRS, Ingredient.ofItems(Blocks.HAY_BLOCK))
-                                .criterion("has_hay_block", conditionsFromItem(Blocks.HAY_BLOCK))
                                 .offerTo(recipeExporter);
+                // #endregion Misc Recipes
 
                 // #region Workstation Recipes
-
                 ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.CURING_VAT)
                                 .pattern("###")
                                 .pattern("###")
@@ -101,7 +99,47 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion(hasItem(ModBlocks.RACK), conditionsFromItem(ModBlocks.RACK))
                                 .criterion(hasItem(Blocks.CAMPFIRE), conditionsFromItem(Blocks.CAMPFIRE))
                                 .offerTo(recipeExporter);
+
+                ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.PRESS)
+                                .pattern("III")
+                                .pattern("PCP")
+                                .pattern("SSS")
+                                .input('I', Items.STRING)
+                                .input('P', ItemTags.PLANKS)
+                                .input('C', Blocks.CAULDRON)
+                                .input('S', Blocks.STONE)
+                                .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
+                                .criterion("has_planks", conditionsFromTag(ItemTags.PLANKS))
+                                .criterion(hasItem(Blocks.CAULDRON), conditionsFromItem(Blocks.CAULDRON))
+                                .criterion(hasItem(Blocks.STONE), conditionsFromItem(Blocks.STONE))
+                                .offerTo(recipeExporter);
                 // #endregion Workstation Recipes
+
+                // #region Building Block Recipes
+                createStairsRecipe(ModBlocks.HAY_STAIRS, Ingredient.ofItems(Blocks.HAY_BLOCK))
+                                .criterion("has_hay_block", conditionsFromItem(Blocks.HAY_BLOCK))
+                                .offerTo(recipeExporter);
+
+                ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.WATTLE_AND_DAUB)
+                                .pattern("X-X")
+                                .pattern("-#-")
+                                .pattern("X-X")
+                                .input('X', Items.CLAY_BALL)
+                                .input('-', Items.STICK)
+                                .input('#', Items.WHEAT)
+                                .criterion("has_wooden_slabs", conditionsFromTag(ItemTags.WOODEN_SLABS))
+                                .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
+                                .criterion(hasItem(Blocks.STONE), conditionsFromItem(Items.STONE))
+                                .offerTo(recipeExporter, "wattle_and_daub_from_clay_balls");
+
+                ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.WATTLE_AND_DAUB, 1)
+                                .input(Blocks.MUD)
+                                .input(Items.WHEAT)
+                                .input(Items.STICK)
+                                .criterion(hasItem(Blocks.MUD), conditionsFromItem(Blocks.MUD))
+                                .criterion(hasItem(Items.WHEAT), conditionsFromItem(Items.WHEAT))
+                                .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
+                                .offerTo(recipeExporter, "wattle_and_daub_from_mud");
 
                 // #region Cobblestone Brick Recipes
                 offer2x2CompactingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICKS,
@@ -138,6 +176,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 ModBlocks.COBBLESTONE_BRICK_WALL,
                                 ModBlocks.COBBLESTONE_BRICKS);
                 // #endregion Cobblestone Brick Recipes
+                // #endregion Building Block Recipes
 
                 // #region Rinsing Recipes
                 // Wool rinsing recipes
