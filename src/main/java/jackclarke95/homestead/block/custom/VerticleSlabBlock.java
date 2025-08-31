@@ -77,13 +77,39 @@ public class VerticleSlabBlock extends HorizontalFacingBlock {
             }
         } else {
             // If placing on the side of a vertical slab, match its orientation
-            BlockPos neighborPos = pos.offset(face.getOpposite());
+            BlockPos neighborPos = pos.offset(face);
             BlockState neighborState = ctx.getWorld().getBlockState(neighborPos);
             if (neighborState.getBlock() == this) {
                 facing = neighborState.get(FACING);
             } else {
-                // Default: use opposite of face
-                facing = face.getOpposite();
+                double hitX = ctx.getHitPos().x - pos.getX();
+                double hitZ = ctx.getHitPos().z - pos.getZ();
+                if (face == Direction.NORTH || face == Direction.SOUTH) {
+                    double x = hitX;
+
+                    if (face == Direction.NORTH)
+                        x = 1.0 - x;
+                    if (x < 1.0 / 3.0) {
+                        facing = Direction.WEST;
+                    } else if (x > 2.0 / 3.0) {
+                        facing = Direction.EAST;
+                    } else {
+                        facing = face;
+                    }
+                } else if (face == Direction.EAST || face == Direction.WEST) {
+                    double z = hitZ;
+                    if (face == Direction.WEST)
+                        z = 1.0 - z;
+                    if (z < 1.0 / 3.0) {
+                        facing = Direction.NORTH;
+                    } else if (z > 2.0 / 3.0) {
+                        facing = Direction.SOUTH;
+                    } else {
+                        facing = face.getOpposite();
+                    }
+                } else {
+                    facing = face.getOpposite();
+                }
             }
         }
 
