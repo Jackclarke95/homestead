@@ -291,7 +291,6 @@ public class RackBlock extends BlockWithEntity {
                 Block.createCuboidShape(0, 0, 14, 2, 9, 16), // front left leg (tall)
                 Block.createCuboidShape(0, 9, 0, 16, 15, 16) // top rack
         );
-
     }
 
     @Override

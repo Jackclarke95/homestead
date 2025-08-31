@@ -18,6 +18,7 @@ import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -69,7 +70,8 @@ public class CuringVatBlock extends BlockWithEntity {
             BlockEntity blockEntity = world.getBlockEntity(pos);
 
             if (blockEntity instanceof CuringVatBlockEntity) {
-                // No inventory logic yet
+                ItemScatterer.spawn(world, pos, ((CuringVatBlockEntity) blockEntity));
+
                 world.updateComparators(pos, this);
             }
 

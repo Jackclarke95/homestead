@@ -2,11 +2,14 @@ package jackclarke95.homestead.block.custom;
 
 import com.mojang.serialization.MapCodec;
 
+import jackclarke95.homestead.Homestead;
+import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.util.VerticalSlabType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
@@ -15,6 +18,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+import net.minecraft.util.ItemScatterer;
 
 public class WattleAndDaubBlock extends HorizontalFacingBlock {
     public static final EnumProperty<VerticalSlabType> TYPE = EnumProperty.of("type", VerticalSlabType.class);
@@ -35,9 +40,21 @@ public class WattleAndDaubBlock extends HorizontalFacingBlock {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
+        BlockPos pos = ctx.getBlockPos();
+        BlockState state = ctx.getWorld().getBlockState(pos);
+        Homestead.LOGGER.info("getPlacementState called at {}. Existing block: {} (type: {})", pos, state.getBlock(),
+                state.getBlock() == this ? state.get(TYPE) : "n/a");
+
+        if (state.getBlock() == this && state.get(TYPE) == VerticalSlabType.HALF) {
+            Homestead.LOGGER.info("Merging to FULL at {}", pos);
+
+            return state.with(TYPE, VerticalSlabType.FULL);
+        }
+
+        // Otherwise, place as half, with correct facing
         Direction face = ctx.getSide();
-        Direction facing = face.getAxis().isHorizontal() ? face.getOpposite()
-                : ctx.getHorizontalPlayerFacing();
+        Direction facing = face.getAxis().isHorizontal() ? face.getOpposite() : ctx.getHorizontalPlayerFacing();
+        Homestead.LOGGER.info("Placing HALF with facing {} at {} (side: {})", facing, pos, face);
 
         return this.getDefaultState()
                 .with(FACING, facing)
@@ -61,5 +78,31 @@ public class WattleAndDaubBlock extends HorizontalFacingBlock {
             case WEST -> VoxelShapes.cuboid(0, 0, 0, 0.5, 1, 1);
             default -> VoxelShapes.cuboid(0, 0, 0, 1, 1, 0.5);
         };
+    }
+
+    @Override
+    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+
+            if (blockEntity instanceof RackBlockEntity) {
+                ItemScatterer.spawn(world, pos, ((RackBlockEntity) blockEntity));
+
+                world.updateComparators(pos, this);
+            }
+
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
+    }
+
+    @Override
+    public boolean canReplace(BlockState state, ItemPlacementContext context) {
+        // Only allow merging if the block is a half slab and the player is holding the
+        // same item
+        if (state.getBlock() == this && state.get(TYPE) == VerticalSlabType.HALF
+                && context.getStack().isOf(this.asItem())) {
+            return true;
+        }
+        return super.canReplace(state, context);
     }
 }

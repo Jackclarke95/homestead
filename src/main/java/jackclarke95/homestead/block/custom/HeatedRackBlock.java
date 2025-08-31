@@ -12,6 +12,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -94,5 +95,20 @@ public class HeatedRackBlock extends RackBlock {
     @Override
     protected Class<? extends BlockEntity> getBlockEntityClass() {
         return HeatedRackBlockEntity.class;
+    }
+
+    @Override
+    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+
+            if (blockEntity instanceof HeatedRackBlockEntity) {
+                ItemScatterer.spawn(world, pos, ((HeatedRackBlockEntity) blockEntity));
+
+                world.updateComparators(pos, this);
+            }
+
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
     }
 }

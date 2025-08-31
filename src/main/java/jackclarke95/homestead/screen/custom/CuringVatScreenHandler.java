@@ -30,7 +30,7 @@ public class CuringVatScreenHandler extends ScreenHandler {
         this.blockEntity = (CuringVatBlockEntity) blockEntity;
         this.propertyDelegate = arrayPropertyDelegate;
 
-        this.addSlot(new Slot(inventory, CuringVatBlockEntity.INPUT_CONTAINER_SLOT, 44, 17));
+        this.addSlot(new Slot(inventory, CuringVatBlockEntity.INPUT_INGREDIENT_SLOT, 44, 17));
         this.addSlot(new Slot(inventory, CuringVatBlockEntity.INPUT_CATALYST_SLOT, 44, 54));
         this.addSlot(new Slot(inventory, CuringVatBlockEntity.OUTPUT_PENDING_SLOT, 116, 17) {
             @Override

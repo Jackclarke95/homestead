@@ -1,6 +1,5 @@
 package jackclarke95.homestead.block.custom;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -12,11 +11,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.state.StateManager;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -68,9 +67,13 @@ public class MillBlock extends BlockWithEntity {
     protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
+
             if (blockEntity instanceof MillBlockEntity) {
+                ItemScatterer.spawn(world, pos, ((MillBlockEntity) blockEntity));
+
                 world.updateComparators(pos, this);
             }
+
             super.onStateReplaced(state, world, pos, newState, moved);
         }
     }
@@ -106,10 +109,5 @@ public class MillBlock extends BlockWithEntity {
     @Override
     protected BlockState mirror(BlockState state, BlockMirror mirror) {
         return state;
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        // No properties
     }
 }
