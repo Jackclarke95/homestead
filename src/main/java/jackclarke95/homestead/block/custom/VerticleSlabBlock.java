@@ -46,14 +46,32 @@ public class VerticleSlabBlock extends HorizontalFacingBlock {
         BlockPos pos = ctx.getBlockPos();
         BlockState state = ctx.getWorld().getBlockState(pos);
 
+        // Try to merge if possible
         if (state.getBlock() == this && state.get(TYPE) == VerticalSlabType.HALF) {
-
             return state.with(TYPE, VerticalSlabType.FULL);
         }
 
-        // Otherwise, place as half, with correct facing
         Direction face = ctx.getSide();
-        Direction facing = face.getAxis().isHorizontal() ? face.getOpposite() : ctx.getHorizontalPlayerFacing();
+        Direction facing;
+
+        if (face.getAxis().isVertical()) {
+            // Placing on top or bottom face: determine closest horizontal edge
+            double hitX = ctx.getHitPos().x - pos.getX();
+            double hitZ = ctx.getHitPos().z - pos.getZ();
+            // Centered at 0.5,0.5
+            double dx = hitX - 0.5;
+            double dz = hitZ - 0.5;
+            if (Math.abs(dx) > Math.abs(dz)) {
+                // Closer to east or west
+                facing = dx > 0 ? Direction.EAST : Direction.WEST;
+            } else {
+                // Closer to north or south
+                facing = dz > 0 ? Direction.SOUTH : Direction.NORTH;
+            }
+        } else {
+            // Placing on a side face: use opposite of face
+            facing = face.getOpposite();
+        }
 
         return this.getDefaultState()
                 .with(FACING, facing)

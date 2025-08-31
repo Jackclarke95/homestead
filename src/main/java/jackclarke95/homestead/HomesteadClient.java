@@ -10,6 +10,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.renderer.RackBlockEntityRenderer;
+import jackclarke95.homestead.client.VerticleSlabPlacementPreview;
 import jackclarke95.homestead.screen.ModScreenHandlers;
 import jackclarke95.homestead.screen.custom.CuringVatScreen;
 import jackclarke95.homestead.screen.custom.MillScreen;
@@ -29,5 +30,7 @@ public class HomesteadClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.MILL_SCREEN_HANDLER, MillScreen::new);
         HandledScreens.register(ModScreenHandlers.PRESS_SCREEN_HANDLER,
                 PressScreen::new);
+
+        VerticleSlabPlacementPreview.register();
     }
 }
