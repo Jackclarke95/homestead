@@ -26,9 +26,11 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.serialization.MapCodec;
+
 public class PressBlock extends BlockWithEntity {
     public static final DirectionProperty FACING = net.minecraft.state.property.Properties.HORIZONTAL_FACING;
-    private static final com.mojang.serialization.MapCodec<PressBlock> CODEC = createCodec(PressBlock::new);
+    private static final MapCodec<PressBlock> CODEC = createCodec(PressBlock::new);
 
     public PressBlock(Settings settings) {
         super(settings);
@@ -99,7 +101,7 @@ public class PressBlock extends BlockWithEntity {
     }
 
     @Override
-    protected com.mojang.serialization.MapCodec<? extends BlockWithEntity> getCodec() {
+    protected MapCodec<? extends BlockWithEntity> getCodec() {
         return CODEC;
     }
 
