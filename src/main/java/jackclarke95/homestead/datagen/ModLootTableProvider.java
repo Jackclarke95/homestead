@@ -25,20 +25,27 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.RACK);
                 addDrop(ModBlocks.TROUGH);
                 addDrop(ModBlocks.MILL);
+                addDrop(ModBlocks.PRESS);
+                addDrop(ModBlocks.WATTLE_AND_DAUB);
+                addDrop(ModBlocks.COBBLESTONE_BRICKS);
+                addDrop(ModBlocks.COBBLESTONE_BRICK_SLAB);
+                addDrop(ModBlocks.COBBLESTONE_BRICK_WALL);
+                addDrop(ModBlocks.COBBLESTONE_BRICK_STAIRS);
+                addDrop(ModBlocks.HAY_STAIRS);
 
                 addDrop(ModBlocks.HEATED_RACK, block -> LootTable.builder()
                                 .pool(LootPool.builder()
                                                 .with(ItemEntry.builder(ModBlocks.HEATED_RACK)
                                                                 .conditionally(this.createSilkTouchCondition())))
                                 .pool(LootPool.builder()
-                                                .with(ItemEntry.builder(ModBlocks.RACK))
-                                                .conditionally(this.createWithoutSilkTouchCondition())
+                                                .with(ItemEntry.builder(ModBlocks.RACK)
+                                                                .conditionally(this.createWithoutSilkTouchCondition()))
                                                 .rolls(ConstantLootNumberProvider.create(1)))
                                 .pool(LootPool.builder()
                                                 .with(ItemEntry.builder(Items.COAL)
                                                                 .apply(SetCountLootFunction.builder(
-                                                                                ConstantLootNumberProvider.create(2))))
-                                                .conditionally(this.createWithoutSilkTouchCondition())
+                                                                                ConstantLootNumberProvider.create(2)))
+                                                                .conditionally(this.createWithoutSilkTouchCondition()))
                                                 .rolls(ConstantLootNumberProvider.create(1))));
         }
 }

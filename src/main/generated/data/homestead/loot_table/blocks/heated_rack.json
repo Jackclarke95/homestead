@@ -30,29 +30,29 @@
     },
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:inverted",
-          "term": {
-            "condition": "minecraft:match_tool",
-            "predicate": {
-              "predicates": {
-                "minecraft:enchantments": [
-                  {
-                    "enchantments": "minecraft:silk_touch",
-                    "levels": {
-                      "min": 1
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:inverted",
+              "term": {
+                "condition": "minecraft:match_tool",
+                "predicate": {
+                  "predicates": {
+                    "minecraft:enchantments": [
+                      {
+                        "enchantments": "minecraft:silk_touch",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ],
           "name": "homestead:rack"
         }
       ],
@@ -60,29 +60,29 @@
     },
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:inverted",
-          "term": {
-            "condition": "minecraft:match_tool",
-            "predicate": {
-              "predicates": {
-                "minecraft:enchantments": [
-                  {
-                    "enchantments": "minecraft:silk_touch",
-                    "levels": {
-                      "min": 1
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:inverted",
+              "term": {
+                "condition": "minecraft:match_tool",
+                "predicate": {
+                  "predicates": {
+                    "minecraft:enchantments": [
+                      {
+                        "enchantments": "minecraft:silk_touch",
+                        "levels": {
+                          "min": 1
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ],
           "functions": [
             {
               "add": false,

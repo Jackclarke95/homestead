@@ -1,5 +1,9 @@
 {
   "values": [
-    "homestead:trough"
+    "homestead:trough",
+    "homestead:cobblestone_bricks",
+    "homestead:cobblestone_brick_slab",
+    "homestead:cobblestone_brick_stairs",
+    "homestead:cobblestone_brick_wall"
   ]
 }

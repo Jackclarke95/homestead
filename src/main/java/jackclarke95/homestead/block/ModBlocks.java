@@ -64,7 +64,6 @@ public class ModBlocks {
                         entries.add(ModBlocks.COBBLESTONE_BRICK_WALL);
                         entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
                         entries.add(ModBlocks.HAY_STAIRS);
-                        entries.add(ModBlocks.PRESS);
                         entries.add(ModBlocks.WATTLE_AND_DAUB);
                 });
 

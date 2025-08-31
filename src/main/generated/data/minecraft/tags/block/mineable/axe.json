@@ -3,6 +3,8 @@
     "homestead:rack",
     "homestead:heated_rack",
     "homestead:mill",
-    "homestead:curing_vat"
+    "homestead:curing_vat",
+    "homestead:press",
+    "homestead:wattle_and_daub"
   ]
 }

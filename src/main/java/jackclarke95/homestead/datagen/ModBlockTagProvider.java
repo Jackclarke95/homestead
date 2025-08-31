@@ -17,13 +17,24 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
     @Override
     protected void configure(WrapperLookup wrapperLookup) {
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(
-                ModBlocks.TROUGH);
+                ModBlocks.TROUGH,
+                ModBlocks.COBBLESTONE_BRICKS,
+                ModBlocks.COBBLESTONE_BRICK_SLAB,
+                ModBlocks.COBBLESTONE_BRICK_STAIRS,
+                ModBlocks.COBBLESTONE_BRICK_WALL
+
+        );
 
         getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
                 ModBlocks.RACK,
                 ModBlocks.HEATED_RACK,
                 ModBlocks.MILL,
-                ModBlocks.CURING_VAT);
+                ModBlocks.CURING_VAT,
+                ModBlocks.PRESS,
+                ModBlocks.WATTLE_AND_DAUB);
+
+        getOrCreateTagBuilder(BlockTags.HOE_MINEABLE).add(
+                ModBlocks.HAY_STAIRS);
     }
 
 }
