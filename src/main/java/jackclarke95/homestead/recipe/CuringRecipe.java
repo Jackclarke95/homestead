@@ -23,7 +23,7 @@ public record CuringRecipe(
         ItemStack output, // required
         ItemStack byproduct, // optional, may be ItemStack.EMPTY
         int time // required
-) implements Recipe<CuringRecipeInput> {
+) implements Recipe<ContainerRecipeInput> {
 
     @Override
     public DefaultedList<Ingredient> getIngredients() {
@@ -37,7 +37,7 @@ public record CuringRecipe(
     }
 
     @Override
-    public boolean matches(CuringRecipeInput input, World world) {
+    public boolean matches(ContainerRecipeInput input, World world) {
         if (world.isClient()) {
             return false;
         }
@@ -54,7 +54,7 @@ public record CuringRecipe(
     }
 
     @Override
-    public ItemStack craft(CuringRecipeInput input, WrapperLookup lookup) {
+    public ItemStack craft(ContainerRecipeInput input, WrapperLookup lookup) {
         return output.copy();
     }
 

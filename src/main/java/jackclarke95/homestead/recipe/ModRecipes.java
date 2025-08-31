@@ -60,6 +60,20 @@ public class ModRecipes {
                 }
             });
 
+    // --- Pressing Recipe ---
+    public static final RecipeSerializer<PressingRecipe> PRESSING_RECIPE_SERIALIZER = Registry.register(
+            Registries.RECIPE_SERIALIZER, Identifier.of(Homestead.MOD_ID, "pressing"),
+            new PressingRecipe.Serializer());
+
+    public static final RecipeType<PressingRecipe> PRESSING_TYPE = Registry.register(
+            Registries.RECIPE_TYPE, Identifier.of(Homestead.MOD_ID, "pressing"),
+            new RecipeType<PressingRecipe>() {
+                @Override
+                public String toString() {
+                    return "pressing";
+                }
+            });
+
     public static void registerRecipes() {
         Homestead.LOGGER.info("Registering Custom Recipes for " + Homestead.MOD_ID);
     }

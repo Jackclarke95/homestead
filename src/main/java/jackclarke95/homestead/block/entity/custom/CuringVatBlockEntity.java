@@ -7,7 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.recipe.CuringRecipe;
-import jackclarke95.homestead.recipe.CuringRecipeInput;
+import jackclarke95.homestead.recipe.ContainerRecipeInput;
 import jackclarke95.homestead.recipe.ModRecipes;
 import jackclarke95.homestead.screen.custom.CuringVatScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
@@ -187,7 +187,7 @@ public class CuringVatBlockEntity extends BlockEntity
     private Optional<RecipeEntry<CuringRecipe>> getCurrentRecipe() {
         return this.getWorld().getRecipeManager()
                 .getFirstMatch(ModRecipes.CURING_TYPE,
-                        new CuringRecipeInput(
+                        new ContainerRecipeInput(
                                 inventory.get(INPUT_INGREDIENT_SLOT),
                                 inventory.get(INPUT_CATALYST_SLOT),
                                 inventory.get(INPUT_CONTAINER_SLOT)),
