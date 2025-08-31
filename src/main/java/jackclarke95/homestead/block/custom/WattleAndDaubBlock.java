@@ -35,12 +35,13 @@ public class WattleAndDaubBlock extends HorizontalFacingBlock {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        Direction dir = ctx.getSide();
-        if (dir.getAxis().isHorizontal()) {
-            return this.getDefaultState().with(FACING, dir);
-        } else {
-            return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite());
-        }
+        Direction face = ctx.getSide();
+        Direction facing = face.getAxis().isHorizontal() ? face.getOpposite()
+                : ctx.getHorizontalPlayerFacing();
+
+        return this.getDefaultState()
+                .with(FACING, facing)
+                .with(TYPE, VerticalSlabType.HALF);
     }
 
     @Override
@@ -54,10 +55,10 @@ public class WattleAndDaubBlock extends HorizontalFacingBlock {
         }
 
         return switch (state.get(FACING)) {
-            case NORTH -> VoxelShapes.cuboid(0.5, 0, 0, 1, 1, 1);
-            case SOUTH -> VoxelShapes.cuboid(0, 0, 0, 0.5, 1, 1);
-            case WEST -> VoxelShapes.cuboid(0, 0, 0.5, 1, 1, 1);
-            case EAST -> VoxelShapes.cuboid(0, 0, 0, 1, 1, 0.5);
+            case NORTH -> VoxelShapes.cuboid(0, 0, 0, 1, 1, 0.5);
+            case EAST -> VoxelShapes.cuboid(0.5, 0, 0, 1, 1, 1);
+            case SOUTH -> VoxelShapes.cuboid(0, 0, 0.5, 1, 1, 1);
+            case WEST -> VoxelShapes.cuboid(0, 0, 0, 0.5, 1, 1);
             default -> VoxelShapes.cuboid(0, 0, 0, 1, 1, 0.5);
         };
     }
