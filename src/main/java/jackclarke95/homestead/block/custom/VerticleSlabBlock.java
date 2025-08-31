@@ -24,12 +24,12 @@ import java.util.Collections;
 import java.util.List;
 import net.minecraft.loot.context.LootContextParameterSet;
 
-public class WattleAndDaubBlock extends HorizontalFacingBlock {
+public class VerticleSlabBlock extends HorizontalFacingBlock {
     public static final EnumProperty<VerticalSlabType> TYPE = EnumProperty.of("type", VerticalSlabType.class);
 
-    private static final MapCodec<WattleAndDaubBlock> CODEC = createCodec(WattleAndDaubBlock::new);
+    private static final MapCodec<VerticleSlabBlock> CODEC = createCodec(VerticleSlabBlock::new);
 
-    public WattleAndDaubBlock(Settings settings) {
+    public VerticleSlabBlock(Settings settings) {
         super(settings);
         setDefaultState(this.stateManager.getDefaultState()
                 .with(FACING, Direction.NORTH)

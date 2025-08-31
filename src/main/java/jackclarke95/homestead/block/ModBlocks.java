@@ -5,7 +5,7 @@ import jackclarke95.homestead.block.custom.CuringVatBlock;
 import jackclarke95.homestead.block.custom.HeatedRackBlock;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.custom.TroughBlock;
-import jackclarke95.homestead.block.custom.WattleAndDaubBlock;
+import jackclarke95.homestead.block.custom.VerticleSlabBlock;
 import jackclarke95.homestead.block.custom.MillBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
@@ -53,7 +53,7 @@ public class ModBlocks {
                                         AbstractBlock.Settings.copy(Blocks.CRAFTING_TABLE)));
 
         public static final Block WATTLE_AND_DAUB = registerBlock("wattle_and_daub",
-                        new WattleAndDaubBlock(AbstractBlock.Settings.copy(Blocks.BRICKS).nonOpaque()));
+                        new VerticleSlabBlock(AbstractBlock.Settings.copy(Blocks.BRICKS).nonOpaque()));
 
         public static void registerModBlocks() {
                 Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);
