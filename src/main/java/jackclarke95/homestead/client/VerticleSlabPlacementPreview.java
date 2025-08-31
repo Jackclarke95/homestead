@@ -56,6 +56,15 @@ public class VerticleSlabPlacementPreview {
 
             BlockState state = client.world.getBlockState(pos);
 
+            // Do not render preview if aiming at the open face of a half vertical slab that
+            // would merge
+            if (state.getBlock() instanceof VerticleSlabBlock &&
+                    state.get(VerticleSlabBlock.TYPE) == jackclarke95.homestead.util.VerticalSlabType.HALF &&
+                    block instanceof VerticleSlabBlock &&
+                    face == state.get(Properties.HORIZONTAL_FACING).getOpposite()) {
+                return;
+            }
+
             if (face == Direction.UP || face == Direction.DOWN) {
                 drawCrossOnTopOrBottom(context, client, face, pos, state);
             }
