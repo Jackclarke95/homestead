@@ -1,7 +1,0 @@
-{
-  "type": "homestead:curing",
-  "ingredient": { "item": "minecraft:beef" },
-  "catalyst": { "item": "minecraft:bone_meal" },
-  "result": { "id": "homestead:raw_hide" },
-  "time": 60
-}

@@ -8,14 +8,14 @@ import net.minecraft.util.Identifier;
 import java.lang.reflect.Field;
 import java.util.function.Function;
 
-public abstract class GenericRecipeJsonBuilder<T extends net.minecraft.recipe.Recipe<?>> {
+public abstract class SimpleTimedRecipeJsonBuilder<T extends net.minecraft.recipe.Recipe<?>> {
     protected final Ingredient input;
     protected final ItemStack output;
     protected final int time;
-    protected final Function<GenericRecipeJsonBuilder<T>, T> recipeFactory;
+    protected final Function<SimpleTimedRecipeJsonBuilder<T>, T> recipeFactory;
     protected final String recipeTypeName;
 
-    public GenericRecipeJsonBuilder(Ingredient input, ItemStack output, int time) {
+    public SimpleTimedRecipeJsonBuilder(Ingredient input, ItemStack output, int time) {
         this.input = input;
         this.output = output;
         this.time = time;
@@ -23,8 +23,8 @@ public abstract class GenericRecipeJsonBuilder<T extends net.minecraft.recipe.Re
         this.recipeTypeName = null;
     }
 
-    public GenericRecipeJsonBuilder(Ingredient input, ItemStack output, int time,
-            Function<GenericRecipeJsonBuilder<T>, T> recipeFactory, String recipeTypeName) {
+    public SimpleTimedRecipeJsonBuilder(Ingredient input, ItemStack output, int time,
+            Function<SimpleTimedRecipeJsonBuilder<T>, T> recipeFactory, String recipeTypeName) {
         this.input = input;
         this.output = output;
         this.time = time;
@@ -45,6 +45,19 @@ public abstract class GenericRecipeJsonBuilder<T extends net.minecraft.recipe.Re
     }
 
     public void offerTo(RecipeExporter exporter, String modId, String recipeTypeName) {
+        String recipePath = getRecipePathName(recipeTypeName);
+        Identifier recipeId = Identifier.of(modId, recipePath);
+        exporter.accept(
+                recipeId,
+                (net.minecraft.recipe.Recipe<?>) createRecipe(input, output, time),
+                null);
+    }
+
+    /**
+     * Determines the recipe file name (path) for this recipe.
+     * Can be overridden by subclasses for custom naming.
+     */
+    protected String getRecipePathName(String recipeTypeName) {
         String outputId = Registries.ITEM.getId(output.getItem()).getPath();
         String tagName = getTagFromIngredient(input);
         String inputId;
@@ -54,12 +67,7 @@ public abstract class GenericRecipeJsonBuilder<T extends net.minecraft.recipe.Re
             ItemStack[] matchingStacks = input.getMatchingStacks();
             inputId = Registries.ITEM.getId(matchingStacks[0].getItem()).getPath();
         }
-        String recipePath = outputId + "_from_" + recipeTypeName + "_" + inputId;
-        Identifier recipeId = Identifier.of(modId, recipePath);
-        exporter.accept(
-                recipeId,
-                (net.minecraft.recipe.Recipe<?>) createRecipe(input, output, time),
-                null);
+        return outputId + "_from_" + recipeTypeName + "_" + inputId;
     }
 
     protected abstract T createRecipe(Ingredient input, ItemStack output, int time);

@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
+import jackclarke95.homestead.datagen.recipe.CuringRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.DryingRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.MillingRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.RinsingRecipeJsonBuilder;
@@ -23,7 +24,6 @@ import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.Identifier;
 
 public class ModRecipeProvider extends FabricRecipeProvider {
-
         public ModRecipeProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> registriesFuture) {
                 super(output, registriesFuture);
         }
@@ -54,6 +54,12 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion("has_root_vegetable", conditionsFromTag(ModTags.ItemTags.ROOT_VEGETABLES))
                                 .offerTo(recipeExporter,
                                                 Identifier.of(Homestead.MOD_ID, "animal_feed"));
+
+                createStairsRecipe(ModBlocks.HAY_STAIRS, Ingredient.ofItems(Blocks.HAY_BLOCK))
+                                .criterion("has_hay_block", conditionsFromItem(Blocks.HAY_BLOCK))
+                                .offerTo(recipeExporter);
+
+                // #region Workstation Recipes
 
                 ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.CURING_VAT)
                                 .pattern("###")
@@ -95,7 +101,9 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion(hasItem(ModBlocks.RACK), conditionsFromItem(ModBlocks.RACK))
                                 .criterion(hasItem(Blocks.CAMPFIRE), conditionsFromItem(Blocks.CAMPFIRE))
                                 .offerTo(recipeExporter);
+                // #endregion Workstation Recipes
 
+                // #region Cobblestone Brick Recipes
                 offer2x2CompactingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICKS,
                                 Blocks.COBBLESTONE);
 
@@ -129,13 +137,9 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
                                 ModBlocks.COBBLESTONE_BRICK_WALL,
                                 ModBlocks.COBBLESTONE_BRICKS);
-
-                createStairsRecipe(ModBlocks.HAY_STAIRS, Ingredient.ofItems(Blocks.HAY_BLOCK))
-                                .criterion("has_hay_block", conditionsFromItem(Blocks.HAY_BLOCK))
-                                .offerTo(recipeExporter);
+                // #endregion Cobblestone Brick Recipes
 
                 // #region Rinsing Recipes
-
                 // Wool rinsing recipes
                 RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_GRAY_WOOL),
                                 Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
@@ -231,10 +235,9 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
                 RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PINK_CARPET),
                                 Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
-
                 // #endregion Rinsing Recipes
 
-                // Jerky drying recipes
+                // #region Drying Recipes
                 DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.BEEF),
                                 ModItems.BEEF_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
                 DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.CHICKEN),
@@ -249,11 +252,14 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 ModItems.RABBIT_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
                 DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.SALMON),
                                 ModItems.SALMON_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
+                DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.ROTTEN_FLESH),
+                                ModItems.SUSPICIOUS_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
 
                 DryingRecipeJsonBuilder.create(Ingredient.ofItems(ModItems.RAW_HIDE),
                                 Items.LEATHER.getDefaultStack(), 1200).offerTo(recipeExporter);
+                // #endregion Rinsing Recipes
 
-                // Milling recipes
+                // #region Milling Recipes
                 MillingRecipeJsonBuilder.create(Ingredient.ofItems(Items.WHEAT), ModItems.FLOUR.getDefaultStack(), 20)
                                 .offerTo(recipeExporter);
                 MillingRecipeJsonBuilder
@@ -262,5 +268,41 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 MillingRecipeJsonBuilder.create(Ingredient.fromTag(ModTags.ItemTags.CROP_SEEDS),
                                 ModItems.SEED_MIX.getDefaultStack(), 20)
                                 .offerTo(recipeExporter);
+                // #endregion Milling Recipes
+
+                // #region Curing recipes
+                CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.MILK_BUCKET),
+                                ModItems.CHEESE_WHEEL.getDefaultStack(), 1200)
+                                .ingredientCount(3)
+                                .catalyst(Ingredient.ofItems(Items.BONE_MEAL))
+                                .offerTo(recipeExporter);
+                CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.PORKCHOP),
+                                ModItems.RAW_HIDE.getDefaultStack(), 60)
+                                .catalyst(Ingredient.ofItems(Items.BONE_MEAL))
+                                .offerTo(recipeExporter);
+                CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.MUTTON),
+                                ModItems.RAW_HIDE.getDefaultStack(), 60)
+                                .catalyst(Ingredient.ofItems(Items.BONE_MEAL))
+                                .offerTo(recipeExporter);
+                CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.CHICKEN),
+                                ModItems.RAW_HIDE.getDefaultStack(), 60)
+                                .catalyst(Ingredient.ofItems(Items.BONE_MEAL))
+                                .offerTo(recipeExporter);
+                CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.BEEF),
+                                ModItems.RAW_HIDE.getDefaultStack(), 60)
+                                .catalyst(Ingredient.ofItems(Items.BONE_MEAL))
+                                .offerTo(recipeExporter);
+                CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.RABBIT),
+                                ModItems.RAW_HIDE.getDefaultStack(), 60)
+                                .catalyst(Ingredient.ofItems(Items.BONE_MEAL))
+                                .offerTo(recipeExporter);
+                CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.POTATO),
+                                ModItems.MUG_OF_VODKA.getDefaultStack().copyWithCount(8), 960)
+                                .ingredientCount(16)
+                                .catalyst(Ingredient.ofItems(Items.WATER_BUCKET))
+                                .container(Ingredient.ofItems(ModItems.MUG))
+                                .byproduct(Items.BUCKET.getDefaultStack())
+                                .offerTo(recipeExporter);
+                // #endregion Curing Recipes
         }
 }

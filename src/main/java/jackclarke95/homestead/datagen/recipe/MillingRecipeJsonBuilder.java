@@ -5,7 +5,7 @@ import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 
-public class MillingRecipeJsonBuilder extends GenericRecipeJsonBuilder<MillingRecipe> {
+public class MillingRecipeJsonBuilder extends SimpleTimedRecipeJsonBuilder<MillingRecipe> {
     public MillingRecipeJsonBuilder(Ingredient input, ItemStack output, int time) {
         super(input, output, time);
     }

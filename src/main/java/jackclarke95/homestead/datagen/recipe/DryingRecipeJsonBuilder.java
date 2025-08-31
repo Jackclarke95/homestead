@@ -5,7 +5,7 @@ import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 
-public class DryingRecipeJsonBuilder extends GenericRecipeJsonBuilder<DryingRecipe> {
+public class DryingRecipeJsonBuilder extends SimpleTimedRecipeJsonBuilder<DryingRecipe> {
     public DryingRecipeJsonBuilder(Ingredient input, ItemStack output, int time) {
         super(input, output, time);
     }

@@ -1,0 +1,14 @@
+{
+  "type": "homestead:curing",
+  "catalyst": {
+    "item": "minecraft:bone_meal"
+  },
+  "ingredient": {
+    "item": "minecraft:mutton"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:raw_hide"
+  },
+  "time": 60
+}
