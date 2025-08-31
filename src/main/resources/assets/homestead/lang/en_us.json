@@ -23,6 +23,7 @@
   "block.homestead.heated_rack": "Heated Rack",
   "block.homestead.curing_vat": "Curing Vat",
   "block.homestead.trough": "Trough",
+  "block.homestead.press": "Press",
   "block.homestead.mill": "Mill",
 
   "block.homestead.cobblestone_bricks": "Cobblestone Bricks",
@@ -30,6 +31,7 @@
   "block.homestead.cobblestone_brick_wall": "Cobblestone Brick Wall",
   "block.homestead.cobblestone_brick_stairs": "Cobblestone Brick Stairs",
   "block.homestead.hay_stairs": "Hay Stairs",
+  "block.homestead.wattle_and_daub": "Wattle and Daub",
 
   "tag.item.homestead.drying": "Drying",
   "tag.item.homestead.curing_vat": "Curing Vat",

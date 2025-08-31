@@ -5,6 +5,7 @@ import jackclarke95.homestead.block.custom.CuringVatBlock;
 import jackclarke95.homestead.block.custom.HeatedRackBlock;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.custom.TroughBlock;
+import jackclarke95.homestead.block.custom.WattleAndDaubBlock;
 import jackclarke95.homestead.block.custom.MillBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
@@ -27,13 +28,15 @@ public class ModBlocks {
                         new PressBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque()));
         public static final Block TROUGH = registerBlock("trough",
                         new TroughBlock(AbstractBlock.Settings.copy(Blocks.CAULDRON)));
-
         public static final Block RACK = registerBlock("rack",
                         new RackBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
-
         public static final Block HEATED_RACK = registerBlock("heated_rack",
                         new HeatedRackBlock(AbstractBlock.Settings.copy(ModBlocks.RACK)
                                         .luminance(state -> state.get(HeatedRackBlock.LIT) ? 15 : 0)));
+        public static final Block CURING_VAT = registerBlock("curing_vat",
+                        new CuringVatBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
+        public static final Block MILL = registerBlock("mill",
+                        new MillBlock(AbstractBlock.Settings.copy(Blocks.STONE)));
 
         public static final Block COBBLESTONE_BRICKS = registerBlock("cobblestone_bricks",
                         new Block((AbstractBlock.Settings.copy(Blocks.COBBLESTONE))));
@@ -49,11 +52,8 @@ public class ModBlocks {
                         new StairsBlock(Blocks.HAY_BLOCK.getDefaultState(),
                                         AbstractBlock.Settings.copy(Blocks.CRAFTING_TABLE)));
 
-        public static final Block CURING_VAT = registerBlock("curing_vat",
-                        new CuringVatBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
-
-        public static final Block MILL = registerBlock("mill",
-                        new MillBlock(AbstractBlock.Settings.copy(Blocks.STONE)));
+        public static final Block WATTLE_AND_DAUB = registerBlock("wattle_and_daub",
+                        new WattleAndDaubBlock(AbstractBlock.Settings.copy(Blocks.BRICKS).nonOpaque()));
 
         public static void registerModBlocks() {
                 Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);
@@ -65,6 +65,7 @@ public class ModBlocks {
                         entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
                         entries.add(ModBlocks.HAY_STAIRS);
                         entries.add(ModBlocks.PRESS);
+                        entries.add(ModBlocks.WATTLE_AND_DAUB);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
@@ -74,6 +75,7 @@ public class ModBlocks {
                         entries.add(ModBlocks.TROUGH);
                         entries.add(ModBlocks.MILL);
                         entries.add(ModBlocks.PRESS);
+                        entries.add(ModBlocks.WATTLE_AND_DAUB);
                 });
         }
 

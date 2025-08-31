@@ -1,0 +1,18 @@
+{
+  "variants": {
+    "type=half,facing=north": {
+      "model": "homestead:block/wattle_and_daub",
+      "y": 180
+    },
+    "type=half,facing=south": { "model": "homestead:block/wattle_and_daub" },
+    "type=half,facing=west": {
+      "model": "homestead:block/wattle_and_daub",
+      "y": 270
+    },
+    "type=half,facing=east": {
+      "model": "homestead:block/wattle_and_daub",
+      "y": 90
+    },
+    "type=full": { "model": "homestead:block/wattle_and_daub_full" }
+  }
+}

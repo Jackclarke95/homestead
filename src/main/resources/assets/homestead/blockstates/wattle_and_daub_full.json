@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "homestead:block/wattle_and_daub_full" }
+  }
+}
