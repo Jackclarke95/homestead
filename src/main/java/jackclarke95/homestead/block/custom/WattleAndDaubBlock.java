@@ -2,7 +2,6 @@ package jackclarke95.homestead.block.custom;
 
 import com.mojang.serialization.MapCodec;
 
-import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.util.VerticalSlabType;
 import net.minecraft.block.Block;
@@ -42,11 +41,8 @@ public class WattleAndDaubBlock extends HorizontalFacingBlock {
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockPos pos = ctx.getBlockPos();
         BlockState state = ctx.getWorld().getBlockState(pos);
-        Homestead.LOGGER.info("getPlacementState called at {}. Existing block: {} (type: {})", pos, state.getBlock(),
-                state.getBlock() == this ? state.get(TYPE) : "n/a");
 
         if (state.getBlock() == this && state.get(TYPE) == VerticalSlabType.HALF) {
-            Homestead.LOGGER.info("Merging to FULL at {}", pos);
 
             return state.with(TYPE, VerticalSlabType.FULL);
         }
@@ -54,7 +50,6 @@ public class WattleAndDaubBlock extends HorizontalFacingBlock {
         // Otherwise, place as half, with correct facing
         Direction face = ctx.getSide();
         Direction facing = face.getAxis().isHorizontal() ? face.getOpposite() : ctx.getHorizontalPlayerFacing();
-        Homestead.LOGGER.info("Placing HALF with facing {} at {} (side: {})", facing, pos, face);
 
         return this.getDefaultState()
                 .with(FACING, facing)
@@ -97,12 +92,16 @@ public class WattleAndDaubBlock extends HorizontalFacingBlock {
 
     @Override
     public boolean canReplace(BlockState state, ItemPlacementContext context) {
-        // Only allow merging if the block is a half slab and the player is holding the
-        // same item
         if (state.getBlock() == this && state.get(TYPE) == VerticalSlabType.HALF
                 && context.getStack().isOf(this.asItem())) {
-            return true;
+            Direction slabFacing = state.get(FACING).getOpposite();
+            Direction hitSide = context.getSide();
+
+            if (hitSide == slabFacing) {
+                return true;
+            }
         }
+
         return super.canReplace(state, context);
     }
 }
