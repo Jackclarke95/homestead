@@ -182,7 +182,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
             resetProgress();
 
-            updateWorld();
+            markDirty();
 
             return;
         }
@@ -408,5 +408,12 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
                 .info("Can extract: " + slot + ", " + stack + ", " + side + ", " + (canExtract && !hasRecipe(stack)));
 
         return canExtract && !hasRecipe(stack);
+    }
+
+    @Override
+    public void markDirty() {
+        updateWorld();
+
+        super.markDirty();
     }
 }
