@@ -377,30 +377,27 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
             return false;
         }
 
-        boolean hasRecipe = hasRecipe(stack);
-
-        return hasRecipe;
+        return hasRecipe(stack);
     }
 
     private boolean hasRecipe(ItemStack stack) {
         SimpleTimedRecipeInput input = new SimpleTimedRecipeInput(stack);
 
-        boolean hasRecipe = false;
-
         Optional<RecipeEntry<RinsingRecipe>> rinsing = world.getRecipeManager()
                 .getFirstMatch(ModRecipes.RINSING_TYPE, input, world);
 
         if (rinsing.isPresent()) {
-            hasRecipe = true;
+            return true;
         }
 
         Optional<RecipeEntry<DryingRecipe>> drying = world.getRecipeManager()
                 .getFirstMatch(ModRecipes.HEATED_TYPE, input, world);
 
         if (drying.isPresent()) {
-            hasRecipe = true;
+            return true;
         }
-        return hasRecipe;
+
+        return false;
     }
 
     @Override
