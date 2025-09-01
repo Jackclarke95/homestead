@@ -65,6 +65,16 @@ public class VerticleSlabPlacementPreview {
                 return;
             }
 
+            // Do not render preview if the block in front of the targeted face contains a
+            // half vertical slab (would merge)
+            BlockPos mergeCheckPos = pos.offset(face);
+            BlockState mergeCheckState = client.world.getBlockState(mergeCheckPos);
+            if (mergeCheckState.getBlock() instanceof VerticleSlabBlock &&
+                    mergeCheckState.get(VerticleSlabBlock.TYPE) == jackclarke95.homestead.util.VerticalSlabType.HALF &&
+                    block instanceof VerticleSlabBlock) {
+                return;
+            }
+
             if (face == Direction.UP || face == Direction.DOWN) {
                 drawCrossOnTopOrBottom(context, client, face, pos, state);
             }
