@@ -56,6 +56,10 @@ public class VerticleSlabPlacementPreview {
 
             BlockState state = client.world.getBlockState(pos);
 
+            if (state.isAir()) {
+                return;
+            }
+
             // Do not render preview if aiming at the open face of a half vertical slab that
             // would merge
             if (state.getBlock() instanceof VerticleSlabBlock &&
