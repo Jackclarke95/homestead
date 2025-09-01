@@ -74,7 +74,6 @@ public class ModBlocks {
                         entries.add(ModBlocks.TROUGH);
                         entries.add(ModBlocks.MILL);
                         entries.add(ModBlocks.PRESS);
-                        entries.add(ModBlocks.WATTLE_AND_DAUB);
                 });
         }
 
