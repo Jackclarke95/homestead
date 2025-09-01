@@ -409,9 +409,4 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
         return canExtract && !hasRecipe(stack);
     }
-
-    @Override
-    public void markDirty() {
-        updateWorld();
-    }
 }
