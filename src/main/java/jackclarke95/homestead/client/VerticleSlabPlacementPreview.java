@@ -212,25 +212,34 @@ public class VerticleSlabPlacementPreview {
     // Draws two vertical lines dividing the face into thirds
     private static void drawVerticalThirds(VertexConsumer vc, MatrixStack matrices, Camera camera, Direction face,
             double x0, double x1, double y0, double y1, double z0, double z1, double eps) {
+        // Always use the full block width (0 to 1) for vertical lines
         switch (face) {
-            case NORTH, SOUTH -> {
+            case NORTH:
+            case SOUTH: {
                 double z = (face == Direction.NORTH ? z0 - eps : z1 + eps);
+                double xBlockMin = Math.floor(x0);
+                double xBlockMax = xBlockMin + 1.0;
                 for (int i = 1; i <= 2; i++) {
                     double frac = i / 3.0;
-                    double x = x0 + (x1 - x0) * frac;
+                    double x = xBlockMin + (xBlockMax - xBlockMin) * frac;
                     drawLine(vc, matrices, camera, new Vec3d(x, y0, z), new Vec3d(x, y1, z));
                 }
+                break;
             }
-            case EAST, WEST -> {
+            case EAST:
+            case WEST: {
                 double x = (face == Direction.WEST ? x0 - eps : x1 + eps);
+                double zBlockMin = Math.floor(z0);
+                double zBlockMax = zBlockMin + 1.0;
                 for (int i = 1; i <= 2; i++) {
                     double frac = i / 3.0;
-                    double z = z0 + (z1 - z0) * frac;
+                    double z = zBlockMin + (zBlockMax - zBlockMin) * frac;
                     drawLine(vc, matrices, camera, new Vec3d(x, y0, z), new Vec3d(x, y1, z));
                 }
+                break;
             }
-            default -> {
-            }
+            default:
+                break;
         }
     }
 }
