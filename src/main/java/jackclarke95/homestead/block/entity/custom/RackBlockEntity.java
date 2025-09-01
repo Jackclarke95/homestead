@@ -25,6 +25,7 @@ import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -402,12 +403,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction side) {
-        var canExtract = !stack.isEmpty();
-
-        Homestead.LOGGER
-                .info("Can extract: " + slot + ", " + stack + ", " + side + ", " + (canExtract && !hasRecipe(stack)));
-
-        return canExtract && !hasRecipe(stack);
+        return !stack.isEmpty() && !hasRecipe(stack);
     }
 
     @Override
