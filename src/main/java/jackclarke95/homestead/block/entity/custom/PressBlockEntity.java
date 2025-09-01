@@ -1,12 +1,14 @@
 
 package jackclarke95.homestead.block.entity.custom;
 
+import jackclarke95.homestead.block.custom.PressBlock;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.recipe.PressingRecipe;
 import jackclarke95.homestead.recipe.ContainerRecipeInput;
 import jackclarke95.homestead.recipe.ModRecipes;
 import jackclarke95.homestead.screen.custom.PressScreenHandler;
+import jackclarke95.homestead.util.ActiveStatus;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -101,27 +103,40 @@ public class PressBlockEntity extends BlockEntity
     public void tick(World world, BlockPos pos, BlockState state) {
         if (world.isClient)
             return;
-        // Always try to move pending output to actual output first
-        handlePendingTransfer(world);
-
+        // Update status property
+        BlockState currentState = world.getBlockState(pos);
+        ActiveStatus newStatus;
         Optional<RecipeEntry<PressingRecipe>> recipeOpt = getCurrentRecipe(world);
+
+        if (inventory.get(INPUT_INGREDIENT_SLOT).isEmpty()) {
+            newStatus = ActiveStatus.INACTIVE;
+        } else if (recipeOpt.isPresent()) {
+            if (hasCraftingFinished()) {
+                newStatus = ActiveStatus.INACTIVE;
+            } else {
+                newStatus = ActiveStatus.ACTIVE;
+            }
+        } else {
+            newStatus = ActiveStatus.INACTIVE;
+        }
+        if (currentState.contains(PressBlock.STATUS) && currentState.get(PressBlock.STATUS) != newStatus) {
+            world.setBlockState(pos, currentState.with(PressBlock.STATUS, newStatus), 3);
+        }
+
+        handlePendingTransfer(world);
         if (recipeOpt.isPresent()) {
             this.currentRecipe = recipeOpt.get();
             PressingRecipe recipe = this.currentRecipe.value();
-            // Check for required inputs and counts
             ItemStack inputStack = inventory.get(INPUT_INGREDIENT_SLOT);
             int requiredCount = recipe.ingredientCount();
             boolean hasIngredient = !inputStack.isEmpty() && recipe.inputItem().test(inputStack)
                     && inputStack.getCount() >= requiredCount;
-            // Block crafting if pending slot cannot fit the output
             boolean pendingBlocked = !canInsertItemIntoSlot(OUTPUT_PENDING_SLOT, recipe.output())
                     || !canInsertAmountIntoSlot(OUTPUT_PENDING_SLOT, recipe.output().getCount());
             if (!hasIngredient || pendingBlocked) {
                 resetProgress();
                 return;
             }
-            // If container is required, allow progress but output goes to pending if not
-            // present
             increaseCraftingProgress();
             markDirty(world, pos, state);
             if (hasCraftingFinished()) {

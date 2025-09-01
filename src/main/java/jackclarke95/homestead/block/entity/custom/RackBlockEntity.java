@@ -6,6 +6,7 @@ import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.recipe.ModRecipes;
 import jackclarke95.homestead.recipe.SimpleTimedRecipeInput;
+import jackclarke95.homestead.util.ActiveStatus;
 import jackclarke95.homestead.recipe.RinsingRecipe;
 import jackclarke95.homestead.recipe.DryingRecipe;
 import net.minecraft.block.BlockState;
@@ -95,14 +96,14 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     public void tick(World world, BlockPos pos, BlockState state) {
         // Determine and update the craftStatus property on the block state
         BlockState currentState = world.getBlockState(pos);
-        RackBlock.CraftingStatus newStatus;
+        ActiveStatus newStatus;
 
         if (inventory.get(0).isEmpty()) {
-            newStatus = RackBlock.CraftingStatus.INACTIVE;
+            newStatus = ActiveStatus.INACTIVE;
         } else if (hasRecipe()) {
-            newStatus = RackBlock.CraftingStatus.IN_PROGRESS;
+            newStatus = ActiveStatus.ACTIVE;
         } else {
-            newStatus = RackBlock.CraftingStatus.INACTIVE;
+            newStatus = ActiveStatus.INACTIVE;
         }
 
         // Only update the block state if the status has changed
@@ -372,16 +373,44 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
-        return inventory.get(0).isEmpty();
+        if (!inventory.get(0).isEmpty()) {
+            return false;
+        }
+
+        boolean hasRecipe = hasRecipe(stack);
+
+        return hasRecipe;
+    }
+
+    private boolean hasRecipe(ItemStack stack) {
+        SimpleTimedRecipeInput input = new SimpleTimedRecipeInput(stack);
+
+        boolean hasRecipe = false;
+
+        Optional<RecipeEntry<RinsingRecipe>> rinsing = world.getRecipeManager()
+                .getFirstMatch(ModRecipes.RINSING_TYPE, input, world);
+
+        if (rinsing.isPresent()) {
+            hasRecipe = true;
+        }
+
+        Optional<RecipeEntry<DryingRecipe>> drying = world.getRecipeManager()
+                .getFirstMatch(ModRecipes.HEATED_TYPE, input, world);
+
+        if (drying.isPresent()) {
+            hasRecipe = true;
+        }
+        return hasRecipe;
     }
 
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction side) {
         var canExtract = !stack.isEmpty();
 
-        Homestead.LOGGER.info("Can extract: " + slot + ", " + stack + ", " + side + ", " + canExtract);
+        Homestead.LOGGER
+                .info("Can extract: " + slot + ", " + stack + ", " + side + ", " + (canExtract && !hasRecipe(stack)));
 
-        return canExtract;
+        return canExtract && !hasRecipe(stack);
     }
 
     @Override

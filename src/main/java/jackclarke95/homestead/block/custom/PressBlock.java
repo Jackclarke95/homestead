@@ -3,6 +3,7 @@ package jackclarke95.homestead.block.custom;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
@@ -17,6 +18,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.world.World;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.PressBlockEntity;
+import jackclarke95.homestead.util.ActiveStatus;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.item.ItemPlacementContext;
@@ -30,6 +32,8 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.MapCodec;
 
 public class PressBlock extends BlockWithEntity {
+    public static final EnumProperty<ActiveStatus> STATUS = EnumProperty.of("status", ActiveStatus.class);
+
     public static final DirectionProperty FACING = net.minecraft.state.property.Properties.HORIZONTAL_FACING;
     private static final MapCodec<PressBlock> CODEC = createCodec(PressBlock::new);
 
@@ -40,7 +44,7 @@ public class PressBlock extends BlockWithEntity {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, STATUS);
     }
 
     @Override
