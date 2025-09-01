@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_cauldron": {
+    "has_barrel": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:cauldron"
+            "items": "minecraft:barrel"
           }
         ]
       },
@@ -53,7 +53,7 @@
       "has_the_recipe",
       "has_iron_ingot",
       "has_planks",
-      "has_cauldron",
+      "has_barrel",
       "has_stone"
     ]
   ],

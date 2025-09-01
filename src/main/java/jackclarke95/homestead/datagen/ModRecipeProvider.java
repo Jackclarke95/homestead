@@ -102,15 +102,15 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
                 ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.PRESS)
                                 .pattern("III")
-                                .pattern("PCP")
+                                .pattern("PBP")
                                 .pattern("SSS")
                                 .input('I', Items.STRING)
                                 .input('P', ItemTags.PLANKS)
-                                .input('C', Blocks.CAULDRON)
+                                .input('B', Blocks.BARREL)
                                 .input('S', Blocks.STONE)
                                 .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                                 .criterion("has_planks", conditionsFromTag(ItemTags.PLANKS))
-                                .criterion(hasItem(Blocks.CAULDRON), conditionsFromItem(Blocks.CAULDRON))
+                                .criterion(hasItem(Blocks.BARREL), conditionsFromItem(Blocks.BARREL))
                                 .criterion(hasItem(Blocks.STONE), conditionsFromItem(Blocks.STONE))
                                 .offerTo(recipeExporter);
                 // #endregion Workstation Recipes

@@ -162,19 +162,6 @@
     },
     {
       "name": "thread",
-      "from": [6.5, 14, 6.5],
-      "to": [9.5, 15, 9.5],
-      "faces": {
-        "north": { "uv": [11.75, 3, 12.5, 3.25], "texture": "#0" },
-        "east": { "uv": [11.75, 3.25, 12.5, 3.5], "texture": "#0" },
-        "south": { "uv": [6, 11.75, 6.75, 12], "texture": "#0" },
-        "west": { "uv": [6.75, 11.75, 7.5, 12], "texture": "#0" },
-        "up": { "uv": [11.75, 1.25, 11, 0.5], "texture": "#0" },
-        "down": { "uv": [11.75, 1.25, 11, 2], "texture": "#0" }
-      }
-    },
-    {
-      "name": "thread",
       "from": [6.5, 9, 6.5],
       "to": [9.5, 10, 9.5],
       "faces": {
@@ -316,7 +303,7 @@
           "name": "screw",
           "origin": [7, 14, 7],
           "color": 0,
-          "children": [9, 10, 11, 12]
+          "children": [9, 10, 11]
         },
         {
           "name": "handles",
@@ -327,17 +314,17 @@
               "name": "handle",
               "origin": [0, 0, 0],
               "color": 0,
-              "children": [13, 14]
+              "children": [12, 13]
             },
             {
               "name": "handle",
               "origin": [0, 0, 0],
               "color": 0,
-              "children": [15, 16]
+              "children": [14, 15]
             }
           ]
         },
-        17
+        16
       ]
     }
   ]
