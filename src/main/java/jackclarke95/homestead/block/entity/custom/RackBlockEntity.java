@@ -1,5 +1,6 @@
 package jackclarke95.homestead.block.entity.custom;
 
+import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
@@ -25,6 +26,7 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import java.util.Optional;
@@ -181,7 +183,7 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         BlockState state = world.getBlockState(pos);
 
         markDirty(world, pos, state);
-        world.updateListeners(pos, state, state, 0);
+        world.updateListeners(pos, state, state, 3);
     }
 
     private void spawnRinsingParticles(ServerWorld world, BlockPos pos) {
@@ -352,5 +354,24 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
         return createNbt(registryLookup);
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
+        return inventory.get(0).isEmpty();
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction side) {
+        var canExtract = !stack.isEmpty();
+
+        Homestead.LOGGER.info("Can extract: " + slot + ", " + stack + ", " + side + ", " + canExtract);
+
+        return canExtract;
+    }
+
+    @Override
+    public void markDirty() {
+        updateWorld();
     }
 }

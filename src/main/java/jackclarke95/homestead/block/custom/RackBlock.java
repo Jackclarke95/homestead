@@ -118,16 +118,12 @@ public class RackBlock extends BlockWithEntity {
                 }
 
                 placeItemOnRack(stack, world, pos, be);
-
-                updateWorld(state, world, pos, be);
             } else if (!player.isSneaking() && !stackOnRack.isEmpty()) {
                 giveItemToPlayer(player, stackOnRack);
 
                 world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1f, 1f);
 
                 clear(be);
-
-                updateWorld(state, world, pos, be);
 
                 return ItemActionResult.SUCCESS;
             }
@@ -136,19 +132,15 @@ public class RackBlock extends BlockWithEntity {
         return ItemActionResult.SUCCESS;
     }
 
-    /**
-     * Override this in subclasses to specify the block entity type.
-     */
     protected Class<? extends BlockEntity> getBlockEntityClass() {
         return RackBlockEntity.class;
     }
-
-    // --- Generic helpers for inventory access ---
 
     protected ItemStack getStack(BlockEntity be, int slot) {
         if (be instanceof ImplementedInventory inv) {
             return inv.getStack(slot);
         }
+
         return ItemStack.EMPTY;
     }
 
@@ -156,6 +148,7 @@ public class RackBlock extends BlockWithEntity {
         if (be instanceof ImplementedInventory inv) {
             return inv.isEmpty();
         }
+
         return true;
     }
 
@@ -163,15 +156,21 @@ public class RackBlock extends BlockWithEntity {
         if (be instanceof ImplementedInventory inv) {
             inv.setStack(slot, stack);
         }
+
+        BlockState state = be.getWorld().getBlockState(be.getPos());
+
+        updateWorld(state, be.getWorld(), be.getPos(), be);
     }
 
     protected void clear(BlockEntity be) {
         if (be instanceof ImplementedInventory inv) {
             inv.clear();
         }
-    }
 
-    // --- Updated placeItemOnRack and updateWorld to use BlockEntity ---
+        BlockState state = be.getWorld().getBlockState(be.getPos());
+
+        updateWorld(state, be.getWorld(), be.getPos(), be);
+    }
 
     private void placeItemOnRack(ItemStack stack, World world, BlockPos pos, BlockEntity be) {
         setStack(be, 0, stack.copyWithCount(1));
@@ -182,7 +181,8 @@ public class RackBlock extends BlockWithEntity {
 
     private void updateWorld(BlockState state, World world, BlockPos pos, BlockEntity be) {
         be.markDirty();
-        world.updateListeners(pos, state, state, 0);
+
+        world.updateListeners(pos, state, state, 3);
     }
 
     public static boolean hasDyeOrBanner(ItemStack stack) {
