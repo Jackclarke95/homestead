@@ -41,6 +41,7 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
         // TODO: Rotate banners and shields to appear properly
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(getRotationForFacing(facing)));
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(getXRotation(isBlockItem)));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180));
 
         ModelTransformationMode mode = isBlockItem ? ModelTransformationMode.FIXED : ModelTransformationMode.GUI;
 
