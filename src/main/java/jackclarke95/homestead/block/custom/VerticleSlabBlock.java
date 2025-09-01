@@ -86,26 +86,45 @@ public class VerticleSlabBlock extends HorizontalFacingBlock {
                 double hitZ = ctx.getHitPos().z - pos.getZ();
                 if (face == Direction.NORTH || face == Direction.SOUTH) {
                     double x = hitX;
-
                     if (face == Direction.NORTH)
                         x = 1.0 - x;
-                    if (x < 1.0 / 3.0) {
-                        facing = Direction.WEST;
-                    } else if (x > 2.0 / 3.0) {
-                        facing = Direction.EAST;
-                    } else {
-                        facing = face;
+                    if (face == Direction.SOUTH) {
+                        if (x < 1.0 / 3.0) {
+                            facing = Direction.WEST;
+                        } else if (x > 2.0 / 3.0) {
+                            facing = Direction.EAST;
+                        } else {
+                            facing = face.getOpposite();
+                        }
+                    } else { // NORTH
+                        if (x < 1.0 / 3.0) {
+                            facing = Direction.EAST;
+                        } else if (x > 2.0 / 3.0) {
+                            facing = Direction.WEST;
+                        } else {
+                            facing = face.getOpposite();
+                        }
                     }
                 } else if (face == Direction.EAST || face == Direction.WEST) {
                     double z = hitZ;
                     if (face == Direction.WEST)
                         z = 1.0 - z;
-                    if (z < 1.0 / 3.0) {
-                        facing = Direction.NORTH;
-                    } else if (z > 2.0 / 3.0) {
-                        facing = Direction.SOUTH;
-                    } else {
-                        facing = face.getOpposite();
+                    if (face == Direction.EAST) {
+                        if (z < 1.0 / 3.0) {
+                            facing = Direction.NORTH;
+                        } else if (z > 2.0 / 3.0) {
+                            facing = Direction.SOUTH;
+                        } else {
+                            facing = face.getOpposite();
+                        }
+                    } else { // WEST
+                        if (z < 1.0 / 3.0) {
+                            facing = Direction.SOUTH;
+                        } else if (z > 2.0 / 3.0) {
+                            facing = Direction.NORTH;
+                        } else {
+                            facing = face.getOpposite();
+                        }
                     }
                 } else {
                     facing = face.getOpposite();
