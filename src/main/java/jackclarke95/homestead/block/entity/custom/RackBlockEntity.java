@@ -93,6 +93,23 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
+        // Determine and update the craftStatus property on the block state
+        BlockState currentState = world.getBlockState(pos);
+        RackBlock.CraftingStatus newStatus;
+
+        if (inventory.get(0).isEmpty()) {
+            newStatus = RackBlock.CraftingStatus.INACTIVE;
+        } else if (hasRecipe()) {
+            newStatus = RackBlock.CraftingStatus.IN_PROGRESS;
+        } else {
+            newStatus = RackBlock.CraftingStatus.INACTIVE;
+        }
+
+        // Only update the block state if the status has changed
+        if (currentState.contains(RackBlock.STATUS) && currentState.get(RackBlock.STATUS) != newStatus) {
+            world.setBlockState(pos, currentState.with(RackBlock.STATUS, newStatus), 3);
+        }
+
         if (inventory.get(0).isEmpty()) {
             return;
         }
@@ -103,7 +120,6 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
         if ((RackBlock.hasDyeOrBanner(inventory.get(0)))) {
             removeDyeAndPatternFromItem();
-
             return;
         }
 
@@ -132,13 +148,11 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
             if (canProgress) {
                 increaseCraftingProgress();
-
                 markDirty(world, pos, state);
             }
 
             if (hasCraftingFinished()) {
                 craftItem(state);
-
                 resetProgress();
             }
         } else {

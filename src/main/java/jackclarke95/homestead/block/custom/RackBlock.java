@@ -21,12 +21,14 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.DirectionProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.ItemScatterer;
+import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -46,6 +48,26 @@ public class RackBlock extends BlockWithEntity {
     public static final MapCodec<RackBlock> CODEC = RackBlock.createCodec(RackBlock::new);
 
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
+    public static final EnumProperty<CraftingStatus> STATUS = EnumProperty.of("status", CraftingStatus.class);
+
+    public enum CraftingStatus implements StringIdentifiable {
+        IN_PROGRESS("in_progress"),
+        INACTIVE("inactive");
+
+        private final String name;
+
+        private CraftingStatus(final String name) {
+            this.name = name;
+        }
+
+        public String toString() {
+            return this.name;
+        }
+
+        public String asString() {
+            return this.name;
+        }
+    }
 
     public RackBlock(Settings settings) {
         super(settings);
@@ -295,6 +317,6 @@ public class RackBlock extends BlockWithEntity {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, STATUS);
     }
 }
