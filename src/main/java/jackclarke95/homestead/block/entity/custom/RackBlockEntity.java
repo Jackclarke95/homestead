@@ -401,6 +401,6 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction side) {
-        return !stack.isEmpty() && !hasRecipe(stack);
+        return false;
     }
 }
