@@ -34,10 +34,12 @@ import java.util.Optional;
 import org.jetbrains.annotations.Nullable;
 
 public class RackBlockEntity extends BlockEntity implements ImplementedInventory {
+
     // WARNING: Do not mutate the inventory list directly! Use setStack,
     // removeStack, clear, etc. to ensure markDirty() is called and the client stays
     // in sync.
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+
     protected final PropertyDelegate propertyDelegate;
 
     private int progress = 0;
@@ -89,10 +91,30 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     @Override
+    public void setStack(int slot, ItemStack stack) {
+        ImplementedInventory.super.setStack(slot, stack);
+        onInventoryChanged();
+    }
+
+    @Override
+    public ItemStack removeStack(int slot, int count) {
+        ItemStack result = ImplementedInventory.super.removeStack(slot, count);
+        onInventoryChanged();
+        return result;
+    }
+
+    @Override
+    public ItemStack removeStack(int slot) {
+        ItemStack result = ImplementedInventory.super.removeStack(slot);
+        onInventoryChanged();
+        return result;
+    }
+
+    @Override
     public void clear() {
         ImplementedInventory.super.clear();
-
         resetProgress();
+        onInventoryChanged();
 
         markDirty();
     }
@@ -402,5 +424,25 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction side) {
         return !stack.isEmpty() && !hasRecipe(stack);
+    }
+
+    /**
+     * Call this after any inventory mutation (setStack, removeStack, clear) to
+     * ensure
+     * block state and client are updated, especially after automation.
+     */
+    private void onInventoryChanged() {
+        if (this.world != null && !this.world.isClient) {
+            BlockState state = this.world.getBlockState(this.pos);
+            if (state.getBlock() instanceof RackBlock) {
+                ActiveStatus status = this.inventory.get(0).isEmpty() ? ActiveStatus.INACTIVE
+                        : (hasRecipe() ? ActiveStatus.ACTIVE : ActiveStatus.INACTIVE);
+                if (state.contains(RackBlock.STATUS) && state.get(RackBlock.STATUS) != status) {
+                    this.world.setBlockState(this.pos, state.with(RackBlock.STATUS, status), 3);
+                }
+            }
+            this.world.updateListeners(this.pos, state, state, 3);
+        }
+        markDirty();
     }
 }
