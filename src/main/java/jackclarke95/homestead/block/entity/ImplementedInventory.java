@@ -166,11 +166,7 @@ public interface ImplementedInventory extends SidedInventory {
      */
     @Override
     default ItemStack removeStack(int slot, int count) {
-        ItemStack result = Inventories.splitStack(getItems(), slot, count);
-
-        markDirty();
-
-        return result;
+        return Inventories.splitStack(getItems(), slot, count);
     }
 
     /**
@@ -184,10 +180,7 @@ public interface ImplementedInventory extends SidedInventory {
      */
     @Override
     default ItemStack removeStack(int slot) {
-        ItemStack result = Inventories.removeStack(getItems(), slot);
-        markDirty();
-
-        return result;
+        return Inventories.removeStack(getItems(), slot);
     }
 
     /**
@@ -208,8 +201,6 @@ public interface ImplementedInventory extends SidedInventory {
         if (stack.getCount() > getMaxCountPerStack()) {
             stack.setCount(getMaxCountPerStack());
         }
-
-        markDirty();
     }
 
     /**
@@ -218,8 +209,6 @@ public interface ImplementedInventory extends SidedInventory {
     @Override
     default void clear() {
         getItems().clear();
-
-        markDirty();
     }
 
     @Override
