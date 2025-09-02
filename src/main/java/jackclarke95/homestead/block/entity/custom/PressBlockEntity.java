@@ -28,6 +28,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -272,5 +273,28 @@ public class PressBlockEntity extends BlockEntity
     @Override
     public NbtCompound toInitialChunkDataNbt(WrapperLookup registryLookup) {
         return createNbtWithIdentifyingData(registryLookup);
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
+        switch (slot) {
+            case INPUT_INGREDIENT_SLOT: {
+                return side == Direction.UP;
+            }
+            case INPUT_CONTAINER_SLOT: {
+                return side == Direction.NORTH || side == Direction.EAST
+                        || side == Direction.SOUTH || side == Direction.WEST;
+            }
+            case OUTPUT_ACTUAL_SLOT:
+            case OUTPUT_PENDING_SLOT:
+            default: {
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction side) {
+        return slot == OUTPUT_ACTUAL_SLOT;
     }
 }
