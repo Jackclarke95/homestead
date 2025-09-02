@@ -34,6 +34,9 @@ import java.util.Optional;
 import org.jetbrains.annotations.Nullable;
 
 public class RackBlockEntity extends BlockEntity implements ImplementedInventory {
+    // WARNING: Do not mutate the inventory list directly! Use setStack,
+    // removeStack, clear, etc. to ensure markDirty() is called and the client stays
+    // in sync.
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
     protected final PropertyDelegate propertyDelegate;
 
@@ -90,6 +93,8 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
         ImplementedInventory.super.clear();
 
         resetProgress();
+
+        markDirty();
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
@@ -397,12 +402,5 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction side) {
         return !stack.isEmpty() && !hasRecipe(stack);
-    }
-
-    @Override
-    public void markDirty() {
-        updateWorld();
-
-        super.markDirty();
     }
 }
