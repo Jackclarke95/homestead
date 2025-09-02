@@ -25,6 +25,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -161,5 +162,15 @@ public class MillBlockEntity extends BlockEntity
         NbtCompound nbt = new NbtCompound();
         writeNbt(nbt, registryLookup);
         return nbt;
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
+        return side != Direction.DOWN && slot == INPUT_SLOT;
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction side) {
+        return side == Direction.DOWN && slot == OUTPUT_SLOT;
     }
 }

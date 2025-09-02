@@ -302,7 +302,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 MillingRecipeJsonBuilder.create(Ingredient.ofItems(Items.WHEAT), ModItems.FLOUR.getDefaultStack(), 20)
                                 .offerTo(recipeExporter);
                 MillingRecipeJsonBuilder
-                                .create(Ingredient.ofItems(Blocks.HAY_BLOCK), ModItems.FLOUR.getDefaultStack(), 180)
+                                .create(Ingredient.ofItems(Blocks.HAY_BLOCK),
+                                                ModItems.FLOUR.getDefaultStack().copyWithCount(9), 180)
                                 .offerTo(recipeExporter);
                 MillingRecipeJsonBuilder.create(Ingredient.fromTag(ModTags.ItemTags.CROP_SEEDS),
                                 ModItems.SEED_MIX.getDefaultStack(), 20)
