@@ -93,28 +93,23 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
-        // Determine and update the craftStatus property on the block state
         BlockState currentState = world.getBlockState(pos);
         ActiveStatus newStatus;
 
         if (inventory.get(0).isEmpty()) {
             newStatus = ActiveStatus.INACTIVE;
+
+            return;
         } else if (hasRecipe()) {
             newStatus = ActiveStatus.ACTIVE;
         } else {
             newStatus = ActiveStatus.INACTIVE;
         }
 
-        // Only update the block state if the status has changed
         if (currentState.contains(RackBlock.STATUS) && currentState.get(RackBlock.STATUS) != newStatus) {
             world.setBlockState(pos, currentState.with(RackBlock.STATUS, newStatus), 3);
         }
 
-        if (inventory.get(0).isEmpty()) {
-            return;
-        }
-
-        // Update environment fields at the start of each tick
         rinsingEnvironment = isRinsingEnvironment(world, pos);
         dryingEnvironment = isDryingEnvironment(world, pos);
 

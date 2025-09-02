@@ -286,7 +286,7 @@ public class RackBlock extends BlockWithEntity {
     }
 
     protected VoxelShape createShape() {
-        // North: front legs (z=14) are tall
+        // TODO: Rotate based on facing, and wrap model shape more cleanly
         return VoxelShapes.union(
                 Block.createCuboidShape(0, 0, 0, 2, 9, 2), // back left leg (short)
                 Block.createCuboidShape(14, 0, 0, 16, 9, 2), // back right leg (short)

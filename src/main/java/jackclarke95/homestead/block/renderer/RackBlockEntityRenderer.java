@@ -1,6 +1,8 @@
 package jackclarke95.homestead.block.renderer;
 
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
+import jackclarke95.homestead.block.custom.RackBlock;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
@@ -15,7 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Direction;
-import jackclarke95.homestead.block.custom.RackBlock;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
@@ -55,7 +56,8 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
     private Direction getBlockFacing(RackBlockEntity entity) {
         Direction facing = Direction.WEST;
         if (entity.getWorld() != null) {
-            net.minecraft.block.BlockState state = entity.getWorld().getBlockState(entity.getPos());
+            BlockState state = entity.getWorld().getBlockState(entity.getPos());
+
             if (state.contains(RackBlock.FACING)) {
                 facing = state.get(RackBlock.FACING);
             }
@@ -64,7 +66,6 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
     }
 
     private float getYTranslation(boolean isBlockItem) {
-        // Adjust as needed for your visuals
         return isBlockItem ? 0.8875f : 0.7625f;
     }
 
