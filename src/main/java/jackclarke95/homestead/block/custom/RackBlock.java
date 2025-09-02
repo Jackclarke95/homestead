@@ -96,7 +96,7 @@ public class RackBlock extends BlockWithEntity {
     }
 
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
+    protected ItemActionResult onUseWithItem(ItemStack stackInHand, BlockState state, World world, BlockPos pos,
             PlayerEntity player, Hand hand, BlockHitResult hit) {
         BlockEntity be = world.getBlockEntity(pos);
         Class<? extends BlockEntity> beClass = getBlockEntityClass();
@@ -104,23 +104,27 @@ public class RackBlock extends BlockWithEntity {
         if (beClass.isInstance(be)) {
             ItemStack stackOnRack = getStack(be, 0);
 
-            if (isEmpty(be) && !stack.isEmpty()) {
-                // Handle placing dyed leather armor (with color component) for rinsing
-                if (isLeatherArmorOrBannerOrShield(stack)) {
-                    if (!hasDyeOrBanner(stack)) {
+            if (!player.isSneaking() && stackInHand.isEmpty() && stackOnRack.isEmpty()) {
+                return ItemActionResult.SUCCESS;
+            } else if (isEmpty(be) && !stackInHand.isEmpty()) {
+                if (isLeatherArmorOrBannerOrShield(stackInHand)) {
+                    if (!hasDyeOrBanner(stackInHand)) {
                         return ItemActionResult.SUCCESS;
                     }
 
-                    placeItemOnRack(stack, world, pos, be);
+                    placeItemOnRack(stackInHand, world, pos, be);
+
+                    return ItemActionResult.SUCCESS;
                 }
 
-                Optional<RecipeEntry<?>> recipe = getCurrentRecipe(stack, world);
+                Optional<RecipeEntry<?>> recipe = getCurrentRecipe(stackInHand, world);
 
                 if (recipe.isEmpty()) {
                     return ItemActionResult.SUCCESS;
                 }
 
-                placeItemOnRack(stack, world, pos, be);
+                placeItemOnRack(stackInHand, world, pos, be);
+                return ItemActionResult.SUCCESS;
             } else if (!player.isSneaking() && !stackOnRack.isEmpty()) {
                 giveItemToPlayer(player, stackOnRack);
 
