@@ -184,7 +184,6 @@ public class VerticleSlabPlacementPreview {
                 }
                 Vec3d hit = bhr.getPos().subtract(pos.getX(), pos.getY(), pos.getZ());
                 double threshold = 1e-4;
-                double eps = 0.001;
                 java.util.List<double[]> faceBoxes = new java.util.ArrayList<>();
                 final double[] planeCoord = new double[1];
                 switch (face) {
@@ -230,33 +229,37 @@ public class VerticleSlabPlacementPreview {
                 VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
                 for (double[] box : faceBoxes) {
                     double minX = box[0], minY = box[1], minZ = box[2], maxX = box[3], maxY = box[4], maxZ = box[5];
-                    double x0 = minX + pos.getX();
-                    double x1 = maxX + pos.getX();
                     double y0 = minY + pos.getY();
                     double y1 = maxY + pos.getY();
-                    double z0 = minZ + pos.getZ();
-                    double z1 = maxZ + pos.getZ();
-
+                    double eps = 0.001;
                     switch (face) {
                         case NORTH:
                         case SOUTH: {
-                            double z = (face == Direction.NORTH ? z0 - eps : z1 + eps);
+                            double z = (face == Direction.NORTH ? minZ + pos.getZ() - eps : maxZ + pos.getZ() + eps);
                             for (int i = 1; i <= 2; i++) {
                                 double frac = i / 3.0;
-                                double x = x0 + (x1 - x0) * frac;
-                                drawLine(vc, context.matrixStack(), context.camera(), new Vec3d(x, y0, z),
-                                        new Vec3d(x, y1, z));
+                                // Always use full block width for x
+                                double x = frac;
+                                if (x >= minX && x <= maxX) {
+                                    double worldX = x + pos.getX();
+                                    drawLine(vc, context.matrixStack(), context.camera(), new Vec3d(worldX, y0, z),
+                                            new Vec3d(worldX, y1, z));
+                                }
                             }
                             break;
                         }
                         case EAST:
                         case WEST: {
-                            double x = (face == Direction.WEST ? x0 - eps : x1 + eps);
+                            double x = (face == Direction.WEST ? minX + pos.getX() - eps : maxX + pos.getX() + eps);
                             for (int i = 1; i <= 2; i++) {
                                 double frac = i / 3.0;
-                                double z = z0 + (z1 - z0) * frac;
-                                drawLine(vc, context.matrixStack(), context.camera(), new Vec3d(x, y0, z),
-                                        new Vec3d(x, y1, z));
+                                // Always use full block width for z
+                                double z = frac;
+                                if (z >= minZ && z <= maxZ) {
+                                    double worldZ = z + pos.getZ();
+                                    drawLine(vc, context.matrixStack(), context.camera(), new Vec3d(x, y0, worldZ),
+                                            new Vec3d(x, y1, worldZ));
+                                }
                             }
                             break;
                         }
@@ -289,5 +292,4 @@ public class VerticleSlabPlacementPreview {
                 .light(0xF000F0)
                 .normal(0, 1, 0);
     }
-
 }
