@@ -87,10 +87,9 @@ public class VerticleSlabPlacementPreview {
                     state.get(
                             VerticleSlabBlock.TYPE) == VerticalSlabType.HALF;
 
-            // For half vertical slabs, only render on the outside face
             if (isHalfVerticalSlab) {
                 Direction slabFacing = state.get(Properties.HORIZONTAL_FACING);
-                if (face != slabFacing.getOpposite()) {
+                if (face == slabFacing.getOpposite()) {
                     return;
                 }
             }
