@@ -3,7 +3,6 @@ package jackclarke95.homestead.client;
 
 import net.minecraft.client.render.VertexConsumer;
 import jackclarke95.homestead.block.custom.VerticleSlabBlock;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -79,8 +78,36 @@ public class VerticleSlabPlacementPreview {
                 return;
             }
 
-            if (face == Direction.UP || face == Direction.DOWN) {
-                drawCrossOnTopOrBottom(context, client, face, pos, state);
+            // Draw the cross on the actual face being aimed at, using the VoxelShape's face
+            // bounds
+            if ((face == Direction.UP || face == Direction.DOWN) && !(state.getBlock() instanceof VerticleSlabBlock)) {
+                if (face == Direction.UP) {
+                    BlockPos above = pos.up();
+                    if (!client.world.getBlockState(above).isAir()) {
+                        return;
+                    }
+                } else if (face == Direction.DOWN) {
+                    BlockPos below = pos.down();
+                    if (!client.world.getBlockState(below).isAir()) {
+                        return;
+                    }
+                }
+                VoxelShape shape = state.getOutlineShape(client.world, pos, ShapeContext.absent());
+                if (shape.isEmpty()) {
+                    return;
+                }
+                Vec3d min = new Vec3d(shape.getMin(Axis.X), shape.getMin(Axis.Y), shape.getMin(Axis.Z));
+                Vec3d max = new Vec3d(shape.getMax(Axis.X), shape.getMax(Axis.Y), shape.getMax(Axis.Z));
+                double eps = 0.001;
+                double y = (face == Direction.UP ? max.y + eps : min.y - eps);
+                // Corners of the face being aimed at, in world coordinates
+                Vec3d[] corners = new Vec3d[4];
+                corners[0] = new Vec3d(min.x, y, min.z).add(pos.getX(), pos.getY(), pos.getZ());
+                corners[1] = new Vec3d(max.x, y, min.z).add(pos.getX(), pos.getY(), pos.getZ());
+                corners[2] = new Vec3d(max.x, y, max.z).add(pos.getX(), pos.getY(), pos.getZ());
+                corners[3] = new Vec3d(min.x, y, max.z).add(pos.getX(), pos.getY(), pos.getZ());
+                VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
+                drawCross(vc, context.matrixStack(), context.camera(), corners[0], corners[2], corners[1], corners[3]);
             }
 
             boolean facingVerticalSlab = state.getBlock() instanceof VerticleSlabBlock;
@@ -151,35 +178,6 @@ public class VerticleSlabPlacementPreview {
             }
         });
 
-    }
-
-    private static void drawCrossOnTopOrBottom(WorldRenderContext context, MinecraftClient client, Direction face,
-            BlockPos pos,
-            BlockState state) {
-        if (state.getBlock() instanceof VerticleSlabBlock) {
-            return;
-        }
-
-        if (face == Direction.UP) {
-            BlockPos above = pos.up();
-            if (!client.world.getBlockState(above).isAir()) {
-                return;
-            }
-        } else if (face == Direction.DOWN) {
-            BlockPos below = pos.down();
-            if (!client.world.getBlockState(below).isAir()) {
-                return;
-            }
-        }
-        Vec3d blockOrigin = Vec3d.of(pos);
-        double y = face == Direction.UP ? 1.001 : 0.001;
-        Vec3d vecA1 = blockOrigin.add(0, y, 0);
-        Vec3d vecA2 = blockOrigin.add(1, y, 1);
-        Vec3d vecB1 = blockOrigin.add(0, y, 1);
-        Vec3d vecB2 = blockOrigin.add(1, y, 0.);
-        VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
-
-        drawCross(vc, context.matrixStack(), context.camera(), vecA1, vecA2, vecB1, vecB2);
     }
 
     private static void drawLine(VertexConsumer vc, MatrixStack matrices, Camera camera, Vec3d v1, Vec3d v2) {
