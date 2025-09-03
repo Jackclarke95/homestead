@@ -1,6 +1,10 @@
 package jackclarke95.homestead.client;
 
 import net.minecraft.client.render.VertexConsumer;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import jackclarke95.homestead.block.custom.VerticleSlabBlock;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.block.Block;
@@ -73,14 +77,14 @@ public class VerticleSlabPlacementPreview {
             }
 
             boolean isFullVerticalSlab = state.getBlock() instanceof VerticleSlabBlock &&
-                    state.contains(jackclarke95.homestead.block.custom.VerticleSlabBlock.TYPE) &&
+                    state.contains(VerticleSlabBlock.TYPE) &&
                     state.get(
-                            jackclarke95.homestead.block.custom.VerticleSlabBlock.TYPE) == jackclarke95.homestead.util.VerticalSlabType.FULL;
+                            VerticleSlabBlock.TYPE) == jackclarke95.homestead.util.VerticalSlabType.FULL;
 
             boolean isHalfVerticalSlab = state.getBlock() instanceof VerticleSlabBlock &&
-                    state.contains(jackclarke95.homestead.block.custom.VerticleSlabBlock.TYPE) &&
+                    state.contains(VerticleSlabBlock.TYPE) &&
                     state.get(
-                            jackclarke95.homestead.block.custom.VerticleSlabBlock.TYPE) == jackclarke95.homestead.util.VerticalSlabType.HALF;
+                            VerticleSlabBlock.TYPE) == jackclarke95.homestead.util.VerticalSlabType.HALF;
 
             // For half vertical slabs, only render on the outside face
             if (isHalfVerticalSlab) {
@@ -99,7 +103,7 @@ public class VerticleSlabPlacementPreview {
                 }
                 Vec3d hit = bhr.getPos().subtract(pos.getX(), pos.getY(), pos.getZ());
                 double threshold = 1e-4;
-                java.util.List<double[]> faceBoxes = new java.util.ArrayList<>();
+                List<double[]> faceBoxes = new ArrayList<>();
                 final double[] planeCoord = new double[1];
                 switch (face) {
                     case NORTH:
@@ -239,7 +243,7 @@ public class VerticleSlabPlacementPreview {
                 }
                 Vec3d hit = bhr.getPos().subtract(pos.getX(), pos.getY(), pos.getZ());
                 double threshold = 1e-4;
-                java.util.List<double[]> faceBoxes = new java.util.ArrayList<>();
+                List<double[]> faceBoxes = new ArrayList<>();
                 final double[] planeCoord = new double[1];
                 switch (face) {
                     case NORTH:
