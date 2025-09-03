@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.state.property.Properties;
 import jackclarke95.homestead.block.entity.ImplementedInventory;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.recipe.CuringRecipe;
@@ -29,6 +30,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class CuringVatBlockEntity extends BlockEntity
@@ -37,10 +39,10 @@ public class CuringVatBlockEntity extends BlockEntity
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
 
     public static final int INPUT_INGREDIENT_SLOT = 0;
-    public static final int INPUT_CATALYST_SLOT = 1;
+    public static final int INPUT_CATALYST_SLOT = 4;
     public static final int OUTPUT_PENDING_SLOT = 2;
     public static final int INPUT_CONTAINER_SLOT = 3;
-    public static final int OUTPUT_ACTUAL_SLOT = 4;
+    public static final int OUTPUT_ACTUAL_SLOT = 1;
 
     private PropertyDelegate propertyDelegate;
     private int progress = 0;
@@ -277,5 +279,46 @@ public class CuringVatBlockEntity extends BlockEntity
     @Override
     public NbtCompound toInitialChunkDataNbt(WrapperLookup registryLookup) {
         return createNbt(registryLookup);
+    }
+
+    @Override
+    public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
+        switch (slot) {
+            case INPUT_INGREDIENT_SLOT: {
+                return side == Direction.UP;
+            }
+            case INPUT_CONTAINER_SLOT: {
+                Direction facing = getCachedState().get(Properties.HORIZONTAL_FACING);
+
+                if (facing == Direction.NORTH || facing == Direction.SOUTH) {
+                    return side == Direction.EAST || side == Direction.WEST;
+                } else {
+                    return side == Direction.NORTH || side == Direction.SOUTH;
+                }
+            }
+            case INPUT_CATALYST_SLOT: {
+                Direction facing = getCachedState().get(Properties.HORIZONTAL_FACING);
+
+                return side == facing;
+            }
+            case OUTPUT_ACTUAL_SLOT:
+            case OUTPUT_PENDING_SLOT:
+            default: {
+                return false;
+            }
+        }
+    }
+
+    @Override
+    public boolean canExtract(int slot, ItemStack stack, Direction side) {
+        System.out.println("Verifying extract from slot " + slot + " from side " + side);
+
+        switch (slot) {
+            case OUTPUT_ACTUAL_SLOT:
+            case INPUT_CATALYST_SLOT:
+                return true;
+            default:
+                return false;
+        }
     }
 }

@@ -1,6 +1,8 @@
 package jackclarke95.homestead.block.custom;
 
 import com.mojang.serialization.MapCodec;
+
+import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.CuringVatBlockEntity;
 import net.minecraft.block.*;
@@ -123,5 +125,40 @@ public class CuringVatBlock extends BlockWithEntity {
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(FACING);
+    }
+
+    @Override
+    protected boolean hasComparatorOutput(BlockState state) {
+        return true;
+    }
+
+    @Override
+    protected int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        BlockEntity be = world.getBlockEntity(pos);
+
+        if (be instanceof CuringVatBlockEntity vat) {
+            ItemStack stack = vat.getStack(CuringVatBlockEntity.OUTPUT_ACTUAL_SLOT);
+
+            if (stack.isEmpty()) {
+                return 0;
+
+            }
+
+            int propotionFull = 0;
+            if (!stack.isEmpty()) {
+                int count = stack.getCount();
+                int max = stack.getMaxCount();
+                if (count > 0) {
+                    propotionFull = 1 + Math.round(14.0f * (count - 1) / (max - 1));
+                }
+            }
+
+            Homestead.LOGGER.info("Curing Vat at stack count: {}, max count: {}, comparator output: {}",
+                    stack.getCount(), stack.getMaxCount(), propotionFull);
+
+            return propotionFull;
+        }
+        return 0;
+
     }
 }
