@@ -1,4 +1,3 @@
-// VerticleSlabPlacementPreview.java
 package jackclarke95.homestead.client;
 
 import net.minecraft.client.render.VertexConsumer;
@@ -191,92 +190,61 @@ public class VerticleSlabPlacementPreview {
                     return;
                 }
                 Vec3d hit = bhr.getPos().subtract(pos.getX(), pos.getY(), pos.getZ());
-                final double[] best = new double[6];
-                final boolean[] found = new boolean[1];
-                final double threshold = 1e-4;
+                double threshold = 1e-4;
+                double eps = 0.001;
+                java.util.List<double[]> faceBoxes = new java.util.ArrayList<>();
+                final double[] planeCoord = new double[1];
+                switch (face) {
+                    case NORTH:
+                        planeCoord[0] = Math.round(hit.z * 16.0) / 16.0;
+                        break;
+                    case SOUTH:
+                        planeCoord[0] = Math.round(hit.z * 16.0) / 16.0;
+                        break;
+                    case WEST:
+                        planeCoord[0] = Math.round(hit.x * 16.0) / 16.0;
+                        break;
+                    case EAST:
+                        planeCoord[0] = Math.round(hit.x * 16.0) / 16.0;
+                        break;
+                    default:
+                        break;
+                }
                 shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
                     switch (face) {
                         case NORTH:
-                            if (hit.x >= minX - threshold && hit.x <= maxX + threshold &&
-                                    hit.y >= minY - threshold && hit.y <= maxY + threshold &&
-                                    Math.abs(hit.z - minZ) < 0.2) {
-                                best[0] = minX;
-                                best[1] = maxY;
-                                best[2] = minZ;
-                                best[3] = maxX;
-                                best[4] = minY;
-                                best[5] = maxZ;
-                                found[0] = true;
-                            }
+                            if (Math.abs(minZ - planeCoord[0]) < threshold)
+                                faceBoxes.add(new double[] { minX, minY, minZ, maxX, maxY, maxZ });
                             break;
                         case SOUTH:
-                            if (hit.x >= minX - threshold && hit.x <= maxX + threshold &&
-                                    hit.y >= minY - threshold && hit.y <= maxY + threshold &&
-                                    Math.abs(hit.z - maxZ) < 0.2) {
-                                best[0] = minX;
-                                best[1] = maxY;
-                                best[2] = minZ;
-                                best[3] = maxX;
-                                best[4] = minY;
-                                best[5] = maxZ;
-                                found[0] = true;
-                            }
+                            if (Math.abs(maxZ - planeCoord[0]) < threshold)
+                                faceBoxes.add(new double[] { minX, minY, minZ, maxX, maxY, maxZ });
                             break;
                         case WEST:
-                            if (hit.z >= minZ - threshold && hit.z <= maxZ + threshold &&
-                                    hit.y >= minY - threshold && hit.y <= maxY + threshold &&
-                                    Math.abs(hit.x - minX) < 0.2) {
-                                best[0] = minX;
-                                best[1] = maxY;
-                                best[2] = minZ;
-                                best[3] = maxX;
-                                best[4] = minY;
-                                best[5] = maxZ;
-                                found[0] = true;
-                            }
+                            if (Math.abs(minX - planeCoord[0]) < threshold)
+                                faceBoxes.add(new double[] { minX, minY, minZ, maxX, maxY, maxZ });
                             break;
                         case EAST:
-                            if (hit.z >= minZ - threshold && hit.z <= maxZ + threshold &&
-                                    hit.y >= minY - threshold && hit.y <= maxY + threshold &&
-                                    Math.abs(hit.x - maxX) < 0.2) {
-                                best[0] = minX;
-                                best[1] = maxY;
-                                best[2] = minZ;
-                                best[3] = maxX;
-                                best[4] = minY;
-                                best[5] = maxZ;
-                                found[0] = true;
-                            }
+                            if (Math.abs(maxX - planeCoord[0]) < threshold)
+                                faceBoxes.add(new double[] { minX, minY, minZ, maxX, maxY, maxZ });
                             break;
                         default:
                             break;
                     }
                 });
-                if (!found[0])
+                if (faceBoxes.isEmpty())
                     return;
-                double eps = 0.001;
-                // For vertical thirds, we need the face's bounds
-                double x0 = best[0] + pos.getX();
-                double x1 = best[3] + pos.getX();
-                double y0 = best[4] + pos.getY();
-                double y1 = best[1] + pos.getY();
-                double z0, z1;
-                if (face == Direction.NORTH) {
-                    z0 = z1 = best[2] + pos.getZ() - eps;
-                } else if (face == Direction.SOUTH) {
-                    z0 = z1 = best[5] + pos.getZ() + eps;
-                } else if (face == Direction.WEST) {
-                    z0 = best[2] + pos.getZ();
-                    z1 = best[5] + pos.getZ();
-                } else if (face == Direction.EAST) {
-                    z0 = best[2] + pos.getZ();
-                    z1 = best[5] + pos.getZ();
-                } else {
-                    z0 = best[2] + pos.getZ();
-                    z1 = best[5] + pos.getZ();
-                }
                 VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
-                drawVerticalThirds(vc, context.matrixStack(), context.camera(), face, x0, x1, y0, y1, z0, z1, eps);
+                for (double[] box : faceBoxes) {
+                    double minX = box[0], minY = box[1], minZ = box[2], maxX = box[3], maxY = box[4], maxZ = box[5];
+                    double x0 = minX + pos.getX();
+                    double x1 = maxX + pos.getX();
+                    double y0 = minY + pos.getY();
+                    double y1 = maxY + pos.getY();
+                    double z0 = minZ + pos.getZ();
+                    double z1 = maxZ + pos.getZ();
+                    drawVerticalThirds(vc, context.matrixStack(), context.camera(), face, x0, x1, y0, y1, z0, z1, eps);
+                }
                 return;
             }
         });
