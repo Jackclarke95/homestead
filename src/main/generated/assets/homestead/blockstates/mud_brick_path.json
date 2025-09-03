@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/mud_brick_path"
+    }
+  }
+}

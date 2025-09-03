@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/cobbled_deepslate_path"
+    }
+  }
+}

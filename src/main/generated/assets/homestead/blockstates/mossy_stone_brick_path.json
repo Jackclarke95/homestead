@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/mossy_stone_brick_path"
+    }
+  }
+}

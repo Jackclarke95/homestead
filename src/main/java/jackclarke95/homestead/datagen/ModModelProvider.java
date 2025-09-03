@@ -107,6 +107,86 @@ public class ModModelProvider extends FabricModelProvider {
                                 Blocks.CRIMSON_PLANKS, Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.WARPED_PLANK_PATH,
                                 Blocks.WARPED_PLANKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.MOSSY_COBBLESTONE_PATH,
+                                Blocks.MOSSY_COBBLESTONE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.STONE_BRICK_PATH,
+                                Blocks.STONE_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.MOSSY_STONE_BRICK_PATH,
+                                Blocks.MOSSY_STONE_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.SMOOTH_STONE_PATH,
+                                Blocks.SMOOTH_STONE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.CHISELED_STONE_BRICK_PATH,
+                                Blocks.CHISELED_STONE_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.DEEPSLATE_PATH,
+                                Blocks.DEEPSLATE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.COBBLED_DEEPSLATE_PATH,
+                                Blocks.COBBLED_DEEPSLATE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.DEEPSLATE_BRICK_PATH,
+                                Blocks.DEEPSLATE_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.DEEPSLATE_TILE_PATH,
+                                Blocks.DEEPSLATE_TILES, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.POLISHED_DEEPSLATE_PATH,
+                                Blocks.POLISHED_DEEPSLATE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.POLISHED_TUFF_PATH,
+                                Blocks.POLISHED_TUFF, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.TUFF_BRICK_PATH,
+                                Blocks.TUFF_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.BRICKS_PATH, Blocks.BRICKS,
+                                Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.PACKED_MUD_PATH,
+                                Blocks.PACKED_MUD, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.MUD_BRICK_PATH,
+                                Blocks.MUD_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.SMOOTH_SANDSTONE_PATH,
+                                Blocks.SMOOTH_SANDSTONE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.SMOOTH_RED_SANDSTONE_PATH,
+                                Blocks.SMOOTH_RED_SANDSTONE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.PRISMARINE_PATH,
+                                Blocks.PRISMARINE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.PRISMARINE_BRICK_PATH,
+                                Blocks.PRISMARINE_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.DARK_PRISMARINE_PATH,
+                                Blocks.DARK_PRISMARINE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.NETHERRACK_PATH,
+                                Blocks.NETHERRACK, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.NETHER_BRICK_PATH,
+                                Blocks.NETHER_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.CHISELED_NETHER_BRICK_PATH,
+                                Blocks.CHISELED_NETHER_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.RED_NETHER_BRICK_PATH,
+                                Blocks.RED_NETHER_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.SMOOTH_BASALT_PATH,
+                                Blocks.SMOOTH_BASALT, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.BLACKSTONE_PATH,
+                                Blocks.BLACKSTONE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.GILDED_BLACKSTONE_PATH,
+                                Blocks.GILDED_BLACKSTONE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output,
+                                ModBlocks.CHISELED_POLISHED_BLACKSTONE_PATH, Blocks.CHISELED_POLISHED_BLACKSTONE,
+                                Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.POLISHED_BLACKSTONE_PATH,
+                                Blocks.POLISHED_BLACKSTONE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.POLISHED_BLACKSTONE_BRICK_PATH,
+                                Blocks.POLISHED_BLACKSTONE_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.END_STONE_PATH,
+                                Blocks.END_STONE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.END_STONE_BRICK_PATH,
+                                Blocks.END_STONE_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.PURPUR_BLOCK_PATH,
+                                Blocks.PURPUR_BLOCK, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.PURPUR_PILLAR_PATH,
+                                Blocks.PURPUR_PILLAR, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.QUARTZ_BLOCK_PATH,
+                                Blocks.QUARTZ_BLOCK, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.CHISELED_QUARTZ_BLOCK_PATH,
+                                Blocks.CHISELED_QUARTZ_BLOCK, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.QUARTZ_BRICK_PATH,
+                                Blocks.QUARTZ_BRICKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.SMOOTH_QUARTZ_BLOCK_PATH,
+                                Blocks.SMOOTH_QUARTZ, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.COARSE_DIRT_PATH,
+                                Blocks.COARSE_DIRT, Homestead.MOD_ID);
+
         }
 
         /**

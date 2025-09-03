@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/smooth_stone_path"
+    }
+  }
+}

@@ -52,7 +52,49 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.CHERRY_PLANK_PATH);
                 addDrop(ModBlocks.BAMBOO_PLANK_PATH);
                 addDrop(ModBlocks.CRIMSON_PLANK_PATH);
+
                 addDrop(ModBlocks.WARPED_PLANK_PATH);
+
+                // --- Added path blocks ---
+                addDrop(ModBlocks.MOSSY_COBBLESTONE_PATH);
+                addDrop(ModBlocks.STONE_BRICK_PATH);
+                addDrop(ModBlocks.MOSSY_STONE_BRICK_PATH);
+                addDrop(ModBlocks.SMOOTH_STONE_PATH);
+                addDrop(ModBlocks.CHISELED_STONE_BRICK_PATH);
+                addDrop(ModBlocks.DEEPSLATE_PATH);
+                addDrop(ModBlocks.COBBLED_DEEPSLATE_PATH);
+                addDrop(ModBlocks.DEEPSLATE_BRICK_PATH);
+                addDrop(ModBlocks.DEEPSLATE_TILE_PATH);
+                addDrop(ModBlocks.POLISHED_DEEPSLATE_PATH);
+                addDrop(ModBlocks.POLISHED_TUFF_PATH);
+                addDrop(ModBlocks.TUFF_BRICK_PATH);
+                addDrop(ModBlocks.BRICKS_PATH);
+                addDrop(ModBlocks.PACKED_MUD_PATH);
+                addDrop(ModBlocks.MUD_BRICK_PATH);
+                addDrop(ModBlocks.SMOOTH_SANDSTONE_PATH);
+                addDrop(ModBlocks.SMOOTH_RED_SANDSTONE_PATH);
+                addDrop(ModBlocks.PRISMARINE_PATH);
+                addDrop(ModBlocks.PRISMARINE_BRICK_PATH);
+                addDrop(ModBlocks.DARK_PRISMARINE_PATH);
+                addDrop(ModBlocks.NETHERRACK_PATH);
+                addDrop(ModBlocks.NETHER_BRICK_PATH);
+                addDrop(ModBlocks.CHISELED_NETHER_BRICK_PATH);
+                addDrop(ModBlocks.RED_NETHER_BRICK_PATH);
+                addDrop(ModBlocks.SMOOTH_BASALT_PATH);
+                addDrop(ModBlocks.BLACKSTONE_PATH);
+                addDrop(ModBlocks.GILDED_BLACKSTONE_PATH);
+                addDrop(ModBlocks.CHISELED_POLISHED_BLACKSTONE_PATH);
+                addDrop(ModBlocks.POLISHED_BLACKSTONE_PATH);
+                addDrop(ModBlocks.POLISHED_BLACKSTONE_BRICK_PATH);
+                addDrop(ModBlocks.END_STONE_PATH);
+                addDrop(ModBlocks.END_STONE_BRICK_PATH);
+                addDrop(ModBlocks.PURPUR_BLOCK_PATH);
+                addDrop(ModBlocks.PURPUR_PILLAR_PATH);
+                addDrop(ModBlocks.QUARTZ_BLOCK_PATH);
+                addDrop(ModBlocks.CHISELED_QUARTZ_BLOCK_PATH);
+                addDrop(ModBlocks.QUARTZ_BRICK_PATH);
+                addDrop(ModBlocks.SMOOTH_QUARTZ_BLOCK_PATH);
+                addDrop(ModBlocks.COARSE_DIRT_PATH);
 
                 addDrop(ModBlocks.HEATED_RACK, block -> LootTable.builder()
                                 .pool(LootPool.builder()

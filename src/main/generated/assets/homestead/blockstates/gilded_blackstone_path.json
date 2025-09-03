@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/gilded_blackstone_path"
+    }
+  }
+}

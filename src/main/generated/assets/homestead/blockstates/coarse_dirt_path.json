@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/coarse_dirt_path"
+    }
+  }
+}

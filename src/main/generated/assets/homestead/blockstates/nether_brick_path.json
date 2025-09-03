@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/nether_brick_path"
+    }
+  }
+}

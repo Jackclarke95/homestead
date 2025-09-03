@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/purpur_block_path"
+    }
+  }
+}

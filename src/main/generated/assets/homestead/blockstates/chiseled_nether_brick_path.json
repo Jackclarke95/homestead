@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/chiseled_nether_brick_path"
+    }
+  }
+}
