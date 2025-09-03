@@ -59,6 +59,12 @@ public class ModBlocks {
         public static final Block STONE_PATH = registerBlock("stone_path",
                         new PathBlock(AbstractBlock.Settings.copy(Blocks.STONE).nonOpaque()));
 
+        public static final Block COBBLESTONE_PATH = registerBlock("cobblestone_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.STONE).nonOpaque()));
+
+        public static final Block COBBLESTONE_BRICK_PATH = registerBlock("cobblestone_brick_path",
+                        new PathBlock(AbstractBlock.Settings.copy(ModBlocks.COBBLESTONE_BRICKS).nonOpaque()));
+
         public static void registerModBlocks() {
                 Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);
 
@@ -70,6 +76,7 @@ public class ModBlocks {
                         entries.add(ModBlocks.HAY_STAIRS);
                         entries.add(ModBlocks.WATTLE_AND_DAUB);
                         entries.add(ModBlocks.STONE_PATH);
+                        entries.add(ModBlocks.COBBLESTONE_BRICK_PATH);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {

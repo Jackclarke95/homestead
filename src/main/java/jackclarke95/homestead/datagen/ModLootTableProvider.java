@@ -30,6 +30,9 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.COBBLESTONE_BRICK_SLAB);
                 addDrop(ModBlocks.COBBLESTONE_BRICK_WALL);
                 addDrop(ModBlocks.COBBLESTONE_BRICK_STAIRS);
+                addDrop(ModBlocks.COBBLESTONE_BRICK_PATH);
+                addDrop(ModBlocks.STONE_PATH);
+                addDrop(ModBlocks.COBBLESTONE_PATH);
                 addDrop(ModBlocks.HAY_STAIRS);
 
                 addDrop(ModBlocks.HEATED_RACK, block -> LootTable.builder()

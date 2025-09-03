@@ -65,6 +65,9 @@ jar {
 	}
 }
 
+// Import the moveGeneratedModels task
+apply from: "moveGeneratedModels.gradle"
+
 // configure the maven publication
 publishing {
 	publications {

@@ -1,0 +1,16 @@
+// Moves generated model files from src/generated to src/main/generated after datagen runs
+// Place this in your build.gradle (replaces previous copy task)
+
+tasks.register('moveGeneratedModels') {
+    doLast {
+        def srcDir = file('src/generated')
+        def destDir = file('src/main/generated')
+        if (srcDir.exists()) {
+            ant.move(file: srcDir, tofile: destDir, overwrite: true)
+        }
+    }
+}
+
+tasks.named('runDatagen') {
+    finalizedBy 'moveGeneratedModels'
+}
