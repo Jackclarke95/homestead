@@ -17,7 +17,6 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.math.BlockPos;
@@ -80,7 +79,7 @@ public class VerticleSlabPlacementPreview {
 
             // Draw the cross on the actual face being aimed at, using the correct sub-box
             // in the VoxelShape based on hit position
-            if ((face == Direction.UP || face == Direction.DOWN) && !(state.getBlock() instanceof VerticleSlabBlock)) {
+            if (face.getAxis().isVertical() && !(state.getBlock() instanceof VerticleSlabBlock)) {
                 if (face == Direction.UP) {
                     BlockPos above = pos.up();
                     if (!client.world.getBlockState(above).isAir()) {
@@ -131,17 +130,54 @@ public class VerticleSlabPlacementPreview {
                     return;
                 double eps = 0.001;
                 double y = (face == Direction.UP ? best[1] + eps : best[4] - eps);
-                Vec3d[] corners = new Vec3d[4];
-                corners[0] = new Vec3d(best[0], y, best[2]).add(pos.getX(), pos.getY(), pos.getZ());
-                corners[1] = new Vec3d(best[3], y, best[2]).add(pos.getX(), pos.getY(), pos.getZ());
-                corners[2] = new Vec3d(best[3], y, best[5]).add(pos.getX(), pos.getY(), pos.getZ());
-                corners[3] = new Vec3d(best[0], y, best[5]).add(pos.getX(), pos.getY(), pos.getZ());
                 VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
-                drawCross(vc, context.matrixStack(), context.camera(), corners[0], corners[2], corners[1], corners[3]);
+                // Draw a 16x16 cross, masked by the VoxelShape face
+                // We'll sample at 1/16th intervals along the two diagonals
+                int steps = 16;
+                // Helper to check if a point is inside any box of the VoxelShape
+                java.util.function.BiFunction<Double, Double, Boolean> isInside = (x, z) -> {
+                    final boolean[] inside = { false };
+                    double yCheck = (face == Direction.UP ? best[1] - 1e-6 : best[4] + 1e-6);
+                    shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+                        if (x >= minX - 1e-7 && x <= maxX + 1e-7 &&
+                                z >= minZ - 1e-7 && z <= maxZ + 1e-7 &&
+                                yCheck >= minY - 1e-7 && yCheck <= maxY + 1e-7) {
+                            inside[0] = true;
+                        }
+                    });
+                    return inside[0];
+                };
+                // Diagonal 1: (0, y, 0) to (1, y, 1)
+                for (int i = 0; i < steps; i++) {
+                    double t0 = i / 16.0;
+                    double t1 = (i + 1) / 16.0;
+                    double x0 = t0, z0 = t0;
+                    double x1 = t1, z1 = t1;
+                    boolean inside0 = isInside.apply(x0, z0);
+                    boolean inside1 = isInside.apply(x1, z1);
+                    if (inside0 && inside1) {
+                        Vec3d p0 = new Vec3d(x0, y, z0).add(pos.getX(), pos.getY(), pos.getZ());
+                        Vec3d p1 = new Vec3d(x1, y, z1).add(pos.getX(), pos.getY(), pos.getZ());
+                        drawLine(vc, context.matrixStack(), context.camera(), p0, p1);
+                    }
+                }
+                // Diagonal 2: (0, y, 1) to (1, y, 0)
+                for (int i = 0; i < steps; i++) {
+                    double t0 = i / 16.0;
+                    double t1 = (i + 1) / 16.0;
+                    double x0 = t0, z0 = 1 - t0;
+                    double x1 = t1, z1 = 1 - t1;
+                    boolean inside0 = isInside.apply(x0, z0);
+                    boolean inside1 = isInside.apply(x1, z1);
+                    if (inside0 && inside1) {
+                        Vec3d p0 = new Vec3d(x0, y, z0).add(pos.getX(), pos.getY(), pos.getZ());
+                        Vec3d p1 = new Vec3d(x1, y, z1).add(pos.getX(), pos.getY(), pos.getZ());
+                        drawLine(vc, context.matrixStack(), context.camera(), p0, p1);
+                    }
+                }
             }
 
             boolean facingVerticalSlab = state.getBlock() instanceof VerticleSlabBlock;
-            // ...existing code...
 
             if (face.getAxis().isHorizontal()) {
                 if (facingVerticalSlab) {
@@ -240,12 +276,6 @@ public class VerticleSlabPlacementPreview {
                     z0 = best[2] + pos.getZ();
                     z1 = best[5] + pos.getZ();
                 }
-                double x, z;
-                if (face == Direction.WEST) {
-                    x = x0 = x1 = best[0] + pos.getX() - eps;
-                } else if (face == Direction.EAST) {
-                    x = x0 = x1 = best[3] + pos.getX() + eps;
-                }
                 VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
                 drawVerticalThirds(vc, context.matrixStack(), context.camera(), face, x0, x1, y0, y1, z0, z1, eps);
                 return;
@@ -272,13 +302,6 @@ public class VerticleSlabPlacementPreview {
                 .color(0, 0, 0, 255)
                 .light(0xF000F0)
                 .normal(0, 1, 0);
-    }
-
-    // Draws two diagonal lines (cross) between the given pairs
-    private static void drawCross(VertexConsumer vc, MatrixStack matrices, Camera camera, Vec3d a1, Vec3d a2, Vec3d b1,
-            Vec3d b2) {
-        drawLine(vc, matrices, camera, a1, a2);
-        drawLine(vc, matrices, camera, b1, b2);
     }
 
     // Draws two vertical lines dividing the face into thirds
