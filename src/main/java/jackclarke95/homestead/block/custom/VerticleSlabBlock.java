@@ -44,97 +44,84 @@ public class VerticleSlabBlock extends HorizontalFacingBlock {
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockPos pos = ctx.getBlockPos();
+        Direction face = ctx.getSide();
         BlockState state = ctx.getWorld().getBlockState(pos);
 
-        // Try to merge if possible
-        if (state.getBlock() == this && state.get(TYPE) == VerticalSlabType.HALF) {
-            return state.with(TYPE, VerticalSlabType.FULL);
+        // If placing against the inside face of a half vertical slab at pos, merge to
+        // FULL and preserve facing
+        if (state.getBlock() == this && state.get(TYPE) == VerticalSlabType.HALF
+                && face == state.get(FACING).getOpposite()) {
+            return state.with(TYPE, VerticalSlabType.FULL).with(FACING, state.get(FACING));
         }
 
-        Direction face = ctx.getSide();
         Direction facing;
-
-        if (face.getAxis().isVertical()) {
-            // If placing on top or bottom, match orientation of slab below/above if present
-            BlockPos neighborPos = face == Direction.UP ? pos.down() : pos.up();
-            BlockState neighborState = ctx.getWorld().getBlockState(neighborPos);
-            if (neighborState.getBlock() == this) {
-                facing = neighborState.get(FACING);
-            } else {
-                // Otherwise, determine closest horizontal edge
-                double hitX = ctx.getHitPos().x - pos.getX();
-                double hitZ = ctx.getHitPos().z - pos.getZ();
-                // Centered at 0.5,0.5
-                double dx = hitX - 0.5;
-                double dz = hitZ - 0.5;
-                if (Math.abs(dx) > Math.abs(dz)) {
-                    // Closer to east or west
-                    facing = dx > 0 ? Direction.EAST : Direction.WEST;
-                } else {
-                    // Closer to north or south
-                    facing = dz > 0 ? Direction.SOUTH : Direction.NORTH;
-                }
-            }
+        if (face == Direction.UP || face == Direction.DOWN) {
+            facing = getClosestHorizontalEdge(ctx, pos);
         } else {
-            // If placing on the side of a vertical slab, match its orientation
-            BlockPos neighborPos = pos.offset(face);
-            BlockState neighborState = ctx.getWorld().getBlockState(neighborPos);
-            if (neighborState.getBlock() == this) {
-                facing = neighborState.get(FACING);
-            } else {
-                double hitX = ctx.getHitPos().x - pos.getX();
-                double hitZ = ctx.getHitPos().z - pos.getZ();
-                if (face == Direction.NORTH || face == Direction.SOUTH) {
-                    double x = hitX;
-                    if (face == Direction.NORTH)
-                        x = 1.0 - x;
-                    if (face == Direction.SOUTH) {
-                        if (x < 1.0 / 3.0) {
-                            facing = Direction.WEST;
-                        } else if (x > 2.0 / 3.0) {
-                            facing = Direction.EAST;
-                        } else {
-                            facing = face.getOpposite();
-                        }
-                    } else { // NORTH
-                        if (x < 1.0 / 3.0) {
-                            facing = Direction.EAST;
-                        } else if (x > 2.0 / 3.0) {
-                            facing = Direction.WEST;
-                        } else {
-                            facing = face.getOpposite();
-                        }
-                    }
-                } else if (face == Direction.EAST || face == Direction.WEST) {
-                    double z = hitZ;
-                    if (face == Direction.WEST)
-                        z = 1.0 - z;
-                    if (face == Direction.EAST) {
-                        if (z < 1.0 / 3.0) {
-                            facing = Direction.NORTH;
-                        } else if (z > 2.0 / 3.0) {
-                            facing = Direction.SOUTH;
-                        } else {
-                            facing = face.getOpposite();
-                        }
-                    } else { // WEST
-                        if (z < 1.0 / 3.0) {
-                            facing = Direction.SOUTH;
-                        } else if (z > 2.0 / 3.0) {
-                            facing = Direction.NORTH;
-                        } else {
-                            facing = face.getOpposite();
-                        }
-                    }
-                } else {
-                    facing = face.getOpposite();
-                }
-            }
+            facing = getEdgeFacing(ctx, pos);
         }
-
         return this.getDefaultState()
                 .with(FACING, facing)
                 .with(TYPE, VerticalSlabType.HALF);
+    }
+
+    // Returns the closest horizontal edge (north, south, east, west) to the cursor
+    // when clicking top/bottom
+    private Direction getClosestHorizontalEdge(ItemPlacementContext ctx, BlockPos pos) {
+        double hitX = ctx.getHitPos().x - pos.getX();
+        double hitZ = ctx.getHitPos().z - pos.getZ();
+        double dx = hitX - 0.5;
+        double dz = hitZ - 0.5;
+        if (Math.abs(dx) > Math.abs(dz)) {
+            return dx > 0 ? Direction.EAST : Direction.WEST;
+        } else {
+            return dz > 0 ? Direction.SOUTH : Direction.NORTH;
+        }
+    }
+
+    // Returns the facing based on click position (thirds logic)
+    private Direction getEdgeFacing(ItemPlacementContext ctx, BlockPos pos) {
+        Direction face = ctx.getSide();
+        double hitX = ctx.getHitPos().x - pos.getX();
+        double hitZ = ctx.getHitPos().z - pos.getZ();
+        if (face == Direction.NORTH || face == Direction.SOUTH) {
+            double x = hitX;
+            if (face == Direction.NORTH)
+                x = 1.0 - x;
+            if (face == Direction.SOUTH) {
+                if (x < 1.0 / 3.0)
+                    return Direction.WEST;
+                if (x > 2.0 / 3.0)
+                    return Direction.EAST;
+                return Direction.NORTH;
+            } else { // NORTH
+                if (x < 1.0 / 3.0)
+                    return Direction.EAST;
+                if (x > 2.0 / 3.0)
+                    return Direction.WEST;
+                return Direction.SOUTH;
+            }
+        } else if (face == Direction.EAST || face == Direction.WEST) {
+            double z = hitZ;
+            if (face == Direction.WEST)
+                z = 1.0 - z;
+            if (face == Direction.EAST) {
+                if (z < 1.0 / 3.0)
+                    return Direction.NORTH;
+                if (z > 2.0 / 3.0)
+                    return Direction.SOUTH;
+                return Direction.WEST;
+            } else { // WEST
+                if (z < 1.0 / 3.0)
+                    return Direction.SOUTH;
+                if (z > 2.0 / 3.0)
+                    return Direction.NORTH;
+                return Direction.EAST;
+            }
+        } else {
+            // Should never be called for top/bottom faces
+            return Direction.NORTH;
+        }
     }
 
     @Override
