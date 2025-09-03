@@ -231,11 +231,10 @@ public class VerticleSlabPlacementPreview {
                     double minX = box[0], minY = box[1], minZ = box[2], maxX = box[3], maxY = box[4], maxZ = box[5];
                     double y0 = minY + pos.getY();
                     double y1 = maxY + pos.getY();
-                    double eps = 0.001;
                     switch (face) {
                         case NORTH:
                         case SOUTH: {
-                            double z = (face == Direction.NORTH ? minZ + pos.getZ() - eps : maxZ + pos.getZ() + eps);
+                            double z = (face == Direction.NORTH ? minZ + pos.getZ() : maxZ + pos.getZ());
                             for (int i = 1; i <= 2; i++) {
                                 double frac = i / 3.0;
                                 // Always use full block width for x
@@ -250,7 +249,7 @@ public class VerticleSlabPlacementPreview {
                         }
                         case EAST:
                         case WEST: {
-                            double x = (face == Direction.WEST ? minX + pos.getX() - eps : maxX + pos.getX() + eps);
+                            double x = (face == Direction.WEST ? minX + pos.getX() : maxX + pos.getX());
                             for (int i = 1; i <= 2; i++) {
                                 double frac = i / 3.0;
                                 // Always use full block width for z
