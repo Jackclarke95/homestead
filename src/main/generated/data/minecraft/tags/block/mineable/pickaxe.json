@@ -4,6 +4,7 @@
     "homestead:cobblestone_bricks",
     "homestead:cobblestone_brick_slab",
     "homestead:cobblestone_brick_stairs",
-    "homestead:cobblestone_brick_wall"
+    "homestead:cobblestone_brick_wall",
+    "homestead:stone_path"
   ]
 }

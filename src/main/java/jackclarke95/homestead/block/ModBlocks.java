@@ -7,6 +7,7 @@ import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.custom.TroughBlock;
 import jackclarke95.homestead.block.custom.VerticleSlabBlock;
 import jackclarke95.homestead.block.custom.MillBlock;
+import jackclarke95.homestead.block.custom.PathBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -55,6 +56,9 @@ public class ModBlocks {
         public static final Block WATTLE_AND_DAUB = registerBlock("wattle_and_daub",
                         new VerticleSlabBlock(AbstractBlock.Settings.copy(Blocks.BRICKS).nonOpaque()));
 
+        public static final Block STONE_PATH = registerBlock("stone_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.STONE).nonOpaque()));
+
         public static void registerModBlocks() {
                 Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);
 
@@ -65,6 +69,7 @@ public class ModBlocks {
                         entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
                         entries.add(ModBlocks.HAY_STAIRS);
                         entries.add(ModBlocks.WATTLE_AND_DAUB);
+                        entries.add(ModBlocks.STONE_PATH);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {

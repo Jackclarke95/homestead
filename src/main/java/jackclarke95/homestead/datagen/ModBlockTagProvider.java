@@ -21,9 +21,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 ModBlocks.COBBLESTONE_BRICKS,
                 ModBlocks.COBBLESTONE_BRICK_SLAB,
                 ModBlocks.COBBLESTONE_BRICK_STAIRS,
-                ModBlocks.COBBLESTONE_BRICK_WALL
-
-        );
+                ModBlocks.COBBLESTONE_BRICK_WALL,
+                ModBlocks.STONE_PATH);
 
         getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
                 ModBlocks.RACK,
