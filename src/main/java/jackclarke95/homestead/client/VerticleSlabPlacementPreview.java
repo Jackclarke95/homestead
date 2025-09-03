@@ -128,8 +128,7 @@ public class VerticleSlabPlacementPreview {
                 });
                 if (!found[0])
                     return;
-                double eps = 0.001;
-                double y = (face == Direction.UP ? best[1] + eps : best[4] - eps);
+                double y = (face == Direction.UP ? best[1] : best[4]);
                 VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
                 // Draw a 16x16 cross, masked by the VoxelShape face
                 // We'll sample at 1/16th intervals along the two diagonals
