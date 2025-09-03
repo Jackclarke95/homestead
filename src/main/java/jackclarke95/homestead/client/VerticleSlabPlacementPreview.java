@@ -57,8 +57,6 @@ public class VerticleSlabPlacementPreview {
                 return;
             }
 
-            // Do not render preview if aiming at the open face of a half vertical slab that
-            // would merge
             if (state.getBlock() instanceof VerticleSlabBlock &&
                     state.get(VerticleSlabBlock.TYPE) == jackclarke95.homestead.util.VerticalSlabType.HALF &&
                     block instanceof VerticleSlabBlock &&
@@ -66,8 +64,6 @@ public class VerticleSlabPlacementPreview {
                 return;
             }
 
-            // Do not render preview if the block in front of the targeted face contains a
-            // half vertical slab (would merge)
             BlockPos mergeCheckPos = pos.offset(face);
             BlockState mergeCheckState = client.world.getBlockState(mergeCheckPos);
             if (mergeCheckState.getBlock() instanceof VerticleSlabBlock &&
@@ -76,8 +72,6 @@ public class VerticleSlabPlacementPreview {
                 return;
             }
 
-            // Draw the cross on the actual face being aimed at, using the correct sub-box
-            // in the VoxelShape based on hit position
             if (face.getAxis().isVertical() && !(state.getBlock() instanceof VerticleSlabBlock)) {
                 if (face == Direction.UP) {
                     BlockPos above = pos.up();
@@ -129,10 +123,9 @@ public class VerticleSlabPlacementPreview {
                     return;
                 double y = (face == Direction.UP ? best[1] : best[4]);
                 VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
-                // Draw a 16x16 cross, masked by the VoxelShape face
-                // We'll sample at 1/16th intervals along the two diagonals
+
                 int steps = 16;
-                // Helper to check if a point is inside any box of the VoxelShape
+
                 java.util.function.BiFunction<Double, Double, Boolean> isInside = (x, z) -> {
                     final boolean[] inside = { false };
                     double yCheck = (face == Direction.UP ? best[1] - 1e-6 : best[4] + 1e-6);
@@ -145,7 +138,7 @@ public class VerticleSlabPlacementPreview {
                     });
                     return inside[0];
                 };
-                // Diagonal 1: (0, y, 0) to (1, y, 1)
+
                 for (int i = 0; i < steps; i++) {
                     double t0 = i / 16.0;
                     double t1 = (i + 1) / 16.0;
@@ -159,7 +152,7 @@ public class VerticleSlabPlacementPreview {
                         drawLine(vc, context.matrixStack(), context.camera(), p0, p1);
                     }
                 }
-                // Diagonal 2: (0, y, 1) to (1, y, 0)
+
                 for (int i = 0; i < steps; i++) {
                     double t0 = i / 16.0;
                     double t1 = (i + 1) / 16.0;
@@ -243,7 +236,33 @@ public class VerticleSlabPlacementPreview {
                     double y1 = maxY + pos.getY();
                     double z0 = minZ + pos.getZ();
                     double z1 = maxZ + pos.getZ();
-                    drawVerticalThirds(vc, context.matrixStack(), context.camera(), face, x0, x1, y0, y1, z0, z1, eps);
+
+                    switch (face) {
+                        case NORTH:
+                        case SOUTH: {
+                            double z = (face == Direction.NORTH ? z0 - eps : z1 + eps);
+                            for (int i = 1; i <= 2; i++) {
+                                double frac = i / 3.0;
+                                double x = x0 + (x1 - x0) * frac;
+                                drawLine(vc, context.matrixStack(), context.camera(), new Vec3d(x, y0, z),
+                                        new Vec3d(x, y1, z));
+                            }
+                            break;
+                        }
+                        case EAST:
+                        case WEST: {
+                            double x = (face == Direction.WEST ? x0 - eps : x1 + eps);
+                            for (int i = 1; i <= 2; i++) {
+                                double frac = i / 3.0;
+                                double z = z0 + (z1 - z0) * frac;
+                                drawLine(vc, context.matrixStack(), context.camera(), new Vec3d(x, y0, z),
+                                        new Vec3d(x, y1, z));
+                            }
+                            break;
+                        }
+                        default:
+                            break;
+                    }
                 }
                 return;
             }
@@ -271,37 +290,4 @@ public class VerticleSlabPlacementPreview {
                 .normal(0, 1, 0);
     }
 
-    // Draws two vertical lines dividing the face into thirds
-    private static void drawVerticalThirds(VertexConsumer vc, MatrixStack matrices, Camera camera, Direction face,
-            double x0, double x1, double y0, double y1, double z0, double z1, double eps) {
-        // Always use the full block width (0 to 1) for vertical lines
-        switch (face) {
-            case NORTH:
-            case SOUTH: {
-                double z = (face == Direction.NORTH ? z0 - eps : z1 + eps);
-                double xBlockMin = Math.floor(x0);
-                double xBlockMax = xBlockMin + 1.0;
-                for (int i = 1; i <= 2; i++) {
-                    double frac = i / 3.0;
-                    double x = xBlockMin + (xBlockMax - xBlockMin) * frac;
-                    drawLine(vc, matrices, camera, new Vec3d(x, y0, z), new Vec3d(x, y1, z));
-                }
-                break;
-            }
-            case EAST:
-            case WEST: {
-                double x = (face == Direction.WEST ? x0 - eps : x1 + eps);
-                double zBlockMin = Math.floor(z0);
-                double zBlockMax = zBlockMin + 1.0;
-                for (int i = 1; i <= 2; i++) {
-                    double frac = i / 3.0;
-                    double z = zBlockMin + (zBlockMax - zBlockMin) * frac;
-                    drawLine(vc, matrices, camera, new Vec3d(x, y0, z), new Vec3d(x, y1, z));
-                }
-                break;
-            }
-            default:
-                break;
-        }
-    }
 }
