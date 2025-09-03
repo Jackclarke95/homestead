@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jackclarke95.homestead.block.custom.VerticleSlabBlock;
+import jackclarke95.homestead.util.VerticalSlabType;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -62,7 +63,7 @@ public class VerticleSlabPlacementPreview {
             }
 
             if (state.getBlock() instanceof VerticleSlabBlock &&
-                    state.get(VerticleSlabBlock.TYPE) == jackclarke95.homestead.util.VerticalSlabType.HALF &&
+                    state.get(VerticleSlabBlock.TYPE) == VerticalSlabType.HALF &&
                     block instanceof VerticleSlabBlock &&
                     face == state.get(Properties.HORIZONTAL_FACING).getOpposite()) {
                 return;
@@ -71,7 +72,7 @@ public class VerticleSlabPlacementPreview {
             BlockPos mergeCheckPos = pos.offset(face);
             BlockState mergeCheckState = client.world.getBlockState(mergeCheckPos);
             if (mergeCheckState.getBlock() instanceof VerticleSlabBlock &&
-                    mergeCheckState.get(VerticleSlabBlock.TYPE) == jackclarke95.homestead.util.VerticalSlabType.HALF &&
+                    mergeCheckState.get(VerticleSlabBlock.TYPE) == VerticalSlabType.HALF &&
                     block instanceof VerticleSlabBlock) {
                 return;
             }
@@ -79,12 +80,12 @@ public class VerticleSlabPlacementPreview {
             boolean isFullVerticalSlab = state.getBlock() instanceof VerticleSlabBlock &&
                     state.contains(VerticleSlabBlock.TYPE) &&
                     state.get(
-                            VerticleSlabBlock.TYPE) == jackclarke95.homestead.util.VerticalSlabType.FULL;
+                            VerticleSlabBlock.TYPE) == VerticalSlabType.FULL;
 
             boolean isHalfVerticalSlab = state.getBlock() instanceof VerticleSlabBlock &&
                     state.contains(VerticleSlabBlock.TYPE) &&
                     state.get(
-                            VerticleSlabBlock.TYPE) == jackclarke95.homestead.util.VerticalSlabType.HALF;
+                            VerticleSlabBlock.TYPE) == VerticalSlabType.HALF;
 
             // For half vertical slabs, only render on the outside face
             if (isHalfVerticalSlab) {
