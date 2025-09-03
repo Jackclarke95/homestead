@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/birch_plank_path"
+    }
+  }
+}

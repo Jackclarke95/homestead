@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/cherry_plank_path"
+    }
+  }
+}

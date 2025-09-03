@@ -69,6 +69,44 @@ public class ModModelProvider extends FabricModelProvider {
                                 ModBlocks.COBBLESTONE_BRICKS, Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.COBBLESTONE_PATH,
                                 Blocks.COBBLESTONE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.ANDESITE_PATH,
+                                Blocks.ANDESITE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.POLISHED_ANDESITE_PATH,
+                                Blocks.POLISHED_ANDESITE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.DIORITE_PATH,
+                                Blocks.DIORITE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.POLISHED_DIORITE_PATH,
+                                Blocks.POLISHED_DIORITE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.GRANITE_PATH,
+                                Blocks.GRANITE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.POLISHED_GRANITE_PATH,
+                                Blocks.POLISHED_GRANITE, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.SAND_PATH,
+                                Blocks.SAND, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.GRAVEL_PATH,
+                                Blocks.GRAVEL, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.OAK_PLANK_PATH,
+                                Blocks.OAK_PLANKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.SPRUCE_PLANK_PATH,
+                                Blocks.SPRUCE_PLANKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.BIRCH_PLANK_PATH,
+                                Blocks.BIRCH_PLANKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.JUNGLE_PLANK_PATH,
+                                Blocks.JUNGLE_PLANKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.ACACIA_PLANK_PATH,
+                                Blocks.ACACIA_PLANKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.DARK_OAK_PLANK_PATH,
+                                Blocks.DARK_OAK_PLANKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.MANGROVE_PLANK_PATH,
+                                Blocks.MANGROVE_PLANKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.CHERRY_PLANK_PATH,
+                                Blocks.CHERRY_PLANKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.BAMBOO_PLANK_PATH,
+                                Blocks.BAMBOO_PLANKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.CRIMSON_PLANK_PATH,
+                                Blocks.CRIMSON_PLANKS, Homestead.MOD_ID);
+                registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.WARPED_PLANK_PATH,
+                                Blocks.WARPED_PLANKS, Homestead.MOD_ID);
         }
 
         /**

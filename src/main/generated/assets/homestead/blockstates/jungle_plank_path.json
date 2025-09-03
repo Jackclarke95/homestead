@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/jungle_plank_path"
+    }
+  }
+}

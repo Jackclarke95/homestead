@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "homestead:block/mangrove_plank_path"
+    }
+  }
+}

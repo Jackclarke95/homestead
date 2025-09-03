@@ -58,12 +58,48 @@ public class ModBlocks {
 
         public static final Block STONE_PATH = registerBlock("stone_path",
                         new PathBlock(AbstractBlock.Settings.copy(Blocks.STONE).nonOpaque()));
-
         public static final Block COBBLESTONE_PATH = registerBlock("cobblestone_path",
                         new PathBlock(AbstractBlock.Settings.copy(Blocks.STONE).nonOpaque()));
-
         public static final Block COBBLESTONE_BRICK_PATH = registerBlock("cobblestone_brick_path",
                         new PathBlock(AbstractBlock.Settings.copy(ModBlocks.COBBLESTONE_BRICKS).nonOpaque()));
+        public static final Block ANDESITE_PATH = registerBlock("andesite_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.ANDESITE).nonOpaque()));
+        public static final Block POLISHED_ANDESITE_PATH = registerBlock("polished_andesite_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.POLISHED_ANDESITE).nonOpaque()));
+        public static final Block DIORITE_PATH = registerBlock("diorite_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.DIORITE).nonOpaque()));
+        public static final Block POLISHED_DIORITE_PATH = registerBlock("polished_diorite_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.POLISHED_DIORITE).nonOpaque()));
+        public static final Block GRANITE_PATH = registerBlock("granite_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.GRANITE).nonOpaque()));
+        public static final Block POLISHED_GRANITE_PATH = registerBlock("polished_granite_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.POLISHED_GRANITE).nonOpaque()));
+        public static final Block SAND_PATH = registerBlock("sand_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.SAND).nonOpaque()));
+        public static final Block GRAVEL_PATH = registerBlock("gravel_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.GRAVEL).nonOpaque()));
+        public static final Block OAK_PLANK_PATH = registerBlock("oak_plank_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS).nonOpaque()));
+        public static final Block SPRUCE_PLANK_PATH = registerBlock("spruce_plank_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.SPRUCE_PLANKS).nonOpaque()));
+        public static final Block BIRCH_PLANK_PATH = registerBlock("birch_plank_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.BIRCH_PLANKS).nonOpaque()));
+        public static final Block JUNGLE_PLANK_PATH = registerBlock("jungle_plank_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.JUNGLE_PLANKS).nonOpaque()));
+        public static final Block ACACIA_PLANK_PATH = registerBlock("acacia_plank_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.ACACIA_PLANKS).nonOpaque()));
+        public static final Block DARK_OAK_PLANK_PATH = registerBlock("dark_oak_plank_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.DARK_OAK_PLANKS).nonOpaque()));
+        public static final Block MANGROVE_PLANK_PATH = registerBlock("mangrove_plank_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.MANGROVE_PLANKS).nonOpaque()));
+        public static final Block CHERRY_PLANK_PATH = registerBlock("cherry_plank_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.CHERRY_PLANKS).nonOpaque()));
+        public static final Block BAMBOO_PLANK_PATH = registerBlock("bamboo_plank_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.BAMBOO_PLANKS).nonOpaque()));
+        public static final Block CRIMSON_PLANK_PATH = registerBlock("crimson_plank_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.CRIMSON_PLANKS).nonOpaque()));
+        public static final Block WARPED_PLANK_PATH = registerBlock("warped_plank_path",
+                        new PathBlock(AbstractBlock.Settings.copy(Blocks.WARPED_PLANKS).nonOpaque()));
 
         public static void registerModBlocks() {
                 Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);
@@ -76,7 +112,27 @@ public class ModBlocks {
                         entries.add(ModBlocks.HAY_STAIRS);
                         entries.add(ModBlocks.WATTLE_AND_DAUB);
                         entries.add(ModBlocks.STONE_PATH);
+                        entries.add(ModBlocks.COBBLESTONE_PATH);
                         entries.add(ModBlocks.COBBLESTONE_BRICK_PATH);
+                        entries.add(ModBlocks.ANDESITE_PATH);
+                        entries.add(ModBlocks.POLISHED_ANDESITE_PATH);
+                        entries.add(ModBlocks.DIORITE_PATH);
+                        entries.add(ModBlocks.POLISHED_DIORITE_PATH);
+                        entries.add(ModBlocks.GRANITE_PATH);
+                        entries.add(ModBlocks.POLISHED_GRANITE_PATH);
+                        entries.add(ModBlocks.SAND_PATH);
+                        entries.add(ModBlocks.GRAVEL_PATH);
+                        entries.add(ModBlocks.OAK_PLANK_PATH);
+                        entries.add(ModBlocks.SPRUCE_PLANK_PATH);
+                        entries.add(ModBlocks.BIRCH_PLANK_PATH);
+                        entries.add(ModBlocks.JUNGLE_PLANK_PATH);
+                        entries.add(ModBlocks.ACACIA_PLANK_PATH);
+                        entries.add(ModBlocks.DARK_OAK_PLANK_PATH);
+                        entries.add(ModBlocks.MANGROVE_PLANK_PATH);
+                        entries.add(ModBlocks.CHERRY_PLANK_PATH);
+                        entries.add(ModBlocks.BAMBOO_PLANK_PATH);
+                        entries.add(ModBlocks.CRIMSON_PLANK_PATH);
+                        entries.add(ModBlocks.WARPED_PLANK_PATH);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {

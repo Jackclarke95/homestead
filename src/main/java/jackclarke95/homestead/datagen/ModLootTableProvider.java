@@ -31,9 +31,28 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.COBBLESTONE_BRICK_WALL);
                 addDrop(ModBlocks.COBBLESTONE_BRICK_STAIRS);
                 addDrop(ModBlocks.COBBLESTONE_BRICK_PATH);
+                addDrop(ModBlocks.HAY_STAIRS);
                 addDrop(ModBlocks.STONE_PATH);
                 addDrop(ModBlocks.COBBLESTONE_PATH);
-                addDrop(ModBlocks.HAY_STAIRS);
+                addDrop(ModBlocks.ANDESITE_PATH);
+                addDrop(ModBlocks.POLISHED_ANDESITE_PATH);
+                addDrop(ModBlocks.DIORITE_PATH);
+                addDrop(ModBlocks.POLISHED_DIORITE_PATH);
+                addDrop(ModBlocks.GRANITE_PATH);
+                addDrop(ModBlocks.POLISHED_GRANITE_PATH);
+                addDrop(ModBlocks.SAND_PATH);
+                addDrop(ModBlocks.GRAVEL_PATH);
+                addDrop(ModBlocks.OAK_PLANK_PATH);
+                addDrop(ModBlocks.SPRUCE_PLANK_PATH);
+                addDrop(ModBlocks.BIRCH_PLANK_PATH);
+                addDrop(ModBlocks.JUNGLE_PLANK_PATH);
+                addDrop(ModBlocks.ACACIA_PLANK_PATH);
+                addDrop(ModBlocks.DARK_OAK_PLANK_PATH);
+                addDrop(ModBlocks.MANGROVE_PLANK_PATH);
+                addDrop(ModBlocks.CHERRY_PLANK_PATH);
+                addDrop(ModBlocks.BAMBOO_PLANK_PATH);
+                addDrop(ModBlocks.CRIMSON_PLANK_PATH);
+                addDrop(ModBlocks.WARPED_PLANK_PATH);
 
                 addDrop(ModBlocks.HEATED_RACK, block -> LootTable.builder()
                                 .pool(LootPool.builder()
