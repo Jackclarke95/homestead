@@ -78,8 +78,8 @@ public class VerticleSlabPlacementPreview {
                 return;
             }
 
-            // Draw the cross on the actual face being aimed at, using the VoxelShape's face
-            // bounds
+            // Draw the cross on the actual face being aimed at, using the correct sub-box
+            // in the VoxelShape based on hit position
             if ((face == Direction.UP || face == Direction.DOWN) && !(state.getBlock() instanceof VerticleSlabBlock)) {
                 if (face == Direction.UP) {
                     BlockPos above = pos.up();
@@ -96,84 +96,158 @@ public class VerticleSlabPlacementPreview {
                 if (shape.isEmpty()) {
                     return;
                 }
-                Vec3d min = new Vec3d(shape.getMin(Axis.X), shape.getMin(Axis.Y), shape.getMin(Axis.Z));
-                Vec3d max = new Vec3d(shape.getMax(Axis.X), shape.getMax(Axis.Y), shape.getMax(Axis.Z));
+                Vec3d hit = bhr.getPos().subtract(pos.getX(), pos.getY(), pos.getZ());
+                final double[] best = new double[6];
+                final boolean[] found = new boolean[1];
+                final double threshold = 1e-4;
+                shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+                    if (face == Direction.UP) {
+                        if (hit.x >= minX - threshold && hit.x <= maxX + threshold &&
+                                hit.z >= minZ - threshold && hit.z <= maxZ + threshold &&
+                                Math.abs(hit.y - maxY) < 0.2) {
+                            best[0] = minX;
+                            best[1] = maxY;
+                            best[2] = minZ;
+                            best[3] = maxX;
+                            best[4] = minY;
+                            best[5] = maxZ;
+                            found[0] = true;
+                        }
+                    } else if (face == Direction.DOWN) {
+                        if (hit.x >= minX - threshold && hit.x <= maxX + threshold &&
+                                hit.z >= minZ - threshold && hit.z <= maxZ + threshold &&
+                                Math.abs(hit.y - minY) < 0.2) {
+                            best[0] = minX;
+                            best[1] = maxY;
+                            best[2] = minZ;
+                            best[3] = maxX;
+                            best[4] = minY;
+                            best[5] = maxZ;
+                            found[0] = true;
+                        }
+                    }
+                });
+                if (!found[0])
+                    return;
                 double eps = 0.001;
-                double y = (face == Direction.UP ? max.y + eps : min.y - eps);
-                // Corners of the face being aimed at, in world coordinates
+                double y = (face == Direction.UP ? best[1] + eps : best[4] - eps);
                 Vec3d[] corners = new Vec3d[4];
-                corners[0] = new Vec3d(min.x, y, min.z).add(pos.getX(), pos.getY(), pos.getZ());
-                corners[1] = new Vec3d(max.x, y, min.z).add(pos.getX(), pos.getY(), pos.getZ());
-                corners[2] = new Vec3d(max.x, y, max.z).add(pos.getX(), pos.getY(), pos.getZ());
-                corners[3] = new Vec3d(min.x, y, max.z).add(pos.getX(), pos.getY(), pos.getZ());
+                corners[0] = new Vec3d(best[0], y, best[2]).add(pos.getX(), pos.getY(), pos.getZ());
+                corners[1] = new Vec3d(best[3], y, best[2]).add(pos.getX(), pos.getY(), pos.getZ());
+                corners[2] = new Vec3d(best[3], y, best[5]).add(pos.getX(), pos.getY(), pos.getZ());
+                corners[3] = new Vec3d(best[0], y, best[5]).add(pos.getX(), pos.getY(), pos.getZ());
                 VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
                 drawCross(vc, context.matrixStack(), context.camera(), corners[0], corners[2], corners[1], corners[3]);
             }
 
             boolean facingVerticalSlab = state.getBlock() instanceof VerticleSlabBlock;
-
-            if ((face == Direction.UP || face == Direction.DOWN) && !facingVerticalSlab) {
-                VoxelShape shape = state.getOutlineShape(client.world, pos,
-                        ShapeContext.absent());
-
-                if (shape.isEmpty()) {
-                    return;
-                }
-
-                Vec3d min = new Vec3d(shape.getMin(Axis.X),
-                        shape.getMin(Axis.Y),
-                        shape.getMin(Axis.Z));
-                Vec3d max = new Vec3d(shape.getMax(Axis.X),
-                        shape.getMax(Axis.Y),
-                        shape.getMax(Axis.Z));
-                double eps = 0.001;
-                VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
-                Vec3d[] corners = new Vec3d[4];
-                double y = (face == Direction.UP ? max.y + eps : min.y - eps);
-                corners[0] = new Vec3d(min.x, y, min.z).add(pos.getX(), pos.getY(), pos.getZ());
-                corners[1] = new Vec3d(max.x, y, min.z).add(pos.getX(), pos.getY(), pos.getZ());
-                corners[2] = new Vec3d(max.x, y, max.z).add(pos.getX(), pos.getY(), pos.getZ());
-                corners[3] = new Vec3d(min.x, y, max.z).add(pos.getX(), pos.getY(), pos.getZ());
-
-                drawCross(vc, context.matrixStack(), context.camera(), corners[0], corners[2], corners[1], corners[3]);
-
-                return;
-            }
+            // ...existing code...
 
             if (face.getAxis().isHorizontal()) {
                 if (facingVerticalSlab) {
                     Direction slabFacing = state.get(Properties.HORIZONTAL_FACING);
-
                     if ((slabFacing.getAxis() == Direction.Axis.Z && face.getAxis() == Direction.Axis.X) ||
                             (slabFacing.getAxis() == Direction.Axis.X && face.getAxis() == Direction.Axis.Z)) {
-
                         return;
                     }
                 }
-
-                VoxelShape shape = state.getOutlineShape(client.world, pos,
-                        net.minecraft.block.ShapeContext.absent());
-
+                VoxelShape shape = state.getOutlineShape(client.world, pos, ShapeContext.absent());
                 if (shape.isEmpty()) {
                     return;
                 }
-
-                Vec3d min = new Vec3d(shape.getMin(Axis.X),
-                        shape.getMin(Axis.Y),
-                        shape.getMin(Axis.Z));
-                Vec3d max = new Vec3d(shape.getMax(Axis.X),
-                        shape.getMax(Axis.Y),
-                        shape.getMax(Axis.Z));
+                Vec3d hit = bhr.getPos().subtract(pos.getX(), pos.getY(), pos.getZ());
+                final double[] best = new double[6];
+                final boolean[] found = new boolean[1];
+                final double threshold = 1e-4;
+                shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+                    switch (face) {
+                        case NORTH:
+                            if (hit.x >= minX - threshold && hit.x <= maxX + threshold &&
+                                    hit.y >= minY - threshold && hit.y <= maxY + threshold &&
+                                    Math.abs(hit.z - minZ) < 0.2) {
+                                best[0] = minX;
+                                best[1] = maxY;
+                                best[2] = minZ;
+                                best[3] = maxX;
+                                best[4] = minY;
+                                best[5] = maxZ;
+                                found[0] = true;
+                            }
+                            break;
+                        case SOUTH:
+                            if (hit.x >= minX - threshold && hit.x <= maxX + threshold &&
+                                    hit.y >= minY - threshold && hit.y <= maxY + threshold &&
+                                    Math.abs(hit.z - maxZ) < 0.2) {
+                                best[0] = minX;
+                                best[1] = maxY;
+                                best[2] = minZ;
+                                best[3] = maxX;
+                                best[4] = minY;
+                                best[5] = maxZ;
+                                found[0] = true;
+                            }
+                            break;
+                        case WEST:
+                            if (hit.z >= minZ - threshold && hit.z <= maxZ + threshold &&
+                                    hit.y >= minY - threshold && hit.y <= maxY + threshold &&
+                                    Math.abs(hit.x - minX) < 0.2) {
+                                best[0] = minX;
+                                best[1] = maxY;
+                                best[2] = minZ;
+                                best[3] = maxX;
+                                best[4] = minY;
+                                best[5] = maxZ;
+                                found[0] = true;
+                            }
+                            break;
+                        case EAST:
+                            if (hit.z >= minZ - threshold && hit.z <= maxZ + threshold &&
+                                    hit.y >= minY - threshold && hit.y <= maxY + threshold &&
+                                    Math.abs(hit.x - maxX) < 0.2) {
+                                best[0] = minX;
+                                best[1] = maxY;
+                                best[2] = minZ;
+                                best[3] = maxX;
+                                best[4] = minY;
+                                best[5] = maxZ;
+                                found[0] = true;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                });
+                if (!found[0])
+                    return;
                 double eps = 0.001;
+                // For vertical thirds, we need the face's bounds
+                double x0 = best[0] + pos.getX();
+                double x1 = best[3] + pos.getX();
+                double y0 = best[4] + pos.getY();
+                double y1 = best[1] + pos.getY();
+                double z0, z1;
+                if (face == Direction.NORTH) {
+                    z0 = z1 = best[2] + pos.getZ() - eps;
+                } else if (face == Direction.SOUTH) {
+                    z0 = z1 = best[5] + pos.getZ() + eps;
+                } else if (face == Direction.WEST) {
+                    z0 = best[2] + pos.getZ();
+                    z1 = best[5] + pos.getZ();
+                } else if (face == Direction.EAST) {
+                    z0 = best[2] + pos.getZ();
+                    z1 = best[5] + pos.getZ();
+                } else {
+                    z0 = best[2] + pos.getZ();
+                    z1 = best[5] + pos.getZ();
+                }
+                double x, z;
+                if (face == Direction.WEST) {
+                    x = x0 = x1 = best[0] + pos.getX() - eps;
+                } else if (face == Direction.EAST) {
+                    x = x0 = x1 = best[3] + pos.getX() + eps;
+                }
                 VertexConsumer vc = context.consumers().getBuffer(RenderLayer.getLines());
-                double x0 = min.x + pos.getX();
-                double x1 = max.x + pos.getX();
-                double y0 = min.y + pos.getY();
-                double y1 = max.y + pos.getY();
-                double z0 = min.z + pos.getZ();
-                double z1 = max.z + pos.getZ();
                 drawVerticalThirds(vc, context.matrixStack(), context.camera(), face, x0, x1, y0, y1, z0, z1, eps);
-
                 return;
             }
         });
