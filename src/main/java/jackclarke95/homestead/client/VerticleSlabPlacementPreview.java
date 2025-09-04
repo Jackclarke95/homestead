@@ -170,7 +170,6 @@ public class VerticleSlabPlacementPreview {
                             double z = (face == Direction.NORTH ? minZ + pos.getZ() : maxZ + pos.getZ());
                             for (int i = 1; i <= 2; i++) {
                                 double frac = i / 3.0;
-                                // Always use full block width for x
                                 double x = frac;
                                 if (x >= minX && x <= maxX) {
                                     double worldX = x + pos.getX();
@@ -185,7 +184,6 @@ public class VerticleSlabPlacementPreview {
                             double x = (face == Direction.WEST ? minX + pos.getX() : maxX + pos.getX());
                             for (int i = 1; i <= 2; i++) {
                                 double frac = i / 3.0;
-                                // Always use full block width for z
                                 double z = frac;
                                 if (z >= minZ && z <= maxZ) {
                                     double worldZ = z + pos.getZ();
@@ -197,26 +195,34 @@ public class VerticleSlabPlacementPreview {
                         }
                         case UP:
                         case DOWN: {
-                            double y = (face == Direction.UP ? maxY + pos.getY() : minY + pos.getY());
                             int steps = 16;
-                            // Draw cross (two diagonals)
+                            double y = (face == Direction.UP ? maxY + pos.getY() : minY + pos.getY());
+                            // For every UP/DOWN face plane present in the VoxelShape, draw the cross at
+                            // that y (at any y position)
                             for (int i = 0; i < steps; i++) {
                                 double t0 = i / 16.0;
                                 double t1 = (i + 1) / 16.0;
                                 double x0 = t0, z0 = t0;
                                 double x1 = t1, z1 = t1;
-                                Vec3d p0 = new Vec3d(x0, y, z0).add(pos.getX(), 0, pos.getZ());
-                                Vec3d p1 = new Vec3d(x1, y, z1).add(pos.getX(), 0, pos.getZ());
-                                drawLine(vc, context.matrixStack(), context.camera(), p0, p1);
+                                // Only draw if both endpoints are inside the face surface
+                                if (x0 >= minX && x0 <= maxX && z0 >= minZ && z0 <= maxZ &&
+                                        x1 >= minX && x1 <= maxX && z1 >= minZ && z1 <= maxZ) {
+                                    Vec3d p0 = new Vec3d(x0 + pos.getX(), y, z0 + pos.getZ());
+                                    Vec3d p1 = new Vec3d(x1 + pos.getX(), y, z1 + pos.getZ());
+                                    drawLine(vc, context.matrixStack(), context.camera(), p0, p1);
+                                }
                             }
                             for (int i = 0; i < steps; i++) {
                                 double t0 = i / 16.0;
                                 double t1 = (i + 1) / 16.0;
                                 double x0 = t0, z0 = 1 - t0;
                                 double x1 = t1, z1 = 1 - t1;
-                                Vec3d p0 = new Vec3d(x0, y, z0).add(pos.getX(), 0, pos.getZ());
-                                Vec3d p1 = new Vec3d(x1, y, z1).add(pos.getX(), 0, pos.getZ());
-                                drawLine(vc, context.matrixStack(), context.camera(), p0, p1);
+                                if (x0 >= minX && x0 <= maxX && z0 >= minZ && z0 <= maxZ &&
+                                        x1 >= minX && x1 <= maxX && z1 >= minZ && z1 <= maxZ) {
+                                    Vec3d p0 = new Vec3d(x0 + pos.getX(), y, z0 + pos.getZ());
+                                    Vec3d p1 = new Vec3d(x1 + pos.getX(), y, z1 + pos.getZ());
+                                    drawLine(vc, context.matrixStack(), context.camera(), p0, p1);
+                                }
                             }
                             break;
                         }
