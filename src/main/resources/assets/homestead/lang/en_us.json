@@ -100,5 +100,7 @@
   "tag.item.homestead.rinsing": "Rinsing",
 
   "tag.item.homestead.root_vegetables": "Root Vegetables",
-  "tag.item.homestead.crop_seeds": "Crop Seeds"
+  "tag.item.homestead.crop_seeds": "Crop Seeds",
+
+  "category.homestead.drying": "Drying"
 }

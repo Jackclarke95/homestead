@@ -155,27 +155,21 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion("has_cobblestone_bricks", conditionsFromItem(ModBlocks.COBBLESTONE_BRICKS))
                                 .offerTo(recipeExporter);
 
-                offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICKS,
-                                Blocks.COBBLESTONE);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_SLAB,
-                                Blocks.COBBLESTONE, 2);
+                                ModBlocks.COBBLESTONE_BRICKS, Blocks.COBBLESTONE);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_STAIRS,
-                                Blocks.COBBLESTONE);
+                                ModBlocks.COBBLESTONE_BRICK_SLAB, Blocks.COBBLESTONE, 2);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_WALL,
-                                Blocks.COBBLESTONE);
+                                ModBlocks.COBBLESTONE_BRICK_STAIRS, Blocks.COBBLESTONE);
+                offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
+                                ModBlocks.COBBLESTONE_BRICK_WALL, Blocks.COBBLESTONE);
 
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_SLAB,
-                                ModBlocks.COBBLESTONE_BRICKS);
+                                ModBlocks.COBBLESTONE_BRICK_SLAB, ModBlocks.COBBLESTONE_BRICKS, 2);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_STAIRS,
-                                ModBlocks.COBBLESTONE_BRICKS);
+                                ModBlocks.COBBLESTONE_BRICK_STAIRS, ModBlocks.COBBLESTONE_BRICKS);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_WALL,
-                                ModBlocks.COBBLESTONE_BRICKS);
+                                ModBlocks.COBBLESTONE_BRICK_WALL, ModBlocks.COBBLESTONE_BRICKS);
                 // #endregion Cobblestone Brick Recipes
                 // #endregion Building Block Recipes
 
