@@ -7,7 +7,9 @@ import jackclarke95.homestead.recipe.ModRecipes;
 import jackclarke95.homestead.recipe.SimpleTimedRecipeInput;
 import jackclarke95.homestead.util.ActiveStatus;
 import jackclarke95.homestead.recipe.RinsingRecipe;
+import jackclarke95.homestead.network.RackInventoryUpdatePacket;
 import jackclarke95.homestead.recipe.DryingRecipe;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -86,6 +88,11 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
     @Override
     public DefaultedList<ItemStack> getItems() {
         return inventory;
+    }
+
+    @Override
+    public ItemStack getStack(int slot) {
+        return ImplementedInventory.super.getStack(slot);
     }
 
     @Override
@@ -351,12 +358,12 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
     @Override
     protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
+
         Inventories.readNbt(nbt, inventory, registryLookup);
 
         progress = nbt.getInt("rack.progress");
         maxProgress = nbt.getInt("rack.max_progress");
-
-        super.readNbt(nbt, registryLookup);
     }
 
     @Nullable
@@ -367,7 +374,10 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
     @Override
     public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
-        return createNbt(registryLookup);
+        // CRITICAL: Force fresh NBT creation, don't use cached createNbt()
+        NbtCompound nbt = new NbtCompound();
+        writeNbt(nbt, registryLookup);
+        return nbt;
     }
 
     @Override
@@ -401,6 +411,78 @@ public class RackBlockEntity extends BlockEntity implements ImplementedInventory
 
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction side) {
-        return false;
+        return !stack.isEmpty() && !hasRecipe(stack);
+    }
+
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+        // Directly modify the inventory instead of calling super
+        getItems().set(slot, stack);
+        if (stack.getCount() > getMaxCountPerStack()) {
+            stack.setCount(getMaxCountPerStack());
+        }
+
+        markDirty();
+
+        // Send custom packet to all players watching this chunk
+        if (world != null && !world.isClient && world instanceof ServerWorld serverWorld) {
+            for (var player : PlayerLookup.tracking(serverWorld, pos)) {
+                RackInventoryUpdatePacket.send(player, pos, stack);
+            }
+        }
+    }
+
+    /**
+     * Direct setter that bypasses normal inventory logic for client sync
+     */
+    public void setStackDirectly(int slot, ItemStack stack) {
+        if (slot >= 0 && slot < inventory.size()) {
+            inventory.set(slot, stack);
+        }
+    }
+
+    @Override
+    public ItemStack removeStack(int slot, int count) {
+        // Directly use Inventories.splitStack instead of calling super
+        ItemStack result = Inventories.splitStack(getItems(), slot, count);
+
+        if (!result.isEmpty() && world != null && !world.isClient) {
+            // Force explicit inventory clear and immediate sync for hopper extraction
+            setStack(slot, ItemStack.EMPTY);
+
+            // Send custom packet to all players watching this chunk
+            if (world instanceof ServerWorld serverWorld) {
+                for (var player : PlayerLookup.tracking(serverWorld, pos)) {
+                    RackInventoryUpdatePacket.send(player, pos, ItemStack.EMPTY);
+                }
+            }
+
+            // Use updateListeners with NOTIFY_ALL to force immediate client update
+            world.updateListeners(pos, getCachedState(), getCachedState(),
+                    net.minecraft.block.Block.NOTIFY_ALL);
+        }
+
+        markDirty();
+        return result;
+    }
+
+    @Override
+    public ItemStack removeStack(int slot) {
+        // Directly use Inventories.removeStack instead of calling super
+        ItemStack result = Inventories.removeStack(getItems(), slot);
+
+        markDirty();
+        return result;
+    }
+
+    @Override
+    public void markDirty() {
+        super.markDirty();
+
+        // Send update packet to client when inventory changes
+        if (world != null && !world.isClient && world instanceof ServerWorld serverWorld) {
+            // Use the more explicit update method
+            serverWorld.getChunkManager().markForUpdate(pos);
+        }
     }
 }

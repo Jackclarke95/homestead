@@ -11,6 +11,7 @@ import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.renderer.RackBlockEntityRenderer;
 import jackclarke95.homestead.client.VerticleSlabPlacementPreview;
+import jackclarke95.homestead.network.ModNetworking;
 import jackclarke95.homestead.screen.ModScreenHandlers;
 import jackclarke95.homestead.screen.custom.CuringVatScreen;
 import jackclarke95.homestead.screen.custom.MillScreen;
@@ -32,5 +33,7 @@ public class HomesteadClient implements ClientModInitializer {
                 PressScreen::new);
 
         VerticleSlabPlacementPreview.register();
+
+        ModNetworking.registerClient();
     }
 }

@@ -29,6 +29,11 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
             VertexConsumerProvider vertexConsumers, int light, int overlay) {
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         ItemStack stack = entity.getStack(0);
+        
+        // Only render if the stack is not empty
+        if (stack.isEmpty()) {
+            return;
+        }
 
         matrices.push();
 
