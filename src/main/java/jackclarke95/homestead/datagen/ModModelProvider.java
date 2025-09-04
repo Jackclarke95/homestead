@@ -138,9 +138,9 @@ public class ModModelProvider extends FabricModelProvider {
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.MUD_BRICK_PATH,
                                 Blocks.MUD_BRICKS, Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.SMOOTH_SANDSTONE_PATH,
-                                Blocks.SMOOTH_SANDSTONE, Homestead.MOD_ID);
+                                Identifier.of("minecraft", "block/sandstone_top"), Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.SMOOTH_RED_SANDSTONE_PATH,
-                                Blocks.SMOOTH_RED_SANDSTONE, Homestead.MOD_ID);
+                                Identifier.of("minecraft", "block/red_sandstone_top"), Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.PRISMARINE_PATH,
                                 Blocks.PRISMARINE, Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.PRISMARINE_BRICK_PATH,
@@ -177,16 +177,15 @@ public class ModModelProvider extends FabricModelProvider {
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.PURPUR_PILLAR_PATH,
                                 Blocks.PURPUR_PILLAR, Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.QUARTZ_BLOCK_PATH,
-                                Blocks.QUARTZ_BLOCK, Homestead.MOD_ID);
+                                Identifier.of("minecraft", "block/quartz_block_top"), Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.CHISELED_QUARTZ_BLOCK_PATH,
                                 Blocks.CHISELED_QUARTZ_BLOCK, Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.QUARTZ_BRICK_PATH,
                                 Blocks.QUARTZ_BRICKS, Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.SMOOTH_QUARTZ_BLOCK_PATH,
-                                Blocks.SMOOTH_QUARTZ, Homestead.MOD_ID);
+                                Identifier.of("minecraft", "block/quartz_block_bottom"), Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.COARSE_DIRT_PATH,
                                 Blocks.COARSE_DIRT, Homestead.MOD_ID);
-
         }
 
         /**
@@ -222,6 +221,28 @@ public class ModModelProvider extends FabricModelProvider {
                                 BlockStateModelGenerator.createSingletonBlockState(block, modelId));
 
                 // Item model JSON (parented to block model)
+                blockStateModelGenerator.registerParentedItemModel(block, modelId);
+        }
+
+        /**
+         * Overload: register a path block model using an explicit texture identifier
+         * (e.g. minecraft:block/sandstone_top), bypassing the template block.
+         */
+        public static void registerPathBlockModel(BlockStateModelGenerator blockStateModelGenerator,
+                        FabricDataOutput dataOutput, Block block,
+                        Identifier textureIdentifier, String modId) {
+                Identifier blockId = Registries.BLOCK.getId(block);
+                String blockName = blockId.getPath();
+
+                // Use the identifier exactly as namespace:path
+                String texturePath = textureIdentifier.getNamespace() + ":" + textureIdentifier.getPath();
+
+                Path outputRoot = dataOutput.getPath();
+                generatePathBlockModelJson(outputRoot, blockName, texturePath, modId);
+
+                Identifier modelId = Identifier.of(modId, "block/" + blockName);
+                blockStateModelGenerator.blockStateCollector.accept(
+                                BlockStateModelGenerator.createSingletonBlockState(block, modelId));
                 blockStateModelGenerator.registerParentedItemModel(block, modelId);
         }
 
