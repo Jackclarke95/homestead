@@ -97,5 +97,8 @@
   "tag.item.homestead.drying": "Drying",
   "tag.item.homestead.curing_vat": "Curing Vat",
   "tag.item.homestead.milling": "Milling",
-  "tag.item.homestead.rinsing": "Rinsing"
+  "tag.item.homestead.rinsing": "Rinsing",
+
+  "tag.item.homestead.root_vegetables": "Root Vegetables",
+  "tag.item.homestead.crop_seeds": "Crop Seeds"
 }
