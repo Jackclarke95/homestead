@@ -116,9 +116,25 @@ public class CuringVatBlockEntity extends BlockEntity
                     && inputStack.getCount() >= requiredCount;
             boolean hasCatalyst = !recipe.hasCatalyst() || (!inventory.get(INPUT_CATALYST_SLOT).isEmpty()
                     && recipe.catalyst().test(inventory.get(INPUT_CATALYST_SLOT)));
-            // Block crafting if pending slot cannot fit the output
-            boolean pendingBlocked = !canInsertItemIntoSlot(OUTPUT_PENDING_SLOT, recipe.output())
-                    || !canInsertAmountIntoSlot(OUTPUT_PENDING_SLOT, recipe.output().getCount());
+            // Pre-check split between actual (limited by containers and space) and pending
+            ItemStack primaryOut = recipe.output();
+            int outCount = primaryOut.getCount();
+            int containersAvailable = 0;
+            if (recipe.hasContainer() && recipe.container().test(inventory.get(INPUT_CONTAINER_SLOT))) {
+                containersAvailable = inventory.get(INPUT_CONTAINER_SLOT).getCount();
+            }
+            int actualSpace = 0;
+            if (canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, primaryOut)) {
+                int max = this.getStack(OUTPUT_ACTUAL_SLOT).isEmpty() ? 64
+                        : this.getStack(OUTPUT_ACTUAL_SLOT).getMaxCount();
+                actualSpace = Math.max(0, max - this.getStack(OUTPUT_ACTUAL_SLOT).getCount());
+            }
+            int toActual = recipe.hasContainer() ? Math.min(outCount, Math.min(containersAvailable, actualSpace))
+                    : Math.min(outCount, actualSpace);
+            int toPending = outCount - toActual;
+            boolean pendingOk = toPending == 0 || (canInsertItemIntoSlot(OUTPUT_PENDING_SLOT, primaryOut)
+                    && canInsertAmountIntoSlot(OUTPUT_PENDING_SLOT, toPending));
+            boolean pendingBlocked = !pendingOk;
             if (!hasIngredient || !hasCatalyst || pendingBlocked) {
                 resetProgress();
                 return;
@@ -145,20 +161,41 @@ public class CuringVatBlockEntity extends BlockEntity
         // Remove correct amount of ingredient (from recipe input count)
         int ingredientCount = recipe.ingredientCount();
         int outputCount = recipe.output().getCount();
-        int containerAvailable = inventory.get(INPUT_CONTAINER_SLOT).getCount();
-        int canOutputNow = recipe.hasContainer() ? Math.min(outputCount, containerAvailable) : outputCount;
+        // Determine how much can go to actual based on container availability and
+        // actual slot space
+        int canOutputNow = outputCount;
+        if (recipe.hasContainer()) {
+            int available = 0;
+            if (recipe.container().test(inventory.get(INPUT_CONTAINER_SLOT))) {
+                available = inventory.get(INPUT_CONTAINER_SLOT).getCount();
+            }
+            int maxActualSpace = 0;
+            if (canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, recipe.output())) {
+                int max = this.getStack(OUTPUT_ACTUAL_SLOT).isEmpty() ? 64
+                        : this.getStack(OUTPUT_ACTUAL_SLOT).getMaxCount();
+                maxActualSpace = Math.max(0, max - this.getStack(OUTPUT_ACTUAL_SLOT).getCount());
+            }
+            canOutputNow = Math.min(canOutputNow, Math.min(available, maxActualSpace));
+        } else {
+            int maxActualSpace = 0;
+            if (canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, recipe.output())) {
+                int max = this.getStack(OUTPUT_ACTUAL_SLOT).isEmpty() ? 64
+                        : this.getStack(OUTPUT_ACTUAL_SLOT).getMaxCount();
+                maxActualSpace = Math.max(0, max - this.getStack(OUTPUT_ACTUAL_SLOT).getCount());
+            }
+            canOutputNow = Math.min(canOutputNow, maxActualSpace);
+        }
         int toPending = outputCount - canOutputNow;
 
         this.removeStack(INPUT_INGREDIENT_SLOT, ingredientCount);
         if (recipe.hasCatalyst()) {
             this.removeStack(INPUT_CATALYST_SLOT, 1);
         }
-        if (recipe.hasContainer()) {
+        if (recipe.hasContainer() && canOutputNow > 0) {
             this.removeStack(INPUT_CONTAINER_SLOT, canOutputNow);
         }
         // Output as many as possible to actual slot
-        if (canOutputNow > 0 && canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, recipe.output())
-                && canInsertAmountIntoSlot(OUTPUT_ACTUAL_SLOT, canOutputNow)) {
+        if (canOutputNow > 0 && canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, recipe.output())) {
             this.setStack(OUTPUT_ACTUAL_SLOT, new ItemStack(recipe.output().getItem(),
                     this.getStack(OUTPUT_ACTUAL_SLOT).getCount() + canOutputNow));
         }

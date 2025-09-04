@@ -22,7 +22,29 @@ public record PressingRecipe(
         int ingredientCount,
         Ingredient container,
         ItemStack output,
-        int time) implements Recipe<ContainerRecipeInput> {
+        int time,
+        ItemStack secondaryResult,
+        double secondaryChance,
+        SecondaryMode secondaryMode) implements Recipe<ContainerRecipeInput> {
+
+    public enum SecondaryMode implements net.minecraft.util.StringIdentifiable {
+        INSTEAD("instead"),
+        ADDITIONAL("additional");
+
+        private final String name;
+
+        SecondaryMode(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String asString() {
+            return name;
+        }
+
+        public static final com.mojang.serialization.Codec<SecondaryMode> CODEC = net.minecraft.util.StringIdentifiable
+                .createCodec(SecondaryMode::values);
+    }
 
     @Override
     public DefaultedList<Ingredient> getIngredients() {
@@ -65,6 +87,19 @@ public record PressingRecipe(
         return !container.isEmpty();
     }
 
+    public boolean hasSecondary() {
+        return !secondaryResult.isEmpty();
+    }
+
+    public double clampedSecondaryChance() {
+        double c = secondaryChance;
+        if (c < 0.0)
+            return 0.0;
+        if (c > 1.0)
+            return 1.0;
+        return c;
+    }
+
     @Override
     public RecipeSerializer<?> getSerializer() {
         return ModRecipes.PRESSING_RECIPE_SERIALIZER;
@@ -82,13 +117,26 @@ public record PressingRecipe(
                 Ingredient.DISALLOW_EMPTY_CODEC.optionalFieldOf("container", Ingredient.EMPTY)
                         .forGetter(r -> r.container),
                 ItemStack.CODEC.fieldOf("result").forGetter(PressingRecipe::output),
-                Codec.INT.fieldOf("time").forGetter(PressingRecipe::time))
-                .apply(inst, (ingredient, ingredientCount, container, result, time) -> new PressingRecipe(ingredient,
-                        ingredientCount, container, result, time)));
+                Codec.INT.fieldOf("time").forGetter(PressingRecipe::time),
+                // Secondary is optional; default empty, 0 chance, and INSTEAD mode
+                ItemStack.CODEC.optionalFieldOf("secondary_result", ItemStack.EMPTY)
+                        .forGetter(PressingRecipe::secondaryResult),
+                Codec.DOUBLE.optionalFieldOf("secondary_chance", 0.0)
+                        .forGetter(PressingRecipe::secondaryChance),
+                SecondaryMode.CODEC.optionalFieldOf("secondary_mode", SecondaryMode.INSTEAD)
+                        .forGetter(PressingRecipe::secondaryMode))
+                .apply(inst,
+                        (ingredient, ingredientCount, container, result, time, secondary, chance,
+                                mode) -> new PressingRecipe(ingredient, ingredientCount, container, result, time,
+                                        secondary, chance, mode)));
 
         public static final PacketCodec<RegistryByteBuf, Integer> INT_CODEC = PacketCodec.of(
                 (value, buf) -> buf.writeVarInt(value),
                 buf -> buf.readVarInt());
+
+        public static final PacketCodec<RegistryByteBuf, Double> DOUBLE_CODEC = PacketCodec.of(
+                (value, buf) -> buf.writeDouble(value),
+                buf -> buf.readDouble());
 
         public static final PacketCodec<RegistryByteBuf, PressingRecipe> STREAM_CODEC = new PacketCodec<>() {
             @Override
@@ -98,6 +146,15 @@ public record PressingRecipe(
                 Ingredient.PACKET_CODEC.encode(buf, recipe.container());
                 ItemStack.PACKET_CODEC.encode(buf, recipe.output());
                 INT_CODEC.encode(buf, recipe.time());
+                // secondary present flag + payload
+                boolean hasSecondary = !recipe.secondaryResult().isEmpty();
+                buf.writeBoolean(hasSecondary);
+                if (hasSecondary) {
+                    ItemStack.PACKET_CODEC.encode(buf, recipe.secondaryResult());
+                    DOUBLE_CODEC.encode(buf, recipe.secondaryChance());
+                    // encode mode as varint ordinal
+                    buf.writeVarInt(recipe.secondaryMode().ordinal());
+                }
             }
 
             @Override
@@ -107,7 +164,19 @@ public record PressingRecipe(
                 Ingredient container = Ingredient.PACKET_CODEC.decode(buf);
                 ItemStack output = ItemStack.PACKET_CODEC.decode(buf);
                 int time = INT_CODEC.decode(buf);
-                return new PressingRecipe(input, ingredientCount, container, output, time);
+                ItemStack secondary = ItemStack.EMPTY;
+                double chance = 0.0;
+                SecondaryMode mode = SecondaryMode.INSTEAD;
+                boolean hasSecondary = buf.readBoolean();
+                if (hasSecondary) {
+                    secondary = ItemStack.PACKET_CODEC.decode(buf);
+                    chance = DOUBLE_CODEC.decode(buf);
+                    int ord = buf.readVarInt();
+                    if (ord >= 0 && ord < SecondaryMode.values().length) {
+                        mode = SecondaryMode.values()[ord];
+                    }
+                }
+                return new PressingRecipe(input, ingredientCount, container, output, time, secondary, chance, mode);
             }
         };
 

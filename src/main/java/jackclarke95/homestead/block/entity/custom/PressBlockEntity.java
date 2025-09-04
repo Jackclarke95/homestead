@@ -36,18 +36,20 @@ import java.util.Optional;
 
 public class PressBlockEntity extends BlockEntity
         implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory {
-    // 0: input ingredient, 1: pending output, 2: container, 3: actual output
+    // 0: input ingredient, 1: pending output (primary only), 2: container, 3:
+    // actual primary output, 4: actual secondary output
 
     private void resetProgress() {
         this.progress = 0;
         this.maxProgress = 72;
     }
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(4, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
     public static final int INPUT_INGREDIENT_SLOT = 0;
     public static final int OUTPUT_PENDING_SLOT = 1;
     public static final int INPUT_CONTAINER_SLOT = 2;
     public static final int OUTPUT_ACTUAL_SLOT = 3;
+    public static final int OUTPUT_SECONDARY_SLOT = 4;
 
     private final PropertyDelegate propertyDelegate;
     private int progress = 0;
@@ -132,9 +134,63 @@ public class PressBlockEntity extends BlockEntity
             int requiredCount = recipe.ingredientCount();
             boolean hasIngredient = !inputStack.isEmpty() && recipe.inputItem().test(inputStack)
                     && inputStack.getCount() >= requiredCount;
-            boolean pendingBlocked = !canInsertItemIntoSlot(OUTPUT_PENDING_SLOT, recipe.output())
-                    || !canInsertAmountIntoSlot(OUTPUT_PENDING_SLOT, recipe.output().getCount());
-            if (!hasIngredient || pendingBlocked) {
+            // Pre-check primary output considering split between actual (limited by
+            // container and space) and pending
+            boolean primaryFitsSomewhere = false;
+            ItemStack primaryOut = recipe.output();
+            int outCount = primaryOut.getCount();
+            boolean requiresContainer = recipe.hasContainer();
+            if (requiresContainer) {
+                int containersAvailable = 0;
+                if (recipe.container().test(inventory.get(INPUT_CONTAINER_SLOT))) {
+                    containersAvailable = inventory.get(INPUT_CONTAINER_SLOT).getCount();
+                }
+                int actualSpace = 0;
+                if (canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, primaryOut)) {
+                    int max = this.getStack(OUTPUT_ACTUAL_SLOT).isEmpty() ? 64
+                            : this.getStack(OUTPUT_ACTUAL_SLOT).getMaxCount();
+                    actualSpace = Math.max(0, max - this.getStack(OUTPUT_ACTUAL_SLOT).getCount());
+                }
+                int pendingSpace = 0;
+                if (canInsertItemIntoSlot(OUTPUT_PENDING_SLOT, primaryOut)) {
+                    int max = this.getStack(OUTPUT_PENDING_SLOT).isEmpty() ? 64
+                            : this.getStack(OUTPUT_PENDING_SLOT).getMaxCount();
+                    pendingSpace = Math.max(0, max - this.getStack(OUTPUT_PENDING_SLOT).getCount());
+                }
+                int toActual = Math.min(outCount, Math.min(containersAvailable, actualSpace));
+                int toPending = outCount - toActual;
+                primaryFitsSomewhere = pendingSpace >= toPending;
+            } else {
+                // No container: must fit entirely into actual
+                primaryFitsSomewhere = canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, primaryOut)
+                        && canInsertAmountIntoSlot(OUTPUT_ACTUAL_SLOT, outCount);
+            }
+            // Pre-check secondary slot validity
+            boolean secondaryOk = true;
+            if (recipe.hasSecondary()) {
+                ItemStack sec = recipe.secondaryResult();
+                boolean canPlaceSecondary = canInsertItemIntoSlot(OUTPUT_SECONDARY_SLOT, sec)
+                        && canInsertAmountIntoSlot(OUTPUT_SECONDARY_SLOT, sec.getCount());
+                double chance = recipe.clampedSecondaryChance();
+                if (recipe.secondaryMode() == PressingRecipe.SecondaryMode.INSTEAD) {
+                    if (chance >= 1.0) {
+                        // Only need secondary capacity
+                        secondaryOk = canPlaceSecondary;
+                        // primary not required in this case
+                        primaryFitsSomewhere = true;
+                    } else if (chance <= 0.0) {
+                        // Only primary matters
+                        secondaryOk = true;
+                    } else {
+                        // Both could happen; require both
+                        secondaryOk = canPlaceSecondary;
+                    }
+                } else { // ADDITIONAL
+                    secondaryOk = canPlaceSecondary;
+                }
+            }
+
+            if (!hasIngredient || !primaryFitsSomewhere || !secondaryOk) {
                 resetProgress();
                 return;
             }
@@ -159,25 +215,85 @@ public class PressBlockEntity extends BlockEntity
     }
 
     private void craftItem(PressingRecipe recipe) {
+        // Remove ingredients first
         int ingredientCount = recipe.ingredientCount();
-        int outputCount = recipe.output().getCount();
-        int containerAvailable = inventory.get(INPUT_CONTAINER_SLOT).getCount();
-        int canOutputNow = !recipe.container().isEmpty() ? Math.min(outputCount, containerAvailable) : outputCount;
-        int toPending = outputCount - canOutputNow;
-
         this.removeStack(INPUT_INGREDIENT_SLOT, ingredientCount);
-        if (!recipe.container().isEmpty()) {
-            this.removeStack(INPUT_CONTAINER_SLOT, canOutputNow);
+
+        // Determine outcome
+        boolean produceSecondary = false;
+        if (recipe.hasSecondary()) {
+            double chance = recipe.clampedSecondaryChance();
+            if (chance >= 1.0) {
+                produceSecondary = true;
+            } else if (chance > 0.0) {
+                double roll = java.util.concurrent.ThreadLocalRandom.current().nextDouble();
+                produceSecondary = roll < chance;
+            }
         }
-        // Output as many as possible to actual slot
-        if (canOutputNow > 0 && canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, recipe.output())
-                && canInsertAmountIntoSlot(OUTPUT_ACTUAL_SLOT, canOutputNow)) {
-            this.setStack(OUTPUT_ACTUAL_SLOT, new ItemStack(recipe.output().getItem(),
-                    this.getStack(OUTPUT_ACTUAL_SLOT).getCount() + canOutputNow));
+
+        ItemStack primary = recipe.output();
+        boolean requiresContainer = recipe.hasContainer();
+
+        if (recipe.hasSecondary() && recipe.secondaryMode() == PressingRecipe.SecondaryMode.INSTEAD
+                && produceSecondary) {
+            // Only secondary
+            ItemStack sec = recipe.secondaryResult();
+            if (canInsertItemIntoSlot(OUTPUT_SECONDARY_SLOT, sec)
+                    && canInsertAmountIntoSlot(OUTPUT_SECONDARY_SLOT, sec.getCount())) {
+                this.setStack(OUTPUT_SECONDARY_SLOT, new ItemStack(sec.getItem(),
+                        this.getStack(OUTPUT_SECONDARY_SLOT).getCount() + sec.getCount()));
+            }
+            return;
         }
-        // Remainder goes to pending
+
+        // Primary always produced (and possibly secondary as additional)
+        int primaryCount = primary.getCount();
+        int toActual = primaryCount;
+        if (requiresContainer) {
+            if (recipe.container().test(inventory.get(INPUT_CONTAINER_SLOT))) {
+                int available = inventory.get(INPUT_CONTAINER_SLOT).getCount();
+                // also limit by actual slot space
+                int maxActualSpace = 0;
+                if (canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, primary)) {
+                    int max = this.getStack(OUTPUT_ACTUAL_SLOT).isEmpty() ? 64
+                            : this.getStack(OUTPUT_ACTUAL_SLOT).getMaxCount();
+                    maxActualSpace = Math.max(0, max - this.getStack(OUTPUT_ACTUAL_SLOT).getCount());
+                }
+                toActual = Math.min(toActual, Math.min(available, maxActualSpace));
+            } else {
+                toActual = 0;
+            }
+        } else {
+            // no container: still respect actual space
+            int maxActualSpace = 0;
+            if (canInsertItemIntoSlot(OUTPUT_ACTUAL_SLOT, primary)) {
+                int max = this.getStack(OUTPUT_ACTUAL_SLOT).isEmpty() ? 64
+                        : this.getStack(OUTPUT_ACTUAL_SLOT).getMaxCount();
+                maxActualSpace = Math.max(0, max - this.getStack(OUTPUT_ACTUAL_SLOT).getCount());
+            }
+            toActual = Math.min(toActual, maxActualSpace);
+        }
+        int toPending = primaryCount - toActual;
+
+        if (requiresContainer && toActual > 0) {
+            this.removeStack(INPUT_CONTAINER_SLOT, toActual);
+        }
+        if (toActual > 0) {
+            this.setStack(OUTPUT_ACTUAL_SLOT, new ItemStack(primary.getItem(),
+                    this.getStack(OUTPUT_ACTUAL_SLOT).getCount() + toActual));
+        }
         if (toPending > 0) {
-            setPendingOutputAndRecipe(new ItemStack(recipe.output().getItem(), toPending));
+            setPendingOutputAndRecipe(new ItemStack(primary.getItem(), toPending));
+        }
+
+        if (recipe.hasSecondary() && recipe.secondaryMode() == PressingRecipe.SecondaryMode.ADDITIONAL
+                && produceSecondary) {
+            ItemStack sec = recipe.secondaryResult();
+            if (canInsertItemIntoSlot(OUTPUT_SECONDARY_SLOT, sec)
+                    && canInsertAmountIntoSlot(OUTPUT_SECONDARY_SLOT, sec.getCount())) {
+                this.setStack(OUTPUT_SECONDARY_SLOT, new ItemStack(sec.getItem(),
+                        this.getStack(OUTPUT_SECONDARY_SLOT).getCount() + sec.getCount()));
+            }
         }
     }
 
@@ -286,6 +402,7 @@ public class PressBlockEntity extends BlockEntity
                         || side == Direction.SOUTH || side == Direction.WEST;
             }
             case OUTPUT_ACTUAL_SLOT:
+            case OUTPUT_SECONDARY_SLOT:
             case OUTPUT_PENDING_SLOT:
             default: {
                 return false;
@@ -295,6 +412,6 @@ public class PressBlockEntity extends BlockEntity
 
     @Override
     public boolean canExtract(int slot, ItemStack stack, Direction side) {
-        return slot == OUTPUT_ACTUAL_SLOT;
+        return slot == OUTPUT_ACTUAL_SLOT || slot == OUTPUT_SECONDARY_SLOT;
     }
 }

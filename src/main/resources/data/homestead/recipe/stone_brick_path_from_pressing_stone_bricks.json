@@ -1,0 +1,18 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:stone_bricks"
+  },
+  "ingredientCount": 1,
+  "result": {
+    "id": "homestead:stone_brick_path",
+    "count": 1
+  },
+  "time": 120,
+  "secondary_result": {
+    "id": "minecraft:cracked_stone_bricks",
+    "count": 1
+  },
+  "secondary_chance": 0.15,
+  "secondary_mode": "instead"
+}

@@ -47,6 +47,18 @@ public class PressScreenHandler extends ScreenHandler {
                 return false;
             }
         });
+        // Secondary output slot (to the right of actual output)
+        this.addSlot(new Slot(inventory, PressBlockEntity.OUTPUT_SECONDARY_SLOT, 147, 54) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return false;
+            }
+
+            @Override
+            public boolean canTakeItems(PlayerEntity player) {
+                return true;
+            }
+        });
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
