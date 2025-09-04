@@ -159,7 +159,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 Blocks.COBBLESTONE);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
                                 ModBlocks.COBBLESTONE_BRICK_SLAB,
-                                Blocks.COBBLESTONE);
+                                Blocks.COBBLESTONE, 2);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
                                 ModBlocks.COBBLESTONE_BRICK_STAIRS,
                                 Blocks.COBBLESTONE);
