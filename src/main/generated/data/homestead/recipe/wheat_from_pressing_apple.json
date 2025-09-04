@@ -1,0 +1,17 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:apple"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:wheat"
+  },
+  "secondary_chance": 0.1,
+  "secondary_mode": "additional",
+  "secondary_result": {
+    "count": 1,
+    "id": "minecraft:wheat_seeds"
+  },
+  "time": 120
+}

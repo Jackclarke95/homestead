@@ -1,0 +1,20 @@
+{
+  "type": "homestead:pressing",
+  "container": {
+    "item": "homestead:mug"
+  },
+  "ingredient": {
+    "item": "minecraft:poisonous_potato"
+  },
+  "ingredientCount": 2,
+  "result": {
+    "count": 1,
+    "id": "homestead:mug_of_vodka"
+  },
+  "secondary_chance": 0.25,
+  "secondary_result": {
+    "count": 1,
+    "id": "minecraft:beetroot"
+  },
+  "time": 120
+}

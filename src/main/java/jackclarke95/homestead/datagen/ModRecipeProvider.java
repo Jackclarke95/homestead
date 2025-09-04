@@ -8,6 +8,7 @@ import jackclarke95.homestead.datagen.recipe.CuringRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.DryingRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.MillingRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.RinsingRecipeJsonBuilder;
+import jackclarke95.homestead.datagen.recipe.PressingRecipeJsonBuilder;
 import jackclarke95.homestead.item.ModItems;
 import jackclarke95.homestead.util.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -344,5 +345,29 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .byproduct(Items.BUCKET.getDefaultStack())
                                 .offerTo(recipeExporter);
                 // #endregion Curing Recipes
+
+                // #region Pressing recipes (examples)
+                PressingRecipeJsonBuilder.create(Ingredient.ofItems(Items.APPLE), Items.WHEAT.getDefaultStack(), 120)
+                                .secondaryResult(Items.WHEAT_SEEDS.getDefaultStack())
+                                .secondaryChance(0.1)
+                                .secondaryMode(jackclarke95.homestead.recipe.PressingRecipe.SecondaryMode.ADDITIONAL)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.STONE_BRICKS),
+                                                ModBlocks.STONE_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .secondaryResult(Blocks.CRACKED_STONE_BRICKS.asItem().getDefaultStack())
+                                .secondaryChance(0.15)
+                                .secondaryMode(jackclarke95.homestead.recipe.PressingRecipe.SecondaryMode.INSTEAD)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Items.POISONOUS_POTATO),
+                                                ModItems.MUG_OF_VODKA.getDefaultStack(), 120)
+                                .ingredientCount(2)
+                                .container(Ingredient.ofItems(ModItems.MUG))
+                                .secondaryResult(Items.BEETROOT.getDefaultStack())
+                                .secondaryChance(0.25)
+                                .secondaryMode(jackclarke95.homestead.recipe.PressingRecipe.SecondaryMode.INSTEAD)
+                                .offerTo(recipeExporter);
+                // #endregion Pressing recipes
         }
 }
