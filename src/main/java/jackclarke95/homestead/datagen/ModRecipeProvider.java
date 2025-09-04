@@ -311,7 +311,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .offerTo(recipeExporter);
                 // #endregion Milling Recipes
 
-                // #region Curing recipes
+                // #region Curing Recipes
                 CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.MILK_BUCKET),
                                 ModItems.CHEESE_WHEEL.getDefaultStack(), 1200)
                                 .ingredientCount(3)
@@ -346,7 +346,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .offerTo(recipeExporter);
                 // #endregion Curing Recipes
 
-                // #region Pressing recipes (examples)
+                // #region Pressing Recipes
                 PressingRecipeJsonBuilder.create(Ingredient.ofItems(Items.APPLE), Items.WHEAT.getDefaultStack(), 120)
                                 .secondaryResult(Items.WHEAT_SEEDS.getDefaultStack())
                                 .secondaryChance(0.1)
@@ -366,6 +366,12 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .container(Ingredient.ofItems(ModItems.MUG))
                                 .secondaryResult(Items.BEETROOT.getDefaultStack())
                                 .secondaryChance(0.25)
+                                .secondaryMode(jackclarke95.homestead.recipe.PressingRecipe.SecondaryMode.INSTEAD)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.SAND), ModBlocks.SAND_PATH.asItem().getDefaultStack(),
+                                                120)
+                                .secondaryChance(0.5)
                                 .secondaryMode(jackclarke95.homestead.recipe.PressingRecipe.SecondaryMode.INSTEAD)
                                 .offerTo(recipeExporter);
                 // #endregion Pressing recipes

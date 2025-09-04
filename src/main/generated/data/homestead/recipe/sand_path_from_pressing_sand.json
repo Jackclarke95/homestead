@@ -1,0 +1,12 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:sand"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:sand_path"
+  },
+  "secondary_chance": 0.5,
+  "time": 120
+}

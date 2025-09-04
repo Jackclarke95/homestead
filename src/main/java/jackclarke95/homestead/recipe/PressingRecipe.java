@@ -91,6 +91,10 @@ public record PressingRecipe(
         return !secondaryResult.isEmpty();
     }
 
+    public boolean hasSecondaryEffect() {
+        return secondaryMode == SecondaryMode.INSTEAD && clampedSecondaryChance() > 0.0;
+    }
+
     public double clampedSecondaryChance() {
         double c = secondaryChance;
         if (c < 0.0)
@@ -146,15 +150,15 @@ public record PressingRecipe(
                 Ingredient.PACKET_CODEC.encode(buf, recipe.container());
                 ItemStack.PACKET_CODEC.encode(buf, recipe.output());
                 INT_CODEC.encode(buf, recipe.time());
-                // secondary present flag + payload
+                // Secondary item presence flag; always send chance and mode (supports empty
+                // secondary as failure outcome)
                 boolean hasSecondary = !recipe.secondaryResult().isEmpty();
                 buf.writeBoolean(hasSecondary);
                 if (hasSecondary) {
                     ItemStack.PACKET_CODEC.encode(buf, recipe.secondaryResult());
-                    DOUBLE_CODEC.encode(buf, recipe.secondaryChance());
-                    // encode mode as varint ordinal
-                    buf.writeVarInt(recipe.secondaryMode().ordinal());
                 }
+                DOUBLE_CODEC.encode(buf, recipe.secondaryChance());
+                buf.writeVarInt(recipe.secondaryMode().ordinal());
             }
 
             @Override
@@ -165,16 +169,15 @@ public record PressingRecipe(
                 ItemStack output = ItemStack.PACKET_CODEC.decode(buf);
                 int time = INT_CODEC.decode(buf);
                 ItemStack secondary = ItemStack.EMPTY;
-                double chance = 0.0;
-                SecondaryMode mode = SecondaryMode.INSTEAD;
                 boolean hasSecondary = buf.readBoolean();
                 if (hasSecondary) {
                     secondary = ItemStack.PACKET_CODEC.decode(buf);
-                    chance = DOUBLE_CODEC.decode(buf);
-                    int ord = buf.readVarInt();
-                    if (ord >= 0 && ord < SecondaryMode.values().length) {
-                        mode = SecondaryMode.values()[ord];
-                    }
+                }
+                double chance = DOUBLE_CODEC.decode(buf);
+                SecondaryMode mode = SecondaryMode.INSTEAD;
+                int ord = buf.readVarInt();
+                if (ord >= 0 && ord < SecondaryMode.values().length) {
+                    mode = SecondaryMode.values()[ord];
                 }
                 return new PressingRecipe(input, ingredientCount, container, output, time, secondary, chance, mode);
             }

@@ -189,6 +189,14 @@ public class PressBlockEntity extends BlockEntity
                     secondaryOk = canPlaceSecondary;
                 }
             }
+            // If there is an INSTEAD effect without a secondary item (failure case)
+            if (!recipe.hasSecondary() && recipe.hasSecondaryEffect()) {
+                double chance = recipe.clampedSecondaryChance();
+                if (chance >= 1.0) {
+                    // Always fails -> no primary needed
+                    primaryFitsSomewhere = true;
+                }
+            }
 
             if (!hasIngredient || !primaryFitsSomewhere || !secondaryOk) {
                 resetProgress();
@@ -219,9 +227,10 @@ public class PressBlockEntity extends BlockEntity
         int ingredientCount = recipe.ingredientCount();
         this.removeStack(INPUT_INGREDIENT_SLOT, ingredientCount);
 
-        // Determine outcome
+        // Determine outcome (also support empty-secondary INSTEAD as failure)
         boolean produceSecondary = false;
-        if (recipe.hasSecondary()) {
+        boolean considerSecondary = recipe.hasSecondary() || recipe.hasSecondaryEffect();
+        if (considerSecondary) {
             double chance = recipe.clampedSecondaryChance();
             if (chance >= 1.0) {
                 produceSecondary = true;
@@ -243,6 +252,11 @@ public class PressBlockEntity extends BlockEntity
                 this.setStack(OUTPUT_SECONDARY_SLOT, new ItemStack(sec.getItem(),
                         this.getStack(OUTPUT_SECONDARY_SLOT).getCount() + sec.getCount()));
             }
+            return;
+        }
+        // Empty-secondary INSTEAD -> produce nothing
+        if (!recipe.hasSecondary() && recipe.secondaryMode() == PressingRecipe.SecondaryMode.INSTEAD
+                && produceSecondary) {
             return;
         }
 
