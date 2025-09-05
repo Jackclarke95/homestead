@@ -6,6 +6,7 @@ import java.util.List;
 import jackclarke95.homestead.recipe.CuringRecipe;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
+import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.item.ItemStack;
 
@@ -17,9 +18,8 @@ public class CuringDisplay extends BasicDisplay {
         this.seconds = Math.max(0, recipe.time() / 20);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private static List inputs(CuringRecipe r) {
-        List list = new ArrayList<>();
+    private static List<EntryIngredient> inputs(CuringRecipe r) {
+        List<EntryIngredient> list = new ArrayList<>();
         list.add(EntryIngredients.ofIngredient(r.inputItem()));
         if (!r.catalyst().isEmpty())
             list.add(EntryIngredients.ofIngredient(r.catalyst()));
@@ -28,9 +28,8 @@ public class CuringDisplay extends BasicDisplay {
         return list;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private static List outputs(CuringRecipe r) {
-        List list = new ArrayList<>();
+    private static List<EntryIngredient> outputs(CuringRecipe r) {
+        List<EntryIngredient> list = new ArrayList<>();
         list.add(EntryIngredients.of(r.output()));
         if (!r.byproduct().isEmpty() && !ItemStack.areEqual(r.byproduct(), ItemStack.EMPTY)) {
             list.add(EntryIngredients.of(r.byproduct()));

@@ -1,0 +1,11 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:smooth_basalt"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:smooth_basalt_path"
+  },
+  "time": 120
+}

@@ -1,0 +1,16 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:deepslate_tiles"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:deepslate_tile_path"
+  },
+  "secondary_chance": 0.15,
+  "secondary_result": {
+    "count": 1,
+    "id": "minecraft:cracked_deepslate_tiles"
+  },
+  "time": 120
+}

@@ -6,6 +6,7 @@ import java.util.List;
 import jackclarke95.homestead.recipe.PressingRecipe;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
+import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.text.Text;
 
@@ -19,18 +20,16 @@ public class PressingDisplay extends BasicDisplay {
         this.seconds = Math.max(0, recipe.time() / 20);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private static List inputs(PressingRecipe r) {
-        List list = new ArrayList<>();
+    private static List<EntryIngredient> inputs(PressingRecipe r) {
+        List<EntryIngredient> list = new ArrayList<>();
         list.add(EntryIngredients.ofIngredient(r.inputItem()));
         if (!r.container().isEmpty())
             list.add(EntryIngredients.ofIngredient(r.container()));
         return list;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    private static List outputs(PressingRecipe r) {
-        List list = new ArrayList<>();
+    private static List<EntryIngredient> outputs(PressingRecipe r) {
+        List<EntryIngredient> list = new ArrayList<>();
         list.add(EntryIngredients.of(r.output()));
         if (r.hasSecondary())
             list.add(EntryIngredients.of(r.secondaryResult()));

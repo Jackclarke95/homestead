@@ -1,0 +1,11 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:gravel"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:gravel_path"
+  },
+  "time": 120
+}

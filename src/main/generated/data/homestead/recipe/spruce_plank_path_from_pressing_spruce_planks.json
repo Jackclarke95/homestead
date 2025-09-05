@@ -1,0 +1,11 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:spruce_planks"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:spruce_plank_path"
+  },
+  "time": 120
+}
