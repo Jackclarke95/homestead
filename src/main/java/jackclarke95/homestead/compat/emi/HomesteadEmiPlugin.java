@@ -17,7 +17,7 @@ public class HomesteadEmiPlugin implements EmiPlugin {
             EmiStack.of(ModBlocks.RACK));
     public static final Identifier RINSING_ID = Identifier.of(Homestead.MOD_ID, "rinsing");
     public static final EmiRecipeCategory RINSING_CATEGORY = new EmiRecipeCategory(RINSING_ID,
-            EmiStack.of(ModBlocks.TROUGH));
+            EmiStack.of(ModBlocks.RACK));
     public static final Identifier MILLING_ID = Identifier.of(Homestead.MOD_ID, "milling");
     public static final EmiRecipeCategory MILLING_CATEGORY = new EmiRecipeCategory(MILLING_ID,
             EmiStack.of(ModBlocks.MILL));

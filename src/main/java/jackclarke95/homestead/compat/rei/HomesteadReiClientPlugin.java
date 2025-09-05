@@ -27,7 +27,8 @@ public class HomesteadReiClientPlugin implements REIClientPlugin {
         registry.addWorkstations(SimpleDryingCategory.ID, EntryStacks.of(ModBlocks.HEATED_RACK));
 
         registry.add(new SimpleRinsingCategory());
-        registry.addWorkstations(SimpleRinsingCategory.ID, EntryStacks.of(ModBlocks.TROUGH));
+        registry.addWorkstations(SimpleRinsingCategory.ID, EntryStacks.of(ModBlocks.RACK));
+        registry.addWorkstations(SimpleRinsingCategory.ID, EntryStacks.of(ModBlocks.HEATED_RACK));
 
         registry.add(new SimpleMillingCategory());
         registry.addWorkstations(SimpleMillingCategory.ID, EntryStacks.of(ModBlocks.MILL));

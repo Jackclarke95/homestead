@@ -38,17 +38,13 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
-	// // Recipe viewers (dev-only; optional at runtime)
-	// // REI
+	// Recipe viewers (dev-only; optional at runtime)
+	// REI
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
 	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 	// EMI
 	modCompileOnly "dev.emi:emi-fabric:${project.emi_version}"
 	modRuntimeOnly "dev.emi:emi-fabric:${project.emi_version}"
-	// JEI (Fabric)
-	modCompileOnly "mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}"
-	// Temporarily disable JEI at runtime until integration is finalized
-	// modRuntimeOnly "mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}"
 
 	// REI depends on cloth-basic-math for Rectangle; needed at compile time only
 	modCompileOnly "me.shedaniel.cloth:basic-math:0.6.1"
@@ -104,16 +100,5 @@ publishing {
 		// Notice: This block does NOT have the same function as the block in the top level.
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
-	}
-}
-
-// Temporarily exclude datagen and REI sources to unblock build; we'll re-enable after API updates
-sourceSets {
-	main {
-		java {
-			exclude 'jackclarke95/homestead/datagen/**'
-			exclude 'jackclarke95/homestead/HomesteadDataGenerator.java'
-			exclude 'jackclarke95/homestead/compat/jei/**'
-		}
 	}
 }

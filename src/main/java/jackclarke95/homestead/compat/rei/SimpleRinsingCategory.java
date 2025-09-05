@@ -26,7 +26,7 @@ public class SimpleRinsingCategory implements DisplayCategory<SimpleRinsingDispl
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(ModBlocks.TROUGH);
+        return EntryStacks.of(ModBlocks.RACK);
     }
 
     @Override
