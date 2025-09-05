@@ -289,9 +289,12 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 ModItems.SALMON_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
                 DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.ROTTEN_FLESH),
                                 ModItems.SUSPICIOUS_JERKY.getDefaultStack(), 1200).offerTo(recipeExporter);
-
                 DryingRecipeJsonBuilder.create(Ingredient.ofItems(ModItems.RAW_HIDE),
                                 Items.LEATHER.getDefaultStack(), 1200).offerTo(recipeExporter);
+                DryingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.WET_SPONGE),
+                                Blocks.SPONGE.asItem().getDefaultStack(), 1200).offerTo(recipeExporter);
+                DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.KELP),
+                                Items.KELP.getDefaultStack(), 1200).offerTo(recipeExporter);
                 // #endregion Rinsing Recipes
 
                 // #region Milling Recipes
