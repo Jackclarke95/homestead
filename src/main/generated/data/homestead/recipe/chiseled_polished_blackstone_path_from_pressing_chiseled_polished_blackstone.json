@@ -1,0 +1,11 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:chiseled_polished_blackstone"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:chiseled_polished_blackstone_path"
+  },
+  "time": 120
+}

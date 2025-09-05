@@ -1,0 +1,68 @@
+package jackclarke95.homestead.compat.emi;
+
+import java.util.List;
+
+import dev.emi.emi.api.recipe.EmiRecipe;
+import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.api.render.EmiTexture;
+import dev.emi.emi.api.stack.EmiIngredient;
+import dev.emi.emi.api.stack.EmiStack;
+import jackclarke95.homestead.recipe.DryingRecipe;
+import net.minecraft.util.Identifier;
+
+public class DryingEmiRecipe implements EmiRecipe {
+    private final Identifier id;
+    private final DryingRecipe recipe;
+
+    private final EmiIngredient input;
+    private final EmiStack output;
+
+    public DryingEmiRecipe(Identifier id, DryingRecipe recipe) {
+        this.id = id;
+        this.recipe = recipe;
+        this.input = EmiIngredient.of(recipe.getIngredients().getFirst());
+        this.output = EmiStack.of(recipe.getResult(null));
+    }
+
+    @Override
+    public EmiRecipeCategory getCategory() {
+        return HomesteadEmiPlugin.DRYING_CATEGORY;
+    }
+
+    @Override
+    public Identifier getId() {
+        return id;
+    }
+
+    @Override
+    public List<EmiIngredient> getInputs() {
+        return List.of(input);
+    }
+
+    @Override
+    public List<EmiStack> getOutputs() {
+        return List.of(output);
+    }
+
+    @Override
+    public int getDisplayWidth() {
+        return 90;
+    }
+
+    @Override
+    public int getDisplayHeight() {
+        return 26;
+    }
+
+    @Override
+    public void addWidgets(dev.emi.emi.api.widget.WidgetHolder widgets) {
+        // Background arrow to suggest process
+        widgets.addTexture(EmiTexture.EMPTY_ARROW, 36, 4);
+        // Input and output slots
+        widgets.addSlot(input, 6, 4);
+        widgets.addSlot(output, 66, 4).large(true).recipeContext(this);
+        // Time label
+        int seconds = Math.max(0, recipe.time() / 20);
+        widgets.addText(net.minecraft.text.Text.literal(seconds + "s"), 36, 16, 0x404040, false);
+    }
+}

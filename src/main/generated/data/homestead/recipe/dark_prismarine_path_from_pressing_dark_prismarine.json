@@ -1,0 +1,11 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:dark_prismarine"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:dark_prismarine_path"
+  },
+  "time": 120
+}

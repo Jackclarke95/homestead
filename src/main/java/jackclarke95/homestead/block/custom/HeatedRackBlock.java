@@ -77,7 +77,7 @@ public class HeatedRackBlock extends RackBlock {
 
     @Override
     protected VoxelShape createShape() {
-        return VoxelShapes.fullCube();
+        return VoxelShapes.union(super.createShape(), Block.createCuboidShape(0, 0, 0, 16, 9, 16));
     }
 
     @Override

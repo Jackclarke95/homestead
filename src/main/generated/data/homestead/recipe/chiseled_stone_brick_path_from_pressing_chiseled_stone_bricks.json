@@ -1,0 +1,11 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:chiseled_stone_bricks"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:chiseled_stone_brick_path"
+  },
+  "time": 120
+}
