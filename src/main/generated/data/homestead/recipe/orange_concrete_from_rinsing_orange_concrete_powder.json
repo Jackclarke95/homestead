@@ -1,0 +1,11 @@
+{
+  "type": "homestead:rinsing",
+  "ingredient": {
+    "item": "minecraft:orange_concrete_powder"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:orange_concrete"
+  },
+  "time": 60
+}

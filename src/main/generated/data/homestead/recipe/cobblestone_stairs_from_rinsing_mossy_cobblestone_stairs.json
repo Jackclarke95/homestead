@@ -1,0 +1,11 @@
+{
+  "type": "homestead:rinsing",
+  "ingredient": {
+    "item": "minecraft:mossy_cobblestone_stairs"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:cobblestone_stairs"
+  },
+  "time": 60
+}

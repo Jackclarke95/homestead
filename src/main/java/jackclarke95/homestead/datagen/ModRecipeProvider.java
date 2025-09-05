@@ -175,6 +175,24 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 // #endregion Building Block Recipes
 
                 // #region Rinsing Recipes
+                // Mossy rinsing recipes
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MOSSY_COBBLESTONE),
+                                Blocks.COBBLESTONE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MOSSY_COBBLESTONE_SLAB),
+                                Blocks.COBBLESTONE_SLAB.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MOSSY_COBBLESTONE_STAIRS),
+                                Blocks.COBBLESTONE_STAIRS.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MOSSY_COBBLESTONE_WALL),
+                                Blocks.COBBLESTONE_WALL.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MOSSY_STONE_BRICKS),
+                                Blocks.STONE_BRICKS.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MOSSY_STONE_BRICK_SLAB),
+                                Blocks.STONE_BRICK_SLAB.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MOSSY_STONE_BRICK_STAIRS),
+                                Blocks.STONE_BRICK_STAIRS.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MOSSY_STONE_BRICK_WALL),
+                                Blocks.STONE_BRICK_WALL.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+
                 // Wool rinsing recipes
                 RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_GRAY_WOOL),
                                 Items.WHITE_WOOL.getDefaultStack(), 60).offerTo(recipeExporter);
@@ -270,6 +288,74 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
                 RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PINK_CARPET),
                                 Items.WHITE_CARPET.getDefaultStack(), 60).offerTo(recipeExporter);
+
+                // Concrete Power rinsing recipes
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.WHITE_CONCRETE_POWDER),
+                                Blocks.WHITE_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_GRAY_CONCRETE_POWDER),
+                                Blocks.LIGHT_GRAY_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.GRAY_CONCRETE_POWDER),
+                                Blocks.GRAY_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BLACK_CONCRETE_POWDER),
+                                Blocks.BLACK_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BROWN_CONCRETE_POWDER),
+                                Blocks.BROWN_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.RED_CONCRETE_POWDER),
+                                Blocks.RED_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.ORANGE_CONCRETE_POWDER),
+                                Blocks.ORANGE_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.YELLOW_CONCRETE_POWDER),
+                                Blocks.YELLOW_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIME_CONCRETE_POWDER),
+                                Blocks.LIME_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.GREEN_CONCRETE_POWDER),
+                                Blocks.GREEN_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.CYAN_CONCRETE_POWDER),
+                                Blocks.CYAN_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_BLUE_CONCRETE_POWDER),
+                                Blocks.LIGHT_BLUE_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BLUE_CONCRETE_POWDER),
+                                Blocks.BLUE_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PURPLE_CONCRETE_POWDER),
+                                Blocks.PURPLE_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MAGENTA_CONCRETE_POWDER),
+                                Blocks.MAGENTA_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PINK_CONCRETE_POWDER),
+                                Blocks.PINK_CONCRETE.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+
+                // Shulker rinsing recipes
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.WHITE_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_GRAY_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.GRAY_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BLACK_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BROWN_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.RED_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.ORANGE_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.YELLOW_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIME_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.GREEN_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.CYAN_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.LIGHT_BLUE_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.BLUE_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PURPLE_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.MAGENTA_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
+                RinsingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.PINK_SHULKER_BOX),
+                                Blocks.SHULKER_BOX.asItem().getDefaultStack(), 60).offerTo(recipeExporter);
                 // #endregion Rinsing Recipes
 
                 // #region Drying Recipes
@@ -294,7 +380,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 DryingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.WET_SPONGE),
                                 Blocks.SPONGE.asItem().getDefaultStack(), 1200).offerTo(recipeExporter);
                 DryingRecipeJsonBuilder.create(Ingredient.ofItems(Items.KELP),
-                                Items.KELP.getDefaultStack(), 1200).offerTo(recipeExporter);
+                                Items.DRIED_KELP.getDefaultStack(), 1200).offerTo(recipeExporter);
                 // #endregion Rinsing Recipes
 
                 // #region Milling Recipes

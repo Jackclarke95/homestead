@@ -1,0 +1,11 @@
+{
+  "type": "homestead:rinsing",
+  "ingredient": {
+    "item": "minecraft:mossy_cobblestone_wall"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:cobblestone_wall"
+  },
+  "time": 60
+}

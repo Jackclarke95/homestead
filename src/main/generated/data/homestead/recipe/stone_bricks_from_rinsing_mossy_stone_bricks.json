@@ -1,0 +1,11 @@
+{
+  "type": "homestead:rinsing",
+  "ingredient": {
+    "item": "minecraft:mossy_stone_bricks"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:stone_bricks"
+  },
+  "time": 60
+}
