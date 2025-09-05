@@ -13,8 +13,6 @@ import jackclarke95.homestead.network.ModNetworking;
 import jackclarke95.homestead.recipe.ModRecipes;
 import jackclarke95.homestead.screen.ModScreenHandlers;
 
-// TODO: LICENSE
-
 public class Homestead implements ModInitializer {
 	public static final String MOD_ID = "homestead";
 

@@ -42,8 +42,6 @@ import java.util.Optional;
 import org.jetbrains.annotations.Nullable;
 
 public class RackBlock extends BlockWithEntity {
-    private final VoxelShape SHAPE = createShape();
-
     // Combine all shapes
     public static final MapCodec<RackBlock> CODEC = RackBlock.createCodec(RackBlock::new);
 
@@ -56,7 +54,7 @@ public class RackBlock extends BlockWithEntity {
 
     @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return SHAPE;
+        return createShape(state);
     }
 
     @Override
@@ -289,15 +287,75 @@ public class RackBlock extends BlockWithEntity {
         return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
-    protected VoxelShape createShape() {
-        // TODO: Rotate based on facing, and wrap model shape more cleanly
-        return VoxelShapes.union(
-                Block.createCuboidShape(0, 0, 0, 2, 9, 2), // back left leg (short)
-                Block.createCuboidShape(14, 0, 0, 16, 9, 2), // back right leg (short)
-                Block.createCuboidShape(14, 0, 14, 16, 9, 16), // front right leg (tall)
-                Block.createCuboidShape(0, 0, 14, 2, 9, 16), // front left leg (tall)
-                Block.createCuboidShape(0, 9, 0, 16, 15, 16) // top rack
-        );
+    protected VoxelShape createShape(BlockState state) {
+        // Lectern-style 3 steps
+        double[] yTops = { 15.0, 13.0, 11.0 };
+        double[] yBottoms = { 13.0, 11.0, 9.0 };
+        double[] zBacks = { 15.0, 11.0, 6.0 };
+        double[] zFronts = { 10.0, 5.0, 2.0 };
+
+        VoxelShape legs;
+        VoxelShape rack;
+
+        switch (state.get(FACING)) {
+            case NORTH:
+                rack = VoxelShapes.empty();
+                legs = VoxelShapes.union(
+                        Block.createCuboidShape(0, 0, 0, 2, 10, 2),
+                        Block.createCuboidShape(14, 0, 0, 16, 10, 2),
+                        Block.createCuboidShape(14, 0, 14, 16, 16, 16),
+                        Block.createCuboidShape(0, 0, 14, 2, 16, 16));
+
+                for (int i = 0; i < 3; i++) {
+                    rack = VoxelShapes.union(rack,
+                            Block.createCuboidShape(0, yBottoms[i], zFronts[i], 16, yTops[i], zBacks[i]));
+                }
+
+                return VoxelShapes.union(legs, rack);
+            case SOUTH:
+                rack = VoxelShapes.empty();
+                legs = VoxelShapes.union(
+                        Block.createCuboidShape(0, 0, 14, 2, 10, 16),
+                        Block.createCuboidShape(14, 0, 14, 16, 10, 16),
+                        Block.createCuboidShape(14, 0, 0, 16, 16, 2),
+                        Block.createCuboidShape(0, 0, 0, 2, 16, 2));
+
+                for (int i = 0; i < 3; i++) {
+                    rack = VoxelShapes.union(rack,
+                            Block.createCuboidShape(0, yBottoms[i], 16 - zBacks[i], 16, yTops[i], 16 - zFronts[i]));
+                }
+
+                return VoxelShapes.union(legs, rack);
+            case EAST:
+                rack = VoxelShapes.empty();
+                legs = VoxelShapes.union(
+                        Block.createCuboidShape(14, 0, 0, 16, 10, 2),
+                        Block.createCuboidShape(14, 0, 14, 16, 10, 16),
+                        Block.createCuboidShape(0, 0, 14, 2, 16, 16),
+                        Block.createCuboidShape(0, 0, 0, 2, 16, 2));
+
+                for (int i = 0; i < 3; i++) {
+                    rack = VoxelShapes.union(rack,
+                            Block.createCuboidShape(16 - zBacks[i], yBottoms[i], 0, 16 - zFronts[i], yTops[i], 16));
+                }
+
+                return VoxelShapes.union(legs, rack);
+            default:
+            case WEST:
+                rack = VoxelShapes.empty();
+                legs = VoxelShapes.union(
+                        Block.createCuboidShape(0, 0, 0, 2, 10, 2),
+                        Block.createCuboidShape(0, 0, 14, 2, 10, 16),
+                        Block.createCuboidShape(14, 0, 14, 16, 16, 16),
+                        Block.createCuboidShape(14, 0, 0, 16, 16, 2));
+
+                for (int i = 0; i < 3; i++) {
+                    rack = VoxelShapes.union(rack,
+                            Block.createCuboidShape(zFronts[i], yBottoms[i], 0, zBacks[i], yTops[i], 16));
+                }
+
+                return VoxelShapes.union(legs, rack);
+        }
     }
 
     @Override
