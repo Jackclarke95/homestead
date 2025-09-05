@@ -1,0 +1,11 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:mud_bricks"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:mud_brick_path"
+  },
+  "time": 120
+}

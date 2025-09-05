@@ -16,39 +16,37 @@ import net.minecraft.util.Identifier;
 public class ModBlockEntities {
         public static final BlockEntityType<RackBlockEntity> RACK_BE = Registry.register(
                         Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "rack_be"),
-                        BlockEntityType.Builder.<RackBlockEntity>create(
-                                        (pos, state) -> new RackBlockEntity(pos, state), ModBlocks.RACK)
-                                        .build(null));
+                        BlockEntityType.Builder.create((pos, state) -> new RackBlockEntity(pos, state), ModBlocks.RACK)
+                                        .build());
 
         public static final BlockEntityType<HeatedRackBlockEntity> HEATED_RACK_BE = Registry.register(
                         Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "heated_rack_be"),
-                        BlockEntityType.Builder.<HeatedRackBlockEntity>create(
-                                        (pos, state) -> new HeatedRackBlockEntity(pos, state), ModBlocks.HEATED_RACK)
-                                        .build(null));
+                        BlockEntityType.Builder.create((pos, state) -> new HeatedRackBlockEntity(pos, state),
+                                        ModBlocks.HEATED_RACK)
+                                        .build());
 
         public static final BlockEntityType<CuringVatBlockEntity> CURING_VAT_BE = Registry.register(
                         Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "curing_vat_be"),
-                        BlockEntityType.Builder.<CuringVatBlockEntity>create(
-                                        (pos, state) -> new CuringVatBlockEntity(pos, state), ModBlocks.CURING_VAT)
-                                        .build(null));
+                        BlockEntityType.Builder.create((pos, state) -> new CuringVatBlockEntity(pos, state),
+                                        ModBlocks.CURING_VAT)
+                                        .build());
 
         public static final BlockEntityType<PressBlockEntity> PRESS_BE = Registry.register(
                         Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "press_be"),
-                        BlockEntityType.Builder.<PressBlockEntity>create(
-                                        (pos, state) -> new PressBlockEntity(pos, state), ModBlocks.PRESS)
-                                        .build(null));
+                        BlockEntityType.Builder
+                                        .create((pos, state) -> new PressBlockEntity(pos, state), ModBlocks.PRESS)
+                                        .build());
 
         public static final BlockEntityType<MillBlockEntity> MILL_BE = Registry.register(
                         Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "mill_be"),
-                        BlockEntityType.Builder.<MillBlockEntity>create(
-                                        (pos, state) -> new MillBlockEntity(pos, state), ModBlocks.MILL)
-                                        .build(null));
+                        BlockEntityType.Builder.create((pos, state) -> new MillBlockEntity(pos, state), ModBlocks.MILL)
+                                        .build());
 
         public static final BlockEntityType<TroughBlockEntity> TROUGH_BE = Registry.register(
                         Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "trough_be"),
-                        BlockEntityType.Builder.<TroughBlockEntity>create(
-                                        (pos, state) -> new TroughBlockEntity(pos, state),
-                                        ModBlocks.TROUGH).build(null));
+                        BlockEntityType.Builder.create((pos, state) -> new TroughBlockEntity(pos, state),
+                                        ModBlocks.TROUGH)
+                                        .build());
 
         public static void registerBlockEntities() {
                 Homestead.LOGGER.info("Registering Block Entities for " + Homestead.MOD_ID);

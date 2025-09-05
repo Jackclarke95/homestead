@@ -15,7 +15,9 @@
   "entrypoints": {
     "main": ["jackclarke95.homestead.Homestead"],
     "fabric-datagen": ["jackclarke95.homestead.HomesteadDataGenerator"],
-    "client": ["jackclarke95.homestead.HomesteadClient"]
+    "client": ["jackclarke95.homestead.HomesteadClient"],
+    "emi": ["jackclarke95.homestead.compat.emi.HomesteadEmiPlugin"],
+    "rei_client": ["jackclarke95.homestead.compat.rei.HomesteadReiClientPlugin"]
   },
   "mixins": ["homestead.mixins.json"],
   "depends": {

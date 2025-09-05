@@ -16,6 +16,11 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+
+	// Recipe viewers
+	maven { url = "https://maven.shedaniel.me" }           // REI
+	maven { url = "https://maven.terraformersmc.com/releases" } // EMI
+	maven { url = "https://maven.blamejared.com" }          // JEI
 }
 
 fabricApi {
@@ -33,6 +38,18 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	
+	// Recipe viewers (dev-only; optional at runtime)
+	// REI
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
+	// modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+	// EMI
+	modCompileOnly "dev.emi:emi-fabric:${project.emi_version}"
+	modRuntimeOnly "dev.emi:emi-fabric:${project.emi_version}"
+
+	// REI depends on cloth-basic-math for Rectangle; needed at compile time only
+	modCompileOnly "me.shedaniel.cloth:basic-math:0.6.1"
+	// Some REI APIs reference architectury types; add compileOnly to satisfy them
+	modCompileOnly "dev.architectury:architectury-fabric:13.0.6"
 }
 
 processResources {

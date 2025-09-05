@@ -1,0 +1,11 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:purpur_block"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:purpur_block_path"
+  },
+  "time": 120
+}

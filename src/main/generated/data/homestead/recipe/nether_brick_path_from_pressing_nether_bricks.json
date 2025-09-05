@@ -1,0 +1,16 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:nether_bricks"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:nether_brick_path"
+  },
+  "secondary_chance": 0.15,
+  "secondary_result": {
+    "count": 1,
+    "id": "minecraft:cracked_nether_bricks"
+  },
+  "time": 120
+}

@@ -1,0 +1,11 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:cobbled_deepslate"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:cobbled_deepslate_path"
+  },
+  "time": 120
+}

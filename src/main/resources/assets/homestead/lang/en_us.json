@@ -100,5 +100,17 @@
   "tag.item.homestead.rinsing": "Rinsing",
 
   "tag.item.homestead.root_vegetables": "Root Vegetables",
-  "tag.item.homestead.crop_seeds": "Crop Seeds"
+  "tag.item.homestead.crop_seeds": "Crop Seeds",
+
+  "category.homestead.drying": "Drying",
+  "category.homestead.rinsing": "Rinsing",
+  "category.homestead.milling": "Milling",
+  "category.homestead.curing": "Curing",
+  "category.homestead.pressing": "Pressing",
+
+  "emi.category.homestead.drying": "Drying",
+  "emi.category.homestead.rinsing": "Rinsing",
+  "emi.category.homestead.milling": "Milling",
+  "emi.category.homestead.curing": "Curing",
+  "emi.category.homestead.pressing": "Pressing"
 }

@@ -1,0 +1,11 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:acacia_planks"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:acacia_plank_path"
+  },
+  "time": 120
+}

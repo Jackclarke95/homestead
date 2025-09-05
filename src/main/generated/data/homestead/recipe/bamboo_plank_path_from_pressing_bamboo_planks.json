@@ -1,0 +1,11 @@
+{
+  "type": "homestead:pressing",
+  "ingredient": {
+    "item": "minecraft:bamboo_planks"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:bamboo_plank_path"
+  },
+  "time": 120
+}

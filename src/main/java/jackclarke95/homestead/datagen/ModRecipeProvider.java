@@ -10,6 +10,7 @@ import jackclarke95.homestead.datagen.recipe.MillingRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.RinsingRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.PressingRecipeJsonBuilder;
 import jackclarke95.homestead.item.ModItems;
+import jackclarke95.homestead.recipe.PressingRecipe.SecondaryMode;
 import jackclarke95.homestead.util.ModTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -155,27 +156,21 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion("has_cobblestone_bricks", conditionsFromItem(ModBlocks.COBBLESTONE_BRICKS))
                                 .offerTo(recipeExporter);
 
-                offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, ModBlocks.COBBLESTONE_BRICKS,
-                                Blocks.COBBLESTONE);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_SLAB,
-                                Blocks.COBBLESTONE, 2);
+                                ModBlocks.COBBLESTONE_BRICKS, Blocks.COBBLESTONE);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_STAIRS,
-                                Blocks.COBBLESTONE);
+                                ModBlocks.COBBLESTONE_BRICK_SLAB, Blocks.COBBLESTONE, 2);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_WALL,
-                                Blocks.COBBLESTONE);
+                                ModBlocks.COBBLESTONE_BRICK_STAIRS, Blocks.COBBLESTONE);
+                offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
+                                ModBlocks.COBBLESTONE_BRICK_WALL, Blocks.COBBLESTONE);
 
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_SLAB,
-                                ModBlocks.COBBLESTONE_BRICKS);
+                                ModBlocks.COBBLESTONE_BRICK_SLAB, ModBlocks.COBBLESTONE_BRICKS, 2);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_STAIRS,
-                                ModBlocks.COBBLESTONE_BRICKS);
+                                ModBlocks.COBBLESTONE_BRICK_STAIRS, ModBlocks.COBBLESTONE_BRICKS);
                 offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS,
-                                ModBlocks.COBBLESTONE_BRICK_WALL,
-                                ModBlocks.COBBLESTONE_BRICKS);
+                                ModBlocks.COBBLESTONE_BRICK_WALL, ModBlocks.COBBLESTONE_BRICKS);
                 // #endregion Cobblestone Brick Recipes
                 // #endregion Building Block Recipes
 
@@ -347,17 +342,18 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 // #endregion Curing Recipes
 
                 // #region Pressing Recipes
-                PressingRecipeJsonBuilder.create(Ingredient.ofItems(Items.APPLE), Items.WHEAT.getDefaultStack(), 120)
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Items.APPLE), Items.WHEAT.getDefaultStack(), 120)
                                 .secondaryResult(Items.WHEAT_SEEDS.getDefaultStack())
                                 .secondaryChance(0.1)
-                                .secondaryMode(jackclarke95.homestead.recipe.PressingRecipe.SecondaryMode.ADDITIONAL)
+                                .secondaryMode(SecondaryMode.ADDITIONAL)
                                 .offerTo(recipeExporter);
                 PressingRecipeJsonBuilder
                                 .create(Ingredient.ofItems(Blocks.STONE_BRICKS),
                                                 ModBlocks.STONE_BRICK_PATH.asItem().getDefaultStack(), 120)
                                 .secondaryResult(Blocks.CRACKED_STONE_BRICKS.asItem().getDefaultStack())
                                 .secondaryChance(0.15)
-                                .secondaryMode(jackclarke95.homestead.recipe.PressingRecipe.SecondaryMode.INSTEAD)
+                                .secondaryMode(SecondaryMode.INSTEAD)
                                 .offerTo(recipeExporter);
                 PressingRecipeJsonBuilder
                                 .create(Ingredient.ofItems(Items.POISONOUS_POTATO),
@@ -366,14 +362,268 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .container(Ingredient.ofItems(ModItems.MUG))
                                 .secondaryResult(Items.BEETROOT.getDefaultStack())
                                 .secondaryChance(0.25)
-                                .secondaryMode(jackclarke95.homestead.recipe.PressingRecipe.SecondaryMode.INSTEAD)
+                                .secondaryMode(SecondaryMode.INSTEAD)
                                 .offerTo(recipeExporter);
                 PressingRecipeJsonBuilder
                                 .create(Ingredient.ofItems(Blocks.SAND), ModBlocks.SAND_PATH.asItem().getDefaultStack(),
                                                 120)
                                 .secondaryChance(0.5)
-                                .secondaryMode(jackclarke95.homestead.recipe.PressingRecipe.SecondaryMode.INSTEAD)
+                                .secondaryMode(SecondaryMode.INSTEAD)
                                 .offerTo(recipeExporter);
-                // #endregion Pressing recipes
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.DEEPSLATE_BRICKS),
+                                                ModBlocks.DEEPSLATE_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .secondaryResult(Blocks.CRACKED_DEEPSLATE_BRICKS.asItem().getDefaultStack())
+                                .secondaryChance(0.15)
+                                .secondaryMode(SecondaryMode.INSTEAD)
+                                .offerTo(recipeExporter);
+
+                // Deepslate Tile Path
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.DEEPSLATE_TILES),
+                                                ModBlocks.DEEPSLATE_TILE_PATH.asItem().getDefaultStack(), 120)
+                                .secondaryResult(Blocks.CRACKED_DEEPSLATE_TILES.asItem().getDefaultStack())
+                                .secondaryChance(0.15)
+                                .secondaryMode(SecondaryMode.INSTEAD)
+                                .offerTo(recipeExporter);
+
+                // Nether Brick Path
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.NETHER_BRICKS),
+                                                ModBlocks.NETHER_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .secondaryResult(Blocks.CRACKED_NETHER_BRICKS.asItem().getDefaultStack())
+                                .secondaryChance(0.15)
+                                .secondaryMode(SecondaryMode.INSTEAD)
+                                .offerTo(recipeExporter);
+
+                // Polished Blackstone Brick Path
+                PressingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.POLISHED_BLACKSTONE_BRICKS),
+                                ModBlocks.POLISHED_BLACKSTONE_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .secondaryResult(Blocks.CRACKED_POLISHED_BLACKSTONE_BRICKS.asItem().getDefaultStack())
+                                .secondaryChance(0.15)
+                                .secondaryMode(SecondaryMode.INSTEAD)
+                                .offerTo(recipeExporter);
+
+                // All other path blocks (no cracked variant)
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.STONE),
+                                                ModBlocks.STONE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.COARSE_DIRT),
+                                                ModBlocks.COARSE_DIRT_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.COBBLESTONE),
+                                                ModBlocks.COBBLESTONE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(ModBlocks.COBBLESTONE_BRICKS),
+                                                ModBlocks.COBBLESTONE_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.ANDESITE),
+                                                ModBlocks.ANDESITE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.POLISHED_ANDESITE),
+                                                ModBlocks.POLISHED_ANDESITE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.DIORITE),
+                                                ModBlocks.DIORITE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.POLISHED_DIORITE),
+                                                ModBlocks.POLISHED_DIORITE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.GRANITE),
+                                                ModBlocks.GRANITE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.POLISHED_GRANITE),
+                                                ModBlocks.POLISHED_GRANITE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.GRAVEL),
+                                                ModBlocks.GRAVEL_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.OAK_PLANKS),
+                                                ModBlocks.OAK_PLANK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.SPRUCE_PLANKS),
+                                                ModBlocks.SPRUCE_PLANK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.BIRCH_PLANKS),
+                                                ModBlocks.BIRCH_PLANK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.JUNGLE_PLANKS),
+                                                ModBlocks.JUNGLE_PLANK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.ACACIA_PLANKS),
+                                                ModBlocks.ACACIA_PLANK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.DARK_OAK_PLANKS),
+                                                ModBlocks.DARK_OAK_PLANK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.MANGROVE_PLANKS),
+                                                ModBlocks.MANGROVE_PLANK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.CHERRY_PLANKS),
+                                                ModBlocks.CHERRY_PLANK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.BAMBOO_PLANKS),
+                                                ModBlocks.BAMBOO_PLANK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.CRIMSON_PLANKS),
+                                                ModBlocks.CRIMSON_PLANK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.WARPED_PLANKS),
+                                                ModBlocks.WARPED_PLANK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.MOSSY_COBBLESTONE),
+                                                ModBlocks.MOSSY_COBBLESTONE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.MOSSY_STONE_BRICKS),
+                                                ModBlocks.MOSSY_STONE_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.SMOOTH_STONE),
+                                                ModBlocks.SMOOTH_STONE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.CHISELED_STONE_BRICKS),
+                                                ModBlocks.CHISELED_STONE_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.DEEPSLATE),
+                                                ModBlocks.DEEPSLATE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.COBBLED_DEEPSLATE),
+                                                ModBlocks.COBBLED_DEEPSLATE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.POLISHED_DEEPSLATE),
+                                                ModBlocks.POLISHED_DEEPSLATE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.POLISHED_TUFF),
+                                                ModBlocks.POLISHED_TUFF_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.TUFF_BRICKS),
+                                                ModBlocks.TUFF_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.BRICKS),
+                                                ModBlocks.BRICKS_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.PACKED_MUD),
+                                                ModBlocks.PACKED_MUD_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.MUD_BRICKS),
+                                                ModBlocks.MUD_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.SMOOTH_SANDSTONE),
+                                                ModBlocks.SMOOTH_SANDSTONE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.SMOOTH_RED_SANDSTONE),
+                                                ModBlocks.SMOOTH_RED_SANDSTONE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.PRISMARINE),
+                                                ModBlocks.PRISMARINE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.PRISMARINE_BRICKS),
+                                                ModBlocks.PRISMARINE_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.DARK_PRISMARINE),
+                                                ModBlocks.DARK_PRISMARINE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.NETHERRACK),
+                                                ModBlocks.NETHERRACK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.CHISELED_NETHER_BRICKS),
+                                                ModBlocks.CHISELED_NETHER_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.RED_NETHER_BRICKS),
+                                                ModBlocks.RED_NETHER_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.SMOOTH_BASALT),
+                                                ModBlocks.SMOOTH_BASALT_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.BLACKSTONE),
+                                                ModBlocks.BLACKSTONE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.GILDED_BLACKSTONE),
+                                                ModBlocks.GILDED_BLACKSTONE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder.create(Ingredient.ofItems(Blocks.CHISELED_POLISHED_BLACKSTONE),
+                                ModBlocks.CHISELED_POLISHED_BLACKSTONE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.POLISHED_BLACKSTONE),
+                                                ModBlocks.POLISHED_BLACKSTONE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.END_STONE),
+                                                ModBlocks.END_STONE_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.END_STONE_BRICKS),
+                                                ModBlocks.END_STONE_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.PURPUR_BLOCK),
+                                                ModBlocks.PURPUR_BLOCK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.PURPUR_PILLAR),
+                                                ModBlocks.PURPUR_PILLAR_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.QUARTZ_BLOCK),
+                                                ModBlocks.QUARTZ_BLOCK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.CHISELED_QUARTZ_BLOCK),
+                                                ModBlocks.CHISELED_QUARTZ_BLOCK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.QUARTZ_BRICKS),
+                                                ModBlocks.QUARTZ_BRICK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                PressingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(Blocks.SMOOTH_QUARTZ),
+                                                ModBlocks.SMOOTH_QUARTZ_BLOCK_PATH.asItem().getDefaultStack(), 120)
+                                .offerTo(recipeExporter);
+                // #endregion Pressing Recipes
         }
 }
