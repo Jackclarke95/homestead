@@ -2,6 +2,7 @@ package jackclarke95.homestead.block.renderer;
 
 import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.block.custom.RackBlock;
+import net.minecraft.block.BannerBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
@@ -13,7 +14,9 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShieldItem;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Direction;
@@ -29,7 +32,7 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
             VertexConsumerProvider vertexConsumers, int light, int overlay) {
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
         ItemStack stack = entity.getStack(0);
-        
+
         // Only render if the stack is not empty
         if (stack.isEmpty()) {
             return;
@@ -39,22 +42,41 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
 
         Direction facing = getBlockFacing(entity);
         boolean isBlockItem = stack.getItem() instanceof BlockItem;
+        boolean isBanner = false;
+        boolean isShield = false;
 
-        matrices.translate(0.5f, getYTranslation(isBlockItem), 0.5f);
+        if (isBlockItem) {
+            BlockItem blockItem = (BlockItem) stack.getItem();
 
+            if (blockItem.getBlock() instanceof BannerBlock) {
+                isBanner = true;
+            }
+        } else {
+            Item item = stack.getItem();
+
+            if (item instanceof ShieldItem) {
+                isShield = true;
+            }
+        }
+
+        matrices.translate(
+                getXTranslation(isBlockItem, isBanner, isShield),
+                getYTranslation(isBlockItem, isBanner, isShield),
+                getZTranslation(isBlockItem, isBanner, isShield));
         matrices.scale(0.5f, 0.5f, 0.5f);
-
-        // TODO: Rotate banners and shields to appear properly
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(getRotationForFacing(facing)));
         matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(getXRotation(isBlockItem)));
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180));
+
+        if (isBanner) {
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90));
+        } else {
+            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180));
+        }
 
         ModelTransformationMode mode = isBlockItem ? ModelTransformationMode.FIXED : ModelTransformationMode.GUI;
-
         itemRenderer.renderItem(stack, mode,
                 getLightLevel(entity.getWorld(), entity.getPos()),
                 OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 0);
-
         matrices.pop();
     }
 
@@ -67,11 +89,42 @@ public class RackBlockEntityRenderer implements BlockEntityRenderer<RackBlockEnt
                 facing = state.get(RackBlock.FACING);
             }
         }
+
         return facing;
     }
 
-    private float getYTranslation(boolean isBlockItem) {
-        return isBlockItem ? 0.8875f : 0.7625f;
+    private float getXTranslation(boolean isBlockItem, boolean isBanner, boolean isShield) {
+        if (isShield) {
+            return 0.45f;
+        } else {
+            return 0.5f;
+        }
+    }
+
+    private float getYTranslation(boolean isBlockItem, boolean isBanner, boolean isShield) {
+        if (isBlockItem) {
+            if (isBanner) {
+                return 0.735f;
+            } else {
+                return 0.8875f;
+            }
+        } else {
+            if (isShield) {
+                return 1.1f;
+            } else {
+                return 0.7625f;
+            }
+        }
+    }
+
+    private float getZTranslation(boolean isBlockItem, boolean isBanner, boolean isShield) {
+        if (isBanner) {
+            return 0.45f;
+        } else if (isShield) {
+            return 0.45f;
+        } else {
+            return 0.5f;
+        }
     }
 
     private float getXRotation(boolean isBlockItem) {
