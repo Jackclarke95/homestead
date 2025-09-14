@@ -9,7 +9,7 @@ import jackclarke95.homestead.block.custom.TroughBlock;
 import jackclarke95.homestead.block.custom.VerticleSlabBlock;
 import jackclarke95.homestead.block.custom.MillBlock;
 import jackclarke95.homestead.block.custom.PathBlock;
-import jackclarke95.homestead.block.custom.SawdustBlock;
+import jackclarke95.homestead.block.custom.SurfaceLayerBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -43,7 +43,7 @@ public class ModBlocks {
         public static final Block MILL = registerBlock("mill",
                         new MillBlock(AbstractBlock.Settings.copy(Blocks.STONE)));
         public static final Block SAWDUST = registerBlock("sawdust",
-                        new SawdustBlock(AbstractBlock.Settings.copy(Blocks.BROWN_CONCRETE_POWDER).nonOpaque()));
+                        new SurfaceLayerBlock(AbstractBlock.Settings.copy(Blocks.BROWN_CONCRETE_POWDER).nonOpaque()));
 
         public static final Block COBBLESTONE_BRICKS = registerBlock("cobblestone_bricks",
                         new Block((AbstractBlock.Settings.copy(Blocks.COBBLESTONE))));

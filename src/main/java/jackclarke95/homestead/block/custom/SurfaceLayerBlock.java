@@ -12,12 +12,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.block.Blocks;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.block.Blocks;
 
-public class SawdustBlock extends Block {
-    public static final MapCodec<SawdustBlock> CODEC = createCodec(SawdustBlock::new);
+public class SurfaceLayerBlock extends Block {
+    public static final MapCodec<SurfaceLayerBlock> CODEC = createCodec(SurfaceLayerBlock::new);
 
     public static final BooleanProperty NORTH = BooleanProperty.of("north");
     public static final BooleanProperty NORTHEAST = BooleanProperty.of("northeast");
@@ -28,7 +28,7 @@ public class SawdustBlock extends Block {
     public static final BooleanProperty WEST = BooleanProperty.of("west");
     public static final BooleanProperty NORTHWEST = BooleanProperty.of("northwest");
 
-    public SawdustBlock(Settings settings) {
+    public SurfaceLayerBlock(Settings settings) {
         super(settings);
         setDefaultState(this.stateManager.getDefaultState()
                 .with(NORTH, false)
@@ -64,8 +64,7 @@ public class SawdustBlock extends Block {
     @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState,
             WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        // If the block below no longer provides a full top face, the sawdust should
-        // drop
+        // If the block below no longer provides a full top face, the layer should drop
         if (!canPlaceOnTop(world, pos.down())) {
             return Blocks.AIR.getDefaultState();
         }
@@ -74,32 +73,13 @@ public class SawdustBlock extends Block {
     }
 
     /**
-     * Returns true if the block at the given position has a full top face
-     * that can support sawdust (mirrors redstone's placement rules).
-     */
-    private boolean canPlaceOnTop(BlockView world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
-
-        // Use the same check vanilla uses for redstone: the top face must be "solid"
-        // We rely on Block.isSideSolidFullSquare which checks for a full-facing
-        // surface.
-        try {
-            return state.isSideSolidFullSquare(world, pos, Direction.UP);
-        } catch (Throwable t) {
-            // Fallback: treat common full blocks as valid (solid cube or full top)
-            return state.isOpaque();
-        }
-    }
-
-    /**
      * Determines which directions this block should connect to based on
-     * neighbouring sawdust blocks
-     * on the same horizontal plane (Y level).
+     * neighbouring surface layer blocks on the same horizontal plane (Y level).
      */
     private BlockState getStateWithConnections(WorldAccess world, BlockPos pos) {
         BlockState state = this.getDefaultState();
 
-        // First check orthogonal directions for sawdust blocks on the same Y level
+        // First check orthogonal directions for same-layer blocks on the same Y level
         boolean north = canConnectTo(world, pos, pos.north());
         boolean east = canConnectTo(world, pos, pos.east());
         boolean south = canConnectTo(world, pos, pos.south());
@@ -121,8 +101,9 @@ public class SawdustBlock extends Block {
     }
 
     /**
-     * Checks if this sawdust block can connect to another sawdust block.
-     * Only connects to sawdust blocks on the same horizontal plane.
+     * Checks if this surface layer block can connect to another surface layer
+     * block.
+     * Only connects to same-type surface layer blocks on the same horizontal plane.
      */
     private boolean canConnectTo(WorldAccess world, BlockPos currentPos, BlockPos neighborPos) {
         // Only connect if on the same Y level (horizontal plane)
@@ -131,11 +112,25 @@ public class SawdustBlock extends Block {
         }
 
         BlockState neighborState = world.getBlockState(neighborPos);
-        return neighborState.getBlock() instanceof SawdustBlock;
+        return neighborState.getBlock() instanceof SurfaceLayerBlock;
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST);
+    }
+
+    /**
+     * Returns true if the block at the given position has a full top face
+     * that can support this surface layer (mirrors redstone's placement rules).
+     */
+    private boolean canPlaceOnTop(BlockView world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+
+        try {
+            return state.isSideSolidFullSquare(world, pos, Direction.UP);
+        } catch (Throwable t) {
+            return state.isOpaque();
+        }
     }
 }

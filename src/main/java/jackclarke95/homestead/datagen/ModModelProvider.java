@@ -186,20 +186,11 @@ public class ModModelProvider extends FabricModelProvider {
                                 Identifier.of("minecraft", "block/quartz_block_bottom"), Homestead.MOD_ID);
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.COARSE_DIRT_PATH,
                                 Blocks.COARSE_DIRT, Homestead.MOD_ID);
+
+                registerSurfaceLayerBlockModel(blockStateModelGenerator, this.output, ModBlocks.SAWDUST,
+                                ModBlocks.SAWDUST, Homestead.MOD_ID);
         }
 
-        /**
-         * Registers a path block model, blockstate, and item model using the given
-         * block and template block for textures.
-         * 
-         * @param blockStateModelGenerator The block state model generator
-         * @param block                    The mod block to generate files for (e.g.
-         *                                 ModBlocks.COBBLESTONE_BRICK_PATH)
-         * @param templateBlock            The block to use for textures (e.g.
-         *                                 Blocks.COBBLESTONE or
-         *                                 ModBlocks.COBBLESTONE_BRICKS)
-         * @param modId                    The mod id (e.g. "homestead")
-         */
         public static void registerPathBlockModel(BlockStateModelGenerator blockStateModelGenerator,
                         FabricDataOutput dataOutput, Block block,
                         Block templateBlock, String modId) {
@@ -209,32 +200,24 @@ public class ModModelProvider extends FabricModelProvider {
                 String templateNamespace = templateId.getNamespace();
                 String templatePath = templateId.getPath();
 
-                // Generate the model JSON from the template
                 Path outputRoot = dataOutput.getPath();
 
                 String texturePath = templateNamespace + ":block/" + templatePath;
                 generatePathBlockModelJson(outputRoot, blockName, texturePath, modId);
 
-                // Blockstate JSON (singleton)
                 Identifier modelId = Identifier.of(modId, "block/" + blockName);
                 blockStateModelGenerator.blockStateCollector.accept(
                                 BlockStateModelGenerator.createSingletonBlockState(block, modelId));
 
-                // Item model JSON (parented to block model)
                 blockStateModelGenerator.registerParentedItemModel(block, modelId);
         }
 
-        /**
-         * Overload: register a path block model using an explicit texture identifier
-         * (e.g. minecraft:block/sandstone_top), bypassing the template block.
-         */
         public static void registerPathBlockModel(BlockStateModelGenerator blockStateModelGenerator,
                         FabricDataOutput dataOutput, Block block,
                         Identifier textureIdentifier, String modId) {
                 Identifier blockId = Registries.BLOCK.getId(block);
                 String blockName = blockId.getPath();
 
-                // Use the identifier exactly as namespace:path
                 String texturePath = textureIdentifier.getNamespace() + ":" + textureIdentifier.getPath();
 
                 Path outputRoot = dataOutput.getPath();
@@ -246,18 +229,8 @@ public class ModModelProvider extends FabricModelProvider {
                 blockStateModelGenerator.registerParentedItemModel(block, modelId);
         }
 
-        /**
-         * Helper to generate a path block model JSON from a template, replacing
-         * {texture}.
-         * 
-         * @param outputRoot  The root output directory for generated assets
-         * @param blockName   The name of the block (e.g. "cobblestone_path")
-         * @param texturePath The texture path to use (e.g. "minecraft:block/stone")
-         * @param modId       The mod id (e.g. "homestead")
-         */
         public static void generatePathBlockModelJson(Path outputRoot, String blockName, String texturePath,
                         String modId) {
-                // Use absolute path from project root for template
                 Path projectRoot = outputRoot.getParent().getParent().getParent();
                 Path template = projectRoot
                                 .resolve("src/main/resources/assets/" + modId + "/templates/block/path_block.json");
@@ -272,6 +245,103 @@ public class ModModelProvider extends FabricModelProvider {
                 } catch (IOException e) {
                         throw new RuntimeException("Failed to generate path block model for " + blockName, e);
                 }
+        }
+
+        public static void generateSurfaceLayerBlockModelJson(Path outputRoot, String blockName, String texturePath,
+                        String modId) {
+                Path projectRoot = outputRoot.getParent().getParent().getParent();
+                Path baseTemplate = projectRoot
+                                .resolve("src/main/resources/assets/" + modId
+                                                + "/templates/block/surface_layer_block_base.json");
+                Path overlayTemplate = projectRoot
+                                .resolve("src/main/resources/assets/" + modId
+                                                + "/templates/block/surface_layer_block_overlay.json");
+
+                Path baseOutput = projectRoot
+                                .resolve("src/generated/assets/" + modId + "/models/block/" + blockName + "_base.json");
+
+                try {
+                        String baseJson = Files.readString(baseTemplate, StandardCharsets.UTF_8);
+                        baseJson = baseJson.replace("{texture}", texturePath);
+                        Files.createDirectories(baseOutput.getParent());
+                        Files.writeString(baseOutput, baseJson, StandardCharsets.UTF_8);
+
+                        String[] dirs = new String[] { "north", "northeast", "east", "southeast", "south",
+                                        "southwest", "west", "northwest" };
+
+                        for (String dir : dirs) {
+                                Path overlayOutput = projectRoot.resolve(
+                                                "src/generated/assets/" + modId + "/models/block/" + blockName
+                                                                + "_overlay_" + dir + ".json");
+
+                                String overlayJson = Files.readString(overlayTemplate, StandardCharsets.UTF_8);
+                                String overlayTexture = modId + ":block/" + blockName + "_" + dir;
+                                overlayJson = overlayJson.replace("{overlay_texture}", overlayTexture);
+                                overlayJson = overlayJson.replace("{base_texture}", texturePath);
+
+                                Files.writeString(overlayOutput, overlayJson, StandardCharsets.UTF_8);
+                        }
+
+                } catch (IOException e) {
+                        throw new RuntimeException("Failed to generate surface layer models for " + blockName, e);
+                }
+        }
+
+        public static void generateSurfaceLayerBlockStateJson(Path outputRoot, String blockName, String modId) {
+                Path projectRoot = outputRoot.getParent().getParent().getParent();
+                Path output = projectRoot
+                                .resolve("src/generated/assets/" + modId + "/blockstates/" + blockName + ".json");
+
+                StringBuilder sb = new StringBuilder();
+                sb.append("{\n  \"multipart\": [\n");
+                // base
+                sb.append("    {\n      \"apply\": { \"model\": \"")
+                                .append(modId).append(":block/").append(blockName).append("_base\" }\n    },\n");
+
+                String[] dirs = new String[] { "north", "northeast", "east", "southeast", "south",
+                                "southwest", "west", "northwest" };
+
+                for (int i = 0; i < dirs.length; i++) {
+                        String dir = dirs[i];
+                        sb.append("    {\n      \"when\": { \"").append(dir).append("\": \"true\" },\n");
+                        sb.append("      \"apply\": { \"model\": \"").append(modId).append(":block/")
+                                        .append(blockName).append("_overlay_").append(dir).append("\" }\n    }");
+                        if (i < dirs.length - 1)
+                                sb.append(",\n");
+                        else
+                                sb.append("\n");
+                }
+
+                sb.append("  ]\n}");
+
+                try {
+                        Files.createDirectories(output.getParent());
+                        Files.writeString(output, sb.toString(), StandardCharsets.UTF_8);
+                } catch (IOException e) {
+                        throw new RuntimeException("Failed to generate surface layer blockstate for " + blockName, e);
+                }
+        }
+
+        public static void registerSurfaceLayerBlockModel(BlockStateModelGenerator blockStateModelGenerator,
+                        FabricDataOutput dataOutput, Block block, Block templateBlock, String modId) {
+                Identifier blockId = Registries.BLOCK.getId(block);
+                Identifier templateId = Registries.BLOCK.getId(templateBlock);
+                String blockName = blockId.getPath();
+                String templateNamespace = templateId.getNamespace();
+                String templatePath = templateId.getPath();
+
+                Path outputRoot = dataOutput.getPath();
+
+                String texturePath = templateNamespace + ":block/" + templatePath;
+                String baseTexturePath = texturePath + "_base";
+                generateSurfaceLayerBlockModelJson(outputRoot, blockName, baseTexturePath, modId);
+
+                generateSurfaceLayerBlockStateJson(outputRoot, blockName, modId);
+
+                Identifier modelId = Identifier.of(modId, "block/" + blockName);
+                blockStateModelGenerator.blockStateCollector.accept(
+                                BlockStateModelGenerator.createSingletonBlockState(block, modelId));
+
         }
 
         @Override
@@ -292,6 +362,7 @@ public class ModModelProvider extends FabricModelProvider {
                 itemModelGenerator.register(ModItems.FLOUR, Models.GENERATED);
                 itemModelGenerator.register(ModItems.SEED_MIX, Models.GENERATED);
                 itemModelGenerator.register(ModItems.ANIMAL_FEED, Models.GENERATED);
+                itemModelGenerator.register(ModBlocks.SAWDUST.asItem(), Models.GENERATED);
         }
 
         private void registerCubeBottomTop(BlockStateModelGenerator blockStateModelGenerator,
