@@ -1,0 +1,39 @@
+{
+  "multipart": [
+    {
+      "apply": { "model": "homestead:block/sawdust_base" }
+    },
+    {
+      "when": { "north": "true" },
+      "apply": { "model": "homestead:block/sawdust_overlay_north" }
+    },
+    {
+      "when": { "northeast": "true" },
+      "apply": { "model": "homestead:block/sawdust_overlay_northeast" }
+    },
+    {
+      "when": { "east": "true" },
+      "apply": { "model": "homestead:block/sawdust_overlay_east" }
+    },
+    {
+      "when": { "southeast": "true" },
+      "apply": { "model": "homestead:block/sawdust_overlay_southeast" }
+    },
+    {
+      "when": { "south": "true" },
+      "apply": { "model": "homestead:block/sawdust_overlay_south" }
+    },
+    {
+      "when": { "southwest": "true" },
+      "apply": { "model": "homestead:block/sawdust_overlay_southwest" }
+    },
+    {
+      "when": { "west": "true" },
+      "apply": { "model": "homestead:block/sawdust_overlay_west" }
+    },
+    {
+      "when": { "northwest": "true" },
+      "apply": { "model": "homestead:block/sawdust_overlay_northwest" }
+    }
+  ]
+}
