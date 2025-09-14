@@ -187,7 +187,7 @@ public class ModModelProvider extends FabricModelProvider {
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.COARSE_DIRT_PATH,
                                 Blocks.COARSE_DIRT, Homestead.MOD_ID);
 
-                registerSurfaceLayerBlockModel(blockStateModelGenerator, this.output, ModBlocks.SAWDUST,
+                registerSurfaceLayerConnectingBlockModel(blockStateModelGenerator, this.output, ModBlocks.SAWDUST,
                                 ModBlocks.SAWDUST, Homestead.MOD_ID);
         }
 
@@ -247,15 +247,16 @@ public class ModModelProvider extends FabricModelProvider {
                 }
         }
 
-        public static void generateSurfaceLayerBlockModelJson(Path outputRoot, String blockName, String texturePath,
+        public static void generateSurfaceLayerConnectingBlockModelJson(Path outputRoot, String blockName,
+                        String texturePath,
                         String modId) {
                 Path projectRoot = outputRoot.getParent().getParent().getParent();
                 Path baseTemplate = projectRoot
                                 .resolve("src/main/resources/assets/" + modId
-                                                + "/templates/block/surface_layer_block_base.json");
+                                                + "/templates/block/surface_layer_connecting_block_base.json");
                 Path overlayTemplate = projectRoot
                                 .resolve("src/main/resources/assets/" + modId
-                                                + "/templates/block/surface_layer_block_overlay.json");
+                                                + "/templates/block/surface_layer_connecting_block_overlay.json");
 
                 Path baseOutput = projectRoot
                                 .resolve("src/generated/assets/" + modId + "/models/block/" + blockName + "_base.json");
@@ -287,7 +288,8 @@ public class ModModelProvider extends FabricModelProvider {
                 }
         }
 
-        public static void generateSurfaceLayerBlockStateJson(Path outputRoot, String blockName, String modId) {
+        public static void generateSurfaceLayerConnectingBlockStateJson(Path outputRoot, String blockName,
+                        String modId) {
                 Path projectRoot = outputRoot.getParent().getParent().getParent();
                 Path output = projectRoot
                                 .resolve("src/generated/assets/" + modId + "/blockstates/" + blockName + ".json");
@@ -322,7 +324,7 @@ public class ModModelProvider extends FabricModelProvider {
                 }
         }
 
-        public static void registerSurfaceLayerBlockModel(BlockStateModelGenerator blockStateModelGenerator,
+        public static void registerSurfaceLayerConnectingBlockModel(BlockStateModelGenerator blockStateModelGenerator,
                         FabricDataOutput dataOutput, Block block, Block templateBlock, String modId) {
                 Identifier blockId = Registries.BLOCK.getId(block);
                 Identifier templateId = Registries.BLOCK.getId(templateBlock);
@@ -334,9 +336,9 @@ public class ModModelProvider extends FabricModelProvider {
 
                 String texturePath = templateNamespace + ":block/" + templatePath;
                 String baseTexturePath = texturePath + "_base";
-                generateSurfaceLayerBlockModelJson(outputRoot, blockName, baseTexturePath, modId);
+                generateSurfaceLayerConnectingBlockModelJson(outputRoot, blockName, baseTexturePath, modId);
 
-                generateSurfaceLayerBlockStateJson(outputRoot, blockName, modId);
+                generateSurfaceLayerConnectingBlockStateJson(outputRoot, blockName, modId);
 
                 Identifier modelId = Identifier.of(modId, "block/" + blockName);
                 blockStateModelGenerator.blockStateCollector.accept(

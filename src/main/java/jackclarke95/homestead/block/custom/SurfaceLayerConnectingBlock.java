@@ -16,8 +16,8 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.block.Blocks;
 
-public class SurfaceLayerBlock extends Block {
-    public static final MapCodec<SurfaceLayerBlock> CODEC = createCodec(SurfaceLayerBlock::new);
+public class SurfaceLayerConnectingBlock extends Block {
+    public static final MapCodec<SurfaceLayerConnectingBlock> CODEC = createCodec(SurfaceLayerConnectingBlock::new);
 
     public static final BooleanProperty NORTH = BooleanProperty.of("north");
     public static final BooleanProperty NORTHEAST = BooleanProperty.of("northeast");
@@ -28,7 +28,7 @@ public class SurfaceLayerBlock extends Block {
     public static final BooleanProperty WEST = BooleanProperty.of("west");
     public static final BooleanProperty NORTHWEST = BooleanProperty.of("northwest");
 
-    public SurfaceLayerBlock(Settings settings) {
+    public SurfaceLayerConnectingBlock(Settings settings) {
         super(settings);
         setDefaultState(this.stateManager.getDefaultState()
                 .with(NORTH, false)
@@ -112,7 +112,7 @@ public class SurfaceLayerBlock extends Block {
         }
 
         BlockState neighborState = world.getBlockState(neighborPos);
-        return neighborState.getBlock() instanceof SurfaceLayerBlock;
+        return neighborState.getBlock() instanceof SurfaceLayerConnectingBlock;
     }
 
     @Override
