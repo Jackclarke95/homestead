@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.block.Blocks;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 
@@ -52,13 +53,42 @@ public class SawdustBlock extends Block {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
+        // Only allow placement if there's a full top face below (like redstone)
+        if (!canPlaceOnTop(ctx.getWorld(), ctx.getBlockPos().down())) {
+            return null;
+        }
+
         return getStateWithConnections(ctx.getWorld(), ctx.getBlockPos());
     }
 
     @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState,
             WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+        // If the block below no longer provides a full top face, the sawdust should
+        // drop
+        if (!canPlaceOnTop(world, pos.down())) {
+            return Blocks.AIR.getDefaultState();
+        }
+
         return getStateWithConnections(world, pos);
+    }
+
+    /**
+     * Returns true if the block at the given position has a full top face
+     * that can support sawdust (mirrors redstone's placement rules).
+     */
+    private boolean canPlaceOnTop(BlockView world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
+
+        // Use the same check vanilla uses for redstone: the top face must be "solid"
+        // We rely on Block.isSideSolidFullSquare which checks for a full-facing
+        // surface.
+        try {
+            return state.isSideSolidFullSquare(world, pos, Direction.UP);
+        } catch (Throwable t) {
+            // Fallback: treat common full blocks as valid (solid cube or full top)
+            return state.isOpaque();
+        }
     }
 
     /**
