@@ -257,22 +257,10 @@ public class ModModelProvider extends FabricModelProvider {
          */
         public static void generatePathBlockModelJson(Path outputRoot, String blockName, String texturePath,
                         String modId) {
-                // Debug: print the absolute path for src/main/resources and the template file
-                Path resourcesPath = Path.of("src/main/resources");
                 // Use absolute path from project root for template
                 Path projectRoot = outputRoot.getParent().getParent().getParent();
                 Path template = projectRoot
                                 .resolve("src/main/resources/assets/" + modId + "/templates/block/path_block.json");
-                System.out.println("[DEBUG] src/main/resources absolute path: " + resourcesPath.toAbsolutePath());
-                System.out.println("[DEBUG] template file absolute path: " + template.toAbsolutePath());
-                try {
-                        System.out.println("--- File tree for src/main/resources ---");
-                        Files.walk(resourcesPath)
-                                        .forEach(p -> System.out.println(p.toString()));
-                        System.out.println("--- End file tree ---");
-                } catch (IOException e) {
-                        System.out.println("[DEBUG] Could not print file tree: " + e.getMessage());
-                }
 
                 Path output = projectRoot
                                 .resolve("src/generated/assets/" + modId + "/models/block/" + blockName + ".json");
