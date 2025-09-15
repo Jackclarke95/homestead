@@ -12,6 +12,7 @@ import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
+import net.minecraft.data.client.TexturedModel;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -192,6 +193,11 @@ public class ModModelProvider extends FabricModelProvider {
 
                 registerGrowableSurfaceLayerBlockModel(blockStateModelGenerator, this.output, ModBlocks.PEBBLE,
                                 ModBlocks.PEBBLE, Homestead.MOD_ID);
+
+                blockStateModelGenerator.registerLog(ModBlocks.PEAR_TREE_LOG).log(ModBlocks.PEAR_TREE_LOG);
+                blockStateModelGenerator.registerSingleton(ModBlocks.PEAR_TREE_LEAVES, TexturedModel.LEAVES);
+                blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.PEAR_TREE_SAPLING,
+                                BlockStateModelGenerator.TintType.NOT_TINTED);
         }
 
         public static void registerPathBlockModel(BlockStateModelGenerator blockStateModelGenerator,

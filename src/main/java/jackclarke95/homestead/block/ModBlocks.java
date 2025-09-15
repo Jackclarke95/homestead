@@ -1,4 +1,3 @@
-
 package jackclarke95.homestead.block;
 
 import jackclarke95.homestead.Homestead;
@@ -7,6 +6,7 @@ import jackclarke95.homestead.block.custom.HeatedRackBlock;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.custom.TroughBlock;
 import jackclarke95.homestead.block.custom.VerticleSlabBlock;
+import jackclarke95.homestead.world.tree.ModSaplingGenerators;
 import jackclarke95.homestead.block.custom.MillBlock;
 import jackclarke95.homestead.block.custom.PathBlock;
 import jackclarke95.homestead.block.custom.SurfaceLayerConnectingBlock;
@@ -15,6 +15,9 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.PillarBlock;
+import net.minecraft.block.SaplingBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.WallBlock;
@@ -114,7 +117,6 @@ public class ModBlocks {
         public static final Block WARPED_PLANK_PATH = registerBlock("warped_plank_path",
                         new PathBlock(AbstractBlock.Settings.copy(Blocks.WARPED_PLANKS).nonOpaque()));
 
-        // --- Added path blocks ---
         public static final Block MOSSY_COBBLESTONE_PATH = registerBlock("mossy_cobblestone_path",
                         new PathBlock(AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE).nonOpaque()));
         public static final Block STONE_BRICK_PATH = registerBlock("stone_brick_path",
@@ -192,6 +194,14 @@ public class ModBlocks {
         public static final Block SMOOTH_QUARTZ_BLOCK_PATH = registerBlock("smooth_quartz_block_path",
                         new PathBlock(AbstractBlock.Settings.copy(Blocks.SMOOTH_QUARTZ).nonOpaque()));
 
+        public static final Block PEAR_TREE_LOG = registerBlock("pear_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+        public static final Block PEAR_TREE_LEAVES = registerBlock("pear_tree_leaves",
+                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+        public static final Block PEAR_TREE_SAPLING = registerBlock("pear_tree_sapling",
+                        new SaplingBlock(ModSaplingGenerators.PEAR_TREE,
+                                        AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
+
         public static void registerModBlocks() {
                 Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);
 
@@ -224,7 +234,6 @@ public class ModBlocks {
                         entries.add(ModBlocks.BAMBOO_PLANK_PATH);
                         entries.add(ModBlocks.CRIMSON_PLANK_PATH);
                         entries.add(ModBlocks.WARPED_PLANK_PATH);
-                        // --- Added path blocks ---
                         entries.add(ModBlocks.MOSSY_COBBLESTONE_PATH);
                         entries.add(ModBlocks.STONE_BRICK_PATH);
                         entries.add(ModBlocks.MOSSY_STONE_BRICK_PATH);
@@ -264,6 +273,12 @@ public class ModBlocks {
                         entries.add(ModBlocks.QUARTZ_BRICK_PATH);
                         entries.add(ModBlocks.SMOOTH_QUARTZ_BLOCK_PATH);
                         entries.add(ModBlocks.COARSE_DIRT_PATH);
+                });
+
+                ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
+                        entries.add(ModBlocks.PEAR_TREE_SAPLING);
+                        entries.add(ModBlocks.PEAR_TREE_LOG);
+                        entries.add(ModBlocks.PEAR_TREE_LEAVES);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {

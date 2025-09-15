@@ -110,5 +110,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                                                                                 ConstantLootNumberProvider.create(2)))
                                                                 .conditionally(this.createWithoutSilkTouchCondition()))
                                                 .rolls(ConstantLootNumberProvider.create(1))));
+
+                addDrop(ModBlocks.PEAR_TREE_LOG, Items.OAK_LOG);
         }
 }

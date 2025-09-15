@@ -4,6 +4,8 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -25,6 +27,14 @@ public class HomesteadClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.HEATED_RACK, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SAWDUST, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PEBBLE, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PEAR_TREE_SAPLING, RenderLayer.getCutout());
+
+        // Register color providers for pear tree leaves to get biome tinting
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
+            return world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : 0x48B518;
+        }, ModBlocks.PEAR_TREE_LEAVES);
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x48B518, ModBlocks.PEAR_TREE_LEAVES);
 
         BlockEntityRendererFactories.register(ModBlockEntities.RACK_BE, RackBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.HEATED_RACK_BE, RackBlockEntityRenderer::new);

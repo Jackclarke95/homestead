@@ -12,6 +12,7 @@ import jackclarke95.homestead.item.ModItems;
 import jackclarke95.homestead.network.ModNetworking;
 import jackclarke95.homestead.recipe.ModRecipes;
 import jackclarke95.homestead.screen.ModScreenHandlers;
+import jackclarke95.homestead.world.gen.ModWorldGeneration;
 
 public class Homestead implements ModInitializer {
 	public static final String MOD_ID = "homestead";
@@ -29,6 +30,7 @@ public class Homestead implements ModInitializer {
 		ModScreenHandlers.registerScreenHandlers();
 
 		ModRecipes.registerRecipes();
+		ModWorldGeneration.generateModWorldGen();
 
 		ModNetworking.registerCommon();
 	}

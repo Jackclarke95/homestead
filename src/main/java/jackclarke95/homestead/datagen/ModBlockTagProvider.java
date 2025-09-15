@@ -10,31 +10,34 @@ import net.minecraft.registry.tag.BlockTags;
 
 public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
-    public ModBlockTagProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> registriesFuture) {
-        super(output, registriesFuture);
-    }
+        public ModBlockTagProvider(FabricDataOutput output, CompletableFuture<WrapperLookup> registriesFuture) {
+                super(output, registriesFuture);
+        }
 
-    @Override
-    protected void configure(WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(
-                ModBlocks.TROUGH,
-                ModBlocks.COBBLESTONE_BRICKS,
-                ModBlocks.COBBLESTONE_BRICK_SLAB,
-                ModBlocks.COBBLESTONE_BRICK_STAIRS,
-                ModBlocks.COBBLESTONE_BRICK_WALL,
-                ModBlocks.STONE_PATH,
-                ModBlocks.PEBBLE);
+        @Override
+        protected void configure(WrapperLookup wrapperLookup) {
+                getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE).add(
+                                ModBlocks.TROUGH,
+                                ModBlocks.COBBLESTONE_BRICKS,
+                                ModBlocks.COBBLESTONE_BRICK_SLAB,
+                                ModBlocks.COBBLESTONE_BRICK_STAIRS,
+                                ModBlocks.COBBLESTONE_BRICK_WALL,
+                                ModBlocks.STONE_PATH,
+                                ModBlocks.PEBBLE);
 
-        getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
-                ModBlocks.RACK,
-                ModBlocks.HEATED_RACK,
-                ModBlocks.MILL,
-                ModBlocks.CURING_VAT,
-                ModBlocks.PRESS,
-                ModBlocks.WATTLE_AND_DAUB);
+                getOrCreateTagBuilder(BlockTags.AXE_MINEABLE).add(
+                                ModBlocks.RACK,
+                                ModBlocks.HEATED_RACK,
+                                ModBlocks.MILL,
+                                ModBlocks.CURING_VAT,
+                                ModBlocks.PRESS,
+                                ModBlocks.WATTLE_AND_DAUB);
 
-        getOrCreateTagBuilder(BlockTags.HOE_MINEABLE).add(
-                ModBlocks.HAY_STAIRS);
-    }
+                getOrCreateTagBuilder(BlockTags.HOE_MINEABLE).add(
+                                ModBlocks.HAY_STAIRS);
+
+                getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN).add(
+                                ModBlocks.PEAR_TREE_LOG);
+        }
 
 }
