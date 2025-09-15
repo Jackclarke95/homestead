@@ -1,6 +1,5 @@
 package jackclarke95.homestead.block.custom;
 
-import jackclarke95.homestead.Homestead;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;

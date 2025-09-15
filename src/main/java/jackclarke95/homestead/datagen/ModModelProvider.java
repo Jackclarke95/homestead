@@ -625,6 +625,13 @@ public class ModModelProvider extends FabricModelProvider {
                 itemModelGenerator.register(ModItems.ANIMAL_FEED, Models.GENERATED);
                 itemModelGenerator.register(ModBlocks.SAWDUST.asItem(), Models.GENERATED);
                 itemModelGenerator.register(ModBlocks.PEBBLE.asItem(), Models.GENERATED);
+                // Ensure sapling items use item/ textures (not block/ textures)
+                itemModelGenerator.register(ModBlocks.PEAR_TREE_SAPLING.asItem(), Models.GENERATED);
+                itemModelGenerator.register(ModBlocks.PLUM_TREE_SAPLING.asItem(), Models.GENERATED);
+                itemModelGenerator.register(ModBlocks.LEMON_TREE_SAPLING.asItem(), Models.GENERATED);
+                itemModelGenerator.register(ModBlocks.ORANGE_TREE_SAPLING.asItem(), Models.GENERATED);
+                itemModelGenerator.register(ModBlocks.APRICOT_TREE_SAPLING.asItem(), Models.GENERATED);
+                itemModelGenerator.register(ModBlocks.PEACH_TREE_SAPLING.asItem(), Models.GENERATED);
         }
 
         private void registerCubeBottomTop(BlockStateModelGenerator blockStateModelGenerator,
