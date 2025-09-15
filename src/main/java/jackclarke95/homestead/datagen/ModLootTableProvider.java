@@ -3,6 +3,11 @@ package jackclarke95.homestead.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import jackclarke95.homestead.block.ModBlocks;
+import jackclarke95.homestead.block.custom.VerticleSlabBlock;
+import jackclarke95.homestead.util.VerticalSlabType;
+import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
+import net.minecraft.predicate.StatePredicate;
+import net.minecraft.loot.function.ExplosionDecayLootFunction;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.item.Items;
@@ -53,9 +58,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.CHERRY_PLANK_PATH);
                 addDrop(ModBlocks.BAMBOO_PLANK_PATH);
                 addDrop(ModBlocks.CRIMSON_PLANK_PATH);
-
                 addDrop(ModBlocks.WARPED_PLANK_PATH);
-
                 addDrop(ModBlocks.MOSSY_COBBLESTONE_PATH);
                 addDrop(ModBlocks.STONE_BRICK_PATH);
                 addDrop(ModBlocks.MOSSY_STONE_BRICK_PATH);
@@ -164,5 +167,29 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.PEACH_TREE_SAPLING);
                 addDrop(ModBlocks.PEACH_TREE_LEAVES,
                                 leavesDrops(ModBlocks.PEACH_TREE_LEAVES, ModBlocks.PEACH_TREE_SAPLING, 0.0625f));
+
+                addDrop(ModBlocks.WATTLE_AND_DAUB, block -> LootTable.builder()
+                                .pool(LootPool.builder()
+                                                .with(ItemEntry.builder(ModBlocks.WATTLE_AND_DAUB)
+                                                                .apply(SetCountLootFunction
+                                                                                .builder(ConstantLootNumberProvider
+                                                                                                .create(2))
+                                                                                .conditionally(BlockStatePropertyLootCondition
+                                                                                                .builder(block)
+                                                                                                .properties(StatePredicate.Builder
+                                                                                                                .create()
+                                                                                                                .exactMatch(VerticleSlabBlock.TYPE,
+                                                                                                                                VerticalSlabType.FULL))))
+                                                                .apply(SetCountLootFunction
+                                                                                .builder(ConstantLootNumberProvider
+                                                                                                .create(1))
+                                                                                .conditionally(BlockStatePropertyLootCondition
+                                                                                                .builder(block)
+                                                                                                .properties(StatePredicate.Builder
+                                                                                                                .create()
+                                                                                                                .exactMatch(VerticleSlabBlock.TYPE,
+                                                                                                                                VerticalSlabType.HALF)))))
+                                                .apply(ExplosionDecayLootFunction.builder())
+                                                .rolls(ConstantLootNumberProvider.create(1))));
         }
 }

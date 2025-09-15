@@ -2,13 +2,11 @@ package jackclarke95.homestead.block.custom;
 
 import com.mojang.serialization.MapCodec;
 
-import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.util.VerticalSlabType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
@@ -17,8 +15,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.util.ItemScatterer;
 import net.minecraft.item.ItemStack;
 import java.util.Collections;
 import java.util.List;
@@ -141,21 +137,6 @@ public class VerticleSlabBlock extends HorizontalFacingBlock {
             case WEST -> VoxelShapes.cuboid(0, 0, 0, 0.5, 1, 1);
             default -> VoxelShapes.cuboid(0, 0, 0, 1, 1, 0.5);
         };
-    }
-
-    @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock()) {
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-
-            if (blockEntity instanceof RackBlockEntity) {
-                ItemScatterer.spawn(world, pos, ((RackBlockEntity) blockEntity));
-
-                world.updateComparators(pos, this);
-            }
-
-            super.onStateReplaced(state, world, pos, newState, moved);
-        }
     }
 
     @Override
