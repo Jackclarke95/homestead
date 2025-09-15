@@ -1,7 +1,15 @@
 {
-  "variants": {
-    "": {
-      "model": "homestead:block/plum_tree_leaves"
+  "multipart": [
+    { 
+      "apply": { "model": "homestead:block/plum_tree_leaves" }
+    },
+    { 
+      "when": { "fruit_stage": "1" },
+      "apply": { "model": "homestead:block/plum_tree_leaves_unripe" }
+    },
+    { 
+      "when": { "fruit_stage": "2" },
+      "apply": { "model": "homestead:block/plum_tree_leaves_ripe" }
     }
-  }
+  ]
 }

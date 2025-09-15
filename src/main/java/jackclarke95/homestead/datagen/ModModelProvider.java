@@ -201,9 +201,10 @@ public class ModModelProvider extends FabricModelProvider {
                                 .log(ModBlocks.STRIPPED_PEAR_TREE_LOG)
                                 .wood(ModBlocks.STRIPPED_PEAR_TREE_WOOD);
                 blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.PEAR_TREE_PLANKS);
-                blockStateModelGenerator.registerSingleton(ModBlocks.PEAR_TREE_LEAVES, TexturedModel.LEAVES);
                 blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.PEAR_TREE_SAPLING,
                                 BlockStateModelGenerator.TintType.NOT_TINTED);
+                generateFruitLeavesModelsAndBlockstate(blockStateModelGenerator, this.output.getPath(),
+                                ModBlocks.PEAR_TREE_LEAVES);
 
                 blockStateModelGenerator.registerLog(ModBlocks.PLUM_TREE_LOG)
                                 .log(ModBlocks.PLUM_TREE_LOG)
@@ -212,9 +213,10 @@ public class ModModelProvider extends FabricModelProvider {
                                 .log(ModBlocks.STRIPPED_PLUM_TREE_LOG)
                                 .wood(ModBlocks.STRIPPED_PLUM_TREE_WOOD);
                 blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.PLUM_TREE_PLANKS);
-                blockStateModelGenerator.registerSingleton(ModBlocks.PLUM_TREE_LEAVES, TexturedModel.LEAVES);
                 blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.PLUM_TREE_SAPLING,
                                 BlockStateModelGenerator.TintType.NOT_TINTED);
+                generateFruitLeavesModelsAndBlockstate(blockStateModelGenerator, this.output.getPath(),
+                                ModBlocks.PLUM_TREE_LEAVES);
 
                 blockStateModelGenerator.registerLog(ModBlocks.LEMON_TREE_LOG)
                                 .log(ModBlocks.LEMON_TREE_LOG)
@@ -223,9 +225,10 @@ public class ModModelProvider extends FabricModelProvider {
                                 .log(ModBlocks.STRIPPED_LEMON_TREE_LOG)
                                 .wood(ModBlocks.STRIPPED_LEMON_TREE_WOOD);
                 blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.LEMON_TREE_PLANKS);
-                blockStateModelGenerator.registerSingleton(ModBlocks.LEMON_TREE_LEAVES, TexturedModel.LEAVES);
                 blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.LEMON_TREE_SAPLING,
                                 BlockStateModelGenerator.TintType.NOT_TINTED);
+                generateFruitLeavesModelsAndBlockstate(blockStateModelGenerator, this.output.getPath(),
+                                ModBlocks.LEMON_TREE_LEAVES);
 
                 blockStateModelGenerator.registerLog(ModBlocks.ORANGE_TREE_LOG)
                                 .log(ModBlocks.ORANGE_TREE_LOG)
@@ -234,9 +237,10 @@ public class ModModelProvider extends FabricModelProvider {
                                 .log(ModBlocks.STRIPPED_ORANGE_TREE_LOG)
                                 .wood(ModBlocks.STRIPPED_ORANGE_TREE_WOOD);
                 blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.ORANGE_TREE_PLANKS);
-                blockStateModelGenerator.registerSingleton(ModBlocks.ORANGE_TREE_LEAVES, TexturedModel.LEAVES);
                 blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.ORANGE_TREE_SAPLING,
                                 BlockStateModelGenerator.TintType.NOT_TINTED);
+                generateFruitLeavesModelsAndBlockstate(blockStateModelGenerator, this.output.getPath(),
+                                ModBlocks.ORANGE_TREE_LEAVES);
 
                 blockStateModelGenerator.registerLog(ModBlocks.APRICOT_TREE_LOG)
                                 .log(ModBlocks.APRICOT_TREE_LOG)
@@ -245,9 +249,10 @@ public class ModModelProvider extends FabricModelProvider {
                                 .log(ModBlocks.STRIPPED_APRICOT_TREE_LOG)
                                 .wood(ModBlocks.STRIPPED_APRICOT_TREE_WOOD);
                 blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.APRICOT_TREE_PLANKS);
-                blockStateModelGenerator.registerSingleton(ModBlocks.APRICOT_TREE_LEAVES, TexturedModel.LEAVES);
                 blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.APRICOT_TREE_SAPLING,
                                 BlockStateModelGenerator.TintType.NOT_TINTED);
+                generateFruitLeavesModelsAndBlockstate(blockStateModelGenerator, this.output.getPath(),
+                                ModBlocks.APRICOT_TREE_LEAVES);
 
                 blockStateModelGenerator.registerLog(ModBlocks.PEACH_TREE_LOG)
                                 .log(ModBlocks.PEACH_TREE_LOG)
@@ -256,9 +261,10 @@ public class ModModelProvider extends FabricModelProvider {
                                 .log(ModBlocks.STRIPPED_PEACH_TREE_LOG)
                                 .wood(ModBlocks.STRIPPED_PEACH_TREE_WOOD);
                 blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.PEACH_TREE_PLANKS);
-                blockStateModelGenerator.registerSingleton(ModBlocks.PEACH_TREE_LEAVES, TexturedModel.LEAVES);
                 blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.PEACH_TREE_SAPLING,
                                 BlockStateModelGenerator.TintType.NOT_TINTED);
+                generateFruitLeavesModelsAndBlockstate(blockStateModelGenerator, this.output.getPath(),
+                                ModBlocks.PEACH_TREE_LEAVES);
         }
 
         public static void registerPathBlockModel(BlockStateModelGenerator blockStateModelGenerator,
@@ -412,6 +418,69 @@ public class ModModelProvider extends FabricModelProvider {
                 blockStateModelGenerator.blockStateCollector.accept(
                                 BlockStateModelGenerator.createSingletonBlockState(block, modelId));
 
+        }
+
+        public static void generateFruitLeavesModelsAndBlockstate(BlockStateModelGenerator blockStateModelGenerator,
+                        Path outputRoot, Block leavesBlock) {
+                // Register the base leaves model using the provided generator so generated
+                // files don't need manual edits
+                blockStateModelGenerator.registerSingleton(leavesBlock, TexturedModel.LEAVES);
+                String blockName = Registries.BLOCK.getId(leavesBlock).getPath();
+                Path projectRoot = outputRoot.getParent().getParent().getParent();
+                try {
+                        String unripeTex = blockName + "_unripe";
+                        String ripeTex = blockName + "_ripe";
+                        Path unripeModel = projectRoot
+                                        .resolve("src/generated/assets/" + Homestead.MOD_ID + "/models/block/"
+                                                        + blockName + "_unripe.json");
+                        // Create an overlay model as a very slightly expanded cube so it renders
+                        // on top of the base leaves model (reduces z-fighting with a tiny offset)
+                        String unripeJson = "{\n  \"textures\": { \"all\": \""
+                                        + Homestead.MOD_ID + ":block/" + unripeTex
+                                        + "\" },\n  \"elements\": [\n    {\n      \"from\": [-0.01, -0.01, -0.01],\n      \"to\": [16.01, 16.01, 16.01],\n      \"faces\": {\n        \"north\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" },\n        \"east\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" },\n        \"south\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" },\n        \"west\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" },\n        \"up\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" },\n        \"down\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" }\n      }\n    }\n  ]\n}";
+                        Files.createDirectories(unripeModel.getParent());
+                        Files.writeString(unripeModel, unripeJson, StandardCharsets.UTF_8);
+
+                        Path ripeModel = projectRoot
+                                        .resolve("src/generated/assets/" + Homestead.MOD_ID + "/models/block/"
+                                                        + blockName + "_ripe.json");
+                        String ripeJson = "{\n  \"textures\": { \"all\": \""
+                                        + Homestead.MOD_ID + ":block/" + ripeTex
+                                        + "\" },\n  \"elements\": [\n    {\n      \"from\": [-0.01, -0.01, -0.01],\n      \"to\": [16.01, 16.01, 16.01],\n      \"faces\": {\n        \"north\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" },\n        \"east\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" },\n        \"south\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" },\n        \"west\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" },\n        \"up\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" },\n        \"down\": { \"uv\": [0, 0, 16, 16], \"texture\": \"#all\" }\n      }\n    }\n  ]\n}";
+                        Files.writeString(ripeModel, ripeJson, StandardCharsets.UTF_8);
+
+                        // Generate multipart blockstate JSON
+                        Path blockstateOut = projectRoot
+                                        .resolve("src/generated/assets/" + Homestead.MOD_ID + "/blockstates/"
+                                                        + blockName + ".json");
+
+                        StringBuilder sb = new StringBuilder();
+                        sb.append("{\n  \"multipart\": [\n");
+
+                        // Always apply base leaves model
+                        sb.append("    { \n      \"apply\": { \"model\": \"")
+                                        .append(Homestead.MOD_ID).append(":block/").append(blockName)
+                                        .append("\" }\n    },\n");
+
+                        // When fruit_stage == 1 -> apply unripe overlay
+                        sb.append("    { \n      \"when\": { \"fruit_stage\": \"1\" },\n      \"apply\": { \"model\": \"")
+                                        .append(Homestead.MOD_ID).append(":block/").append(blockName)
+                                        .append("_unripe\" }\n    },\n");
+
+                        // When fruit_stage == 2 -> apply ripe overlay
+                        sb.append("    { \n      \"when\": { \"fruit_stage\": \"2\" },\n      \"apply\": { \"model\": \"")
+                                        .append(Homestead.MOD_ID).append(":block/").append(blockName)
+                                        .append("_ripe\" }\n    }\n");
+
+                        sb.append("  ]\n}");
+
+                        Files.createDirectories(blockstateOut.getParent());
+                        Files.writeString(blockstateOut, sb.toString(), StandardCharsets.UTF_8);
+
+                } catch (IOException e) {
+                        throw new RuntimeException("Failed to generate fruit leaves models/blockstate for " + blockName,
+                                        e);
+                }
         }
 
         public static void generateSimpleSurfaceLayerBlockModelJson(Path outputRoot, String blockName,

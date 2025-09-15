@@ -2,6 +2,7 @@ package jackclarke95.homestead.block;
 
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.CuringVatBlock;
+import jackclarke95.homestead.block.custom.FruitBearingLeaves;
 import jackclarke95.homestead.block.custom.HeatedRackBlock;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.custom.TroughBlock;
@@ -15,7 +16,6 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.SaplingBlock;
 import net.minecraft.block.SlabBlock;
@@ -205,7 +205,7 @@ public class ModBlocks {
         public static final Block PEAR_TREE_PLANKS = registerBlock("pear_tree_planks",
                         new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
         public static final Block PEAR_TREE_LEAVES = registerBlock("pear_tree_leaves",
-                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+                        new FruitBearingLeaves(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
         public static final Block PEAR_TREE_SAPLING = registerBlock("pear_tree_sapling",
                         new SaplingBlock(ModSaplingGenerators.PEAR_TREE,
                                         AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
@@ -221,7 +221,7 @@ public class ModBlocks {
         public static final Block PLUM_TREE_PLANKS = registerBlock("plum_tree_planks",
                         new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
         public static final Block PLUM_TREE_LEAVES = registerBlock("plum_tree_leaves",
-                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+                        new FruitBearingLeaves(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
         public static final Block PLUM_TREE_SAPLING = registerBlock("plum_tree_sapling",
                         new SaplingBlock(ModSaplingGenerators.PLUM_TREE,
                                         AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
@@ -237,7 +237,7 @@ public class ModBlocks {
         public static final Block LEMON_TREE_PLANKS = registerBlock("lemon_tree_planks",
                         new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
         public static final Block LEMON_TREE_LEAVES = registerBlock("lemon_tree_leaves",
-                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+                        new FruitBearingLeaves(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
         public static final Block LEMON_TREE_SAPLING = registerBlock("lemon_tree_sapling",
                         new SaplingBlock(ModSaplingGenerators.LEMON_TREE,
                                         AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
@@ -253,7 +253,7 @@ public class ModBlocks {
         public static final Block ORANGE_TREE_PLANKS = registerBlock("orange_tree_planks",
                         new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
         public static final Block ORANGE_TREE_LEAVES = registerBlock("orange_tree_leaves",
-                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+                        new FruitBearingLeaves(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
         public static final Block ORANGE_TREE_SAPLING = registerBlock("orange_tree_sapling",
                         new SaplingBlock(ModSaplingGenerators.ORANGE_TREE,
                                         AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
@@ -269,7 +269,7 @@ public class ModBlocks {
         public static final Block APRICOT_TREE_PLANKS = registerBlock("apricot_tree_planks",
                         new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
         public static final Block APRICOT_TREE_LEAVES = registerBlock("apricot_tree_leaves",
-                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+                        new FruitBearingLeaves(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
         public static final Block APRICOT_TREE_SAPLING = registerBlock("apricot_tree_sapling",
                         new SaplingBlock(ModSaplingGenerators.APRICOT_TREE,
                                         AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
@@ -285,7 +285,7 @@ public class ModBlocks {
         public static final Block PEACH_TREE_PLANKS = registerBlock("peach_tree_planks",
                         new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
         public static final Block PEACH_TREE_LEAVES = registerBlock("peach_tree_leaves",
-                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+                        new FruitBearingLeaves(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
         public static final Block PEACH_TREE_SAPLING = registerBlock("peach_tree_sapling",
                         new SaplingBlock(ModSaplingGenerators.PEACH_TREE,
                                         AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
