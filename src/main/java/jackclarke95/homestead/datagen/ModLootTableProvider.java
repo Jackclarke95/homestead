@@ -4,7 +4,9 @@ import java.util.concurrent.CompletableFuture;
 
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.custom.VerticleSlabBlock;
+import jackclarke95.homestead.block.custom.FruitBearingLeaves;
 import jackclarke95.homestead.util.VerticalSlabType;
+import jackclarke95.homestead.item.ModItems;
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
 import net.minecraft.predicate.StatePredicate;
 import net.minecraft.loot.function.ExplosionDecayLootFunction;
@@ -16,6 +18,7 @@ import net.minecraft.loot.LootTable;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
+import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 
 public class ModLootTableProvider extends FabricBlockLootTableProvider {
@@ -120,8 +123,21 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.STRIPPED_PEAR_TREE_WOOD);
                 addDrop(ModBlocks.PEAR_TREE_PLANKS);
                 addDrop(ModBlocks.PEAR_TREE_SAPLING);
-                addDrop(ModBlocks.PEAR_TREE_LEAVES,
-                                leavesDrops(ModBlocks.PEAR_TREE_LEAVES, ModBlocks.PEAR_TREE_SAPLING, 0.0625f));
+                addDrop(ModBlocks.PEAR_TREE_LEAVES, block -> leavesDrops(ModBlocks.PEAR_TREE_LEAVES,
+                                ModBlocks.PEAR_TREE_SAPLING, 0.0625f)
+                                .pool(LootPool.builder()
+                                                .with(ItemEntry.builder(ModItems.PEAR)
+                                                                .apply(SetCountLootFunction
+                                                                                .builder(UniformLootNumberProvider
+                                                                                                .create(2.0F, 4.0F)))
+                                                                .conditionally(BlockStatePropertyLootCondition
+                                                                                .builder(block)
+                                                                                .properties(StatePredicate.Builder
+                                                                                                .create()
+                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
+                                                                                                                2)))
+                                                                .conditionally(this
+                                                                                .createWithoutShearsOrSilkTouchCondition()))));
 
                 addDrop(ModBlocks.PLUM_TREE_LOG);
                 addDrop(ModBlocks.PLUM_TREE_WOOD);
@@ -129,8 +145,19 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.STRIPPED_PLUM_TREE_WOOD);
                 addDrop(ModBlocks.PLUM_TREE_PLANKS);
                 addDrop(ModBlocks.PLUM_TREE_SAPLING);
-                addDrop(ModBlocks.PLUM_TREE_LEAVES,
-                                leavesDrops(ModBlocks.PLUM_TREE_LEAVES, ModBlocks.PLUM_TREE_SAPLING, 0.0625f));
+                addDrop(ModBlocks.PLUM_TREE_LEAVES, block -> leavesDrops(ModBlocks.PLUM_TREE_LEAVES,
+                                ModBlocks.PLUM_TREE_SAPLING, 0.0625f)
+                                .pool(LootPool.builder()
+                                                .with(ItemEntry.builder(ModItems.PLUM)
+                                                                .apply(SetCountLootFunction
+                                                                                .builder(UniformLootNumberProvider
+                                                                                                .create(2.0F, 4.0F)))
+                                                                .conditionally(BlockStatePropertyLootCondition
+                                                                                .builder(block)
+                                                                                .properties(StatePredicate.Builder
+                                                                                                .create()
+                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
+                                                                                                                2))))));
 
                 addDrop(ModBlocks.LEMON_TREE_LOG);
                 addDrop(ModBlocks.LEMON_TREE_WOOD);
@@ -138,8 +165,19 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.STRIPPED_LEMON_TREE_WOOD);
                 addDrop(ModBlocks.LEMON_TREE_PLANKS);
                 addDrop(ModBlocks.LEMON_TREE_SAPLING);
-                addDrop(ModBlocks.LEMON_TREE_LEAVES,
-                                leavesDrops(ModBlocks.LEMON_TREE_LEAVES, ModBlocks.LEMON_TREE_SAPLING, 0.0625f));
+                addDrop(ModBlocks.LEMON_TREE_LEAVES, block -> leavesDrops(ModBlocks.LEMON_TREE_LEAVES,
+                                ModBlocks.LEMON_TREE_SAPLING, 0.0625f)
+                                .pool(LootPool.builder()
+                                                .with(ItemEntry.builder(ModItems.LEMON)
+                                                                .apply(SetCountLootFunction
+                                                                                .builder(UniformLootNumberProvider
+                                                                                                .create(2.0F, 4.0F)))
+                                                                .conditionally(BlockStatePropertyLootCondition
+                                                                                .builder(block)
+                                                                                .properties(StatePredicate.Builder
+                                                                                                .create()
+                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
+                                                                                                                2))))));
 
                 addDrop(ModBlocks.ORANGE_TREE_LOG);
                 addDrop(ModBlocks.ORANGE_TREE_WOOD);
@@ -147,8 +185,19 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.STRIPPED_ORANGE_TREE_WOOD);
                 addDrop(ModBlocks.ORANGE_TREE_PLANKS);
                 addDrop(ModBlocks.ORANGE_TREE_SAPLING);
-                addDrop(ModBlocks.ORANGE_TREE_LEAVES,
-                                leavesDrops(ModBlocks.ORANGE_TREE_LEAVES, ModBlocks.ORANGE_TREE_SAPLING, 0.0625f));
+                addDrop(ModBlocks.ORANGE_TREE_LEAVES, block -> leavesDrops(ModBlocks.ORANGE_TREE_LEAVES,
+                                ModBlocks.ORANGE_TREE_SAPLING, 0.0625f)
+                                .pool(LootPool.builder()
+                                                .with(ItemEntry.builder(ModItems.ORANGE)
+                                                                .apply(SetCountLootFunction
+                                                                                .builder(UniformLootNumberProvider
+                                                                                                .create(2.0F, 4.0F)))
+                                                                .conditionally(BlockStatePropertyLootCondition
+                                                                                .builder(block)
+                                                                                .properties(StatePredicate.Builder
+                                                                                                .create()
+                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
+                                                                                                                2))))));
 
                 addDrop(ModBlocks.APRICOT_TREE_LOG);
                 addDrop(ModBlocks.APRICOT_TREE_WOOD);
@@ -156,8 +205,19 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.STRIPPED_APRICOT_TREE_WOOD);
                 addDrop(ModBlocks.APRICOT_TREE_PLANKS);
                 addDrop(ModBlocks.APRICOT_TREE_SAPLING);
-                addDrop(ModBlocks.APRICOT_TREE_LEAVES,
-                                leavesDrops(ModBlocks.APRICOT_TREE_LEAVES, ModBlocks.APRICOT_TREE_SAPLING, 0.0625f));
+                addDrop(ModBlocks.APRICOT_TREE_LEAVES, block -> leavesDrops(ModBlocks.APRICOT_TREE_LEAVES,
+                                ModBlocks.APRICOT_TREE_SAPLING, 0.0625f)
+                                .pool(LootPool.builder()
+                                                .with(ItemEntry.builder(ModItems.APRICOT)
+                                                                .apply(SetCountLootFunction
+                                                                                .builder(UniformLootNumberProvider
+                                                                                                .create(2.0F, 4.0F)))
+                                                                .conditionally(BlockStatePropertyLootCondition
+                                                                                .builder(block)
+                                                                                .properties(StatePredicate.Builder
+                                                                                                .create()
+                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
+                                                                                                                2))))));
 
                 addDrop(ModBlocks.PEACH_TREE_LOG);
                 addDrop(ModBlocks.PEACH_TREE_WOOD);
@@ -165,8 +225,19 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.STRIPPED_PEACH_TREE_WOOD);
                 addDrop(ModBlocks.PEACH_TREE_PLANKS);
                 addDrop(ModBlocks.PEACH_TREE_SAPLING);
-                addDrop(ModBlocks.PEACH_TREE_LEAVES,
-                                leavesDrops(ModBlocks.PEACH_TREE_LEAVES, ModBlocks.PEACH_TREE_SAPLING, 0.0625f));
+                addDrop(ModBlocks.PEACH_TREE_LEAVES, block -> leavesDrops(ModBlocks.PEACH_TREE_LEAVES,
+                                ModBlocks.PEACH_TREE_SAPLING, 0.0625f)
+                                .pool(LootPool.builder()
+                                                .with(ItemEntry.builder(ModItems.PEACH)
+                                                                .apply(SetCountLootFunction
+                                                                                .builder(UniformLootNumberProvider
+                                                                                                .create(2.0F, 4.0F)))
+                                                                .conditionally(BlockStatePropertyLootCondition
+                                                                                .builder(block)
+                                                                                .properties(StatePredicate.Builder
+                                                                                                .create()
+                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
+                                                                                                                2))))));
 
                 addDrop(ModBlocks.WATTLE_AND_DAUB, block -> LootTable.builder()
                                 .pool(LootPool.builder()

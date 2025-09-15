@@ -33,6 +33,19 @@ public class ModItems {
         public static final Item SALMON_JERKY = registerItem("salmon_jerky",
                         new Item(new Item.Settings().food(ModFoodComponents.SALMON_JERKY)));
 
+        public static final Item PEAR = registerItem("pear",
+                        new Item(new Item.Settings().food(ModFoodComponents.PEAR)));
+        public static final Item PLUM = registerItem("plum",
+                        new Item(new Item.Settings().food(ModFoodComponents.PLUM)));
+        public static final Item LEMON = registerItem("lemon",
+                        new Item(new Item.Settings().food(ModFoodComponents.LEMON)));
+        public static final Item ORANGE = registerItem("orange",
+                        new Item(new Item.Settings().food(ModFoodComponents.ORANGE)));
+        public static final Item APRICOT = registerItem("apricot",
+                        new Item(new Item.Settings().food(ModFoodComponents.APRICOT)));
+        public static final Item PEACH = registerItem("peach",
+                        new Item(new Item.Settings().food(ModFoodComponents.PEACH)));
+
         // Alcohol
         public static final Item MUG_OF_VODKA = registerItem("mug_of_vodka",
                         new Item(new Item.Settings().food(ModFoodComponents.MUG_OF_VODKA)));
@@ -65,6 +78,12 @@ public class ModItems {
                         entries.add(RABBIT_JERKY);
                         entries.add(COD_JERKY);
                         entries.add(SALMON_JERKY);
+                        entries.add(PEAR);
+                        entries.add(PLUM);
+                        entries.add(LEMON);
+                        entries.add(ORANGE);
+                        entries.add(APRICOT);
+                        entries.add(PEACH);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {

@@ -113,10 +113,8 @@ public class ModBlocks {
                         new PathBlock(AbstractBlock.Settings.copy(Blocks.BAMBOO_PLANKS).nonOpaque()));
         public static final Block CRIMSON_PLANK_PATH = registerBlock("crimson_plank_path",
                         new PathBlock(AbstractBlock.Settings.copy(Blocks.CRIMSON_PLANKS).nonOpaque()));
-
         public static final Block WARPED_PLANK_PATH = registerBlock("warped_plank_path",
                         new PathBlock(AbstractBlock.Settings.copy(Blocks.WARPED_PLANKS).nonOpaque()));
-
         public static final Block MOSSY_COBBLESTONE_PATH = registerBlock("mossy_cobblestone_path",
                         new PathBlock(AbstractBlock.Settings.copy(Blocks.MOSSY_COBBLESTONE).nonOpaque()));
         public static final Block STONE_BRICK_PATH = registerBlock("stone_brick_path",

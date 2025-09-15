@@ -127,6 +127,36 @@
         }
       ],
       "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "homestead:peach_tree_leaves",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "fruit_stage": "2"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "add": false,
+              "count": {
+                "type": "minecraft:uniform",
+                "max": 4.0,
+                "min": 2.0
+              },
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "homestead:peach"
+        }
+      ],
+      "rolls": 1.0
     }
   ]
 }

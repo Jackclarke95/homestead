@@ -35,4 +35,17 @@ public class ModFoodComponents {
         public static final FoodComponent SALMON_JERKY = new FoodComponent.Builder().nutrition(4)
                         .saturationModifier(6.0f)
                         .build();
+
+        public static final FoodComponent PEAR = new FoodComponent.Builder().nutrition(3).saturationModifier(0.3f)
+                        .build();
+        public static final FoodComponent PLUM = new FoodComponent.Builder().nutrition(2).saturationModifier(0.3f)
+                        .build();
+        public static final FoodComponent LEMON = new FoodComponent.Builder().nutrition(1).saturationModifier(0.2f)
+                        .build();
+        public static final FoodComponent ORANGE = new FoodComponent.Builder().nutrition(2).saturationModifier(0.3f)
+                        .build();
+        public static final FoodComponent APRICOT = new FoodComponent.Builder().nutrition(2).saturationModifier(0.3f)
+                        .build();
+        public static final FoodComponent PEACH = new FoodComponent.Builder().nutrition(3).saturationModifier(0.3f)
+                        .build();
 }
