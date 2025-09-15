@@ -23,21 +23,48 @@ import jackclarke95.homestead.screen.custom.PressScreen;
 public class HomesteadClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RACK, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.HEATED_RACK, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SAWDUST, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PEBBLE, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PEAR_TREE_SAPLING, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PLUM_TREE_SAPLING, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.LEMON_TREE_SAPLING, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ORANGE_TREE_SAPLING, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.APRICOT_TREE_SAPLING, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PEACH_TREE_SAPLING, RenderLayer.getCutout());
+        // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RACK,
+        // RenderLayer.getCutout());
+        // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.HEATED_RACK,
+        // RenderLayer.getCutout());
+        // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.SAWDUST,
+        // RenderLayer.getCutout());
+        // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PEBBLE,
+        // RenderLayer.getCutout());
+        // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PEAR_TREE_SAPLING,
+        // RenderLayer.getCutout());
+        // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PLUM_TREE_SAPLING,
+        // RenderLayer.getCutout());
+        // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.LEMON_TREE_SAPLING,
+        // RenderLayer.getCutout());
+        // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.ORANGE_TREE_SAPLING,
+        // RenderLayer.getCutout());
+        // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.APRICOT_TREE_SAPLING,
+        // RenderLayer.getCutout());
+        // BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PEACH_TREE_SAPLING,
+        // RenderLayer.getCutout());
 
-        // Register color providers for pear tree leaves to get biome tinting
+        BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutoutMipped(),
+                ModBlocks.RACK,
+                ModBlocks.HEATED_RACK,
+                ModBlocks.SAWDUST,
+                ModBlocks.PEBBLE,
+                ModBlocks.PEAR_TREE_SAPLING,
+                ModBlocks.PLUM_TREE_SAPLING,
+                ModBlocks.LEMON_TREE_SAPLING,
+                ModBlocks.ORANGE_TREE_SAPLING,
+                ModBlocks.APRICOT_TREE_SAPLING,
+                ModBlocks.PEACH_TREE_SAPLING);
+
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             return world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : 0x48B518;
-        }, ModBlocks.PEAR_TREE_LEAVES);
+        },
+                ModBlocks.PEAR_TREE_LEAVES,
+                ModBlocks.PLUM_TREE_LEAVES,
+                ModBlocks.LEMON_TREE_LEAVES,
+                ModBlocks.ORANGE_TREE_LEAVES,
+                ModBlocks.APRICOT_TREE_LEAVES,
+                ModBlocks.PEACH_TREE_LEAVES);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x48B518, ModBlocks.PEAR_TREE_LEAVES);
 
