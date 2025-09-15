@@ -8,10 +8,16 @@ import jackclarke95.homestead.block.custom.FruitBearingLeaves;
 import jackclarke95.homestead.util.VerticalSlabType;
 import jackclarke95.homestead.item.ModItems;
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
+import net.minecraft.loot.condition.MatchToolLootCondition;
 import net.minecraft.predicate.StatePredicate;
+import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.loot.function.ExplosionDecayLootFunction;
+import net.minecraft.loot.function.ApplyBonusLootFunction;
+import net.minecraft.enchantment.Enchantments;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
@@ -123,146 +129,121 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.STRIPPED_APPLE_TREE_WOOD);
                 addDrop(ModBlocks.APPLE_TREE_PLANKS);
                 addDrop(ModBlocks.APPLE_TREE_SAPLING);
-                addDrop(ModBlocks.APPLE_TREE_LEAVES, block -> leavesDrops(ModBlocks.APPLE_TREE_LEAVES,
-                                ModBlocks.APPLE_TREE_SAPLING, 0.0625f)
-                                .pool(LootPool.builder()
-                                                .with(ItemEntry.builder(Items.APPLE)
-                                                                .apply(SetCountLootFunction
-                                                                                .builder(UniformLootNumberProvider
-                                                                                                .create(2.0F, 4.0F)))
-                                                                .conditionally(BlockStatePropertyLootCondition
-                                                                                .builder(block)
-                                                                                .properties(StatePredicate.Builder
-                                                                                                .create()
-                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
-                                                                                                                2)))
-                                                                .conditionally(this
-                                                                                .createWithoutShearsOrSilkTouchCondition()))));
+                addDrop(ModBlocks.APPLE_TREE_LEAVES, block -> fruitLeavesDrops(ModBlocks.APPLE_TREE_LEAVES,
+                                ModBlocks.APPLE_TREE_SAPLING, 0.0625f, Items.APPLE));
                 addDrop(ModBlocks.PEAR_TREE_LOG);
                 addDrop(ModBlocks.PEAR_TREE_WOOD);
                 addDrop(ModBlocks.STRIPPED_PEAR_TREE_LOG);
                 addDrop(ModBlocks.STRIPPED_PEAR_TREE_WOOD);
                 addDrop(ModBlocks.PEAR_TREE_PLANKS);
                 addDrop(ModBlocks.PEAR_TREE_SAPLING);
-                addDrop(ModBlocks.PEAR_TREE_LEAVES, block -> leavesDrops(ModBlocks.PEAR_TREE_LEAVES,
-                                ModBlocks.PEAR_TREE_SAPLING, 0.0625f)
-                                .pool(LootPool.builder()
-                                                .with(ItemEntry.builder(ModItems.PEAR)
-                                                                .apply(SetCountLootFunction
-                                                                                .builder(UniformLootNumberProvider
-                                                                                                .create(2.0F, 4.0F)))
-                                                                .conditionally(BlockStatePropertyLootCondition
-                                                                                .builder(block)
-                                                                                .properties(StatePredicate.Builder
-                                                                                                .create()
-                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
-                                                                                                                2)))
-                                                                .conditionally(this
-                                                                                .createWithoutShearsOrSilkTouchCondition()))));
+                addDrop(ModBlocks.PEAR_TREE_LEAVES, block -> fruitLeavesDrops(ModBlocks.PEAR_TREE_LEAVES,
+                                ModBlocks.PEAR_TREE_SAPLING, 0.0625f, ModItems.PEAR));
                 addDrop(ModBlocks.PLUM_TREE_LOG);
                 addDrop(ModBlocks.PLUM_TREE_WOOD);
                 addDrop(ModBlocks.STRIPPED_PLUM_TREE_LOG);
                 addDrop(ModBlocks.STRIPPED_PLUM_TREE_WOOD);
                 addDrop(ModBlocks.PLUM_TREE_PLANKS);
                 addDrop(ModBlocks.PLUM_TREE_SAPLING);
-                addDrop(ModBlocks.PLUM_TREE_LEAVES, block -> leavesDrops(ModBlocks.PLUM_TREE_LEAVES,
-                                ModBlocks.PLUM_TREE_SAPLING, 0.0625f)
-                                .pool(LootPool.builder()
-                                                .with(ItemEntry.builder(ModItems.PLUM)
-                                                                .apply(SetCountLootFunction
-                                                                                .builder(UniformLootNumberProvider
-                                                                                                .create(2.0F, 4.0F)))
-                                                                .conditionally(BlockStatePropertyLootCondition
-                                                                                .builder(block)
-                                                                                .properties(StatePredicate.Builder
-                                                                                                .create()
-                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
-                                                                                                                2))))));
+                addDrop(ModBlocks.PLUM_TREE_LEAVES, block -> fruitLeavesDrops(ModBlocks.PLUM_TREE_LEAVES,
+                                ModBlocks.PLUM_TREE_SAPLING, 0.0625f, ModItems.PLUM));
                 addDrop(ModBlocks.LEMON_TREE_LOG);
                 addDrop(ModBlocks.LEMON_TREE_WOOD);
                 addDrop(ModBlocks.STRIPPED_LEMON_TREE_LOG);
                 addDrop(ModBlocks.STRIPPED_LEMON_TREE_WOOD);
                 addDrop(ModBlocks.LEMON_TREE_PLANKS);
                 addDrop(ModBlocks.LEMON_TREE_SAPLING);
-                addDrop(ModBlocks.LEMON_TREE_LEAVES, block -> leavesDrops(ModBlocks.LEMON_TREE_LEAVES,
-                                ModBlocks.LEMON_TREE_SAPLING, 0.0625f)
-                                .pool(LootPool.builder()
-                                                .with(ItemEntry.builder(ModItems.LEMON)
-                                                                .apply(SetCountLootFunction
-                                                                                .builder(UniformLootNumberProvider
-                                                                                                .create(2.0F, 4.0F)))
-                                                                .conditionally(BlockStatePropertyLootCondition
-                                                                                .builder(block)
-                                                                                .properties(StatePredicate.Builder
-                                                                                                .create()
-                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
-                                                                                                                2))))));
+                addDrop(ModBlocks.LEMON_TREE_LEAVES, block -> fruitLeavesDrops(ModBlocks.LEMON_TREE_LEAVES,
+                                ModBlocks.LEMON_TREE_SAPLING, 0.0625f, ModItems.LEMON));
                 addDrop(ModBlocks.ORANGE_TREE_LOG);
                 addDrop(ModBlocks.ORANGE_TREE_WOOD);
                 addDrop(ModBlocks.STRIPPED_ORANGE_TREE_LOG);
                 addDrop(ModBlocks.STRIPPED_ORANGE_TREE_WOOD);
                 addDrop(ModBlocks.ORANGE_TREE_PLANKS);
                 addDrop(ModBlocks.ORANGE_TREE_SAPLING);
-                addDrop(ModBlocks.ORANGE_TREE_LEAVES, block -> leavesDrops(ModBlocks.ORANGE_TREE_LEAVES,
-                                ModBlocks.ORANGE_TREE_SAPLING, 0.0625f)
-                                .pool(LootPool.builder()
-                                                .with(ItemEntry.builder(ModItems.ORANGE)
-                                                                .apply(SetCountLootFunction
-                                                                                .builder(UniformLootNumberProvider
-                                                                                                .create(2.0F, 4.0F)))
-                                                                .conditionally(BlockStatePropertyLootCondition
-                                                                                .builder(block)
-                                                                                .properties(StatePredicate.Builder
-                                                                                                .create()
-                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
-                                                                                                                2))))));
+                addDrop(ModBlocks.ORANGE_TREE_LEAVES, block -> fruitLeavesDrops(ModBlocks.ORANGE_TREE_LEAVES,
+                                ModBlocks.ORANGE_TREE_SAPLING, 0.0625f, ModItems.ORANGE));
                 addDrop(ModBlocks.APRICOT_TREE_LOG);
                 addDrop(ModBlocks.APRICOT_TREE_WOOD);
                 addDrop(ModBlocks.STRIPPED_APRICOT_TREE_LOG);
                 addDrop(ModBlocks.STRIPPED_APRICOT_TREE_WOOD);
                 addDrop(ModBlocks.APRICOT_TREE_PLANKS);
                 addDrop(ModBlocks.APRICOT_TREE_SAPLING);
-                addDrop(ModBlocks.APRICOT_TREE_LEAVES, block -> leavesDrops(ModBlocks.APRICOT_TREE_LEAVES,
-                                ModBlocks.APRICOT_TREE_SAPLING, 0.0625f)
-                                .pool(LootPool.builder()
-                                                .with(ItemEntry.builder(ModItems.APRICOT)
-                                                                .apply(SetCountLootFunction
-                                                                                .builder(UniformLootNumberProvider
-                                                                                                .create(2.0F, 4.0F)))
-                                                                .conditionally(BlockStatePropertyLootCondition
-                                                                                .builder(block)
-                                                                                .properties(StatePredicate.Builder
-                                                                                                .create()
-                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
-                                                                                                                2))))));
+                addDrop(ModBlocks.APRICOT_TREE_LEAVES, block -> fruitLeavesDrops(ModBlocks.APRICOT_TREE_LEAVES,
+                                ModBlocks.APRICOT_TREE_SAPLING, 0.0625f, ModItems.APRICOT));
                 addDrop(ModBlocks.PEACH_TREE_LOG);
                 addDrop(ModBlocks.PEACH_TREE_WOOD);
                 addDrop(ModBlocks.STRIPPED_PEACH_TREE_LOG);
                 addDrop(ModBlocks.STRIPPED_PEACH_TREE_WOOD);
                 addDrop(ModBlocks.PEACH_TREE_PLANKS);
                 addDrop(ModBlocks.PEACH_TREE_SAPLING);
-                addDrop(ModBlocks.PEACH_TREE_LEAVES, block -> leavesDrops(ModBlocks.PEACH_TREE_LEAVES,
-                                ModBlocks.PEACH_TREE_SAPLING, 0.0625f)
+                addDrop(ModBlocks.PEACH_TREE_LEAVES, block -> fruitLeavesDrops(ModBlocks.PEACH_TREE_LEAVES,
+                                ModBlocks.PEACH_TREE_SAPLING, 0.0625f, ModItems.PEACH));
+
+                addDrop(ModBlocks.WATTLE_AND_DAUB, block -> verticalSlabDrops(ModBlocks.WATTLE_AND_DAUB));
+        }
+
+        private LootTable.Builder fruitLeavesDrops(Block leavesBlock, Block saplingBlock, float saplingChance,
+                        Item fruitItem) {
+                return leavesDrops(leavesBlock, saplingBlock, saplingChance)
                                 .pool(LootPool.builder()
-                                                .with(ItemEntry.builder(ModItems.PEACH)
+                                                .with(ItemEntry.builder(fruitItem)
                                                                 .apply(SetCountLootFunction
-                                                                                .builder(UniformLootNumberProvider
-                                                                                                .create(2.0F, 4.0F)))
+                                                                                .builder(ConstantLootNumberProvider
+                                                                                                .create(1.0F)))
                                                                 .conditionally(BlockStatePropertyLootCondition
-                                                                                .builder(block)
+                                                                                .builder(leavesBlock)
                                                                                 .properties(StatePredicate.Builder
                                                                                                 .create()
                                                                                                 .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
-                                                                                                                2))))));
-
-                addDrop(ModBlocks.WATTLE_AND_DAUB, block -> LootTable.builder()
+                                                                                                                2)))
+                                                                .conditionally(this
+                                                                                .createWithoutShearsOrSilkTouchCondition())
+                                                                .conditionally(MatchToolLootCondition
+                                                                                .builder(ItemPredicate.Builder.create()
+                                                                                                .items(ModItems.WOODEN_CROOK,
+                                                                                                                ModItems.STONE_CROOK,
+                                                                                                                ModItems.IRON_CROOK,
+                                                                                                                ModItems.GOLDEN_CROOK,
+                                                                                                                ModItems.DIAMOND_CROOK,
+                                                                                                                ModItems.NETHERITE_CROOK))
+                                                                                .invert())))
                                 .pool(LootPool.builder()
-                                                .with(ItemEntry.builder(ModBlocks.WATTLE_AND_DAUB)
+                                                .with(ItemEntry.builder(fruitItem)
+                                                                .apply(SetCountLootFunction
+                                                                                .builder(UniformLootNumberProvider
+                                                                                                .create(1.0F, 3.0F)))
+                                                                .apply(ApplyBonusLootFunction.uniformBonusCount(
+                                                                                this.registryLookup.getWrapperOrThrow(
+                                                                                                net.minecraft.registry.RegistryKeys.ENCHANTMENT)
+                                                                                                .getOrThrow(Enchantments.FORTUNE)))
+                                                                .conditionally(BlockStatePropertyLootCondition
+                                                                                .builder(leavesBlock)
+                                                                                .properties(StatePredicate.Builder
+                                                                                                .create()
+                                                                                                .exactMatch(FruitBearingLeaves.FRUIT_STAGE,
+                                                                                                                2)))
+                                                                .conditionally(this
+                                                                                .createWithoutShearsOrSilkTouchCondition())
+                                                                .conditionally(MatchToolLootCondition
+                                                                                .builder(ItemPredicate.Builder.create()
+                                                                                                .items(ModItems.WOODEN_CROOK,
+                                                                                                                ModItems.STONE_CROOK,
+                                                                                                                ModItems.IRON_CROOK,
+                                                                                                                ModItems.GOLDEN_CROOK,
+                                                                                                                ModItems.DIAMOND_CROOK,
+                                                                                                                ModItems.NETHERITE_CROOK)))));
+        }
+
+        private LootTable.Builder verticalSlabDrops(Block slabBlock) {
+                return LootTable.builder()
+                                .pool(LootPool.builder()
+                                                .with(ItemEntry.builder(slabBlock)
                                                                 .apply(SetCountLootFunction
                                                                                 .builder(ConstantLootNumberProvider
                                                                                                 .create(2))
                                                                                 .conditionally(BlockStatePropertyLootCondition
-                                                                                                .builder(block)
+                                                                                                .builder(slabBlock)
                                                                                                 .properties(StatePredicate.Builder
                                                                                                                 .create()
                                                                                                                 .exactMatch(VerticleSlabBlock.TYPE,
@@ -271,12 +252,12 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                                                                                 .builder(ConstantLootNumberProvider
                                                                                                 .create(1))
                                                                                 .conditionally(BlockStatePropertyLootCondition
-                                                                                                .builder(block)
+                                                                                                .builder(slabBlock)
                                                                                                 .properties(StatePredicate.Builder
                                                                                                                 .create()
                                                                                                                 .exactMatch(VerticleSlabBlock.TYPE,
                                                                                                                                 VerticalSlabType.HALF)))))
                                                 .apply(ExplosionDecayLootFunction.builder())
-                                                .rolls(ConstantLootNumberProvider.create(1))));
+                                                .rolls(ConstantLootNumberProvider.create(1)));
         }
 }
