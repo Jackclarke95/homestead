@@ -349,9 +349,6 @@ public class ModModelProvider extends FabricModelProvider {
 
         }
 
-        /**
-         * Helper to generate a simple surface layer block model JSON from a template.
-         */
         public static void generateSimpleSurfaceLayerBlockModelJson(Path outputRoot, String blockName,
                         String texturePath, String modId) {
                 Path projectRoot = outputRoot.getParent().getParent().getParent();
@@ -371,10 +368,6 @@ public class ModModelProvider extends FabricModelProvider {
                 }
         }
 
-        /**
-         * Helper to generate growable surface layer block models (count 1-4) from a
-         * template.
-         */
         public static void generateGrowableSurfaceLayerBlockModelJson(Path outputRoot, String blockName,
                         String texturePrefix, String modId) {
                 Path projectRoot = outputRoot.getParent().getParent().getParent();
@@ -401,10 +394,6 @@ public class ModModelProvider extends FabricModelProvider {
                 }
         }
 
-        /**
-         * Generate a variant blockstate JSON for growable surface layer blocks (count
-         * 1-4).
-         */
         public static void generateGrowableSurfaceLayerBlockStateJson(Path outputRoot, String blockName, String modId) {
                 Path projectRoot = outputRoot.getParent().getParent().getParent();
                 Path output = projectRoot
@@ -413,19 +402,32 @@ public class ModModelProvider extends FabricModelProvider {
                 StringBuilder sb = new StringBuilder();
                 sb.append("{\n  \"variants\": {\n");
 
+                String[] facings = { "north", "south", "east", "west" };
+                int[] rotations = { 0, 180, 90, 270 };
+
+                boolean first = true;
                 for (int count = 1; count <= 4; count++) {
-                        sb.append("    \"count=").append(count).append("\": {\n");
-                        sb.append("      \"model\": \"").append(modId).append(":block/").append(blockName).append("_")
-                                        .append(count).append("\"\n");
-                        sb.append("    }");
-                        if (count < 4) {
-                                sb.append(",\n");
-                        } else {
-                                sb.append("\n");
+                        for (int i = 0; i < facings.length; i++) {
+                                if (!first) {
+                                        sb.append(",\n");
+                                }
+                                first = false;
+
+                                sb.append("    \"count=").append(count).append(",facing=").append(facings[i])
+                                                .append("\": {\n");
+                                sb.append("      \"model\": \"").append(modId).append(":block/").append(blockName)
+                                                .append("_")
+                                                .append(count).append("\"");
+
+                                if (rotations[i] > 0) {
+                                        sb.append(",\n      \"y\": ").append(rotations[i]);
+                                }
+
+                                sb.append("\n    }");
                         }
                 }
 
-                sb.append("  }\n}");
+                sb.append("\n  }\n}");
 
                 try {
                         Files.createDirectories(output.getParent());
@@ -436,9 +438,6 @@ public class ModModelProvider extends FabricModelProvider {
                 }
         }
 
-        /**
-         * Registers a simple surface layer block model, blockstate, and item model.
-         */
         public static void registerSimpleSurfaceLayerBlockModel(BlockStateModelGenerator blockStateModelGenerator,
                         FabricDataOutput dataOutput, Block block, Block templateBlock, String modId) {
                 Identifier blockId = Registries.BLOCK.getId(block);
@@ -456,9 +455,6 @@ public class ModModelProvider extends FabricModelProvider {
                                 BlockStateModelGenerator.createSingletonBlockState(block, modelId));
         }
 
-        /**
-         * Registers a growable surface layer block models, blockstate, and item model.
-         */
         public static void registerGrowableSurfaceLayerBlockModel(BlockStateModelGenerator blockStateModelGenerator,
                         FabricDataOutput dataOutput, Block block, Block templateBlock, String modId) {
                 Identifier blockId = Registries.BLOCK.getId(block);

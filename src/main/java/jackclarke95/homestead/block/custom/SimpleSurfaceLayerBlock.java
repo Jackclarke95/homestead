@@ -14,10 +14,6 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 
-/**
- * A simple surface layer block with a single texture and no connections.
- * Follows redstone-like placement rules (only on full top faces).
- */
 public class SimpleSurfaceLayerBlock extends Block {
     public static final MapCodec<SimpleSurfaceLayerBlock> CODEC = createCodec(SimpleSurfaceLayerBlock::new);
 
@@ -37,7 +33,6 @@ public class SimpleSurfaceLayerBlock extends Block {
 
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        // Only allow placement if there's a full top face below (like redstone)
         if (!canPlaceOnTop(ctx.getWorld(), ctx.getBlockPos().down())) {
             return null;
         }
@@ -48,7 +43,6 @@ public class SimpleSurfaceLayerBlock extends Block {
     @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState,
             WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        // If the block below no longer provides a full top face, the layer should drop
         if (!canPlaceOnTop(world, pos.down())) {
             return Blocks.AIR.getDefaultState();
         }
@@ -56,11 +50,7 @@ public class SimpleSurfaceLayerBlock extends Block {
         return state;
     }
 
-    /**
-     * Returns true if the block at the given position has a full top face
-     * that can support this surface layer (mirrors redstone's placement rules).
-     */
-    private boolean canPlaceOnTop(BlockView world, BlockPos pos) {
+    public boolean canPlaceOnTop(BlockView world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
 
         try {

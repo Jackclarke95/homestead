@@ -49,7 +49,7 @@ public class ModBlocks {
 
         public static final Block PEBBLE = registerBlock("pebble",
                         new GrowableSurfaceLayerBlock(
-                                        AbstractBlock.Settings.copy(Blocks.COBBLESTONE).nonOpaque()));
+                                        AbstractBlock.Settings.copy(Blocks.COBBLESTONE).strength(0.5f).nonOpaque()));
 
         public static final Block COBBLESTONE_BRICKS = registerBlock("cobblestone_bricks",
                         new Block((AbstractBlock.Settings.copy(Blocks.COBBLESTONE))));

@@ -27,8 +27,6 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(ModBlocks.MILL);
                 addDrop(ModBlocks.PRESS);
                 addDrop(ModBlocks.SAWDUST);
-                // TODO: Custom loot table for PEBBLES to drop count-based items
-                addDrop(ModBlocks.PEBBLE);
                 addDrop(ModBlocks.COBBLESTONE_BRICKS);
                 addDrop(ModBlocks.COBBLESTONE_BRICK_SLAB);
                 addDrop(ModBlocks.COBBLESTONE_BRICK_WALL);
