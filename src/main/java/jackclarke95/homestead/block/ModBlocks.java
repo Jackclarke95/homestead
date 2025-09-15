@@ -10,6 +10,7 @@ import jackclarke95.homestead.block.custom.VerticleSlabBlock;
 import jackclarke95.homestead.block.custom.MillBlock;
 import jackclarke95.homestead.block.custom.PathBlock;
 import jackclarke95.homestead.block.custom.SurfaceLayerConnectingBlock;
+import jackclarke95.homestead.block.custom.GrowableSurfaceLayerBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -45,6 +46,10 @@ public class ModBlocks {
         public static final Block SAWDUST = registerBlock("sawdust",
                         new SurfaceLayerConnectingBlock(
                                         AbstractBlock.Settings.copy(Blocks.BROWN_CONCRETE_POWDER).nonOpaque()));
+
+        public static final Block PEBBLE = registerBlock("pebble",
+                        new GrowableSurfaceLayerBlock(
+                                        AbstractBlock.Settings.copy(Blocks.COBBLESTONE).nonOpaque()));
 
         public static final Block COBBLESTONE_BRICKS = registerBlock("cobblestone_bricks",
                         new Block((AbstractBlock.Settings.copy(Blocks.COBBLESTONE))));

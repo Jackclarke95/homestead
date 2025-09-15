@@ -4,19 +4,14 @@ import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
-import net.minecraft.block.Blocks;
 
-public class SurfaceLayerConnectingBlock extends Block {
+public class SurfaceLayerConnectingBlock extends SimpleSurfaceLayerBlock {
     public static final MapCodec<SurfaceLayerConnectingBlock> CODEC = createCodec(SurfaceLayerConnectingBlock::new);
 
     public static final BooleanProperty NORTH = BooleanProperty.of("north");
@@ -42,19 +37,15 @@ public class SurfaceLayerConnectingBlock extends Block {
     }
 
     @Override
-    protected MapCodec<? extends Block> getCodec() {
+    protected MapCodec<? extends SimpleSurfaceLayerBlock> getCodec() {
         return CODEC;
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.cuboid(0, 0, 0, 1, 1 / 16f, 1);
-    }
-
-    @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-        // Only allow placement if there's a full top face below (like redstone)
-        if (!canPlaceOnTop(ctx.getWorld(), ctx.getBlockPos().down())) {
+        // Call super method for basic placement validation
+        BlockState state = super.getPlacementState(ctx);
+        if (state == null) {
             return null;
         }
 
@@ -64,9 +55,11 @@ public class SurfaceLayerConnectingBlock extends Block {
     @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState,
             WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        // If the block below no longer provides a full top face, the layer should drop
-        if (!canPlaceOnTop(world, pos.down())) {
-            return Blocks.AIR.getDefaultState();
+        // Call super method for support checking
+        BlockState superState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos,
+                neighborPos);
+        if (superState.isAir()) {
+            return superState;
         }
 
         return getStateWithConnections(world, pos);
@@ -117,20 +110,7 @@ public class SurfaceLayerConnectingBlock extends Block {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        super.appendProperties(builder);
         builder.add(NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST);
-    }
-
-    /**
-     * Returns true if the block at the given position has a full top face
-     * that can support this surface layer (mirrors redstone's placement rules).
-     */
-    private boolean canPlaceOnTop(BlockView world, BlockPos pos) {
-        BlockState state = world.getBlockState(pos);
-
-        try {
-            return state.isSideSolidFullSquare(world, pos, Direction.UP);
-        } catch (Throwable t) {
-            return state.isOpaque();
-        }
     }
 }

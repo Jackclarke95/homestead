@@ -189,6 +189,9 @@ public class ModModelProvider extends FabricModelProvider {
 
                 registerSurfaceLayerConnectingBlockModel(blockStateModelGenerator, this.output, ModBlocks.SAWDUST,
                                 ModBlocks.SAWDUST, Homestead.MOD_ID);
+
+                registerGrowableSurfaceLayerBlockModel(blockStateModelGenerator, this.output, ModBlocks.PEBBLE,
+                                ModBlocks.PEBBLE, Homestead.MOD_ID);
         }
 
         public static void registerPathBlockModel(BlockStateModelGenerator blockStateModelGenerator,
@@ -346,6 +349,130 @@ public class ModModelProvider extends FabricModelProvider {
 
         }
 
+        /**
+         * Helper to generate a simple surface layer block model JSON from a template.
+         */
+        public static void generateSimpleSurfaceLayerBlockModelJson(Path outputRoot, String blockName,
+                        String texturePath, String modId) {
+                Path projectRoot = outputRoot.getParent().getParent().getParent();
+                Path template = projectRoot
+                                .resolve("src/main/resources/assets/" + modId
+                                                + "/templates/block/simple_surface_layer_block.json");
+                Path output = projectRoot
+                                .resolve("src/generated/assets/" + modId + "/models/block/" + blockName + ".json");
+
+                try {
+                        String json = Files.readString(template, StandardCharsets.UTF_8);
+                        json = json.replace("{texture}", texturePath);
+                        Files.createDirectories(output.getParent());
+                        Files.writeString(output, json, StandardCharsets.UTF_8);
+                } catch (IOException e) {
+                        throw new RuntimeException("Failed to generate simple surface layer model for " + blockName, e);
+                }
+        }
+
+        /**
+         * Helper to generate growable surface layer block models (count 1-4) from a
+         * template.
+         */
+        public static void generateGrowableSurfaceLayerBlockModelJson(Path outputRoot, String blockName,
+                        String texturePrefix, String modId) {
+                Path projectRoot = outputRoot.getParent().getParent().getParent();
+                Path template = projectRoot
+                                .resolve("src/main/resources/assets/" + modId
+                                                + "/templates/block/growable_surface_layer_block.json");
+
+                try {
+                        String templateJson = Files.readString(template, StandardCharsets.UTF_8);
+
+                        for (int count = 1; count <= 4; count++) {
+                                Path output = projectRoot
+                                                .resolve("src/generated/assets/" + modId + "/models/block/" + blockName
+                                                                + "_" + count + ".json");
+
+                                String texturePath = texturePrefix + "_" + count;
+                                String json = templateJson.replace("{texture}", texturePath);
+                                Files.createDirectories(output.getParent());
+                                Files.writeString(output, json, StandardCharsets.UTF_8);
+                        }
+                } catch (IOException e) {
+                        throw new RuntimeException("Failed to generate growable surface layer models for " + blockName,
+                                        e);
+                }
+        }
+
+        /**
+         * Generate a variant blockstate JSON for growable surface layer blocks (count
+         * 1-4).
+         */
+        public static void generateGrowableSurfaceLayerBlockStateJson(Path outputRoot, String blockName, String modId) {
+                Path projectRoot = outputRoot.getParent().getParent().getParent();
+                Path output = projectRoot
+                                .resolve("src/generated/assets/" + modId + "/blockstates/" + blockName + ".json");
+
+                StringBuilder sb = new StringBuilder();
+                sb.append("{\n  \"variants\": {\n");
+
+                for (int count = 1; count <= 4; count++) {
+                        sb.append("    \"count=").append(count).append("\": {\n");
+                        sb.append("      \"model\": \"").append(modId).append(":block/").append(blockName).append("_")
+                                        .append(count).append("\"\n");
+                        sb.append("    }");
+                        if (count < 4) {
+                                sb.append(",\n");
+                        } else {
+                                sb.append("\n");
+                        }
+                }
+
+                sb.append("  }\n}");
+
+                try {
+                        Files.createDirectories(output.getParent());
+                        Files.writeString(output, sb.toString(), StandardCharsets.UTF_8);
+                } catch (IOException e) {
+                        throw new RuntimeException(
+                                        "Failed to generate growable surface layer blockstate for " + blockName, e);
+                }
+        }
+
+        /**
+         * Registers a simple surface layer block model, blockstate, and item model.
+         */
+        public static void registerSimpleSurfaceLayerBlockModel(BlockStateModelGenerator blockStateModelGenerator,
+                        FabricDataOutput dataOutput, Block block, Block templateBlock, String modId) {
+                Identifier blockId = Registries.BLOCK.getId(block);
+                Identifier templateId = Registries.BLOCK.getId(templateBlock);
+                String blockName = blockId.getPath();
+                String templateNamespace = templateId.getNamespace();
+                String templatePath = templateId.getPath();
+
+                Path outputRoot = dataOutput.getPath();
+                String texturePath = templateNamespace + ":block/" + templatePath;
+                generateSimpleSurfaceLayerBlockModelJson(outputRoot, blockName, texturePath, modId);
+
+                Identifier modelId = Identifier.of(modId, "block/" + blockName);
+                blockStateModelGenerator.blockStateCollector.accept(
+                                BlockStateModelGenerator.createSingletonBlockState(block, modelId));
+        }
+
+        /**
+         * Registers a growable surface layer block models, blockstate, and item model.
+         */
+        public static void registerGrowableSurfaceLayerBlockModel(BlockStateModelGenerator blockStateModelGenerator,
+                        FabricDataOutput dataOutput, Block block, Block templateBlock, String modId) {
+                Identifier blockId = Registries.BLOCK.getId(block);
+                Identifier templateId = Registries.BLOCK.getId(templateBlock);
+                String blockName = blockId.getPath();
+                String templateNamespace = templateId.getNamespace();
+                String templatePath = templateId.getPath();
+
+                Path outputRoot = dataOutput.getPath();
+                String texturePrefix = templateNamespace + ":block/" + templatePath;
+                generateGrowableSurfaceLayerBlockModelJson(outputRoot, blockName, texturePrefix, modId);
+                generateGrowableSurfaceLayerBlockStateJson(outputRoot, blockName, modId);
+        }
+
         @Override
         public void generateItemModels(ItemModelGenerator itemModelGenerator) {
                 itemModelGenerator.register(ModItems.RAW_HIDE, Models.GENERATED);
@@ -365,6 +492,7 @@ public class ModModelProvider extends FabricModelProvider {
                 itemModelGenerator.register(ModItems.SEED_MIX, Models.GENERATED);
                 itemModelGenerator.register(ModItems.ANIMAL_FEED, Models.GENERATED);
                 itemModelGenerator.register(ModBlocks.SAWDUST.asItem(), Models.GENERATED);
+                itemModelGenerator.register(ModBlocks.PEBBLE.asItem(), Models.GENERATED);
         }
 
         private void registerCubeBottomTop(BlockStateModelGenerator blockStateModelGenerator,
