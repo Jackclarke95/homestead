@@ -1,7 +1,7 @@
 package jackclarke95.homestead.item.custom;
 
 import jackclarke95.homestead.block.custom.FruitBearingLeaves;
-import jackclarke95.homestead.item.ModItems;
+import jackclarke95.homestead.util.ModTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
@@ -11,10 +11,10 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.Items;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
-import net.minecraft.registry.Registries;
+import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -24,6 +24,8 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public class CrookItem extends ToolItem {
     private static final double PULL_STRENGTH = 0.5;
@@ -100,64 +102,45 @@ public class CrookItem extends ToolItem {
 
             if (fruitStage == 2) {
                 if (!world.isClient) {
-                    ((FruitBearingLeaves) state.getBlock()).setFruitStage(world, pos, 0);
+                    List<ItemStack> fruitDrops = getFruitFromLootTable(state, world, pos, player, stack);
 
-                    dropFruitForBlock(state, world, pos);
+                    if (!fruitDrops.isEmpty()) {
+                        ((FruitBearingLeaves) state.getBlock()).setFruitStage(world, pos, 0);
 
-                    world.playSound(null, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES,
-                            SoundCategory.BLOCKS, 1.0F, 1.0F);
+                        for (ItemStack fruit : fruitDrops) {
+                            ItemScatterer.spawn(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, fruit);
+                        }
 
-                    stack.damage(1, player, LivingEntity.getSlotForHand(context.getHand()));
+                        world.playSound(null, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES,
+                                SoundCategory.BLOCKS, 1.0F, 1.0F);
+
+                        stack.damage(1, player, LivingEntity.getSlotForHand(context.getHand()));
+
+                        return ActionResult.SUCCESS;
+                    }
                 }
-
-                return ActionResult.SUCCESS;
             }
         }
 
         return ActionResult.PASS;
     }
 
-    private void dropFruitForBlock(BlockState state, World world, BlockPos pos) {
-        if (!(world instanceof ServerWorld))
-            return;
+    private List<ItemStack> getFruitFromLootTable(BlockState state, World world, BlockPos pos, PlayerEntity player,
+            ItemStack tool) {
+        if (!(world instanceof ServerWorld serverWorld))
+            return List.of();
 
-        String blockName = Registries.BLOCK.getId(state.getBlock()).getPath();
-        ItemStack fruitToDrop = null;
-        int dropCount = 2 + world.getRandom().nextInt(3);
+        LootContextParameterSet.Builder builder = new LootContextParameterSet.Builder(serverWorld)
+                .add(LootContextParameters.ORIGIN, Vec3d.ofCenter(pos))
+                .add(LootContextParameters.TOOL, tool)
+                .add(LootContextParameters.THIS_ENTITY, player)
+                .add(LootContextParameters.BLOCK_STATE, state);
 
-        switch (blockName) {
-            case "apple_tree_leaves":
-                fruitToDrop = new ItemStack(Items.APPLE, dropCount);
+        var drops = state.getDroppedStacks(builder);
 
-                break;
-            case "pear_tree_leaves":
-                fruitToDrop = new ItemStack(ModItems.PEAR, dropCount);
-
-                break;
-            case "plum_tree_leaves":
-                fruitToDrop = new ItemStack(ModItems.PLUM, dropCount);
-
-                break;
-            case "lemon_tree_leaves":
-                fruitToDrop = new ItemStack(ModItems.LEMON, dropCount);
-
-                break;
-            case "orange_tree_leaves":
-                fruitToDrop = new ItemStack(ModItems.ORANGE, dropCount);
-
-                break;
-            case "apricot_tree_leaves":
-                fruitToDrop = new ItemStack(ModItems.APRICOT, dropCount);
-
-                break;
-            case "peach_tree_leaves":
-                fruitToDrop = new ItemStack(ModItems.PEACH, dropCount);
-
-                break;
-        }
-
-        if (fruitToDrop != null) {
-            ItemScatterer.spawn(world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, fruitToDrop);
-        }
+        // Filter and collect only fruit items
+        return drops.stream()
+                .filter(drop -> drop.isIn(ModTags.ItemTags.FRUITS))
+                .toList();
     }
 }
