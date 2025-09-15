@@ -256,10 +256,7 @@ public class ModModelProvider extends FabricModelProvider {
                 Path projectRoot = outputRoot.getParent().getParent().getParent();
                 Path baseTemplate = projectRoot
                                 .resolve("src/main/resources/assets/" + modId
-                                                + "/templates/block/surface_layer_connecting_block_base.json");
-                Path overlayTemplate = projectRoot
-                                .resolve("src/main/resources/assets/" + modId
-                                                + "/templates/block/surface_layer_connecting_block_overlay.json");
+                                                + "/templates/block/surface_layer_base.json");
 
                 Path baseOutput = projectRoot
                                 .resolve("src/generated/assets/" + modId + "/models/block/" + blockName + "_base.json");
@@ -267,6 +264,7 @@ public class ModModelProvider extends FabricModelProvider {
                 try {
                         String baseJson = Files.readString(baseTemplate, StandardCharsets.UTF_8);
                         baseJson = baseJson.replace("{texture}", texturePath);
+                        baseJson = baseJson.replace("{particle}", texturePath);
                         Files.createDirectories(baseOutput.getParent());
                         Files.writeString(baseOutput, baseJson, StandardCharsets.UTF_8);
 
@@ -278,10 +276,10 @@ public class ModModelProvider extends FabricModelProvider {
                                                 "src/generated/assets/" + modId + "/models/block/" + blockName
                                                                 + "_overlay_" + dir + ".json");
 
-                                String overlayJson = Files.readString(overlayTemplate, StandardCharsets.UTF_8);
+                                String overlayJson = Files.readString(baseTemplate, StandardCharsets.UTF_8);
                                 String overlayTexture = modId + ":block/" + blockName + "_" + dir;
-                                overlayJson = overlayJson.replace("{overlay_texture}", overlayTexture);
-                                overlayJson = overlayJson.replace("{base_texture}", texturePath);
+                                overlayJson = overlayJson.replace("{texture}", overlayTexture);
+                                overlayJson = overlayJson.replace("{particle}", texturePath);
 
                                 Files.writeString(overlayOutput, overlayJson, StandardCharsets.UTF_8);
                         }
@@ -354,13 +352,14 @@ public class ModModelProvider extends FabricModelProvider {
                 Path projectRoot = outputRoot.getParent().getParent().getParent();
                 Path template = projectRoot
                                 .resolve("src/main/resources/assets/" + modId
-                                                + "/templates/block/simple_surface_layer_block.json");
+                                                + "/templates/block/surface_layer_base.json");
                 Path output = projectRoot
                                 .resolve("src/generated/assets/" + modId + "/models/block/" + blockName + ".json");
 
                 try {
                         String json = Files.readString(template, StandardCharsets.UTF_8);
                         json = json.replace("{texture}", texturePath);
+                        json = json.replace("{particle}", texturePath);
                         Files.createDirectories(output.getParent());
                         Files.writeString(output, json, StandardCharsets.UTF_8);
                 } catch (IOException e) {
@@ -373,7 +372,7 @@ public class ModModelProvider extends FabricModelProvider {
                 Path projectRoot = outputRoot.getParent().getParent().getParent();
                 Path template = projectRoot
                                 .resolve("src/main/resources/assets/" + modId
-                                                + "/templates/block/growable_surface_layer_block.json");
+                                                + "/templates/block/surface_layer_base.json");
 
                 try {
                         String templateJson = Files.readString(template, StandardCharsets.UTF_8);
@@ -385,6 +384,7 @@ public class ModModelProvider extends FabricModelProvider {
 
                                 String texturePath = texturePrefix + "_" + count;
                                 String json = templateJson.replace("{texture}", texturePath);
+                                json = json.replace("{particle}", texturePath);
                                 Files.createDirectories(output.getParent());
                                 Files.writeString(output, json, StandardCharsets.UTF_8);
                         }
