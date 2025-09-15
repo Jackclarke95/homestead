@@ -28,6 +28,7 @@ public class HomesteadClient implements ClientModInitializer {
                 ModBlocks.HEATED_RACK,
                 ModBlocks.SAWDUST,
                 ModBlocks.PEBBLE,
+                ModBlocks.APPLE_TREE_SAPLING,
                 ModBlocks.PEAR_TREE_SAPLING,
                 ModBlocks.PLUM_TREE_SAPLING,
                 ModBlocks.LEMON_TREE_SAPLING,
@@ -38,6 +39,7 @@ public class HomesteadClient implements ClientModInitializer {
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             return world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : 0x48B518;
         },
+                ModBlocks.APPLE_TREE_LEAVES,
                 ModBlocks.PEAR_TREE_LEAVES,
                 ModBlocks.PLUM_TREE_LEAVES,
                 ModBlocks.LEMON_TREE_LEAVES,

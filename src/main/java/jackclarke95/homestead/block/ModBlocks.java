@@ -208,6 +208,22 @@ public class ModBlocks {
                         new SaplingBlock(ModSaplingGenerators.PEAR_TREE,
                                         AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
 
+        public static final Block APPLE_TREE_LOG = registerBlock("apple_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+        public static final Block APPLE_TREE_WOOD = registerBlock("apple_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_WOOD)));
+        public static final Block STRIPPED_APPLE_TREE_LOG = registerBlock("stripped_apple_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_LOG)));
+        public static final Block STRIPPED_APPLE_TREE_WOOD = registerBlock("stripped_apple_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_WOOD)));
+        public static final Block APPLE_TREE_PLANKS = registerBlock("apple_tree_planks",
+                        new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
+        public static final Block APPLE_TREE_LEAVES = registerBlock("apple_tree_leaves",
+                        new FruitBearingLeaves(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+        public static final Block APPLE_TREE_SAPLING = registerBlock("apple_tree_sapling",
+                        new SaplingBlock(ModSaplingGenerators.APPLE_TREE,
+                                        AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
+
         public static final Block PLUM_TREE_LOG = registerBlock("plum_tree_log",
                         new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
         public static final Block PLUM_TREE_WOOD = registerBlock("plum_tree_wood",
@@ -362,6 +378,12 @@ public class ModBlocks {
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
+                        entries.add(ModBlocks.APPLE_TREE_SAPLING);
+                        entries.add(ModBlocks.APPLE_TREE_LOG);
+                        entries.add(ModBlocks.APPLE_TREE_LEAVES);
+                        entries.add(ModBlocks.APPLE_TREE_PLANKS);
+                        entries.add(ModBlocks.STRIPPED_APPLE_TREE_LOG);
+                        entries.add(ModBlocks.STRIPPED_APPLE_TREE_WOOD);
                         entries.add(ModBlocks.PEAR_TREE_SAPLING);
                         entries.add(ModBlocks.PEAR_TREE_LOG);
                         entries.add(ModBlocks.PEAR_TREE_LEAVES);

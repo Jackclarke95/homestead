@@ -1,5 +1,9 @@
 {
   "values": [
+    "homestead:apple_tree_log",
+    "homestead:apple_tree_wood",
+    "homestead:stripped_apple_tree_log",
+    "homestead:stripped_apple_tree_wood",
     "homestead:pear_tree_log",
     "homestead:pear_tree_wood",
     "homestead:stripped_pear_tree_log",

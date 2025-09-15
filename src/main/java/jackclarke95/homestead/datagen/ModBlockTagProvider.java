@@ -37,6 +37,10 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                                 ModBlocks.HAY_STAIRS);
 
                 getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
+                                .add(ModBlocks.APPLE_TREE_LOG)
+                                .add(ModBlocks.APPLE_TREE_WOOD)
+                                .add(ModBlocks.STRIPPED_APPLE_TREE_LOG)
+                                .add(ModBlocks.STRIPPED_APPLE_TREE_WOOD)
                                 .add(ModBlocks.PEAR_TREE_LOG)
                                 .add(ModBlocks.PEAR_TREE_WOOD)
                                 .add(ModBlocks.STRIPPED_PEAR_TREE_LOG)

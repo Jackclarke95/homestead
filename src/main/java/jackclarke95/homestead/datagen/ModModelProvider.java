@@ -206,6 +206,18 @@ public class ModModelProvider extends FabricModelProvider {
                 generateFruitLeavesModelsAndBlockstate(blockStateModelGenerator, this.output.getPath(),
                                 ModBlocks.PEAR_TREE_LEAVES);
 
+                blockStateModelGenerator.registerLog(ModBlocks.APPLE_TREE_LOG)
+                                .log(ModBlocks.APPLE_TREE_LOG)
+                                .wood(ModBlocks.APPLE_TREE_WOOD);
+                blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_APPLE_TREE_LOG)
+                                .log(ModBlocks.STRIPPED_APPLE_TREE_LOG)
+                                .wood(ModBlocks.STRIPPED_APPLE_TREE_WOOD);
+                blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.APPLE_TREE_PLANKS);
+                blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.APPLE_TREE_SAPLING,
+                                BlockStateModelGenerator.TintType.NOT_TINTED);
+                generateFruitLeavesModelsAndBlockstate(blockStateModelGenerator, this.output.getPath(),
+                                ModBlocks.APPLE_TREE_LEAVES);
+
                 blockStateModelGenerator.registerLog(ModBlocks.PLUM_TREE_LOG)
                                 .log(ModBlocks.PLUM_TREE_LOG)
                                 .wood(ModBlocks.PLUM_TREE_WOOD);

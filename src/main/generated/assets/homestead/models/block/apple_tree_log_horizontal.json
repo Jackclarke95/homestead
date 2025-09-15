@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "homestead:block/apple_tree_log_top",
+    "side": "homestead:block/apple_tree_log"
+  }
+}

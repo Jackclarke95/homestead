@@ -97,6 +97,13 @@
   "block.homestead.sawdust": "Sawdust",
   "block.homestead.pebble": "Pebble",
 
+  "block.homestead.apple_tree_log": "Apple Tree Log",
+  "block.homestead.apple_tree_leaves": "Apple Tree Leaves",
+  "block.homestead.apple_tree_sapling": "Apple Tree Sapling",
+  "block.homestead.apple_tree_wood": "Apple Tree Wood",
+  "block.homestead.apple_tree_stripped_log": "Stripped Apple Tree Log",
+  "block.homestead.apple_tree_stripped_wood": "Stripped Apple Tree Wood",
+  "block.homestead.apple_tree_planks": "Apple Tree Planks",
   "block.homestead.pear_tree_log": "Pear Tree Log",
   "block.homestead.pear_tree_leaves": "Pear Tree Leaves",
   "block.homestead.pear_tree_sapling": "Pear Tree Sapling",
