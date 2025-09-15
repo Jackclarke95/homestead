@@ -18,6 +18,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.SmithingTransformRecipeJsonBuilder;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
@@ -48,6 +49,60 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .offerTo(recipeExporter,
                                                 Identifier.of(Homestead.MOD_ID, "cheese_slice_from_cheese_wheel"));
                 // #endregion Food Recipes
+
+                // #region Tool Recipes
+                ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.WOODEN_CROOK)
+                                .pattern("PPS")
+                                .pattern("P S")
+                                .pattern("  S")
+                                .input('S', Items.STICK)
+                                .input('P', ItemTags.PLANKS)
+                                .criterion("has_planks", conditionsFromTag(ItemTags.PLANKS))
+                                .offerTo(recipeExporter);
+                ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.STONE_CROOK)
+                                .pattern("CCS")
+                                .pattern("C S")
+                                .pattern("  S")
+                                .input('S', Items.STICK)
+                                .input('C', Blocks.COBBLESTONE)
+                                .criterion("has_cobblestone", conditionsFromItem(Blocks.COBBLESTONE))
+                                .criterion("has_stick", conditionsFromItem(Items.STICK))
+                                .offerTo(recipeExporter);
+                ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.IRON_CROOK)
+                                .pattern("IIS")
+                                .pattern("I S")
+                                .pattern("  S")
+                                .input('S', Items.STICK)
+                                .input('I', Items.IRON_INGOT)
+                                .criterion("has_iron_ingot", conditionsFromItem(Items.IRON_INGOT))
+                                .criterion("has_stick", conditionsFromItem(Items.STICK))
+                                .offerTo(recipeExporter);
+                ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.GOLDEN_CROOK)
+                                .pattern("GGS")
+                                .pattern("G S")
+                                .pattern("  S")
+                                .input('S', Items.STICK)
+                                .input('G', Items.GOLD_INGOT)
+                                .criterion("has_gold_ingot", conditionsFromItem(Items.GOLD_INGOT))
+                                .criterion("has_stick", conditionsFromItem(Items.STICK))
+                                .offerTo(recipeExporter);
+                ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ModItems.DIAMOND_CROOK)
+                                .pattern("DDS")
+                                .pattern("D S")
+                                .pattern("  S")
+                                .input('S', Items.STICK)
+                                .input('D', Items.DIAMOND)
+                                .criterion("has_diamond", conditionsFromItem(Items.DIAMOND))
+                                .criterion("has_stick", conditionsFromItem(Items.STICK));
+                SmithingTransformRecipeJsonBuilder.create(
+                                Ingredient.ofItems(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE),
+                                Ingredient.ofItems(ModItems.DIAMOND_CROOK),
+                                Ingredient.ofItems(Items.NETHERITE_INGOT),
+                                RecipeCategory.TOOLS, ModItems.NETHERITE_CROOK)
+                                .criterion("has_netherite_ingot", conditionsFromItem(Items.NETHERITE_INGOT))
+                                .criterion("has_diamond_crook", conditionsFromItem(ModItems.DIAMOND_CROOK))
+                                .offerTo(recipeExporter, getItemPath(ModItems.NETHERITE_CROOK) + "_smithing");
+                // #endregion Tool Recipes
 
                 // #region Misc Recipes
                 ShapelessRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.ANIMAL_FEED, 1)
@@ -115,6 +170,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion(hasItem(Blocks.BARREL), conditionsFromItem(Blocks.BARREL))
                                 .criterion(hasItem(Blocks.STONE), conditionsFromItem(Blocks.STONE))
                                 .offerTo(recipeExporter);
+
                 // #endregion Workstation Recipes
 
                 // #region Building Block Recipes

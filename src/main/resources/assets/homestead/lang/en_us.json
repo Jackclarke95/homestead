@@ -154,6 +154,13 @@
   "item.homestead.apricot": "Apricot",
   "item.homestead.peach": "Peach",
 
+  "item.homestead.wooden_crook": "Wooden Crook",
+  "item.homestead.stone_crook": "Stone Crook",
+  "item.homestead.iron_crook": "Iron Crook",
+  "item.homestead.golden_crook": "Golden Crook",
+  "item.homestead.diamond_crook": "Diamond Crook",
+  "item.homestead.netherite_crook": "Netherite Crook",
+
   "tag.item.homestead.drying": "Drying",
   "tag.item.homestead.curing_vat": "Curing Vat",
   "tag.item.homestead.milling": "Milling",

@@ -635,6 +635,14 @@ public class ModModelProvider extends FabricModelProvider {
                 itemModelGenerator.register(ModItems.FLOUR, Models.GENERATED);
                 itemModelGenerator.register(ModItems.SEED_MIX, Models.GENERATED);
                 itemModelGenerator.register(ModItems.ANIMAL_FEED, Models.GENERATED);
+
+                itemModelGenerator.register(ModItems.WOODEN_CROOK, Models.HANDHELD);
+                itemModelGenerator.register(ModItems.STONE_CROOK, Models.HANDHELD);
+                itemModelGenerator.register(ModItems.IRON_CROOK, Models.HANDHELD);
+                itemModelGenerator.register(ModItems.GOLDEN_CROOK, Models.HANDHELD);
+                itemModelGenerator.register(ModItems.DIAMOND_CROOK, Models.HANDHELD);
+                itemModelGenerator.register(ModItems.NETHERITE_CROOK, Models.HANDHELD);
+
                 itemModelGenerator.register(ModBlocks.SAWDUST.asItem(), Models.GENERATED);
                 itemModelGenerator.register(ModBlocks.PEBBLE.asItem(), Models.GENERATED);
                 itemModelGenerator.register(ModBlocks.PEAR_TREE_SAPLING.asItem(), Models.GENERATED);

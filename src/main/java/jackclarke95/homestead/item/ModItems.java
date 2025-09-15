@@ -1,9 +1,11 @@
 package jackclarke95.homestead.item;
 
 import jackclarke95.homestead.Homestead;
+import jackclarke95.homestead.item.custom.CrookItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.ToolMaterials;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
@@ -46,14 +48,25 @@ public class ModItems {
         public static final Item PEACH = registerItem("peach",
                         new Item(new Item.Settings().food(ModFoodComponents.PEACH)));
 
-        // Alcohol
         public static final Item MUG_OF_VODKA = registerItem("mug_of_vodka",
                         new Item(new Item.Settings().food(ModFoodComponents.MUG_OF_VODKA)));
 
-        // Ingredients
         public static final Item FLOUR = registerItem("flour", new Item(new Item.Settings()));
         public static final Item SEED_MIX = registerItem("seed_mix", new Item(new Item.Settings()));
         public static final Item ANIMAL_FEED = registerItem("animal_feed", new Item(new Item.Settings()));
+
+        public static final Item WOODEN_CROOK = registerItem("wooden_crook",
+                        new CrookItem(ToolMaterials.WOOD, new Item.Settings()));
+        public static final Item STONE_CROOK = registerItem("stone_crook",
+                        new CrookItem(ToolMaterials.STONE, new Item.Settings()));
+        public static final Item IRON_CROOK = registerItem("iron_crook",
+                        new CrookItem(ToolMaterials.IRON, new Item.Settings()));
+        public static final Item GOLDEN_CROOK = registerItem("golden_crook",
+                        new CrookItem(ToolMaterials.GOLD, new Item.Settings()));
+        public static final Item DIAMOND_CROOK = registerItem("diamond_crook",
+                        new CrookItem(ToolMaterials.DIAMOND, new Item.Settings()));
+        public static final Item NETHERITE_CROOK = registerItem("netherite_crook",
+                        new CrookItem(ToolMaterials.NETHERITE, new Item.Settings().fireproof()));
 
         private static Item registerItem(String name, Item item) {
                 return Registry.register(Registries.ITEM, Identifier.of(Homestead.MOD_ID, name), item);
@@ -64,6 +77,12 @@ public class ModItems {
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
                         entries.add(MUG);
+                        entries.add(WOODEN_CROOK);
+                        entries.add(STONE_CROOK);
+                        entries.add(IRON_CROOK);
+                        entries.add(GOLDEN_CROOK);
+                        entries.add(DIAMOND_CROOK);
+                        entries.add(NETHERITE_CROOK);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries -> {
