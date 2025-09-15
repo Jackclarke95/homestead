@@ -194,9 +194,70 @@ public class ModModelProvider extends FabricModelProvider {
                 registerGrowableSurfaceLayerBlockModel(blockStateModelGenerator, this.output, ModBlocks.PEBBLE,
                                 ModBlocks.PEBBLE, Homestead.MOD_ID);
 
-                blockStateModelGenerator.registerLog(ModBlocks.PEAR_TREE_LOG).log(ModBlocks.PEAR_TREE_LOG);
+                blockStateModelGenerator.registerLog(ModBlocks.PEAR_TREE_LOG)
+                                .log(ModBlocks.PEAR_TREE_LOG)
+                                .wood(ModBlocks.PEAR_TREE_WOOD);
+                blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_PEAR_TREE_LOG)
+                                .log(ModBlocks.STRIPPED_PEAR_TREE_LOG)
+                                .wood(ModBlocks.STRIPPED_PEAR_TREE_WOOD);
+                blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.PEAR_TREE_PLANKS);
                 blockStateModelGenerator.registerSingleton(ModBlocks.PEAR_TREE_LEAVES, TexturedModel.LEAVES);
                 blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.PEAR_TREE_SAPLING,
+                                BlockStateModelGenerator.TintType.NOT_TINTED);
+
+                blockStateModelGenerator.registerLog(ModBlocks.PLUM_TREE_LOG)
+                                .log(ModBlocks.PLUM_TREE_LOG)
+                                .wood(ModBlocks.PLUM_TREE_WOOD);
+                blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_PLUM_TREE_LOG)
+                                .log(ModBlocks.STRIPPED_PLUM_TREE_LOG)
+                                .wood(ModBlocks.STRIPPED_PLUM_TREE_WOOD);
+                blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.PLUM_TREE_PLANKS);
+                blockStateModelGenerator.registerSingleton(ModBlocks.PLUM_TREE_LEAVES, TexturedModel.LEAVES);
+                blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.PLUM_TREE_SAPLING,
+                                BlockStateModelGenerator.TintType.NOT_TINTED);
+
+                blockStateModelGenerator.registerLog(ModBlocks.LEMON_TREE_LOG)
+                                .log(ModBlocks.LEMON_TREE_LOG)
+                                .wood(ModBlocks.LEMON_TREE_WOOD);
+                blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_LEMON_TREE_LOG)
+                                .log(ModBlocks.STRIPPED_LEMON_TREE_LOG)
+                                .wood(ModBlocks.STRIPPED_LEMON_TREE_WOOD);
+                blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.LEMON_TREE_PLANKS);
+                blockStateModelGenerator.registerSingleton(ModBlocks.LEMON_TREE_LEAVES, TexturedModel.LEAVES);
+                blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.LEMON_TREE_SAPLING,
+                                BlockStateModelGenerator.TintType.NOT_TINTED);
+
+                blockStateModelGenerator.registerLog(ModBlocks.ORANGE_TREE_LOG)
+                                .log(ModBlocks.ORANGE_TREE_LOG)
+                                .wood(ModBlocks.ORANGE_TREE_WOOD);
+                blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_ORANGE_TREE_LOG)
+                                .log(ModBlocks.STRIPPED_ORANGE_TREE_LOG)
+                                .wood(ModBlocks.STRIPPED_ORANGE_TREE_WOOD);
+                blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.ORANGE_TREE_PLANKS);
+                blockStateModelGenerator.registerSingleton(ModBlocks.ORANGE_TREE_LEAVES, TexturedModel.LEAVES);
+                blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.ORANGE_TREE_SAPLING,
+                                BlockStateModelGenerator.TintType.NOT_TINTED);
+
+                blockStateModelGenerator.registerLog(ModBlocks.APRICOT_TREE_LOG)
+                                .log(ModBlocks.APRICOT_TREE_LOG)
+                                .wood(ModBlocks.APRICOT_TREE_WOOD);
+                blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_APRICOT_TREE_LOG)
+                                .log(ModBlocks.STRIPPED_APRICOT_TREE_LOG)
+                                .wood(ModBlocks.STRIPPED_APRICOT_TREE_WOOD);
+                blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.APRICOT_TREE_PLANKS);
+                blockStateModelGenerator.registerSingleton(ModBlocks.APRICOT_TREE_LEAVES, TexturedModel.LEAVES);
+                blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.APRICOT_TREE_SAPLING,
+                                BlockStateModelGenerator.TintType.NOT_TINTED);
+
+                blockStateModelGenerator.registerLog(ModBlocks.PEACH_TREE_LOG)
+                                .log(ModBlocks.PEACH_TREE_LOG)
+                                .wood(ModBlocks.PEACH_TREE_WOOD);
+                blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_PEACH_TREE_LOG)
+                                .log(ModBlocks.STRIPPED_PEACH_TREE_LOG)
+                                .wood(ModBlocks.STRIPPED_PEACH_TREE_WOOD);
+                blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.PEACH_TREE_PLANKS);
+                blockStateModelGenerator.registerSingleton(ModBlocks.PEACH_TREE_LEAVES, TexturedModel.LEAVES);
+                blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.PEACH_TREE_SAPLING,
                                 BlockStateModelGenerator.TintType.NOT_TINTED);
         }
 

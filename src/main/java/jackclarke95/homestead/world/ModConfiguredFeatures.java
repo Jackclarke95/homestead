@@ -18,15 +18,53 @@ import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 
 public class ModConfiguredFeatures {
     public static final RegistryKey<ConfiguredFeature<?, ?>> PEAR_TREE_KEY = registerKey("pear_tree");
+    public static final RegistryKey<ConfiguredFeature<?, ?>> PLUM_TREE_KEY = registerKey("plum_tree");
+    public static final RegistryKey<ConfiguredFeature<?, ?>> LEMON_TREE_KEY = registerKey("lemon_tree");
+    public static final RegistryKey<ConfiguredFeature<?, ?>> ORANGE_TREE_KEY = registerKey("orange_tree");
+    public static final RegistryKey<ConfiguredFeature<?, ?>> APRICOT_TREE_KEY = registerKey("apricot_tree");
+    public static final RegistryKey<ConfiguredFeature<?, ?>> PEACH_TREE_KEY = registerKey("peach_tree");
 
     public static void bootstrap(Registerable<ConfiguredFeature<?, ?>> context) {
         register(context, PEAR_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
                 BlockStateProvider.of(ModBlocks.PEAR_TREE_LOG),
                 new StraightTrunkPlacer(5, 6, 3),
-
                 BlockStateProvider.of(ModBlocks.PEAR_TREE_LEAVES),
                 new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
+                new TwoLayersFeatureSize(1, 0, 2)).build());
 
+        register(context, PLUM_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
+                BlockStateProvider.of(ModBlocks.PLUM_TREE_LOG),
+                new StraightTrunkPlacer(5, 6, 3),
+                BlockStateProvider.of(ModBlocks.PLUM_TREE_LEAVES),
+                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
+                new TwoLayersFeatureSize(1, 0, 2)).build());
+
+        register(context, LEMON_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
+                BlockStateProvider.of(ModBlocks.LEMON_TREE_LOG),
+                new StraightTrunkPlacer(5, 6, 3),
+                BlockStateProvider.of(ModBlocks.LEMON_TREE_LEAVES),
+                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
+                new TwoLayersFeatureSize(1, 0, 2)).build());
+
+        register(context, ORANGE_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
+                BlockStateProvider.of(ModBlocks.ORANGE_TREE_LOG),
+                new StraightTrunkPlacer(5, 6, 3),
+                BlockStateProvider.of(ModBlocks.ORANGE_TREE_LEAVES),
+                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
+                new TwoLayersFeatureSize(1, 0, 2)).build());
+
+        register(context, APRICOT_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
+                BlockStateProvider.of(ModBlocks.APRICOT_TREE_LOG),
+                new StraightTrunkPlacer(5, 6, 3),
+                BlockStateProvider.of(ModBlocks.APRICOT_TREE_LEAVES),
+                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
+                new TwoLayersFeatureSize(1, 0, 2)).build());
+
+        register(context, PEACH_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
+                BlockStateProvider.of(ModBlocks.PEACH_TREE_LOG),
+                new StraightTrunkPlacer(5, 6, 3),
+                BlockStateProvider.of(ModBlocks.PEACH_TREE_LEAVES),
+                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
                 new TwoLayersFeatureSize(1, 0, 2)).build());
     }
 

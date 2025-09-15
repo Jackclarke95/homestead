@@ -196,10 +196,98 @@ public class ModBlocks {
 
         public static final Block PEAR_TREE_LOG = registerBlock("pear_tree_log",
                         new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+        public static final Block PEAR_TREE_WOOD = registerBlock("pear_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_WOOD)));
+        public static final Block STRIPPED_PEAR_TREE_LOG = registerBlock("stripped_pear_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_LOG)));
+        public static final Block STRIPPED_PEAR_TREE_WOOD = registerBlock("stripped_pear_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_WOOD)));
+        public static final Block PEAR_TREE_PLANKS = registerBlock("pear_tree_planks",
+                        new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
         public static final Block PEAR_TREE_LEAVES = registerBlock("pear_tree_leaves",
                         new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
         public static final Block PEAR_TREE_SAPLING = registerBlock("pear_tree_sapling",
                         new SaplingBlock(ModSaplingGenerators.PEAR_TREE,
+                                        AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
+
+        public static final Block PLUM_TREE_LOG = registerBlock("plum_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+        public static final Block PLUM_TREE_WOOD = registerBlock("plum_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_WOOD)));
+        public static final Block STRIPPED_PLUM_TREE_LOG = registerBlock("stripped_plum_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_LOG)));
+        public static final Block STRIPPED_PLUM_TREE_WOOD = registerBlock("stripped_plum_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_WOOD)));
+        public static final Block PLUM_TREE_PLANKS = registerBlock("plum_tree_planks",
+                        new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
+        public static final Block PLUM_TREE_LEAVES = registerBlock("plum_tree_leaves",
+                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+        public static final Block PLUM_TREE_SAPLING = registerBlock("plum_tree_sapling",
+                        new SaplingBlock(ModSaplingGenerators.PLUM_TREE,
+                                        AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
+
+        public static final Block LEMON_TREE_LOG = registerBlock("lemon_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+        public static final Block LEMON_TREE_WOOD = registerBlock("lemon_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_WOOD)));
+        public static final Block STRIPPED_LEMON_TREE_LOG = registerBlock("stripped_lemon_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_LOG)));
+        public static final Block STRIPPED_LEMON_TREE_WOOD = registerBlock("stripped_lemon_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_WOOD)));
+        public static final Block LEMON_TREE_PLANKS = registerBlock("lemon_tree_planks",
+                        new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
+        public static final Block LEMON_TREE_LEAVES = registerBlock("lemon_tree_leaves",
+                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+        public static final Block LEMON_TREE_SAPLING = registerBlock("lemon_tree_sapling",
+                        new SaplingBlock(ModSaplingGenerators.LEMON_TREE,
+                                        AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
+
+        public static final Block ORANGE_TREE_LOG = registerBlock("orange_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+        public static final Block ORANGE_TREE_WOOD = registerBlock("orange_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_WOOD)));
+        public static final Block STRIPPED_ORANGE_TREE_LOG = registerBlock("stripped_orange_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_LOG)));
+        public static final Block STRIPPED_ORANGE_TREE_WOOD = registerBlock("stripped_orange_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_WOOD)));
+        public static final Block ORANGE_TREE_PLANKS = registerBlock("orange_tree_planks",
+                        new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
+        public static final Block ORANGE_TREE_LEAVES = registerBlock("orange_tree_leaves",
+                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+        public static final Block ORANGE_TREE_SAPLING = registerBlock("orange_tree_sapling",
+                        new SaplingBlock(ModSaplingGenerators.ORANGE_TREE,
+                                        AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
+
+        public static final Block APRICOT_TREE_LOG = registerBlock("apricot_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+        public static final Block APRICOT_TREE_WOOD = registerBlock("apricot_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_WOOD)));
+        public static final Block STRIPPED_APRICOT_TREE_LOG = registerBlock("stripped_apricot_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_LOG)));
+        public static final Block STRIPPED_APRICOT_TREE_WOOD = registerBlock("stripped_apricot_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_WOOD)));
+        public static final Block APRICOT_TREE_PLANKS = registerBlock("apricot_tree_planks",
+                        new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
+        public static final Block APRICOT_TREE_LEAVES = registerBlock("apricot_tree_leaves",
+                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+        public static final Block APRICOT_TREE_SAPLING = registerBlock("apricot_tree_sapling",
+                        new SaplingBlock(ModSaplingGenerators.APRICOT_TREE,
+                                        AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
+
+        public static final Block PEACH_TREE_LOG = registerBlock("peach_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
+        public static final Block PEACH_TREE_WOOD = registerBlock("peach_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_WOOD)));
+        public static final Block STRIPPED_PEACH_TREE_LOG = registerBlock("stripped_peach_tree_log",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_LOG)));
+        public static final Block STRIPPED_PEACH_TREE_WOOD = registerBlock("stripped_peach_tree_wood",
+                        new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_WOOD)));
+        public static final Block PEACH_TREE_PLANKS = registerBlock("peach_tree_planks",
+                        new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
+        public static final Block PEACH_TREE_LEAVES = registerBlock("peach_tree_leaves",
+                        new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
+        public static final Block PEACH_TREE_SAPLING = registerBlock("peach_tree_sapling",
+                        new SaplingBlock(ModSaplingGenerators.PEACH_TREE,
                                         AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
 
         public static void registerModBlocks() {
@@ -279,6 +367,39 @@ public class ModBlocks {
                         entries.add(ModBlocks.PEAR_TREE_SAPLING);
                         entries.add(ModBlocks.PEAR_TREE_LOG);
                         entries.add(ModBlocks.PEAR_TREE_LEAVES);
+                        entries.add(ModBlocks.PEAR_TREE_PLANKS);
+                        entries.add(ModBlocks.STRIPPED_PEAR_TREE_LOG);
+                        entries.add(ModBlocks.STRIPPED_PEAR_TREE_WOOD);
+                        entries.add(ModBlocks.PLUM_TREE_SAPLING);
+                        entries.add(ModBlocks.PLUM_TREE_LOG);
+                        entries.add(ModBlocks.PLUM_TREE_LEAVES);
+                        entries.add(ModBlocks.PLUM_TREE_PLANKS);
+                        entries.add(ModBlocks.STRIPPED_PLUM_TREE_LOG);
+                        entries.add(ModBlocks.STRIPPED_PLUM_TREE_WOOD);
+                        entries.add(ModBlocks.LEMON_TREE_SAPLING);
+                        entries.add(ModBlocks.LEMON_TREE_LOG);
+                        entries.add(ModBlocks.LEMON_TREE_LEAVES);
+                        entries.add(ModBlocks.LEMON_TREE_PLANKS);
+                        entries.add(ModBlocks.STRIPPED_LEMON_TREE_LOG);
+                        entries.add(ModBlocks.STRIPPED_LEMON_TREE_WOOD);
+                        entries.add(ModBlocks.ORANGE_TREE_SAPLING);
+                        entries.add(ModBlocks.ORANGE_TREE_LOG);
+                        entries.add(ModBlocks.ORANGE_TREE_LEAVES);
+                        entries.add(ModBlocks.ORANGE_TREE_PLANKS);
+                        entries.add(ModBlocks.STRIPPED_ORANGE_TREE_LOG);
+                        entries.add(ModBlocks.STRIPPED_ORANGE_TREE_WOOD);
+                        entries.add(ModBlocks.APRICOT_TREE_SAPLING);
+                        entries.add(ModBlocks.APRICOT_TREE_LOG);
+                        entries.add(ModBlocks.APRICOT_TREE_LEAVES);
+                        entries.add(ModBlocks.APRICOT_TREE_PLANKS);
+                        entries.add(ModBlocks.STRIPPED_APRICOT_TREE_LOG);
+                        entries.add(ModBlocks.STRIPPED_APRICOT_TREE_WOOD);
+                        entries.add(ModBlocks.PEACH_TREE_SAPLING);
+                        entries.add(ModBlocks.PEACH_TREE_LOG);
+                        entries.add(ModBlocks.PEACH_TREE_LEAVES);
+                        entries.add(ModBlocks.PEACH_TREE_PLANKS);
+                        entries.add(ModBlocks.STRIPPED_PEACH_TREE_LOG);
+                        entries.add(ModBlocks.STRIPPED_PEACH_TREE_WOOD);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {

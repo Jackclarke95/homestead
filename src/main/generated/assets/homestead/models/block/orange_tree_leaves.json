@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "homestead:block/orange_tree_leaves"
+  }
+}

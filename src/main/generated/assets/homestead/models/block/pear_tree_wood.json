@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "homestead:block/pear_tree_log",
+    "side": "homestead:block/pear_tree_log"
+  }
+}

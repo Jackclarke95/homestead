@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "homestead:block/peach_tree_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "homestead:block/peach_tree_log"
+    },
+    "axis=z": {
+      "model": "homestead:block/peach_tree_log_horizontal",
+      "x": 90
+    }
+  }
+}

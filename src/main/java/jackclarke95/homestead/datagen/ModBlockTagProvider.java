@@ -36,8 +36,31 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 getOrCreateTagBuilder(BlockTags.HOE_MINEABLE).add(
                                 ModBlocks.HAY_STAIRS);
 
-                getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN).add(
-                                ModBlocks.PEAR_TREE_LOG);
+                getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
+                                .add(ModBlocks.PEAR_TREE_LOG)
+                                .add(ModBlocks.PEAR_TREE_WOOD)
+                                .add(ModBlocks.STRIPPED_PEAR_TREE_LOG)
+                                .add(ModBlocks.STRIPPED_PEAR_TREE_WOOD)
+                                .add(ModBlocks.PLUM_TREE_LOG)
+                                .add(ModBlocks.PLUM_TREE_WOOD)
+                                .add(ModBlocks.STRIPPED_PLUM_TREE_LOG)
+                                .add(ModBlocks.STRIPPED_PLUM_TREE_WOOD)
+                                .add(ModBlocks.LEMON_TREE_LOG)
+                                .add(ModBlocks.LEMON_TREE_WOOD)
+                                .add(ModBlocks.STRIPPED_LEMON_TREE_LOG)
+                                .add(ModBlocks.STRIPPED_LEMON_TREE_WOOD)
+                                .add(ModBlocks.ORANGE_TREE_LOG)
+                                .add(ModBlocks.ORANGE_TREE_WOOD)
+                                .add(ModBlocks.STRIPPED_ORANGE_TREE_LOG)
+                                .add(ModBlocks.STRIPPED_ORANGE_TREE_WOOD)
+                                .add(ModBlocks.APRICOT_TREE_LOG)
+                                .add(ModBlocks.APRICOT_TREE_WOOD)
+                                .add(ModBlocks.STRIPPED_APRICOT_TREE_LOG)
+                                .add(ModBlocks.STRIPPED_APRICOT_TREE_WOOD)
+                                .add(ModBlocks.PEACH_TREE_LOG)
+                                .add(ModBlocks.PEACH_TREE_WOOD)
+                                .add(ModBlocks.STRIPPED_PEACH_TREE_LOG)
+                                .add(ModBlocks.STRIPPED_PEACH_TREE_WOOD);
         }
 
 }

@@ -1,5 +1,28 @@
 {
   "values": [
-    "homestead:pear_tree_log"
+    "homestead:pear_tree_log",
+    "homestead:pear_tree_wood",
+    "homestead:stripped_pear_tree_log",
+    "homestead:stripped_pear_tree_wood",
+    "homestead:plum_tree_log",
+    "homestead:plum_tree_wood",
+    "homestead:stripped_plum_tree_log",
+    "homestead:stripped_plum_tree_wood",
+    "homestead:lemon_tree_log",
+    "homestead:lemon_tree_wood",
+    "homestead:stripped_lemon_tree_log",
+    "homestead:stripped_lemon_tree_wood",
+    "homestead:orange_tree_log",
+    "homestead:orange_tree_wood",
+    "homestead:stripped_orange_tree_log",
+    "homestead:stripped_orange_tree_wood",
+    "homestead:apricot_tree_log",
+    "homestead:apricot_tree_wood",
+    "homestead:stripped_apricot_tree_log",
+    "homestead:stripped_apricot_tree_wood",
+    "homestead:peach_tree_log",
+    "homestead:peach_tree_wood",
+    "homestead:stripped_peach_tree_log",
+    "homestead:stripped_peach_tree_wood"
   ]
 }

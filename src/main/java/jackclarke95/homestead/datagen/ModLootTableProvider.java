@@ -111,6 +111,58 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                                                                 .conditionally(this.createWithoutSilkTouchCondition()))
                                                 .rolls(ConstantLootNumberProvider.create(1))));
 
-                addDrop(ModBlocks.PEAR_TREE_LOG, Items.OAK_LOG);
+                addDrop(ModBlocks.PEAR_TREE_LOG);
+                addDrop(ModBlocks.PEAR_TREE_WOOD);
+                addDrop(ModBlocks.STRIPPED_PEAR_TREE_LOG);
+                addDrop(ModBlocks.STRIPPED_PEAR_TREE_WOOD);
+                addDrop(ModBlocks.PEAR_TREE_PLANKS);
+                addDrop(ModBlocks.PEAR_TREE_SAPLING);
+                addDrop(ModBlocks.PEAR_TREE_LEAVES,
+                                leavesDrops(ModBlocks.PEAR_TREE_LEAVES, ModBlocks.PEAR_TREE_SAPLING, 0.0625f));
+
+                addDrop(ModBlocks.PLUM_TREE_LOG);
+                addDrop(ModBlocks.PLUM_TREE_WOOD);
+                addDrop(ModBlocks.STRIPPED_PLUM_TREE_LOG);
+                addDrop(ModBlocks.STRIPPED_PLUM_TREE_WOOD);
+                addDrop(ModBlocks.PLUM_TREE_PLANKS);
+                addDrop(ModBlocks.PLUM_TREE_SAPLING);
+                addDrop(ModBlocks.PLUM_TREE_LEAVES,
+                                leavesDrops(ModBlocks.PLUM_TREE_LEAVES, ModBlocks.PLUM_TREE_SAPLING, 0.0625f));
+
+                addDrop(ModBlocks.LEMON_TREE_LOG);
+                addDrop(ModBlocks.LEMON_TREE_WOOD);
+                addDrop(ModBlocks.STRIPPED_LEMON_TREE_LOG);
+                addDrop(ModBlocks.STRIPPED_LEMON_TREE_WOOD);
+                addDrop(ModBlocks.LEMON_TREE_PLANKS);
+                addDrop(ModBlocks.LEMON_TREE_SAPLING);
+                addDrop(ModBlocks.LEMON_TREE_LEAVES,
+                                leavesDrops(ModBlocks.LEMON_TREE_LEAVES, ModBlocks.LEMON_TREE_SAPLING, 0.0625f));
+
+                addDrop(ModBlocks.ORANGE_TREE_LOG);
+                addDrop(ModBlocks.ORANGE_TREE_WOOD);
+                addDrop(ModBlocks.STRIPPED_ORANGE_TREE_LOG);
+                addDrop(ModBlocks.STRIPPED_ORANGE_TREE_WOOD);
+                addDrop(ModBlocks.ORANGE_TREE_PLANKS);
+                addDrop(ModBlocks.ORANGE_TREE_SAPLING);
+                addDrop(ModBlocks.ORANGE_TREE_LEAVES,
+                                leavesDrops(ModBlocks.ORANGE_TREE_LEAVES, ModBlocks.ORANGE_TREE_SAPLING, 0.0625f));
+
+                addDrop(ModBlocks.APRICOT_TREE_LOG);
+                addDrop(ModBlocks.APRICOT_TREE_WOOD);
+                addDrop(ModBlocks.STRIPPED_APRICOT_TREE_LOG);
+                addDrop(ModBlocks.STRIPPED_APRICOT_TREE_WOOD);
+                addDrop(ModBlocks.APRICOT_TREE_PLANKS);
+                addDrop(ModBlocks.APRICOT_TREE_SAPLING);
+                addDrop(ModBlocks.APRICOT_TREE_LEAVES,
+                                leavesDrops(ModBlocks.APRICOT_TREE_LEAVES, ModBlocks.APRICOT_TREE_SAPLING, 0.0625f));
+
+                addDrop(ModBlocks.PEACH_TREE_LOG);
+                addDrop(ModBlocks.PEACH_TREE_WOOD);
+                addDrop(ModBlocks.STRIPPED_PEACH_TREE_LOG);
+                addDrop(ModBlocks.STRIPPED_PEACH_TREE_WOOD);
+                addDrop(ModBlocks.PEACH_TREE_PLANKS);
+                addDrop(ModBlocks.PEACH_TREE_SAPLING);
+                addDrop(ModBlocks.PEACH_TREE_LEAVES,
+                                leavesDrops(ModBlocks.PEACH_TREE_LEAVES, ModBlocks.PEACH_TREE_SAPLING, 0.0625f));
         }
 }

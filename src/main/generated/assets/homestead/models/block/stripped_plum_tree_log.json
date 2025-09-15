@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "homestead:block/stripped_plum_tree_log_top",
+    "side": "homestead:block/stripped_plum_tree_log"
+  }
+}

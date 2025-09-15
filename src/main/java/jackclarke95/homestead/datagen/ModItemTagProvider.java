@@ -30,6 +30,37 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(Items.MELON_SEEDS);
 
         getOrCreateTagBuilder(ItemTags.LOGS_THAT_BURN)
-                .add(ModBlocks.PEAR_TREE_LOG.asItem());
+                .add(ModBlocks.PEAR_TREE_LOG.asItem())
+                .add(ModBlocks.PEAR_TREE_WOOD.asItem())
+                .add(ModBlocks.STRIPPED_PEAR_TREE_LOG.asItem())
+                .add(ModBlocks.STRIPPED_PEAR_TREE_WOOD.asItem())
+                .add(ModBlocks.PLUM_TREE_LOG.asItem())
+                .add(ModBlocks.PLUM_TREE_WOOD.asItem())
+                .add(ModBlocks.STRIPPED_PLUM_TREE_LOG.asItem())
+                .add(ModBlocks.STRIPPED_PLUM_TREE_WOOD.asItem())
+                .add(ModBlocks.LEMON_TREE_LOG.asItem())
+                .add(ModBlocks.LEMON_TREE_WOOD.asItem())
+                .add(ModBlocks.STRIPPED_LEMON_TREE_LOG.asItem())
+                .add(ModBlocks.STRIPPED_LEMON_TREE_WOOD.asItem())
+                .add(ModBlocks.ORANGE_TREE_LOG.asItem())
+                .add(ModBlocks.ORANGE_TREE_WOOD.asItem())
+                .add(ModBlocks.STRIPPED_ORANGE_TREE_LOG.asItem())
+                .add(ModBlocks.STRIPPED_ORANGE_TREE_WOOD.asItem())
+                .add(ModBlocks.APRICOT_TREE_LOG.asItem())
+                .add(ModBlocks.APRICOT_TREE_WOOD.asItem())
+                .add(ModBlocks.STRIPPED_APRICOT_TREE_LOG.asItem())
+                .add(ModBlocks.STRIPPED_APRICOT_TREE_WOOD.asItem())
+                .add(ModBlocks.PEACH_TREE_LOG.asItem())
+                .add(ModBlocks.PEACH_TREE_WOOD.asItem())
+                .add(ModBlocks.STRIPPED_PEACH_TREE_LOG.asItem())
+                .add(ModBlocks.STRIPPED_PEACH_TREE_WOOD.asItem());
+
+        getOrCreateTagBuilder(ItemTags.PLANKS)
+                .add(ModBlocks.PEAR_TREE_PLANKS.asItem())
+                .add(ModBlocks.PLUM_TREE_PLANKS.asItem())
+                .add(ModBlocks.LEMON_TREE_PLANKS.asItem())
+                .add(ModBlocks.ORANGE_TREE_PLANKS.asItem())
+                .add(ModBlocks.APRICOT_TREE_PLANKS.asItem())
+                .add(ModBlocks.PEACH_TREE_PLANKS.asItem());
     }
 }
