@@ -26,55 +26,54 @@ public class ModConfiguredFeatures {
         public static final RegistryKey<ConfiguredFeature<?, ?>> APPLE_TREE_KEY = registerKey("apple_tree");
 
         public static void bootstrap(Registerable<ConfiguredFeature<?, ?>> context) {
-
                 register(context, PEAR_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
                                 BlockStateProvider.of(ModBlocks.PEAR_TREE_LOG),
-                                new StraightTrunkPlacer(5, 6, 3),
+                                new StraightTrunkPlacer(4, 2, 1),
                                 BlockStateProvider.of(ModBlocks.PEAR_TREE_LEAVES),
-                                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
-                                new TwoLayersFeatureSize(1, 0, 2)).build());
+                                new BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(2), 4),
+                                new TwoLayersFeatureSize(1, 1, 2)).build());
 
                 register(context, APPLE_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
                                 BlockStateProvider.of(ModBlocks.APPLE_TREE_LOG),
-                                new StraightTrunkPlacer(5, 6, 3),
+                                new StraightTrunkPlacer(4, 2, 1),
                                 BlockStateProvider.of(ModBlocks.APPLE_TREE_LEAVES),
-                                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
-                                new TwoLayersFeatureSize(1, 0, 2)).build());
+                                new BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(2), 4),
+                                new TwoLayersFeatureSize(1, 1, 2)).build());
 
                 register(context, PLUM_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
                                 BlockStateProvider.of(ModBlocks.PLUM_TREE_LOG),
-                                new StraightTrunkPlacer(5, 6, 3),
+                                new StraightTrunkPlacer(4, 2, 1),
                                 BlockStateProvider.of(ModBlocks.PLUM_TREE_LEAVES),
-                                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
-                                new TwoLayersFeatureSize(1, 0, 2)).build());
+                                new BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(2), 4),
+                                new TwoLayersFeatureSize(1, 1, 2)).build());
 
                 register(context, LEMON_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
                                 BlockStateProvider.of(ModBlocks.LEMON_TREE_LOG),
-                                new StraightTrunkPlacer(5, 6, 3),
+                                new StraightTrunkPlacer(4, 2, 1),
                                 BlockStateProvider.of(ModBlocks.LEMON_TREE_LEAVES),
-                                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
-                                new TwoLayersFeatureSize(1, 0, 2)).build());
+                                new BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(2), 4),
+                                new TwoLayersFeatureSize(1, 1, 2)).build());
 
                 register(context, ORANGE_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
                                 BlockStateProvider.of(ModBlocks.ORANGE_TREE_LOG),
-                                new StraightTrunkPlacer(5, 6, 3),
+                                new StraightTrunkPlacer(4, 2, 1),
                                 BlockStateProvider.of(ModBlocks.ORANGE_TREE_LEAVES),
-                                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
-                                new TwoLayersFeatureSize(1, 0, 2)).build());
+                                new BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(2), 4),
+                                new TwoLayersFeatureSize(1, 1, 2)).build());
 
                 register(context, APRICOT_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
                                 BlockStateProvider.of(ModBlocks.APRICOT_TREE_LOG),
-                                new StraightTrunkPlacer(5, 6, 3),
+                                new StraightTrunkPlacer(4, 2, 1),
                                 BlockStateProvider.of(ModBlocks.APRICOT_TREE_LEAVES),
-                                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
-                                new TwoLayersFeatureSize(1, 0, 2)).build());
+                                new BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(2), 4),
+                                new TwoLayersFeatureSize(1, 1, 2)).build());
 
                 register(context, PEACH_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
                                 BlockStateProvider.of(ModBlocks.PEACH_TREE_LOG),
-                                new StraightTrunkPlacer(5, 6, 3),
+                                new StraightTrunkPlacer(4, 2, 1),
                                 BlockStateProvider.of(ModBlocks.PEACH_TREE_LEAVES),
-                                new BlobFoliagePlacer(ConstantIntProvider.create(4), ConstantIntProvider.create(1), 3),
-                                new TwoLayersFeatureSize(1, 0, 2)).build());
+                                new BlobFoliagePlacer(ConstantIntProvider.create(5), ConstantIntProvider.create(2), 4),
+                                new TwoLayersFeatureSize(1, 1, 2)).build());
         }
 
         public static RegistryKey<ConfiguredFeature<?, ?>> registerKey(String name) {
