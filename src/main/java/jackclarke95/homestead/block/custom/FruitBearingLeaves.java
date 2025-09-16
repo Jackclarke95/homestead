@@ -16,7 +16,10 @@ public class FruitBearingLeaves extends LeavesBlock {
 
     public FruitBearingLeaves(Settings settings) {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(FRUIT_STAGE, 0));
+        this.setDefaultState(this.stateManager.getDefaultState()
+                .with(FRUIT_STAGE, 0)
+                .with(LeavesBlock.DISTANCE, LeavesBlock.MAX_DISTANCE)
+                .with(LeavesBlock.PERSISTENT, false));
     }
 
     @Override
@@ -75,7 +78,6 @@ public class FruitBearingLeaves extends LeavesBlock {
     }
 
     private boolean isOrthogonallyExposed(ServerWorld world, BlockPos pos) {
-        // Check the four horizontal directions for air blocks
         Direction[] directions = new Direction[] { Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST };
         for (Direction dir : directions) {
             BlockPos neighbor = pos.offset(dir);

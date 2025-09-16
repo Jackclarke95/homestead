@@ -19,10 +19,10 @@
       "state": {
         "Name": "homestead:apricot_tree_leaves",
         "Properties": {
-          "distance": "1",
+          "distance": "7",
           "fruit_stage": "0",
-          "persistent": "true",
-          "waterlogged": "true"
+          "persistent": "false",
+          "waterlogged": "false"
         }
       }
     },
