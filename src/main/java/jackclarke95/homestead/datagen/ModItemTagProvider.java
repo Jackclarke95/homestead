@@ -71,6 +71,8 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                                 .add(ModItems.LEMON)
                                 .add(ModItems.ORANGE)
                                 .add(ModItems.APRICOT)
-                                .add(ModItems.PEACH);
+                                .add(ModItems.PEACH)
+                                .add(ModItems.BLACKBERRY)
+                                .add(ModItems.RASPBERRY);
         }
 }

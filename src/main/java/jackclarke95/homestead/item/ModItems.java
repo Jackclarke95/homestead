@@ -48,6 +48,11 @@ public class ModItems {
         public static final Item PEACH = registerItem("peach",
                         new Item(new Item.Settings().food(ModFoodComponents.PEACH)));
 
+        public static final Item BLACKBERRY = registerItem("blackberry",
+                        new Item(new Item.Settings().food(ModFoodComponents.BLACKBERRY)));
+        public static final Item RASPBERRY = registerItem("raspberry",
+                        new Item(new Item.Settings().food(ModFoodComponents.RASPBERRY)));
+
         public static final Item MUG_OF_VODKA = registerItem("mug_of_vodka",
                         new Item(new Item.Settings().food(ModFoodComponents.MUG_OF_VODKA)));
 
@@ -103,6 +108,8 @@ public class ModItems {
                         entries.add(ORANGE);
                         entries.add(APRICOT);
                         entries.add(PEACH);
+                        entries.add(BLACKBERRY);
+                        entries.add(RASPBERRY);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {

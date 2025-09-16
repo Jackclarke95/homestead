@@ -651,12 +651,16 @@ public class ModModelProvider extends FabricModelProvider {
                 itemModelGenerator.register(ModBlocks.ORANGE_TREE_SAPLING.asItem(), Models.GENERATED);
                 itemModelGenerator.register(ModBlocks.APRICOT_TREE_SAPLING.asItem(), Models.GENERATED);
                 itemModelGenerator.register(ModBlocks.PEACH_TREE_SAPLING.asItem(), Models.GENERATED);
+
                 itemModelGenerator.register(ModItems.PEAR, Models.GENERATED);
                 itemModelGenerator.register(ModItems.PLUM, Models.GENERATED);
                 itemModelGenerator.register(ModItems.LEMON, Models.GENERATED);
                 itemModelGenerator.register(ModItems.ORANGE, Models.GENERATED);
                 itemModelGenerator.register(ModItems.APRICOT, Models.GENERATED);
                 itemModelGenerator.register(ModItems.PEACH, Models.GENERATED);
+
+                itemModelGenerator.register(ModItems.BLACKBERRY, Models.GENERATED);
+                itemModelGenerator.register(ModItems.RASPBERRY, Models.GENERATED);
         }
 
         private void registerCubeBottomTop(BlockStateModelGenerator blockStateModelGenerator,
