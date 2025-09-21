@@ -17,9 +17,8 @@ public class PressScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
 
-    public PressScreenHandler(int syncId, PlayerInventory playerInventory, BlockPos pos) {
-        this(syncId, playerInventory, playerInventory.player.getWorld().getBlockEntity(pos),
-                new ArrayPropertyDelegate(2));
+    public PressScreenHandler(int syncId, PlayerInventory inventory, BlockPos pos) {
+        this(syncId, inventory, inventory.player.getWorld().getBlockEntity(pos), new ArrayPropertyDelegate(2));
     }
 
     public PressScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity,
@@ -88,17 +87,50 @@ public class PressScreenHandler extends ScreenHandler {
                     return ItemStack.EMPTY;
                 }
             } else {
-                int[] allowed = new int[] {
-                        PressBlockEntity.INPUT_INGREDIENT_SLOT,
+                int machineSlots = this.inventory.size();
+                int[] beOrder = new int[] { PressBlockEntity.INPUT_INGREDIENT_SLOT,
                         PressBlockEntity.INPUT_CONTAINER_SLOT };
                 boolean movedAny = false;
-                for (int allowedIndex : allowed) {
-                    if (this.insertItem(originalStack, allowedIndex, allowedIndex + 1, false)) {
-                        movedAny = true;
-                        if (originalStack.isEmpty())
+
+                for (int beIdx : beOrder) {
+                    int screenIdx = -1;
+                    for (int i = 0; i < machineSlots; i++) {
+                        if (this.slots.get(i).getIndex() == beIdx) {
+                            screenIdx = i;
                             break;
+                        }
+                    }
+                    if (screenIdx == -1)
+                        continue;
+                    ItemStack target = this.slots.get(screenIdx).getStack();
+                    if (!target.isEmpty() && target.getItem() == originalStack.getItem()) {
+                        if (this.insertItem(originalStack, screenIdx, screenIdx + 1, false)) {
+                            movedAny = true;
+                            if (originalStack.isEmpty())
+                                break;
+                        }
                     }
                 }
+
+                if (!movedAny) {
+                    for (int beIdx : beOrder) {
+                        int screenIdx = -1;
+                        for (int i = 0; i < machineSlots; i++) {
+                            if (this.slots.get(i).getIndex() == beIdx) {
+                                screenIdx = i;
+                                break;
+                            }
+                        }
+                        if (screenIdx == -1)
+                            continue;
+                        if (this.insertItem(originalStack, screenIdx, screenIdx + 1, false)) {
+                            movedAny = true;
+                            if (originalStack.isEmpty())
+                                break;
+                        }
+                    }
+                }
+
                 if (!movedAny)
                     return ItemStack.EMPTY;
             }

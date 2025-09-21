@@ -36,13 +36,14 @@ import net.minecraft.world.World;
 public class CuringVatBlockEntity extends BlockEntity
         implements ExtendedScreenHandlerFactory<BlockPos>, ImplementedInventory {
 
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(5, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(6, ItemStack.EMPTY);
 
     public static final int INPUT_INGREDIENT_SLOT = 0;
     public static final int INPUT_CATALYST_SLOT = 4;
     public static final int OUTPUT_PENDING_SLOT = 2;
     public static final int INPUT_CONTAINER_SLOT = 3;
     public static final int OUTPUT_ACTUAL_SLOT = 1;
+    public static final int OUTPUT_BYPRODUCT_SLOT = 5;
 
     private PropertyDelegate propertyDelegate;
     private int progress = 0;
@@ -135,7 +136,18 @@ public class CuringVatBlockEntity extends BlockEntity
             boolean pendingOk = toPending == 0 || (canInsertItemIntoSlot(OUTPUT_PENDING_SLOT, primaryOut)
                     && canInsertAmountIntoSlot(OUTPUT_PENDING_SLOT, toPending));
             boolean pendingBlocked = !pendingOk;
+            // Ensure byproduct slot has capacity if recipe produces a byproduct
+            boolean byproductOk = true;
+            if (recipe.hasByproduct()) {
+                ItemStack by = recipe.byproduct();
+                byproductOk = canInsertItemIntoSlot(OUTPUT_BYPRODUCT_SLOT, by)
+                        && canInsertAmountIntoSlot(OUTPUT_BYPRODUCT_SLOT, by.getCount());
+            }
             if (!hasIngredient || !hasCatalyst || pendingBlocked) {
+                resetProgress();
+                return;
+            }
+            if (!byproductOk) {
                 resetProgress();
                 return;
             }
@@ -203,9 +215,20 @@ public class CuringVatBlockEntity extends BlockEntity
         if (toPending > 0) {
             setPendingOutputAndRecipe(new ItemStack(recipe.output().getItem(), toPending));
         }
-        // Handle byproduct
+        // Handle byproduct: place into dedicated byproduct output slot (pre-checked in
+        // tick)
         if (recipe.hasByproduct()) {
-            this.setStack(INPUT_CATALYST_SLOT, recipe.byproduct().copy());
+            ItemStack by = recipe.byproduct().copy();
+            if (canInsertItemIntoSlot(OUTPUT_BYPRODUCT_SLOT, by)
+                    && canInsertAmountIntoSlot(OUTPUT_BYPRODUCT_SLOT, by.getCount())) {
+                ItemStack existing = this.getStack(OUTPUT_BYPRODUCT_SLOT);
+                int newCount = existing.isEmpty() ? by.getCount() : existing.getCount() + by.getCount();
+                this.setStack(OUTPUT_BYPRODUCT_SLOT, new ItemStack(by.getItem(), newCount));
+            } else {
+                // This should not happen because tick() verifies capacity; log and skip
+                System.out.println(
+                        "Warning: byproduct could not be inserted into OUTPUT_BYPRODUCT_SLOT despite pre-check");
+            }
         }
     }
 
@@ -353,6 +376,7 @@ public class CuringVatBlockEntity extends BlockEntity
         switch (slot) {
             case OUTPUT_ACTUAL_SLOT:
             case INPUT_CATALYST_SLOT:
+            case OUTPUT_BYPRODUCT_SLOT:
                 return true;
             default:
                 return false;

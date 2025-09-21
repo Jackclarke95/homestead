@@ -51,6 +51,19 @@ public class CuringVatScreenHandler extends ScreenHandler {
             }
         });
 
+        // Byproduct output slot (same location as Press secondary output)
+        this.addSlot(new Slot(inventory, CuringVatBlockEntity.OUTPUT_BYPRODUCT_SLOT, 147, 54) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return false;
+            }
+
+            @Override
+            public boolean canTakeItems(PlayerEntity player) {
+                return true;
+            }
+        });
+
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
 
@@ -88,16 +101,48 @@ public class CuringVatScreenHandler extends ScreenHandler {
                     return ItemStack.EMPTY;
                 }
             } else {
-                int[] allowed = new int[] {
+                int machineSlots = this.inventory.size();
+                int[] beOrder = new int[] {
                         CuringVatBlockEntity.INPUT_INGREDIENT_SLOT,
                         CuringVatBlockEntity.INPUT_CATALYST_SLOT,
                         CuringVatBlockEntity.INPUT_CONTAINER_SLOT };
                 boolean movedAny = false;
-                for (int allowedIndex : allowed) {
-                    if (this.insertItem(originalStack, allowedIndex, allowedIndex + 1, false)) {
-                        movedAny = true;
-                        if (originalStack.isEmpty())
+                for (int beIdx : beOrder) {
+                    int screenIdx = -1;
+                    for (int i = 0; i < machineSlots; i++) {
+                        if (this.slots.get(i).getIndex() == beIdx) {
+                            screenIdx = i;
                             break;
+                        }
+                    }
+                    if (screenIdx == -1)
+                        continue;
+                    ItemStack target = this.slots.get(screenIdx).getStack();
+                    if (!target.isEmpty() && target.getItem() == originalStack.getItem()) {
+                        if (this.insertItem(originalStack, screenIdx, screenIdx + 1, false)) {
+                            movedAny = true;
+                            if (originalStack.isEmpty())
+                                break;
+                        }
+                    }
+                }
+
+                if (!movedAny) {
+                    for (int beIdx : beOrder) {
+                        int screenIdx = -1;
+                        for (int i = 0; i < machineSlots; i++) {
+                            if (this.slots.get(i).getIndex() == beIdx) {
+                                screenIdx = i;
+                                break;
+                            }
+                        }
+                        if (screenIdx == -1)
+                            continue;
+                        if (this.insertItem(originalStack, screenIdx, screenIdx + 1, false)) {
+                            movedAny = true;
+                            if (originalStack.isEmpty())
+                                break;
+                        }
                     }
                 }
                 if (!movedAny)
