@@ -18,13 +18,13 @@
   "item.homestead.flour": "Flour",
   "item.homestead.seed_mix": "Seed Mix",
 
-  "block.homestead.custom_block": "Custom Block",
   "block.homestead.rack": "Rack",
   "block.homestead.heated_rack": "Heated Rack",
   "block.homestead.curing_vat": "Curing Vat",
   "block.homestead.trough": "Trough",
   "block.homestead.press": "Press",
   "block.homestead.mill": "Mill",
+  "block.homestead.sowing_bed": "Sowing Bed",
 
   "block.homestead.cobblestone_bricks": "Cobblestone Bricks",
   "block.homestead.cobblestone_brick_slab": "Cobblestone Brick Slab",

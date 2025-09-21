@@ -26,6 +26,7 @@ public class HomesteadClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutoutMipped(),
                 ModBlocks.RACK,
                 ModBlocks.HEATED_RACK,
+                ModBlocks.SOWING_BED,
                 ModBlocks.SAWDUST,
                 ModBlocks.PEBBLE,
                 ModBlocks.APPLE_TREE_SAPLING,

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "homestead:block/sowing_bed" },
+    "facing=south": { "model": "homestead:block/sowing_bed", "y": 180 },
+    "facing=west": { "model": "homestead:block/sowing_bed", "y": 270 },
+    "facing=east": { "model": "homestead:block/sowing_bed", "y": 90 }
+  }
+}

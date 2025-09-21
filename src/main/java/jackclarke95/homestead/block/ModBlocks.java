@@ -27,8 +27,8 @@ import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-
 import jackclarke95.homestead.block.custom.PressBlock;
+import jackclarke95.homestead.block.custom.SowingBedBlock;
 
 public class ModBlocks {
         public static final Block COARSE_DIRT_PATH = registerBlock("coarse_dirt_path",
@@ -46,6 +46,8 @@ public class ModBlocks {
                         new CuringVatBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
         public static final Block MILL = registerBlock("mill",
                         new MillBlock(AbstractBlock.Settings.copy(Blocks.STONE)));
+        public static final Block SOWING_BED = registerBlock("sowing_bed",
+                        new SowingBedBlock(AbstractBlock.Settings.copy(Blocks.DIRT).nonOpaque()));
         public static final Block SAWDUST = registerBlock("sawdust",
                         new SurfaceLayerConnectingBlock(
                                         AbstractBlock.Settings.copy(Blocks.BROWN_CONCRETE_POWDER).nonOpaque()));
@@ -435,6 +437,7 @@ public class ModBlocks {
                         entries.add(ModBlocks.TROUGH);
                         entries.add(ModBlocks.MILL);
                         entries.add(ModBlocks.PRESS);
+                        entries.add(ModBlocks.SOWING_BED);
                 });
         }
 

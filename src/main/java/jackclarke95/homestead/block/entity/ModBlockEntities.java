@@ -8,6 +8,7 @@ import jackclarke95.homestead.block.entity.custom.RackBlockEntity;
 import jackclarke95.homestead.block.entity.custom.TroughBlockEntity;
 import jackclarke95.homestead.block.entity.custom.MillBlockEntity;
 import jackclarke95.homestead.block.entity.custom.PressBlockEntity;
+import jackclarke95.homestead.block.entity.custom.SowingBedBlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -40,6 +41,13 @@ public class ModBlockEntities {
         public static final BlockEntityType<MillBlockEntity> MILL_BE = Registry.register(
                         Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "mill_be"),
                         BlockEntityType.Builder.create((pos, state) -> new MillBlockEntity(pos, state), ModBlocks.MILL)
+                                        .build());
+
+        public static final BlockEntityType<SowingBedBlockEntity> SOWING_BED_BE = Registry.register(
+                        Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "sowing_bed_be"),
+                        BlockEntityType.Builder
+                                        .create((pos, state) -> new SowingBedBlockEntity(pos, state),
+                                                        ModBlocks.SOWING_BED)
                                         .build());
 
         public static final BlockEntityType<TroughBlockEntity> TROUGH_BE = Registry.register(
