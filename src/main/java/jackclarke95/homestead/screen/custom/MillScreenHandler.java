@@ -64,8 +64,12 @@ public class MillScreenHandler extends ScreenHandler {
                 if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
-                return ItemStack.EMPTY;
+            } else {
+                if (!this.insertItem(originalStack,
+                        MillBlockEntity.INPUT_SLOT,
+                        MillBlockEntity.INPUT_SLOT + 1, false)) {
+                    return ItemStack.EMPTY;
+                }
             }
             if (originalStack.isEmpty()) {
                 slot.setStack(ItemStack.EMPTY);

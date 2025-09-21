@@ -1,6 +1,5 @@
 package jackclarke95.homestead.screen.custom;
 
-import jackclarke95.homestead.block.entity.custom.CuringVatBlockEntity;
 import jackclarke95.homestead.screen.ModScreenHandlers;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,6 +11,7 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.math.BlockPos;
+import jackclarke95.homestead.block.entity.custom.CuringVatBlockEntity;
 
 public class CuringVatScreenHandler extends ScreenHandler {
     private final Inventory inventory;
@@ -87,8 +87,21 @@ public class CuringVatScreenHandler extends ScreenHandler {
                 if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
-                return ItemStack.EMPTY;
+            } else {
+                int[] allowed = new int[] {
+                        CuringVatBlockEntity.INPUT_INGREDIENT_SLOT,
+                        CuringVatBlockEntity.INPUT_CATALYST_SLOT,
+                        CuringVatBlockEntity.INPUT_CONTAINER_SLOT };
+                boolean movedAny = false;
+                for (int allowedIndex : allowed) {
+                    if (this.insertItem(originalStack, allowedIndex, allowedIndex + 1, false)) {
+                        movedAny = true;
+                        if (originalStack.isEmpty())
+                            break;
+                    }
+                }
+                if (!movedAny)
+                    return ItemStack.EMPTY;
             }
 
             if (originalStack.isEmpty()) {

@@ -87,8 +87,20 @@ public class PressScreenHandler extends ScreenHandler {
                 if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
-                return ItemStack.EMPTY;
+            } else {
+                int[] allowed = new int[] {
+                        PressBlockEntity.INPUT_INGREDIENT_SLOT,
+                        PressBlockEntity.INPUT_CONTAINER_SLOT };
+                boolean movedAny = false;
+                for (int allowedIndex : allowed) {
+                    if (this.insertItem(originalStack, allowedIndex, allowedIndex + 1, false)) {
+                        movedAny = true;
+                        if (originalStack.isEmpty())
+                            break;
+                    }
+                }
+                if (!movedAny)
+                    return ItemStack.EMPTY;
             }
             if (originalStack.isEmpty()) {
                 slot.setStack(ItemStack.EMPTY);
