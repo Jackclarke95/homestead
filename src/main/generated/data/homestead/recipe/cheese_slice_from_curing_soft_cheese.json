@@ -1,0 +1,15 @@
+{
+  "type": "homestead:curing",
+  "byproduct": {
+    "count": 1,
+    "id": "minecraft:bowl"
+  },
+  "ingredient": {
+    "item": "homestead:soft_cheese"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:cheese_slice"
+  },
+  "time": 240
+}

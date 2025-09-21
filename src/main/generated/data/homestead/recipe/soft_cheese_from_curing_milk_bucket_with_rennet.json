@@ -1,0 +1,21 @@
+{
+  "type": "homestead:curing",
+  "byproduct": {
+    "count": 1,
+    "id": "minecraft:bucket"
+  },
+  "catalyst": {
+    "item": "homestead:rennet"
+  },
+  "container": {
+    "item": "minecraft:bowl"
+  },
+  "ingredient": {
+    "item": "minecraft:milk_bucket"
+  },
+  "result": {
+    "count": 4,
+    "id": "homestead:soft_cheese"
+  },
+  "time": 240
+}

@@ -14,6 +14,8 @@ public class ModItems {
         public static final Item CHEESE_WHEEL = registerItem("cheese_wheel", new Item(new Item.Settings()));
         public static final Item RAW_HIDE = registerItem("raw_hide", new Item(new Item.Settings()));
         public static final Item MUG = registerItem("mug", new Item(new Item.Settings()));
+        public static final Item RENNET = registerItem("rennet", new Item(new Item.Settings()));
+        public static final Item SOFT_CHEESE = registerItem("soft_cheese", new Item(new Item.Settings()));
 
         // Food
         public static final Item CHEESE_SLICE = registerItem("cheese_slice",
@@ -110,6 +112,7 @@ public class ModItems {
                         entries.add(PEACH);
                         entries.add(BLACKBERRY);
                         entries.add(RASPBERRY);
+                        entries.add(SOFT_CHEESE);
                 });
 
                 ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
@@ -117,6 +120,7 @@ public class ModItems {
                         entries.add(FLOUR);
                         entries.add(SEED_MIX);
                         entries.add(ANIMAL_FEED);
+                        entries.add(RENNET);
                 });
         }
 }

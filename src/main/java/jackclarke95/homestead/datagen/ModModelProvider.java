@@ -661,6 +661,9 @@ public class ModModelProvider extends FabricModelProvider {
 
                 itemModelGenerator.register(ModItems.BLACKBERRY, Models.GENERATED);
                 itemModelGenerator.register(ModItems.RASPBERRY, Models.GENERATED);
+
+                itemModelGenerator.register(ModItems.RENNET, Models.GENERATED);
+                itemModelGenerator.register(ModItems.SOFT_CHEESE, Models.GENERATED);
         }
 
         private void registerCubeBottomTop(BlockStateModelGenerator blockStateModelGenerator,

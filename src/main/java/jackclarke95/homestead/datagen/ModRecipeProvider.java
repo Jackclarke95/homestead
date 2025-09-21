@@ -452,20 +452,11 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 // #endregion Milling Recipes
 
                 // #region Curing Recipes
-                CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.MILK_BUCKET),
-                                ModItems.CHEESE_WHEEL.getDefaultStack(), 1200)
-                                .ingredientCount(3)
-                                .catalyst(Ingredient.ofItems(Items.BONE_MEAL))
-                                .offerTo(recipeExporter);
                 CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.PORKCHOP),
                                 ModItems.RAW_HIDE.getDefaultStack(), 60)
                                 .catalyst(Ingredient.ofItems(Items.BONE_MEAL))
                                 .offerTo(recipeExporter);
                 CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.MUTTON),
-                                ModItems.RAW_HIDE.getDefaultStack(), 60)
-                                .catalyst(Ingredient.ofItems(Items.BONE_MEAL))
-                                .offerTo(recipeExporter);
-                CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.CHICKEN),
                                 ModItems.RAW_HIDE.getDefaultStack(), 60)
                                 .catalyst(Ingredient.ofItems(Items.BONE_MEAL))
                                 .offerTo(recipeExporter);
@@ -483,6 +474,16 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .catalyst(Ingredient.ofItems(Items.WATER_BUCKET))
                                 .container(Ingredient.ofItems(ModItems.MUG))
                                 .byproduct(Items.BUCKET.getDefaultStack())
+                                .offerTo(recipeExporter);
+                CuringRecipeJsonBuilder.create(Ingredient.ofItems(Items.MILK_BUCKET),
+                                ModItems.SOFT_CHEESE.getDefaultStack().copyWithCount(4), 240)
+                                .catalyst(Ingredient.ofItems(ModItems.RENNET))
+                                .container(Ingredient.ofItems(Items.BOWL))
+                                .byproduct(Items.BUCKET.getDefaultStack())
+                                .offerTo(recipeExporter);
+                CuringRecipeJsonBuilder.create(Ingredient.ofItems(ModItems.SOFT_CHEESE),
+                                ModItems.CHEESE_SLICE.getDefaultStack(), 240)
+                                .byproduct(Items.BOWL.getDefaultStack())
                                 .offerTo(recipeExporter);
                 // #endregion Curing Recipes
 
