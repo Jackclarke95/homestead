@@ -33,8 +33,10 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                                 ModBlocks.PRESS,
                                 ModBlocks.WATTLE_AND_DAUB);
 
-                getOrCreateTagBuilder(BlockTags.HOE_MINEABLE).add(
-                                ModBlocks.HAY_STAIRS);
+                getOrCreateTagBuilder(BlockTags.HOE_MINEABLE)
+                                .add(ModBlocks.THATCHED_HAY_STAIRS)
+                                .add(ModBlocks.THATCHED_HAY_SLAB)
+                                .add(ModBlocks.THATCHED_HAY_BLOCK);
 
                 getOrCreateTagBuilder(BlockTags.LOGS_THAT_BURN)
                                 .add(ModBlocks.APPLE_TREE_LOG)

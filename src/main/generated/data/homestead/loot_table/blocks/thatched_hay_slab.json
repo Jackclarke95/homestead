@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "homestead:hay_stairs"
+          "name": "homestead:thatched_hay_slab"
         }
       ],
       "rolls": 1.0

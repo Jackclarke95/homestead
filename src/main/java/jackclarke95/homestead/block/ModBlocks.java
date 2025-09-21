@@ -64,9 +64,13 @@ public class ModBlocks {
                         new StairsBlock(ModBlocks.COBBLESTONE_BRICKS.getDefaultState(),
                                         AbstractBlock.Settings.copy(ModBlocks.COBBLESTONE_BRICKS)));
 
-        public static final Block HAY_STAIRS = registerBlock("hay_stairs",
+        public static final Block THATCHED_HAY_BLOCK = registerBlock("thatched_hay_block",
+                        new Block(AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)));
+        public static final Block THATCHED_HAY_STAIRS = registerBlock("thatched_hay_stairs",
                         new StairsBlock(Blocks.HAY_BLOCK.getDefaultState(),
-                                        AbstractBlock.Settings.copy(Blocks.CRAFTING_TABLE)));
+                                        AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)));
+        public static final Block THATCHED_HAY_SLAB = registerBlock("thatched_hay_slab",
+                        new SlabBlock(AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)));
 
         public static final Block WATTLE_AND_DAUB = registerBlock("wattle_and_daub",
                         new VerticleSlabBlock(AbstractBlock.Settings.copy(Blocks.BRICKS).nonOpaque()));
@@ -312,7 +316,9 @@ public class ModBlocks {
                         entries.add(ModBlocks.COBBLESTONE_BRICK_SLAB);
                         entries.add(ModBlocks.COBBLESTONE_BRICK_WALL);
                         entries.add(ModBlocks.COBBLESTONE_BRICK_STAIRS);
-                        entries.add(ModBlocks.HAY_STAIRS);
+                        entries.add(ModBlocks.THATCHED_HAY_STAIRS);
+                        entries.add(ModBlocks.THATCHED_HAY_SLAB);
+                        entries.add(ModBlocks.THATCHED_HAY_BLOCK);
                         entries.add(ModBlocks.WATTLE_AND_DAUB);
                         entries.add(ModBlocks.STONE_PATH);
                         entries.add(ModBlocks.COBBLESTONE_PATH);

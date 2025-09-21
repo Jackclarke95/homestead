@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "homestead:block/hay_stairs",
-    "side": "homestead:block/hay_stairs",
-    "top": "homestead:block/hay_stairs"
-  }
-}

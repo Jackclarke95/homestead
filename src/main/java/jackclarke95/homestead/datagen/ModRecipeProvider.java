@@ -170,12 +170,23 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion(hasItem(Blocks.BARREL), conditionsFromItem(Blocks.BARREL))
                                 .criterion(hasItem(Blocks.STONE), conditionsFromItem(Blocks.STONE))
                                 .offerTo(recipeExporter);
-
                 // #endregion Workstation Recipes
 
                 // #region Building Block Recipes
-                createStairsRecipe(ModBlocks.HAY_STAIRS, Ingredient.ofItems(Blocks.HAY_BLOCK))
+                createStairsRecipe(ModBlocks.THATCHED_HAY_STAIRS, Ingredient.ofItems(Blocks.HAY_BLOCK))
                                 .criterion("has_hay_block", conditionsFromItem(Blocks.HAY_BLOCK))
+                                .offerTo(recipeExporter);
+                createSlabRecipe(RecipeCategory.DECORATIONS, ModBlocks.THATCHED_HAY_SLAB,
+                                Ingredient.ofItems(Blocks.HAY_BLOCK))
+                                .criterion("has_hay_block", conditionsFromItem(Blocks.HAY_BLOCK))
+                                .offerTo(recipeExporter);
+                ShapelessRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, ModBlocks.THATCHED_HAY_BLOCK)
+                                .input(Blocks.HAY_BLOCK)
+                                .criterion("has_hay_block", conditionsFromItem(Blocks.HAY_BLOCK))
+                                .offerTo(recipeExporter);
+                ShapelessRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, Blocks.HAY_BLOCK)
+                                .input(ModBlocks.THATCHED_HAY_BLOCK)
+                                .criterion("has_thatched_hay_block", conditionsFromItem(ModBlocks.THATCHED_HAY_BLOCK))
                                 .offerTo(recipeExporter);
 
                 ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.WATTLE_AND_DAUB)

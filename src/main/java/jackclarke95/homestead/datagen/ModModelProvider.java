@@ -31,7 +31,6 @@ public class ModModelProvider extends FabricModelProvider {
 
         @Override
         public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
-
                 BlockStateModelGenerator.BlockTexturePool cobblestoneBricksPool = blockStateModelGenerator
                                 .registerCubeAllModelTexturePool(ModBlocks.COBBLESTONE_BRICKS);
 
@@ -44,25 +43,13 @@ public class ModModelProvider extends FabricModelProvider {
                 blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.CURING_VAT);
                 blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.PRESS);
 
+                BlockStateModelGenerator.BlockTexturePool thatchedHayPool = blockStateModelGenerator
+                                .registerCubeAllModelTexturePool(ModBlocks.THATCHED_HAY_BLOCK);
+
+                thatchedHayPool.stairs(ModBlocks.THATCHED_HAY_STAIRS);
+                thatchedHayPool.slab(ModBlocks.THATCHED_HAY_SLAB);
+
                 registerCubeBottomTop(blockStateModelGenerator, ModBlocks.MILL);
-
-                final TextureMap hayTexture = TextureMap.all(Identifier.of(Homestead.MOD_ID, "block/hay_stairs"));
-
-                final Identifier hayStairsModelId = Models.STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
-                                blockStateModelGenerator.modelCollector);
-                final Identifier hayInnerStairsModelId = Models.INNER_STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
-                                blockStateModelGenerator.modelCollector);
-                final Identifier hayOuterStairsModelId = Models.OUTER_STAIRS.upload(ModBlocks.HAY_STAIRS, hayTexture,
-                                blockStateModelGenerator.modelCollector);
-
-                blockStateModelGenerator.blockStateCollector.accept(
-                                BlockStateModelGenerator.createStairsBlockState(
-                                                ModBlocks.HAY_STAIRS,
-                                                hayInnerStairsModelId,
-                                                hayStairsModelId,
-                                                hayOuterStairsModelId));
-
-                blockStateModelGenerator.registerParentedItemModel(ModBlocks.HAY_STAIRS, hayStairsModelId);
 
                 registerPathBlockModel(blockStateModelGenerator, this.output, ModBlocks.STONE_PATH,
                                 Blocks.STONE, Homestead.MOD_ID);

@@ -30,7 +30,9 @@
   "block.homestead.cobblestone_brick_slab": "Cobblestone Brick Slab",
   "block.homestead.cobblestone_brick_wall": "Cobblestone Brick Wall",
   "block.homestead.cobblestone_brick_stairs": "Cobblestone Brick Stairs",
-  "block.homestead.hay_stairs": "Hay Stairs",
+  "block.homestead.thatched_hay_stairs": "Thatched Hay Stairs",
+  "block.homestead.thatched_hay_slab": "Thatched Hay Slab",
+  "block.homestead.thatched_hay_block": "Thatched Hay Block",
   "block.homestead.wattle_and_daub": "Wattle and Daub",
 
   "block.homestead.stone_path": "Stone Path",

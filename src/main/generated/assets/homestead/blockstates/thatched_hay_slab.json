@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "homestead:block/thatched_hay_slab"
+    },
+    "type=double": {
+      "model": "homestead:block/thatched_hay_block"
+    },
+    "type=top": {
+      "model": "homestead:block/thatched_hay_slab_top"
+    }
+  }
+}

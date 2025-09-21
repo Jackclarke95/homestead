@@ -1,5 +1,7 @@
 {
   "values": [
-    "homestead:hay_stairs"
+    "homestead:thatched_hay_stairs",
+    "homestead:thatched_hay_slab",
+    "homestead:thatched_hay_block"
   ]
 }

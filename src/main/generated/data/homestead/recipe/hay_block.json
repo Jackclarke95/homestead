@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "homestead:thatched_hay_block"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:hay_block"
+  }
+}
