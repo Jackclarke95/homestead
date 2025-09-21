@@ -5,6 +5,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
@@ -48,7 +49,37 @@ public class HomesteadClient implements ClientModInitializer {
                 ModBlocks.APRICOT_TREE_LEAVES,
                 ModBlocks.PEACH_TREE_LEAVES);
 
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x48B518, ModBlocks.PEAR_TREE_LEAVES);
+        // Register item color providers for leaf items so their inventory icons are
+        // tinted like the block foliage.
+        // We delegate to the client's BlockColors with a null world/pos to get the
+        // default foliage tint.
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MinecraftClient.getInstance()
+                .getBlockColors().getColor(ModBlocks.APPLE_TREE_LEAVES.getDefaultState(), null, null, tintIndex),
+                ModBlocks.APPLE_TREE_LEAVES);
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MinecraftClient.getInstance()
+                .getBlockColors().getColor(ModBlocks.PEAR_TREE_LEAVES.getDefaultState(), null, null, tintIndex),
+                ModBlocks.PEAR_TREE_LEAVES);
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MinecraftClient.getInstance()
+                .getBlockColors().getColor(ModBlocks.PLUM_TREE_LEAVES.getDefaultState(), null, null, tintIndex),
+                ModBlocks.PLUM_TREE_LEAVES);
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MinecraftClient.getInstance()
+                .getBlockColors().getColor(ModBlocks.LEMON_TREE_LEAVES.getDefaultState(), null, null, tintIndex),
+                ModBlocks.LEMON_TREE_LEAVES);
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MinecraftClient.getInstance()
+                .getBlockColors().getColor(ModBlocks.ORANGE_TREE_LEAVES.getDefaultState(), null, null, tintIndex),
+                ModBlocks.ORANGE_TREE_LEAVES);
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MinecraftClient.getInstance()
+                .getBlockColors().getColor(ModBlocks.APRICOT_TREE_LEAVES.getDefaultState(), null, null, tintIndex),
+                ModBlocks.APRICOT_TREE_LEAVES);
+
+        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MinecraftClient.getInstance()
+                .getBlockColors().getColor(ModBlocks.PEACH_TREE_LEAVES.getDefaultState(), null, null, tintIndex),
+                ModBlocks.PEACH_TREE_LEAVES);
 
         BlockEntityRendererFactories.register(ModBlockEntities.RACK_BE, RackBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.HEATED_RACK_BE, RackBlockEntityRenderer::new);
