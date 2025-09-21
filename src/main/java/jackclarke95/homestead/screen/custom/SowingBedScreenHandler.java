@@ -27,7 +27,6 @@ public class SowingBedScreenHandler extends ScreenHandler {
         this.inventory = (Inventory) blockEntity;
         this.propertyDelegate = arrayPropertyDelegate;
 
-        // Furnace-like positions: input 56,17; fuel/fertiliser 56,53; output 116,35
         this.addSlot(new Slot(inventory, SowingBedBlockEntity.INPUT_SLOT, 56, 17));
         this.addSlot(new Slot(inventory, SowingBedBlockEntity.FERTILISER_SLOT, 56, 53));
         this.addSlot(new Slot(inventory, SowingBedBlockEntity.OUTPUT_SLOT, 116, 35) {

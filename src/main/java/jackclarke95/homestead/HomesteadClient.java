@@ -78,6 +78,8 @@ public class HomesteadClient implements ClientModInitializer {
         HandledScreens.register(ModScreenHandlers.MILL_SCREEN_HANDLER, MillScreen::new);
         HandledScreens.register(ModScreenHandlers.PRESS_SCREEN_HANDLER,
                 PressScreen::new);
+        HandledScreens.register(ModScreenHandlers.SOWING_BED_SCREEN_HANDLER,
+                jackclarke95.homestead.screen.custom.SowingBedScreen::new);
 
         VerticleSlabPlacementPreview.register();
 
