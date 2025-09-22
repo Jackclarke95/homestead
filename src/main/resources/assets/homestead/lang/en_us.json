@@ -156,6 +156,16 @@
   "item.homestead.apricot": "Apricot",
   "item.homestead.peach": "Peach",
 
+  "item.homestead.apple_seeds": "Apple Seeds",
+  "item.homestead.pear_seeds": "Pear Seeds",
+  "item.homestead.plum_seeds": "Plum Seeds",
+  "item.homestead.lemon_seeds": "Lemon Seeds",
+  "item.homestead.orange_seeds": "Orange Seeds",
+  "item.homestead.apricot_seeds": "Apricot Seeds",
+  "item.homestead.peach_seeds": "Peach Seeds",
+  "item.homestead.blackberry_seeds": "Blackberry Seeds",
+  "item.homestead.raspberry_seeds": "Raspberry Seeds",
+
   "item.homestead.wooden_crook": "Wooden Crook",
   "item.homestead.stone_crook": "Stone Crook",
   "item.homestead.iron_crook": "Iron Crook",

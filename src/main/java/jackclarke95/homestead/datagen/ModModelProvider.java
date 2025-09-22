@@ -33,19 +33,15 @@ public class ModModelProvider extends FabricModelProvider {
         public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
                 BlockStateModelGenerator.BlockTexturePool cobblestoneBricksPool = blockStateModelGenerator
                                 .registerCubeAllModelTexturePool(ModBlocks.COBBLESTONE_BRICKS);
-
                 cobblestoneBricksPool.stairs(ModBlocks.COBBLESTONE_BRICK_STAIRS);
                 cobblestoneBricksPool.slab(ModBlocks.COBBLESTONE_BRICK_SLAB);
-
                 cobblestoneBricksPool.wall(ModBlocks.COBBLESTONE_BRICK_WALL);
-
                 blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.RACK);
                 blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.CURING_VAT);
                 blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.PRESS);
 
                 BlockStateModelGenerator.BlockTexturePool thatchedHayPool = blockStateModelGenerator
                                 .registerCubeAllModelTexturePool(ModBlocks.THATCHED_HAY_BLOCK);
-
                 thatchedHayPool.stairs(ModBlocks.THATCHED_HAY_STAIRS);
                 thatchedHayPool.slab(ModBlocks.THATCHED_HAY_SLAB);
 
@@ -632,6 +628,7 @@ public class ModModelProvider extends FabricModelProvider {
 
                 itemModelGenerator.register(ModBlocks.SAWDUST.asItem(), Models.GENERATED);
                 itemModelGenerator.register(ModBlocks.PEBBLE.asItem(), Models.GENERATED);
+                itemModelGenerator.register(ModBlocks.APPLE_TREE_SAPLING.asItem(), Models.GENERATED);
                 itemModelGenerator.register(ModBlocks.PEAR_TREE_SAPLING.asItem(), Models.GENERATED);
                 itemModelGenerator.register(ModBlocks.PLUM_TREE_SAPLING.asItem(), Models.GENERATED);
                 itemModelGenerator.register(ModBlocks.LEMON_TREE_SAPLING.asItem(), Models.GENERATED);
@@ -645,9 +642,18 @@ public class ModModelProvider extends FabricModelProvider {
                 itemModelGenerator.register(ModItems.ORANGE, Models.GENERATED);
                 itemModelGenerator.register(ModItems.APRICOT, Models.GENERATED);
                 itemModelGenerator.register(ModItems.PEACH, Models.GENERATED);
-
                 itemModelGenerator.register(ModItems.BLACKBERRY, Models.GENERATED);
                 itemModelGenerator.register(ModItems.RASPBERRY, Models.GENERATED);
+
+                itemModelGenerator.register(ModItems.APPLE_SEEDS, Models.GENERATED);
+                itemModelGenerator.register(ModItems.PEAR_SEEDS, Models.GENERATED);
+                itemModelGenerator.register(ModItems.PLUM_SEEDS, Models.GENERATED);
+                itemModelGenerator.register(ModItems.LEMON_SEEDS, Models.GENERATED);
+                itemModelGenerator.register(ModItems.ORANGE_SEEDS, Models.GENERATED);
+                itemModelGenerator.register(ModItems.APRICOT_SEEDS, Models.GENERATED);
+                itemModelGenerator.register(ModItems.PEACH_SEEDS, Models.GENERATED);
+                itemModelGenerator.register(ModItems.BLACKBERRY_SEEDS, Models.GENERATED);
+                itemModelGenerator.register(ModItems.RASPBERRY_SEEDS, Models.GENERATED);
 
                 itemModelGenerator.register(ModItems.RENNET, Models.GENERATED);
                 itemModelGenerator.register(ModItems.SOFT_CHEESE, Models.GENERATED);

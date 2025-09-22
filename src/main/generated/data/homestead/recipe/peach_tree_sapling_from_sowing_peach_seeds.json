@@ -1,0 +1,11 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": {
+    "item": "homestead:peach_seeds"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:peach_tree_sapling"
+  },
+  "time": 200
+}

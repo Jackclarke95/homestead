@@ -18,7 +18,6 @@ public class ModItems {
         public static final Item RENNET = registerItem("rennet", new Item(new Item.Settings()));
         public static final Item SOFT_CHEESE = registerItem("soft_cheese", new Item(new Item.Settings()));
 
-        // Food
         public static final Item CHEESE_SLICE = registerItem("cheese_slice",
                         new Item(new Item.Settings().food(ModFoodComponents.CHEESE_SLICE)));
         public static final Item SUSPICIOUS_JERKY = registerItem("suspicious_jerky",
@@ -50,11 +49,29 @@ public class ModItems {
                         new Item(new Item.Settings().food(ModFoodComponents.APRICOT)));
         public static final Item PEACH = registerItem("peach",
                         new Item(new Item.Settings().food(ModFoodComponents.PEACH)));
-
         public static final Item BLACKBERRY = registerItem("blackberry",
                         new Item(new Item.Settings().food(ModFoodComponents.BLACKBERRY)));
         public static final Item RASPBERRY = registerItem("raspberry",
                         new Item(new Item.Settings().food(ModFoodComponents.RASPBERRY)));
+
+        public static final Item APPLE_SEEDS = registerItem("apple_seeds",
+                        new Item(new Item.Settings()));
+        public static final Item PEAR_SEEDS = registerItem("pear_seeds",
+                        new Item(new Item.Settings()));
+        public static final Item PLUM_SEEDS = registerItem("plum_seeds",
+                        new Item(new Item.Settings()));
+        public static final Item LEMON_SEEDS = registerItem("lemon_seeds",
+                        new Item(new Item.Settings()));
+        public static final Item ORANGE_SEEDS = registerItem("orange_seeds",
+                        new Item(new Item.Settings()));
+        public static final Item APRICOT_SEEDS = registerItem("apricot_seeds",
+                        new Item(new Item.Settings()));
+        public static final Item PEACH_SEEDS = registerItem("peach_seeds",
+                        new Item(new Item.Settings()));
+        public static final Item BLACKBERRY_SEEDS = registerItem("blackberry_seeds",
+                        new Item(new Item.Settings()));
+        public static final Item RASPBERRY_SEEDS = registerItem("raspberry_seeds",
+                        new Item(new Item.Settings()));
 
         public static final Item MUG_OF_VODKA = registerItem("mug_of_vodka",
                         new Item(new Item.Settings().food(ModFoodComponents.MUG_OF_VODKA)));
@@ -122,6 +139,18 @@ public class ModItems {
                         entries.add(SEED_MIX);
                         entries.add(ANIMAL_FEED);
                         entries.add(RENNET);
+                });
+
+                ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
+                        entries.add(APPLE_SEEDS);
+                        entries.add(PEAR_SEEDS);
+                        entries.add(PLUM_SEEDS);
+                        entries.add(LEMON_SEEDS);
+                        entries.add(ORANGE_SEEDS);
+                        entries.add(APRICOT_SEEDS);
+                        entries.add(PEACH_SEEDS);
+                        entries.add(BLACKBERRY_SEEDS);
+                        entries.add(RASPBERRY_SEEDS);
                 });
 
                 FertiliserRegistry.register(Items.BONE_MEAL, 200);

@@ -1,0 +1,11 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": {
+    "item": "homestead:pear_seeds"
+  },
+  "result": {
+    "count": 1,
+    "id": "homestead:pear_tree_sapling"
+  },
+  "time": 200
+}

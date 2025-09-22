@@ -9,6 +9,7 @@ import jackclarke95.homestead.datagen.recipe.DryingRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.MillingRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.RinsingRecipeJsonBuilder;
 import jackclarke95.homestead.datagen.recipe.PressingRecipeJsonBuilder;
+import jackclarke95.homestead.datagen.recipe.SowingRecipeJsonBuilder;
 import jackclarke95.homestead.item.ModItems;
 import jackclarke95.homestead.recipe.PressingRecipe.SecondaryMode;
 import jackclarke95.homestead.util.ModTags;
@@ -794,5 +795,36 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                                 ModBlocks.SMOOTH_QUARTZ_BLOCK_PATH.asItem().getDefaultStack(), 120)
                                 .offerTo(recipeExporter);
                 // #endregion Pressing Recipes
+
+                // #region Sowing Recipes
+                SowingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(ModItems.APPLE_SEEDS),
+                                                ModBlocks.APPLE_TREE_SAPLING.asItem().getDefaultStack(), 200)
+                                .offerTo(recipeExporter);
+                SowingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(ModItems.PEAR_SEEDS),
+                                                ModBlocks.PEAR_TREE_SAPLING.asItem().getDefaultStack(), 200)
+                                .offerTo(recipeExporter);
+                SowingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(ModItems.PLUM_SEEDS),
+                                                ModBlocks.PLUM_TREE_SAPLING.asItem().getDefaultStack(), 200)
+                                .offerTo(recipeExporter);
+                SowingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(ModItems.LEMON_SEEDS),
+                                                ModBlocks.LEMON_TREE_SAPLING.asItem().getDefaultStack(), 200)
+                                .offerTo(recipeExporter);
+                SowingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(ModItems.ORANGE_SEEDS),
+                                                ModBlocks.ORANGE_TREE_SAPLING.asItem().getDefaultStack(), 200)
+                                .offerTo(recipeExporter);
+                SowingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(ModItems.APRICOT_SEEDS),
+                                                ModBlocks.APRICOT_TREE_SAPLING.asItem().getDefaultStack(), 200)
+                                .offerTo(recipeExporter);
+                SowingRecipeJsonBuilder
+                                .create(Ingredient.ofItems(ModItems.PEACH_SEEDS),
+                                                ModBlocks.PEACH_TREE_SAPLING.asItem().getDefaultStack(), 200)
+                                .offerTo(recipeExporter);
+                // #endregion Sowing Recipes
         }
 }
