@@ -170,6 +170,18 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                                 .criterion(hasItem(Blocks.BARREL), conditionsFromItem(Blocks.BARREL))
                                 .criterion(hasItem(Blocks.STONE), conditionsFromItem(Blocks.STONE))
                                 .offerTo(recipeExporter);
+
+                ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModBlocks.SOWING_BED)
+                                .pattern("GGG")
+                                .pattern("GDG")
+                                .pattern("PPP")
+                                .input('G', Blocks.GLASS_PANE)
+                                .input('D', ItemTags.DIRT)
+                                .input('P', ItemTags.PLANKS)
+                                .criterion(hasItem(Blocks.GLASS_PANE), conditionsFromItem(Blocks.GLASS_PANE))
+                                .criterion("has_dirt", conditionsFromItem(Blocks.DIRT))
+                                .criterion("has_planks", conditionsFromTag(ItemTags.PLANKS))
+                                .offerTo(recipeExporter);
                 // #endregion Workstation Recipes
 
                 // #region Building Block Recipes
