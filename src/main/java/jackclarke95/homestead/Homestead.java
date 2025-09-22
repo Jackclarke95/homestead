@@ -15,24 +15,24 @@ import jackclarke95.homestead.screen.ModScreenHandlers;
 import jackclarke95.homestead.world.gen.ModWorldGeneration;
 
 public class Homestead implements ModInitializer {
-	public static final String MOD_ID = "homestead";
+    public static final String MOD_ID = "homestead";
 
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-	@Override
-	public void onInitialize() {
-		ModItemGroups.registerItemGroups();
+    @Override
+    public void onInitialize() {
+        ModItemGroups.registerItemGroups();
 
-		ModItems.registerModItems();
-		ModBlocks.registerModBlocks();
-		ModBlockEntities.registerBlockEntities();
+        ModItems.registerModItems();
+        ModBlocks.registerModBlocks();
+        ModBlockEntities.registerBlockEntities();
 
-		ModScreenHandlers.registerScreenHandlers();
+        ModScreenHandlers.registerScreenHandlers();
 
-		ModRecipes.registerRecipes();
+        ModRecipes.registerRecipes();
 
-		ModWorldGeneration.generateModWorldGen();
+        ModWorldGeneration.generateModWorldGen();
 
-		ModNetworking.registerCommon();
-	}
+        ModNetworking.registerCommon();
+    }
 }

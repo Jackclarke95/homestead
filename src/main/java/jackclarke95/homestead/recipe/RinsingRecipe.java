@@ -15,7 +15,8 @@ import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 
-public record RinsingRecipe(Ingredient inputItem, ItemStack output, int time) implements Recipe<SimpleTimedRecipeInput> {
+public record RinsingRecipe(Ingredient inputItem, ItemStack output, int time)
+        implements Recipe<SimpleTimedRecipeInput> {
     @Override
     public DefaultedList<Ingredient> getIngredients() {
         DefaultedList<Ingredient> list = DefaultedList.of();

@@ -19,21 +19,21 @@ import net.minecraft.state.property.Properties;
 
 @Mixin(CampfireBlock.class)
 public class CampfireBlockMixin {
-	@Inject(method = "onUseWithItem", at = @At("HEAD"), cancellable = true)
-	private void onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
-			PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ItemActionResult> cir) {
-		if (stack.getItem() == ModBlocks.RACK.asItem()) {
-			world.setBlockState(pos, ModBlocks.HEATED_RACK.getDefaultState()
-					.with(Properties.HORIZONTAL_FACING,
-							player.getHorizontalFacing().getOpposite())
-					.with(Properties.LIT,
-							state.contains(Properties.LIT) && state.get(Properties.LIT)));
+    @Inject(method = "onUseWithItem", at = @At("HEAD"), cancellable = true)
+    private void onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos,
+            PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ItemActionResult> cir) {
+        if (stack.getItem() == ModBlocks.RACK.asItem()) {
+            world.setBlockState(pos, ModBlocks.HEATED_RACK.getDefaultState()
+                    .with(Properties.HORIZONTAL_FACING,
+                            player.getHorizontalFacing().getOpposite())
+                    .with(Properties.LIT,
+                            state.contains(Properties.LIT) && state.get(Properties.LIT)));
 
-			if (!player.isCreative()) {
-				stack.decrement(1);
-			}
+            if (!player.isCreative()) {
+                stack.decrement(1);
+            }
 
-			cir.setReturnValue(ItemActionResult.SUCCESS);
-		}
-	}
+            cir.setReturnValue(ItemActionResult.SUCCESS);
+        }
+    }
 }
