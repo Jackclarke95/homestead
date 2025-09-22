@@ -1,0 +1,11 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": {
+    "item": "homestead:pink_tulip_seeds"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:pink_tulip"
+  },
+  "time": 100
+}

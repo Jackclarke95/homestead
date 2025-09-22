@@ -1,0 +1,11 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": {
+    "item": "homestead:poppy_seeds"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:poppy"
+  },
+  "time": 100
+}

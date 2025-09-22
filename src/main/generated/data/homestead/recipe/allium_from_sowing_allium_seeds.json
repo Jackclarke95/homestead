@@ -1,0 +1,11 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": {
+    "item": "homestead:allium_seeds"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:allium"
+  },
+  "time": 100
+}

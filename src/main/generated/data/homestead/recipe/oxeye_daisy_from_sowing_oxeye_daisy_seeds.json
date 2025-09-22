@@ -1,0 +1,11 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": {
+    "item": "homestead:oxeye_daisy_seeds"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:oxeye_daisy"
+  },
+  "time": 100
+}

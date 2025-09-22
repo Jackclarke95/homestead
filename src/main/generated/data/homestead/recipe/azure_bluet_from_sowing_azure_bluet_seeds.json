@@ -1,0 +1,11 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": {
+    "item": "homestead:azure_bluet_seeds"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:azure_bluet"
+  },
+  "time": 100
+}

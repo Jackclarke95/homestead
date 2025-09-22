@@ -1,0 +1,11 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": {
+    "item": "homestead:lily_of_the_valley_seeds"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:lily_of_the_valley"
+  },
+  "time": 100
+}

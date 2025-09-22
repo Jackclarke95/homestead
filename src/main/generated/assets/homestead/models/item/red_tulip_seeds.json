@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "homestead:item/red_tulip_seeds"
+  }
+}

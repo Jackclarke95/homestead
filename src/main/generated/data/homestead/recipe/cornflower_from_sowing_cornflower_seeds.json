@@ -1,0 +1,11 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": {
+    "item": "homestead:cornflower_seeds"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:cornflower"
+  },
+  "time": 100
+}

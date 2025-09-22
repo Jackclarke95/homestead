@@ -1,0 +1,11 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": {
+    "item": "homestead:blue_orchid_seeds"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:blue_orchid"
+  },
+  "time": 100
+}
