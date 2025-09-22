@@ -1,5 +1,5 @@
 {
-  "feature": "homestead:pear_tree",
+  "feature": "homestead:apricot_tree",
   "placement": [
     {
       "type": "minecraft:count",
@@ -36,7 +36,7 @@
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "homestead:pear_tree_sapling",
+          "Name": "homestead:apricot_tree_sapling",
           "Properties": {
             "stage": "0"
           }
