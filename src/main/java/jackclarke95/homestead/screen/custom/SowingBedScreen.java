@@ -46,9 +46,12 @@ public class SowingBedScreen extends HandledScreen<SowingBedScreenHandler> {
     }
 
     private void renderFertiliser(DrawContext context, int x, int y) {
-        int flameH = 16;
+        int flameH = 15; // reduced from 16 to remove 1 pixel from bottom
         int flameW = 14;
-        int scaled = handler.getScaledFertiliser(flameH);
+        int rawScaled = handler.getScaledFertiliser(flameH);
+
+        // Use ceiling so it always renders when >0
+        int scaled = rawScaled > 0 ? Math.max(1, (int) Math.ceil(rawScaled)) : 0;
 
         if (scaled > 0) {
             int consumedFromTop = flameH - scaled;

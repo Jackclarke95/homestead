@@ -123,6 +123,18 @@ public class SowingBedBlockEntity extends BlockEntity implements ImplementedInve
                 progress = 0;
                 return;
             }
+
+            // Check if there's room for the recipe output
+            if (!output.isEmpty()) {
+                int currentCount = output.getCount();
+                int recipeOutputCount = expectedOutput.getCount();
+                int maxStackSize = output.getMaxCount();
+
+                if (currentCount + recipeOutputCount > maxStackSize) {
+                    // Not enough room in output slot, pause crafting
+                    return; // Don't reset progress, just pause until room is available
+                }
+            }
         } else {
             // If no recipe, reset progress and don't continue
             progress = 0;
@@ -156,8 +168,12 @@ public class SowingBedBlockEntity extends BlockEntity implements ImplementedInve
             } else {
                 ItemStack currentOutput = inventory.get(OUTPUT_SLOT);
                 if (currentOutput.getItem() == result.getItem()) {
+                    int newCount = currentOutput.getCount() + result.getCount();
+                    int maxStackSize = currentOutput.getMaxCount();
+                    // Respect the maximum stack size
+                    int finalCount = Math.min(newCount, maxStackSize);
                     inventory.set(OUTPUT_SLOT,
-                            new ItemStack(currentOutput.getItem(), currentOutput.getCount() + result.getCount()));
+                            new ItemStack(currentOutput.getItem(), finalCount));
                 }
             }
 
