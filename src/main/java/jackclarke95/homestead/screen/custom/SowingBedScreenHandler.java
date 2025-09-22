@@ -1,6 +1,7 @@
 package jackclarke95.homestead.screen.custom;
 
 import jackclarke95.homestead.block.entity.custom.SowingBedBlockEntity;
+import jackclarke95.homestead.item.FertiliserRegistry;
 import jackclarke95.homestead.screen.ModScreenHandlers;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +19,7 @@ public class SowingBedScreenHandler extends ScreenHandler {
     private final PropertyDelegate propertyDelegate;
 
     public SowingBedScreenHandler(int syncId, PlayerInventory inventory, BlockPos pos) {
-        this(syncId, inventory, inventory.player.getWorld().getBlockEntity(pos), new ArrayPropertyDelegate(2));
+        this(syncId, inventory, inventory.player.getWorld().getBlockEntity(pos), new ArrayPropertyDelegate(4));
     }
 
     public SowingBedScreenHandler(int syncId, PlayerInventory playerInventory, BlockEntity blockEntity,
@@ -28,7 +29,12 @@ public class SowingBedScreenHandler extends ScreenHandler {
         this.propertyDelegate = arrayPropertyDelegate;
 
         this.addSlot(new Slot(inventory, SowingBedBlockEntity.INPUT_SLOT, 56, 17));
-        this.addSlot(new Slot(inventory, SowingBedBlockEntity.FERTILISER_SLOT, 56, 53));
+        this.addSlot(new Slot(inventory, SowingBedBlockEntity.FERTILISER_SLOT, 56, 53) {
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return FertiliserRegistry.isFertiliser(stack.getItem());
+            }
+        });
         this.addSlot(new Slot(inventory, SowingBedBlockEntity.OUTPUT_SLOT, 116, 35) {
             @Override
             public boolean canInsert(ItemStack stack) {
@@ -54,6 +60,16 @@ public class SowingBedScreenHandler extends ScreenHandler {
         int progress = this.propertyDelegate.get(0);
         int maxProgress = this.propertyDelegate.get(1);
         return maxProgress != 0 && progress != 0 ? progress * pixelWidth / maxProgress : 0;
+    }
+
+    public int getScaledFertiliser(int pixelHeight) {
+        int units = this.propertyDelegate.get(2);
+        int max = this.propertyDelegate.get(3);
+        return max != 0 ? units * pixelHeight / max : 0;
+    }
+
+    public boolean hasFertiliserSystem() {
+        return this.propertyDelegate.get(3) > 0; // maxFertiliserUnits > 0
     }
 
     @Override

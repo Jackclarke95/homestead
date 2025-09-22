@@ -30,6 +30,7 @@ public class Homestead implements ModInitializer {
 		ModScreenHandlers.registerScreenHandlers();
 
 		ModRecipes.registerRecipes();
+
 		ModWorldGeneration.generateModWorldGen();
 
 		ModNetworking.registerCommon();

@@ -47,7 +47,7 @@ public record DryingRecipe(Ingredient inputItem, ItemStack output, int time) imp
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return ModRecipes.HEATED_RECIPE_SERIALIZER;
+        return ModRecipes.DRYING_RECIPE_SERIALIZER;
     }
 
     @Override

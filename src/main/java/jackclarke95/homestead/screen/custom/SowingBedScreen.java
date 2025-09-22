@@ -14,6 +14,8 @@ public class SowingBedScreen extends HandledScreen<SowingBedScreenHandler> {
             "textures/gui/sowing_bed/sowing_bed_gui.png");
     private static final Identifier PROGRESS_TEXTURE = Identifier.of(Homestead.MOD_ID,
             "textures/gui/sowing_bed/arrow_progress.png");
+    private static final Identifier FERTILISER_TEXTURE = Identifier.of(Homestead.MOD_ID,
+            "textures/gui/sowing_bed/fertiliser_progress.png");
 
     public SowingBedScreen(SowingBedScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -28,15 +30,30 @@ public class SowingBedScreen extends HandledScreen<SowingBedScreenHandler> {
         int y = (height - backgroundHeight) / 2;
         context.drawTexture(GUI_TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
         renderProgress(context, x, y);
+        renderFertiliser(context, x, y);
     }
 
     private void renderProgress(DrawContext context, int x, int y) {
         if (handler.isCrafting()) {
-            int arrowW = 24;
-            int arrowH = 16;
+            int arrowPixelWidth = 24;
+            int arrowPixelHeight = 16;
+            int scaledProgress = handler.getScaledProgress(arrowPixelWidth);
 
-            context.drawTexture(PROGRESS_TEXTURE, x + 74, y + 22, 0, 0, handler.getScaledProgress(arrowW), arrowH,
-                    arrowW, arrowH);
+            context.drawTexture(PROGRESS_TEXTURE, x + 79, y + 35, 0, 0,
+                    scaledProgress, arrowPixelHeight,
+                    arrowPixelWidth, arrowPixelHeight);
+        }
+    }
+
+    private void renderFertiliser(DrawContext context, int x, int y) {
+        int flameH = 16;
+        int flameW = 14;
+        int scaled = handler.getScaledFertiliser(flameH);
+
+        if (scaled > 0) {
+            int consumedFromTop = flameH - scaled;
+            context.drawTexture(FERTILISER_TEXTURE, x + 57, y + 35 + consumedFromTop,
+                    0, consumedFromTop, flameW, scaled, flameW, flameH);
         }
     }
 

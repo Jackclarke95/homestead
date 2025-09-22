@@ -5,6 +5,7 @@ import jackclarke95.homestead.item.custom.CrookItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
+import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -122,5 +123,7 @@ public class ModItems {
                         entries.add(ANIMAL_FEED);
                         entries.add(RENNET);
                 });
+
+                FertiliserRegistry.register(Items.BONE_MEAL, 200);
         }
 }

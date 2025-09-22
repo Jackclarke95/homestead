@@ -1,0 +1,9 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": { "item": "minecraft:melon_seeds" },
+  "result": {
+    "count": 1,
+    "id": "homestead:lemon_tree_sapling"
+  },
+  "time": 200
+}
