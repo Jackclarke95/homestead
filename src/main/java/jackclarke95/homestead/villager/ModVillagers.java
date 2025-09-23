@@ -328,21 +328,9 @@ public class ModVillagers {
                     map = FilledMapItem.createMap(world, villagerPos.getX(), villagerPos.getZ(), (byte) 0, true, true);
                 }
 
-                String mapName = switch (selectedBiome.getValue().getPath()) {
-                    case "cherry_grove" -> "Cherry Grove";
-                    case "mushroom_fields" -> "Mushroom Fields";
-                    case "flower_forest" -> "Flower Forest";
-                    case "meadow" -> "Meadow";
-                    case "grove" -> "Grove";
-                    case "mangrove_swamp" -> "Mangrove Swamp";
-                    case "sunflower_plains" -> "Sunflower Plains";
-                    case "dark_forest" -> "Dark Forest";
-                    case "taiga" -> "Taiga";
-                    default -> selectedBiome.getValue().getPath();
-                };
-
+                String biomeKey = selectedBiome.getValue().getPath();
                 map.set(DataComponentTypes.CUSTOM_NAME,
-                        Text.translatable(mapName));
+                        Text.translatable("item.homestead.explorer_map." + biomeKey));
 
                 int mapPrice = getRandomPrice(random, 12, 20);
                 return new TradeOffer(

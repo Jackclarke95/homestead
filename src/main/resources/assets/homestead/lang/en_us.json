@@ -188,7 +188,16 @@
   "tag.item.homestead.fruits": "Fruits",
 
   "entity.minecraft.villager.botanist": "Botanist",
-  "item.homestead.biome_map": "Biome Map",
+
+  "item.homestead.explorer_map.cherry_grove": "Cherry Explorer Map",
+  "item.homestead.explorer_map.mushroom_fields": "Mushroom Explorer Map",
+  "item.homestead.explorer_map.flower_forest": "Flower Explorer Map",
+  "item.homestead.explorer_map.meadow": "Meadow Explorer Map",
+  "item.homestead.explorer_map.grove": "Grove Explorer Map",
+  "item.homestead.explorer_map.mangrove_swamp": "Mangrove Explorer Map",
+  "item.homestead.explorer_map.sunflower_plains": "Sunflower Explorer Map",
+  "item.homestead.explorer_map.dark_forest": "Dark Explorer Map",
+  "item.homestead.explorer_map.taiga": "Taiga Explorer Map",
 
   "category.homestead.drying": "Drying",
   "category.homestead.rinsing": "Rinsing",
