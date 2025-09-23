@@ -1,11 +1,13 @@
 package jackclarke95.homestead.villager;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import com.google.common.collect.ImmutableSet;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.item.ModItems;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.minecraft.registry.Registries;
@@ -30,8 +32,39 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.item.FilledMapItem;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.MapIdComponent;
+import net.minecraft.component.type.NbtComponent;
+import net.minecraft.item.map.MapState;
+import net.minecraft.item.map.MapDecorationTypes;
 
 public class ModVillagers {
+
+    // Move helper classes to the top for visibility
+    static class EnchantmentOption {
+        String enchantmentId;
+        int level;
+        int minCost;
+        int maxCost;
+
+        EnchantmentOption(String enchantmentId, int level, int minCost, int maxCost) {
+            this.enchantmentId = enchantmentId;
+            this.level = level;
+            this.minCost = minCost;
+            this.maxCost = maxCost;
+        }
+    }
+
+    static class ItemTrade {
+        ItemStack item;
+        int minPrice, maxPrice;
+
+        ItemTrade(ItemStack item, int minPrice, int maxPrice) {
+            this.item = item;
+            this.minPrice = minPrice;
+            this.maxPrice = maxPrice;
+        }
+    }
+
     public static final RegistryKey<PointOfInterestType> SOWING_BED_POI_KEY = registerPoiKey("botanist_poi");
     public static final PointOfInterestType SOWING_BED_POI = registerPOI("botanist_poi", ModBlocks.SOWING_BED);
 
@@ -288,8 +321,7 @@ public class ModVillagers {
 
                     BlockPos biomePos = biomeResult.getFirst();
 
-                    map = FilledMapItem.createMap(world, biomePos.getX(), biomePos.getZ(), (byte) 0, true, true);
-                    FilledMapItem.fillExplorationMap(world, map);
+                    map = createExplorerMapWithRedX(world, biomePos);
                 } else {
                     Homestead.LOGGER.info("Biome {} not found, using villager position",
                             selectedBiome.getValue().getPath());
@@ -358,28 +390,99 @@ public class ModVillagers {
         });
     }
 
-    private static class EnchantmentOption {
-        String enchantmentId;
-        int level;
-        int minCost;
-        int maxCost;
+    // Helper method to create a map with a persistent red X marker at the target
+    // location
+    // Helper method to create a map with a persistent red X marker (1.21.1+)
+    public static ItemStack createExplorerMapWithRedX(ServerWorld world, BlockPos target) {
+        ItemStack mapStack = FilledMapItem.createMap(world, target.getX(), target.getZ(), (byte) 0, true, true);
+        FilledMapItem.fillExplorationMap(world, mapStack);
 
-        EnchantmentOption(String enchantmentId, int level, int minCost, int maxCost) {
-            this.enchantmentId = enchantmentId;
-            this.level = level;
-            this.minCost = minCost;
-            this.maxCost = maxCost;
+        // Tag the map with a custom data component to identify it as a special red X
+        // map
+        net.minecraft.nbt.NbtCompound tag = new net.minecraft.nbt.NbtCompound();
+        tag.putString("homestead_red_x", target.getX() + "," + target.getZ());
+        mapStack.set(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(tag));
+
+        // Add the red X marker at target location
+        ensureRedXDecoration(mapStack, world, target);
+        return mapStack;
+    }
+
+    // Utility to check for the tag and re-add the red X marker
+    public static void ensureRedXDecoration(ItemStack mapStack, ServerWorld world, BlockPos target) {
+        MapIdComponent mapId = mapStack.get(DataComponentTypes.MAP_ID);
+        if (mapId != null) {
+            MapState mapState = world.getMapState(mapId);
+            if (mapState != null) {
+                try {
+                    var redXDecoration = MapDecorationTypes.RED_X;
+                    Method addDecorationMethod = MapState.class.getDeclaredMethod("addDecoration",
+                            net.minecraft.registry.entry.RegistryEntry.class,
+                            net.minecraft.world.WorldAccess.class,
+                            String.class,
+                            double.class,
+                            double.class,
+                            double.class,
+                            net.minecraft.text.Text.class);
+                    addDecorationMethod.setAccessible(true);
+
+                    addDecorationMethod.invoke(mapState,
+                            redXDecoration,
+                            world,
+                            "target",
+                            (double) target.getX(),
+                            (double) target.getZ(),
+                            180.0,
+                            null);
+                } catch (Exception e) {
+                    System.out.println("Failed to add red X decoration: " + e.getMessage());
+                }
+            }
         }
     }
 
-    private static class ItemTrade {
-        ItemStack item;
-        int minPrice, maxPrice;
-
-        ItemTrade(ItemStack item, int minPrice, int maxPrice) {
-            this.item = item;
-            this.minPrice = minPrice;
-            this.maxPrice = maxPrice;
-        }
+    // Register a server tick event to enforce the red X marker on all tagged maps
+    static {
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (ServerWorld world : server.getWorlds()) {
+                for (var player : world.getPlayers()) {
+                    for (int i = 0; i < player.getInventory().size(); i++) {
+                        ItemStack stack = player.getInventory().getStack(i);
+                        if (stack.getItem() == Items.FILLED_MAP && stack.contains(DataComponentTypes.CUSTOM_DATA)) {
+                            NbtComponent nbtComponent = stack.get(DataComponentTypes.CUSTOM_DATA);
+                            if (nbtComponent != null) {
+                                net.minecraft.nbt.NbtCompound tag = nbtComponent.copyNbt();
+                                if (tag != null && tag.contains("homestead_red_x")) {
+                                    // Use the stored position if available, otherwise fallback to map center
+                                    String posString = tag.getString("homestead_red_x");
+                                    BlockPos pos = null;
+                                    try {
+                                        String[] parts = posString.split(",");
+                                        if (parts.length >= 2) {
+                                            int x = Integer.parseInt(parts[0].trim());
+                                            int z = Integer.parseInt(parts[1].trim());
+                                            pos = new BlockPos(x, 0, z);
+                                        }
+                                    } catch (Exception ignored) {
+                                    }
+                                    if (pos == null) {
+                                        MapIdComponent mapId = stack.get(DataComponentTypes.MAP_ID);
+                                        if (mapId != null) {
+                                            MapState mapState = world.getMapState(mapId);
+                                            if (mapState != null) {
+                                                pos = new BlockPos(mapState.centerX, 0, mapState.centerZ);
+                                            }
+                                        }
+                                    }
+                                    if (pos != null) {
+                                        ensureRedXDecoration(stack, world, pos);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 }
