@@ -663,6 +663,7 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.AZURE_BLUET_SEEDS, Models.GENERATED);
         itemModelGenerator.register(ModItems.BLUE_ORCHID_SEEDS, Models.GENERATED);
         itemModelGenerator.register(ModItems.CORNFLOWER_SEEDS, Models.GENERATED);
+        itemModelGenerator.register(ModItems.DANDELION_SEEDS, Models.GENERATED);
         itemModelGenerator.register(ModItems.LILY_OF_THE_VALLEY_SEEDS, Models.GENERATED);
         itemModelGenerator.register(ModItems.ORANGE_TULIP_SEEDS, Models.GENERATED);
         itemModelGenerator.register(ModItems.OXEYE_DAISY_SEEDS, Models.GENERATED);

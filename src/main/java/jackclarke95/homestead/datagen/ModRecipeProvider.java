@@ -759,6 +759,9 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         SowingRecipeJsonBuilder.create(Ingredient.ofItems(ModItems.CORNFLOWER_SEEDS),
                 Blocks.CORNFLOWER.asItem().getDefaultStack(), 100)
                 .offerTo(recipeExporter);
+        SowingRecipeJsonBuilder.create(Ingredient.ofItems(ModItems.DANDELION_SEEDS),
+                Blocks.DANDELION.asItem().getDefaultStack(), 100)
+                .offerTo(recipeExporter);
         SowingRecipeJsonBuilder.create(Ingredient.ofItems(ModItems.LILY_OF_THE_VALLEY_SEEDS),
                 Blocks.LILY_OF_THE_VALLEY.asItem().getDefaultStack(), 100)
                 .offerTo(recipeExporter);

@@ -231,6 +231,7 @@ public class ModVillagers {
                         new ItemTrade(new ItemStack(ModItems.AZURE_BLUET_SEEDS), 3, 5),
                         new ItemTrade(new ItemStack(ModItems.BLUE_ORCHID_SEEDS), 3, 5),
                         new ItemTrade(new ItemStack(ModItems.CORNFLOWER_SEEDS), 3, 5),
+                        new ItemTrade(new ItemStack(ModItems.DANDELION_SEEDS), 3, 5),
                         new ItemTrade(new ItemStack(ModItems.LILY_OF_THE_VALLEY_SEEDS), 3, 5),
                         new ItemTrade(new ItemStack(ModItems.ORANGE_TULIP_SEEDS), 3, 5),
                         new ItemTrade(new ItemStack(ModItems.OXEYE_DAISY_SEEDS), 3, 5),

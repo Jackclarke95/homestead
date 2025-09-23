@@ -92,6 +92,8 @@ public class ModItems {
             new Item(new Item.Settings()));
     public static final Item CORNFLOWER_SEEDS = registerItem("cornflower_seeds",
             new Item(new Item.Settings()));
+    public static final Item DANDELION_SEEDS = registerItem("dandelion_seeds",
+            new Item(new Item.Settings()));
     public static final Item LILY_OF_THE_VALLEY_SEEDS = registerItem("lily_of_the_valley_seeds",
             new Item(new Item.Settings()));
     public static final Item ORANGE_TULIP_SEEDS = registerItem("orange_tulip_seeds",
@@ -187,6 +189,7 @@ public class ModItems {
             entries.add(AZURE_BLUET_SEEDS);
             entries.add(BLUE_ORCHID_SEEDS);
             entries.add(CORNFLOWER_SEEDS);
+            entries.add(DANDELION_SEEDS);
             entries.add(LILY_OF_THE_VALLEY_SEEDS);
             entries.add(ORANGE_TULIP_SEEDS);
             entries.add(OXEYE_DAISY_SEEDS);
