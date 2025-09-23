@@ -187,6 +187,8 @@
   "tag.item.homestead.crop_seeds": "Crop Seeds",
   "tag.item.homestead.fruits": "Fruits",
 
+  "entity.minecraft.villager.homeestead.arborist": "Arborist",
+
   "category.homestead.drying": "Drying",
   "category.homestead.rinsing": "Rinsing",
   "category.homestead.milling": "Milling",

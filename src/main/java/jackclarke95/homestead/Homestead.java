@@ -12,6 +12,7 @@ import jackclarke95.homestead.item.ModItems;
 import jackclarke95.homestead.network.ModNetworking;
 import jackclarke95.homestead.recipe.ModRecipes;
 import jackclarke95.homestead.screen.ModScreenHandlers;
+import jackclarke95.homestead.villager.ModVillagers;
 import jackclarke95.homestead.world.gen.ModWorldGeneration;
 
 public class Homestead implements ModInitializer {
@@ -34,5 +35,7 @@ public class Homestead implements ModInitializer {
         ModWorldGeneration.generateModWorldGen();
 
         ModNetworking.registerCommon();
+
+        ModVillagers.registerVillagers();
     }
 }
