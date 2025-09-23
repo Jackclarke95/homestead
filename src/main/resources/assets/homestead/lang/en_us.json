@@ -189,14 +189,14 @@
 
   "entity.minecraft.villager.botanist": "Botanist",
 
-  "item.homestead.explorer_map.cherry_grove": "Cherry Explorer Map",
-  "item.homestead.explorer_map.mushroom_fields": "Mushroom Explorer Map",
-  "item.homestead.explorer_map.flower_forest": "Flower Explorer Map",
+  "item.homestead.explorer_map.cherry_grove": "Cherry Grove Explorer Map",
+  "item.homestead.explorer_map.mushroom_fields": "Mushroom Fields Explorer Map",
+  "item.homestead.explorer_map.flower_forest": "Flower Forest Explorer Map",
   "item.homestead.explorer_map.meadow": "Meadow Explorer Map",
   "item.homestead.explorer_map.grove": "Grove Explorer Map",
-  "item.homestead.explorer_map.mangrove_swamp": "Mangrove Explorer Map",
-  "item.homestead.explorer_map.sunflower_plains": "Sunflower Explorer Map",
-  "item.homestead.explorer_map.dark_forest": "Dark Explorer Map",
+  "item.homestead.explorer_map.mangrove_swamp": "Mangrove Swamp Explorer Map",
+  "item.homestead.explorer_map.sunflower_plains": "Sunflower Plains Explorer Map",
+  "item.homestead.explorer_map.dark_forest": "Dark Forest Explorer Map",
   "item.homestead.explorer_map.taiga": "Taiga Explorer Map",
 
   "category.homestead.drying": "Drying",

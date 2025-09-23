@@ -2,6 +2,7 @@ package jackclarke95.homestead.villager;
 
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Optional;
 
 import com.google.common.collect.ImmutableSet;
 import jackclarke95.homestead.Homestead;
@@ -332,9 +333,9 @@ public class ModVillagers {
                 map.set(DataComponentTypes.CUSTOM_NAME,
                         Text.translatable("item.homestead.explorer_map." + biomeKey));
 
-                int mapPrice = getRandomPrice(random, 12, 20);
                 return new TradeOffer(
-                        new TradedItem(Items.EMERALD, mapPrice),
+                        new TradedItem(Items.EMERALD, 13),
+                        Optional.of(new TradedItem(Items.COMPASS, 1)),
                         map, 5, 15, LOW_MULTIPLIER);
             });
         });
