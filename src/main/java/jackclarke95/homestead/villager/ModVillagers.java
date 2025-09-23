@@ -368,19 +368,20 @@ public class ModVillagers {
     // cartographer
     private static ItemStack createExplorerMap(ServerWorld world, BlockPos origin, BlockPos target, byte scale,
             boolean showIcons) {
-        // Create the map centered on target location
-        ItemStack map = FilledMapItem.createMap(world, target.getX(), target.getZ(), scale, true, showIcons);
+        // Create the map centered on the target location
+        ItemStack map = FilledMapItem.createMap(world, target.getX(), target.getZ(), scale, true, false);
 
-        // Add red X marker using reflection to access private addDecoration method
+        // Apply the exploration map parchment effect using the public method
+        FilledMapItem.fillExplorationMap(world, map);
+
+        // Add the red X marker at target location
         MapIdComponent mapId = map.get(DataComponentTypes.MAP_ID);
         if (mapId != null) {
             MapState mapState = world.getMapState(mapId);
             if (mapState != null) {
                 try {
-                    // Use direct reference to RED_X decoration type
+                    // Add the red X marker using reflection (still needed for this part)
                     var redXDecoration = MapDecorationTypes.RED_X;
-
-                    // Find and invoke the addDecoration method
                     Method addDecorationMethod = MapState.class.getDeclaredMethod("addDecoration",
                             net.minecraft.registry.entry.RegistryEntry.class,
                             net.minecraft.world.WorldAccess.class,
@@ -391,7 +392,6 @@ public class ModVillagers {
                             net.minecraft.text.Text.class);
                     addDecorationMethod.setAccessible(true);
 
-                    // Add the red X marker at target location
                     addDecorationMethod.invoke(mapState,
                             redXDecoration,
                             world,
@@ -402,7 +402,6 @@ public class ModVillagers {
                             net.minecraft.text.Text.empty()); // No label
 
                 } catch (Exception e) {
-                    // If decoration fails, map still works without marker
                     System.out.println("Failed to add red X decoration: " + e.getMessage());
                 }
             }
