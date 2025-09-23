@@ -1,5 +1,7 @@
 package jackclarke95.homestead.villager;
 
+import java.util.List;
+
 import com.google.common.collect.ImmutableSet;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
@@ -10,6 +12,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.village.TradeOffer;
 import net.minecraft.village.TradedItem;
@@ -21,6 +24,12 @@ import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registry;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeKeys;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.item.FilledMapItem;
+import net.minecraft.component.DataComponentTypes;
 
 public class ModVillagers {
     public static final RegistryKey<PointOfInterestType> SOWING_BED_POI_KEY = registerPoiKey("botanist_poi");
@@ -237,6 +246,56 @@ public class ModVillagers {
                 return new TradeOffer(
                         new TradedItem(Items.EMERALD, cost),
                         enchantedCrook, 3, 15, HIGH_MULTIPLIER);
+            });
+        });
+
+        // Level 4 - Biome exploration map trade
+        TradeOfferHelper.registerVillagerOffers(ModVillagers.botanist, 4, factories -> {
+            factories.add((entity, random) -> {
+                // Biomes for exploration maps
+                List<RegistryKey<Biome>> targetBiomes = List.of(
+                        // BiomeKeys.PLAINS,
+                        // BiomeKeys.FOREST,
+                        // BiomeKeys.BIRCH_FOREST,
+                        BiomeKeys.DARK_FOREST
+                // BiomeKeys.OLD_GROWTH_BIRCH_FOREST
+                );
+
+                RegistryKey<Biome> selectedBiome = targetBiomes.get(random.nextInt(targetBiomes.size()));
+
+                // Find the closest biome location relative to the villager
+                ServerWorld world = (ServerWorld) entity.getWorld();
+                BlockPos villagerPos = entity.getBlockPos();
+
+                // Find the closest instance of the selected biome
+                int searchRadius = 2048; // much faster than 6400
+                var biomeResult = world.locateBiome(
+                        biomeEntry -> biomeEntry.matchesKey(selectedBiome),
+                        villagerPos,
+                        searchRadius,
+                        8,
+                        1);
+
+                ItemStack map;
+                if (biomeResult != null) {
+                    BlockPos biomePos = biomeResult.getFirst();
+                    map = FilledMapItem.createMap(world, biomePos.getX(), biomePos.getZ(), (byte) 2, true, true);
+                    
+                    // Note: Map decorations are complex in 1.21.1 - the map is already centered on the biome
+                    // which serves the same purpose as an X marker
+                    
+                } else {
+                    map = FilledMapItem.createMap(world, villagerPos.getX(), villagerPos.getZ(), (byte) 2, true, true);
+                }
+
+                map.set(DataComponentTypes.CUSTOM_NAME,
+                        Text.translatable("item.homestead.biome_map",
+                                selectedBiome.getValue().getPath()));
+
+                int mapPrice = getRandomPrice(random, 12, 20);
+                return new TradeOffer(
+                        new TradedItem(Items.EMERALD, mapPrice),
+                        map, 5, 15, LOW_MULTIPLIER);
             });
         });
 
