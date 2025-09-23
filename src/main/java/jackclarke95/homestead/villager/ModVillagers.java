@@ -263,12 +263,15 @@ public class ModVillagers {
             factories.add((entity, random) -> {
                 // Biomes for exploration maps
                 List<RegistryKey<Biome>> targetBiomes = List.of(
-                        // BiomeKeys.PLAINS,
-                        // BiomeKeys.FOREST,
-                        // BiomeKeys.BIRCH_FOREST,
-                        BiomeKeys.DARK_FOREST
-                // BiomeKeys.OLD_GROWTH_BIRCH_FOREST
-                );
+                        BiomeKeys.CHERRY_GROVE,
+                        BiomeKeys.MUSHROOM_FIELDS,
+                        BiomeKeys.FLOWER_FOREST,
+                        BiomeKeys.MEADOW,
+                        BiomeKeys.GROVE,
+                        BiomeKeys.MANGROVE_SWAMP,
+                        BiomeKeys.SUNFLOWER_PLAINS,
+                        BiomeKeys.DARK_FOREST,
+                        BiomeKeys.TAIGA);
 
                 RegistryKey<Biome> selectedBiome = targetBiomes.get(random.nextInt(targetBiomes.size()));
 
@@ -277,13 +280,12 @@ public class ModVillagers {
                 BlockPos villagerPos = entity.getBlockPos();
 
                 // Find the closest instance of the selected biome
-                int searchRadius = 2048; // much faster than 6400
                 var biomeResult = world.locateBiome(
                         biomeEntry -> biomeEntry.matchesKey(selectedBiome),
                         villagerPos,
-                        searchRadius,
-                        64,
-                        1);
+                        2048,
+                        128,
+                        128);
 
                 ItemStack map;
                 if (biomeResult != null) {
@@ -295,9 +297,22 @@ public class ModVillagers {
                 } else {
                     map = FilledMapItem.createMap(world, villagerPos.getX(), villagerPos.getZ(), (byte) 2, true, true);
                 }
+
+                String mapName = switch (selectedBiome.getValue().getPath()) {
+                    case "cherry_grove" -> "Cherry Grove";
+                    case "mushroom_fields" -> "Mushroom Fields";
+                    case "flower_forest" -> "Flower Forest";
+                    case "meadow" -> "Meadow";
+                    case "grove" -> "Grove";
+                    case "mangrove_swamp" -> "Mangrove Swamp";
+                    case "sunflower_plains" -> "Sunflower Plains";
+                    case "dark_forest" -> "Dark Forest";
+                    case "taiga" -> "Taiga";
+                    default -> selectedBiome.getValue().getPath();
+                };
+
                 map.set(DataComponentTypes.CUSTOM_NAME,
-                        Text.translatable("item.homestead.biome_map",
-                                selectedBiome.getValue().getPath()));
+                        Text.translatable(mapName));
 
                 int mapPrice = getRandomPrice(random, 12, 20);
                 return new TradeOffer(
