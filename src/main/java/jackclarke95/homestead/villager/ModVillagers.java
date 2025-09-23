@@ -30,6 +30,10 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.item.FilledMapItem;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.item.map.MapState;
+import net.minecraft.component.type.MapIdComponent;
+import net.minecraft.item.map.MapDecorationTypes;
+import java.lang.reflect.Method;
 
 public class ModVillagers {
     public static final RegistryKey<PointOfInterestType> SOWING_BED_POI_KEY = registerPoiKey("botanist_poi");
@@ -250,7 +254,7 @@ public class ModVillagers {
         });
 
         // Level 4 - Biome exploration map trade
-        TradeOfferHelper.registerVillagerOffers(ModVillagers.botanist, 4, factories -> {
+        TradeOfferHelper.registerVillagerOffers(ModVillagers.botanist, 1, factories -> {
             factories.add((entity, random) -> {
                 // Biomes for exploration maps
                 List<RegistryKey<Biome>> targetBiomes = List.of(
@@ -279,15 +283,13 @@ public class ModVillagers {
                 ItemStack map;
                 if (biomeResult != null) {
                     BlockPos biomePos = biomeResult.getFirst();
-                    map = FilledMapItem.createMap(world, biomePos.getX(), biomePos.getZ(), (byte) 2, true, true);
-                    
-                    // Note: Map decorations are complex in 1.21.1 - the map is already centered on the biome
-                    // which serves the same purpose as an X marker
-                    
+
+                    // Create exploration map with X marker like vanilla cartographer
+                    map = createExplorerMap(world, villagerPos, biomePos, (byte) 2, true);
+
                 } else {
                     map = FilledMapItem.createMap(world, villagerPos.getX(), villagerPos.getZ(), (byte) 2, true, true);
                 }
-
                 map.set(DataComponentTypes.CUSTOM_NAME,
                         Text.translatable("item.homestead.biome_map",
                                 selectedBiome.getValue().getPath()));
@@ -360,5 +362,52 @@ public class ModVillagers {
             this.minPrice = minPrice;
             this.maxPrice = maxPrice;
         }
+    }
+
+    // Helper method to create explorer map with red X marker like vanilla
+    // cartographer
+    private static ItemStack createExplorerMap(ServerWorld world, BlockPos origin, BlockPos target, byte scale,
+            boolean showIcons) {
+        // Create the map centered on target location
+        ItemStack map = FilledMapItem.createMap(world, target.getX(), target.getZ(), scale, true, showIcons);
+
+        // Add red X marker using reflection to access private addDecoration method
+        MapIdComponent mapId = map.get(DataComponentTypes.MAP_ID);
+        if (mapId != null) {
+            MapState mapState = world.getMapState(mapId);
+            if (mapState != null) {
+                try {
+                    // Use direct reference to RED_X decoration type
+                    var redXDecoration = MapDecorationTypes.RED_X;
+
+                    // Find and invoke the addDecoration method
+                    Method addDecorationMethod = MapState.class.getDeclaredMethod("addDecoration",
+                            net.minecraft.registry.entry.RegistryEntry.class,
+                            net.minecraft.world.WorldAccess.class,
+                            String.class,
+                            double.class,
+                            double.class,
+                            double.class,
+                            net.minecraft.text.Text.class);
+                    addDecorationMethod.setAccessible(true);
+
+                    // Add the red X marker at target location
+                    addDecorationMethod.invoke(mapState,
+                            redXDecoration,
+                            world,
+                            "target",
+                            (double) target.getX(),
+                            (double) target.getZ(),
+                            180.0,
+                            net.minecraft.text.Text.empty()); // No label
+
+                } catch (Exception e) {
+                    // If decoration fails, map still works without marker
+                    System.out.println("Failed to add red X decoration: " + e.getMessage());
+                }
+            }
+        }
+
+        return map;
     }
 }
