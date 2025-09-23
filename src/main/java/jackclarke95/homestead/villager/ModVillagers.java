@@ -34,8 +34,6 @@ import net.minecraft.item.map.MapState;
 import net.minecraft.component.type.MapIdComponent;
 import net.minecraft.item.map.MapDecorationTypes;
 import java.lang.reflect.Method;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.block.MapColor;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Heightmap;
@@ -482,8 +480,7 @@ public class ModVillagers {
                         MapColor mapColor = MapColor.CLEAR;
 
                         if (isWaterBlock(waterBlocks, mapX, mapZ)) {
-                            // Use better parchment colors for water
-                            mapColor = MapColor.LIGHT_BLUE_GRAY; // Muted blue-gray for parchment water
+                            mapColor = MapColor.ORANGE;
                             if (waterNeighbors > 7 && mapZ % 2 == 0) {
                                 switch ((mapX + (int) (MathHelper.sin((float) mapZ + 0.0F) * 7.0F)) / 8 % 5) {
                                     case 0:
@@ -507,8 +504,7 @@ public class ModVillagers {
                                 brightness = MapColor.Brightness.LOW;
                             }
                         } else if (waterNeighbors > 0) {
-                            // Use parchment tan colors for coastline
-                            mapColor = MapColor.OAK_TAN; // Parchment tan for coastline
+                            mapColor = MapColor.BROWN;
                             if (waterNeighbors > 3) {
                                 brightness = MapColor.Brightness.NORMAL;
                             } else {
