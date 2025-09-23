@@ -1,10 +1,8 @@
 package jackclarke95.homestead;
 
 import net.fabricmc.api.ModInitializer;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.item.ModItemGroups;
@@ -37,5 +35,6 @@ public class Homestead implements ModInitializer {
         ModNetworking.registerCommon();
 
         ModVillagers.registerVillagers();
+        ModVillagers.registerVillagerTrades();
     }
 }
