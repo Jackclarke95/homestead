@@ -12,8 +12,8 @@ import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.map.MapState;
 import jackclarke95.homestead.villager.ModVillagers;
 
-public class ModClientEvents {
-    public static void registerBotanistMapUse() {
+public class BotanistMapUseEventHandler {
+    public static void register() {
         UseItemCallback.EVENT.register((player, world, hand) -> {
             ItemStack stack = player.getStackInHand(hand);
             if (!world.isClient && stack.getItem() == Items.FILLED_MAP

@@ -5,8 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
-import jackclarke95.homestead.event.ModClientEvents;
-import jackclarke95.homestead.event.ShearFlowerEventHandler;
+import jackclarke95.homestead.event.ModEvents;
 import jackclarke95.homestead.item.ModItemGroups;
 import jackclarke95.homestead.item.ModItems;
 import jackclarke95.homestead.network.ModNetworking;
@@ -39,7 +38,6 @@ public class Homestead implements ModInitializer {
         ModVillagers.registerVillagers();
         ModVillagers.registerVillagerTrades();
 
-        ModClientEvents.registerBotanistMapUse();
-        ShearFlowerEventHandler.register();
+        ModEvents.register();
     }
 }
