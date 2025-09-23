@@ -34,6 +34,13 @@ import net.minecraft.item.map.MapState;
 import net.minecraft.component.type.MapIdComponent;
 import net.minecraft.item.map.MapDecorationTypes;
 import java.lang.reflect.Method;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.BiomeTags;
+import net.minecraft.block.MapColor;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.Heightmap;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.FluidBlock;
 
 public class ModVillagers {
     public static final RegistryKey<PointOfInterestType> SOWING_BED_POI_KEY = registerPoiKey("botanist_poi");
@@ -277,7 +284,7 @@ public class ModVillagers {
                         biomeEntry -> biomeEntry.matchesKey(selectedBiome),
                         villagerPos,
                         searchRadius,
-                        8,
+                        64,
                         1);
 
                 ItemStack map;
@@ -371,8 +378,8 @@ public class ModVillagers {
         // Create the map centered on the target location
         ItemStack map = FilledMapItem.createMap(world, target.getX(), target.getZ(), scale, true, false);
 
-        // Apply the exploration map parchment effect using the public method
-        FilledMapItem.fillExplorationMap(world, map);
+        // Apply our fixed exploration map parchment effect
+        fillExplorationMapFixed(world, map);
 
         // Add the red X marker at target location
         MapIdComponent mapId = map.get(DataComponentTypes.MAP_ID);
@@ -380,7 +387,7 @@ public class ModVillagers {
             MapState mapState = world.getMapState(mapId);
             if (mapState != null) {
                 try {
-                    // Add the red X marker using reflection (still needed for this part)
+                    // Add the red X marker using reflection
                     var redXDecoration = MapDecorationTypes.RED_X;
                     Method addDecorationMethod = MapState.class.getDeclaredMethod("addDecoration",
                             net.minecraft.registry.entry.RegistryEntry.class,
@@ -408,5 +415,118 @@ public class ModVillagers {
         }
 
         return map;
+    }
+
+    // Fixed version of FilledMapItem.fillExplorationMap with coordinate bugs
+    // corrected and actual terrain sampling instead of biome tags
+    private static void fillExplorationMapFixed(ServerWorld world, ItemStack map) {
+        MapState mapState = FilledMapItem.getMapState(map, world);
+        if (mapState != null) {
+            if (world.getRegistryKey() == mapState.dimension) {
+                int blocksPerPixel = 1 << mapState.scale;
+                int centerX = mapState.centerX;
+                int centerZ = mapState.centerZ;
+                boolean[] waterBlocks = new boolean[16384]; // 128 * 128
+                int mapOffsetX = centerX / blocksPerPixel - 64;
+                int mapOffsetZ = centerZ / blocksPerPixel - 64;
+                BlockPos.Mutable mutable = new BlockPos.Mutable();
+
+                // First pass: sample actual terrain and check for water blocks
+                for (int mapX = 0; mapX < 128; ++mapX) {
+                    for (int mapZ = 0; mapZ < 128; ++mapZ) {
+                        int worldX = (mapOffsetX + mapX) * blocksPerPixel;
+                        int worldZ = (mapOffsetZ + mapZ) * blocksPerPixel;
+
+                        // Get surface height and check multiple levels for water
+                        int surfaceY = world.getTopY(Heightmap.Type.WORLD_SURFACE, worldX, worldZ);
+
+                        boolean foundWater = false;
+
+                        // Check surface level and a few blocks below for water
+                        for (int checkY = surfaceY; checkY >= surfaceY - 3 && checkY >= world.getBottomY(); checkY--) {
+                            mutable.set(worldX, checkY, worldZ);
+                            BlockState checkBlock = world.getBlockState(mutable);
+
+                            if (checkBlock.getBlock() == Blocks.WATER ||
+                                    checkBlock.getBlock() instanceof FluidBlock ||
+                                    !checkBlock.getFluidState().isEmpty()) {
+                                foundWater = true;
+                                break;
+                            }
+
+                            // If we hit a solid non-transparent block, stop looking
+                            if (!checkBlock.isAir() && checkBlock.isOpaque()) {
+                                break;
+                            }
+                        }
+
+                        waterBlocks[mapZ * 128 + mapX] = foundWater;
+                    }
+                }
+
+                // Second pass: determine colors based on actual water block patterns
+                for (int mapX = 1; mapX < 127; ++mapX) {
+                    for (int mapZ = 1; mapZ < 127; ++mapZ) {
+                        int waterNeighbors = 0;
+
+                        // Check 3x3 neighborhood for water blocks
+                        for (int dx = -1; dx <= 1; ++dx) {
+                            for (int dz = -1; dz <= 1; ++dz) {
+                                if ((dx != 0 || dz != 0) && isWaterBlock(waterBlocks, mapX + dx, mapZ + dz)) {
+                                    ++waterNeighbors;
+                                }
+                            }
+                        }
+
+                        MapColor.Brightness brightness = MapColor.Brightness.LOWEST;
+                        MapColor mapColor = MapColor.CLEAR;
+
+                        if (isWaterBlock(waterBlocks, mapX, mapZ)) {
+                            // Use better parchment colors for water
+                            mapColor = MapColor.LIGHT_BLUE_GRAY; // Muted blue-gray for parchment water
+                            if (waterNeighbors > 7 && mapZ % 2 == 0) {
+                                switch ((mapX + (int) (MathHelper.sin((float) mapZ + 0.0F) * 7.0F)) / 8 % 5) {
+                                    case 0:
+                                    case 4:
+                                        brightness = MapColor.Brightness.LOW;
+                                        break;
+                                    case 1:
+                                    case 3:
+                                        brightness = MapColor.Brightness.NORMAL;
+                                        break;
+                                    case 2:
+                                        brightness = MapColor.Brightness.HIGH;
+                                }
+                            } else if (waterNeighbors > 7) {
+                                mapColor = MapColor.CLEAR;
+                            } else if (waterNeighbors > 5) {
+                                brightness = MapColor.Brightness.NORMAL;
+                            } else if (waterNeighbors > 3) {
+                                brightness = MapColor.Brightness.LOW;
+                            } else if (waterNeighbors > 1) {
+                                brightness = MapColor.Brightness.LOW;
+                            }
+                        } else if (waterNeighbors > 0) {
+                            // Use parchment tan colors for coastline
+                            mapColor = MapColor.OAK_TAN; // Parchment tan for coastline
+                            if (waterNeighbors > 3) {
+                                brightness = MapColor.Brightness.NORMAL;
+                            } else {
+                                brightness = MapColor.Brightness.LOWEST;
+                            }
+                        }
+
+                        if (mapColor != MapColor.CLEAR) {
+                            mapState.setColor(mapX, mapZ, mapColor.getRenderColorByte(brightness));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Helper method for checking water blocks with correct array indexing
+    private static boolean isWaterBlock(boolean[] waterBlocks, int mapX, int mapZ) {
+        return waterBlocks[mapZ * 128 + mapX];
     }
 }
