@@ -36,7 +36,9 @@ public class HomesteadClient implements ClientModInitializer {
                 ModBlocks.LEMON_TREE_SAPLING,
                 ModBlocks.ORANGE_TREE_SAPLING,
                 ModBlocks.APRICOT_TREE_SAPLING,
-                ModBlocks.PEACH_TREE_SAPLING);
+                ModBlocks.PEACH_TREE_SAPLING,
+                ModBlocks.BLACKBERRY_BUSH,
+                ModBlocks.RASPBERRY_BUSH);
 
         ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
             return world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : 0x48B518;

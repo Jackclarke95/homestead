@@ -3,6 +3,7 @@ package jackclarke95.homestead.block;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.CuringVatBlock;
 import jackclarke95.homestead.block.custom.FruitBearingLeaves;
+import jackclarke95.homestead.block.custom.GenericBerryBushBlock;
 import jackclarke95.homestead.block.custom.HeatedRackBlock;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.custom.TroughBlock;
@@ -310,6 +311,11 @@ public class ModBlocks {
             new SaplingBlock(ModSaplingGenerators.PEACH_TREE,
                     AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
 
+    public static GenericBerryBushBlock BLACKBERRY_BUSH = (GenericBerryBushBlock) registerBlock("blackberry_bush",
+            new GenericBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null));
+    public static GenericBerryBushBlock RASPBERRY_BUSH = (GenericBerryBushBlock) registerBlock("raspberry_bush",
+            new GenericBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null));
+
     public static void registerModBlocks() {
         Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);
 
@@ -428,6 +434,8 @@ public class ModBlocks {
             entries.add(ModBlocks.PEACH_TREE_PLANKS);
             entries.add(ModBlocks.STRIPPED_PEACH_TREE_LOG);
             entries.add(ModBlocks.STRIPPED_PEACH_TREE_WOOD);
+            entries.add(ModBlocks.BLACKBERRY_BUSH);
+            entries.add(ModBlocks.RASPBERRY_BUSH);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {

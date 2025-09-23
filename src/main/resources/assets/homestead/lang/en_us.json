@@ -149,12 +149,17 @@
   "block.homestead.peach_tree_stripped_wood": "Stripped Peach Tree Wood",
   "block.homestead.peach_tree_planks": "Peach Tree Planks",
 
+  "block.homestead.blackberry_bush": "Blackberry Bush",
+  "block.homestead.raspberry_bush": "Raspberry Bush",
+
   "item.homestead.pear": "Pear",
   "item.homestead.plum": "Plum",
   "item.homestead.lemon": "Lemon",
   "item.homestead.orange": "Orange",
   "item.homestead.apricot": "Apricot",
   "item.homestead.peach": "Peach",
+  "item.homestead.blackberry": "Blackberry",
+  "item.homestead.raspberry": "Raspberry",
 
   "item.homestead.apple_seeds": "Apple Seeds",
   "item.homestead.pear_seeds": "Pear Seeds",

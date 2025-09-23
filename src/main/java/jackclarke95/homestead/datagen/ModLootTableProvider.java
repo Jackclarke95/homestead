@@ -17,6 +17,7 @@ import net.minecraft.enchantment.Enchantments;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
@@ -25,6 +26,7 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper.WrapperLookup;
 
 public class ModLootTableProvider extends FabricBlockLootTableProvider {
@@ -183,6 +185,37 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                 ModBlocks.PEACH_TREE_SAPLING, 0.0625f, ModItems.PEACH));
 
         addDrop(ModBlocks.WATTLE_AND_DAUB, block -> verticalSlabDrops(ModBlocks.WATTLE_AND_DAUB));
+
+        addDrop(ModBlocks.BLACKBERRY_BUSH, berryBushDrops(ModBlocks.BLACKBERRY_BUSH, ModItems.BLACKBERRY));
+        addDrop(ModBlocks.RASPBERRY_BUSH, berryBushDrops(ModBlocks.RASPBERRY_BUSH, ModItems.RASPBERRY));
+    }
+
+    private LootTable.Builder berryBushDrops(Block bushBlock, Item berryItem) {
+        return this.applyExplosionDecay(bushBlock,
+                LootTable.builder()
+                        .pool(LootPool.builder()
+                                .conditionally(BlockStatePropertyLootCondition
+                                        .builder(bushBlock)
+                                        .properties(StatePredicate.Builder.create()
+                                                .exactMatch(SweetBerryBushBlock.AGE, 3)))
+                                .with(ItemEntry.builder(berryItem))
+                                .apply(SetCountLootFunction.builder(
+                                        UniformLootNumberProvider.create(2.0F, 3.0F)))
+                                .apply(ApplyBonusLootFunction.uniformBonusCount(
+                                        this.registryLookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT)
+                                                .getOrThrow(Enchantments.FORTUNE))))
+                        .pool(LootPool.builder()
+                                .conditionally(BlockStatePropertyLootCondition
+                                        .builder(bushBlock)
+                                        .properties(StatePredicate.Builder.create()
+                                                .exactMatch(SweetBerryBushBlock.AGE, 2)))
+                                .with(ItemEntry.builder(berryItem))
+                                .apply(SetCountLootFunction
+                                        .builder(UniformLootNumberProvider.create(1.0F, 2.0F)))
+                                .apply(ApplyBonusLootFunction
+                                        .uniformBonusCount(
+                                                this.registryLookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT)
+                                                        .getOrThrow(Enchantments.FORTUNE)))));
     }
 
     private LootTable.Builder fruitLeavesDrops(Block leavesBlock, Block saplingBlock, float saplingChance,

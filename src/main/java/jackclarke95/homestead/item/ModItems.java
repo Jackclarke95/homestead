@@ -1,8 +1,11 @@
 package jackclarke95.homestead.item;
 
 import jackclarke95.homestead.Homestead;
+import jackclarke95.homestead.block.ModBlocks;
+import jackclarke95.homestead.block.custom.GenericBerryBushBlock;
 import jackclarke95.homestead.item.custom.CrookItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.Items;
@@ -49,10 +52,22 @@ public class ModItems {
             new Item(new Item.Settings().food(ModFoodComponents.APRICOT)));
     public static final Item PEACH = registerItem("peach",
             new Item(new Item.Settings().food(ModFoodComponents.PEACH)));
-    public static final Item BLACKBERRY = registerItem("blackberry",
-            new Item(new Item.Settings().food(ModFoodComponents.BLACKBERRY)));
-    public static final Item RASPBERRY = registerItem("raspberry",
-            new Item(new Item.Settings().food(ModFoodComponents.RASPBERRY)));
+
+    public static Item BLACKBERRY;
+    public static Item RASPBERRY;
+    static {
+        BLACKBERRY = registerItem("blackberry",
+                new AliasedBlockItem(ModBlocks.BLACKBERRY_BUSH,
+                        new Item.Settings().food(ModFoodComponents.BLACKBERRY)));
+        RASPBERRY = registerItem("raspberry",
+                new AliasedBlockItem(ModBlocks.RASPBERRY_BUSH,
+                        new Item.Settings().food(ModFoodComponents.RASPBERRY)));
+        // Set berry item on bush blocks
+        ((GenericBerryBushBlock) ModBlocks.BLACKBERRY_BUSH)
+                .setBerryItem(BLACKBERRY);
+        ((GenericBerryBushBlock) ModBlocks.RASPBERRY_BUSH)
+                .setBerryItem(RASPBERRY);
+    }
 
     public static final Item APPLE_SEEDS = registerItem("apple_seeds",
             new Item(new Item.Settings()));
@@ -67,10 +82,6 @@ public class ModItems {
     public static final Item APRICOT_SEEDS = registerItem("apricot_seeds",
             new Item(new Item.Settings()));
     public static final Item PEACH_SEEDS = registerItem("peach_seeds",
-            new Item(new Item.Settings()));
-    public static final Item BLACKBERRY_SEEDS = registerItem("blackberry_seeds",
-            new Item(new Item.Settings()));
-    public static final Item RASPBERRY_SEEDS = registerItem("raspberry_seeds",
             new Item(new Item.Settings()));
 
     public static final Item ALLIUM_SEEDS = registerItem("allium_seeds",
@@ -172,8 +183,6 @@ public class ModItems {
             entries.add(ORANGE_SEEDS);
             entries.add(APRICOT_SEEDS);
             entries.add(PEACH_SEEDS);
-            entries.add(BLACKBERRY_SEEDS);
-            entries.add(RASPBERRY_SEEDS);
             entries.add(ALLIUM_SEEDS);
             entries.add(AZURE_BLUET_SEEDS);
             entries.add(BLUE_ORCHID_SEEDS);
