@@ -47,6 +47,8 @@ public class ModBlocks {
             new CuringVatBlock(AbstractBlock.Settings.copy(Blocks.COMPOSTER).nonOpaque()));
     public static final Block MILL = registerBlock("mill",
             new MillBlock(AbstractBlock.Settings.copy(Blocks.STONE)));
+    public static final Block HAMPER = registerBlock("hamper",
+            new jackclarke95.homestead.block.custom.HamperBlock(AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque()));
     public static final Block SOWING_BED = registerBlock("sowing_bed",
             new SowingBedBlock(AbstractBlock.Settings.copy(Blocks.DIRT).nonOpaque()));
     public static final Block SAWDUST = registerBlock("sawdust",
@@ -446,6 +448,7 @@ public class ModBlocks {
             entries.add(ModBlocks.MILL);
             entries.add(ModBlocks.PRESS);
             entries.add(ModBlocks.SOWING_BED);
+            entries.add(ModBlocks.HAMPER);
         });
     }
 

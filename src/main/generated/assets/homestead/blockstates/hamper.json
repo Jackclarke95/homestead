@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "homestead:block/hamper",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "homestead:block/hamper"
+    },
+    "facing=south": {
+      "model": "homestead:block/hamper",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "homestead:block/hamper",
+      "y": 270
+    }
+  }
+}
