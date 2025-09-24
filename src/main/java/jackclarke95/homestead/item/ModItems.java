@@ -62,7 +62,6 @@ public class ModItems {
         RASPBERRY = registerItem("raspberry",
                 new AliasedBlockItem(ModBlocks.RASPBERRY_BUSH,
                         new Item.Settings().food(ModFoodComponents.RASPBERRY)));
-        // Set berry item on bush blocks
         ((GenericBerryBushBlock) ModBlocks.BLACKBERRY_BUSH)
                 .setBerryItem(BLACKBERRY);
         ((GenericBerryBushBlock) ModBlocks.RASPBERRY_BUSH)
