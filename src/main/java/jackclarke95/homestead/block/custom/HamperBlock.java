@@ -5,7 +5,6 @@ import net.minecraft.util.shape.VoxelShapes;
 
 import com.mojang.serialization.MapCodec;
 
-import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.entity.custom.HamperBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,10 +12,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import net.minecraft.state.StateManager.Builder;
 
 public class HamperBlock extends BlockWithEntity {
     public static final MapCodec<HamperBlock> CODEC = HamperBlock.createCodec(HamperBlock::new);
@@ -65,22 +66,13 @@ public class HamperBlock extends BlockWithEntity {
 
     @Override
     protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if (state.getBlock() != newState.getBlock()) {
-            // Do NOT scatter contained items when block is broken (behaviour like shulker)
-            // But keep block entity data so item drop can include inventory NBT when picked
-            // up via tool (handled elsewhere if needed)
-            // For safety, still call super to clear the block entity
-            super.onStateReplaced(state, world, pos, newState, moved);
-        }
+        ItemScatterer.onStateReplaced(state, newState, world, pos);
+        super.onStateReplaced(state, world, pos, newState, moved);
     }
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        Homestead.LOGGER.info("HamperBlock onUse triggered");
-
         if (world.getBlockEntity(pos) instanceof HamperBlockEntity be) {
-
-            // Otherwise, open the GUI
             if (!world.isClient) {
                 player.openHandledScreen(be);
             }
@@ -91,7 +83,7 @@ public class HamperBlock extends BlockWithEntity {
     }
 
     @Override
-    protected void appendProperties(net.minecraft.state.StateManager.Builder<Block, BlockState> builder) {
+    protected void appendProperties(Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 }

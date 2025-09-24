@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class HamperBlockEntity extends BlockEntity
         implements ImplementedInventory, ExtendedScreenHandlerFactory<BlockPos> {
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(54, ItemStack.EMPTY);
 
     public HamperBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.HAMPER_BE, pos, state);
@@ -76,8 +76,11 @@ public class HamperBlockEntity extends BlockEntity
 
     @Override
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction side) {
-        // Only allow items that are in the food or drink tags, or are food according to
-        // ItemStack
+
+        return isItemInFoodTags(stack);
+    }
+
+    public static boolean isItemInFoodTags(ItemStack stack) {
         if (stack == null || stack.isEmpty())
             return false;
 
