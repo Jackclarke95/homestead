@@ -1,0 +1,11 @@
+{
+  "type": "homestead:sowing",
+  "ingredient": {
+    "item": "homestead:dandelion_seeds"
+  },
+  "result": {
+    "count": 1,
+    "id": "minecraft:dandelion"
+  },
+  "time": 100
+}

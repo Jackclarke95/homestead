@@ -15,7 +15,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -49,16 +48,26 @@ public class ShearFlowerEventHandler {
         BlockPos pos = hitResult.getBlockPos();
         Block block = world.getBlockState(pos).getBlock();
         if (stack.getItem() == Items.SHEARS && FLOWER_TO_SEED.containsKey(block)) {
-            // Drop the flower
             ItemStack flowerDrop = new ItemStack(block.asItem());
             Block.dropStack(world, pos, flowerDrop);
-            // 10% chance to drop seeds
-            if (new Random().nextInt(10) == 0) {
+
+            int fortuneLevel = stack.getEnchantments()
+                    .getEnchantmentEntries()
+                    .stream()
+                    .filter(x -> x.getKey().getIdAsString().equals("minecraft:fortune"))
+                    .findFirst()
+                    .map(x -> x.getIntValue())
+                    .orElse(0);
+
+            // 10% base chance to drop seeds, increased by 5% per fortune level
+            int chance = 10 + (5 * fortuneLevel);
+            if (new Random().nextInt(100) < chance) {
                 Block.dropStack(world, pos, FLOWER_TO_SEED.get(block).copy());
             }
-            // Remove the flower block
-            world.breakBlock(pos, false);
-            // Play sound
+
+            // Remove the flower block without playing the break sound
+            world.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
+
             world.playSound(null, pos, SoundEvents.ENTITY_SHEEP_SHEAR, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
             // Damage the shears
