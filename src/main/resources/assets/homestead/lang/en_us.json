@@ -221,5 +221,7 @@
   "emi.category.homestead.rinsing": "Rinsing",
   "emi.category.homestead.milling": "Milling",
   "emi.category.homestead.curing": "Curing",
-  "emi.category.homestead.pressing": "Pressing"
+  "emi.category.homestead.pressing": "Pressing",
+
+  "tooltip.homestead.hamper.more": "and %s more..."
 }
