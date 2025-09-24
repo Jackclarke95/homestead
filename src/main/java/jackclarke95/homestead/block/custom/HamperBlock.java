@@ -52,25 +52,34 @@ public class HamperBlock extends BlockWithEntity {
     public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip,
             TooltipType options) {
         ContainerComponent container = stack.get(DataComponentTypes.CONTAINER);
+
         if (container != null && container != ContainerComponent.DEFAULT) {
             int shown = 0;
             int total = 0;
+
             List<ItemStack> shownStacks = new java.util.ArrayList<>();
+
             for (ItemStack s : container.iterateNonEmpty()) {
                 total++;
+
                 if (shown < 5) {
                     shownStacks.add(s);
                     shown++;
                 }
             }
+
             for (ItemStack s : shownStacks) {
                 MutableText name = s.getName().copy();
                 name.append(" x" + s.getCount());
                 tooltip.add(name);
             }
+
             int hidden = total - shown;
+
             if (hidden > 0) {
-                MutableText more = Text.literal("and " + hidden + " more...").styled(style -> style.withItalic(true));
+                MutableText more = Text.translatable("tooltip.homestead.hamper.more", hidden)
+                        .styled(style -> style.withItalic(true));
+
                 tooltip.add(more);
             }
         }
