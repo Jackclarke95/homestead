@@ -17,8 +17,10 @@ import jackclarke95.homestead.client.VerticleSlabPlacementPreview;
 import jackclarke95.homestead.network.ModNetworking;
 import jackclarke95.homestead.screen.ModScreenHandlers;
 import jackclarke95.homestead.screen.custom.CuringVatScreen;
+import jackclarke95.homestead.screen.custom.HamperScreen;
 import jackclarke95.homestead.screen.custom.MillScreen;
 import jackclarke95.homestead.screen.custom.PressScreen;
+import jackclarke95.homestead.screen.custom.SowingBedScreen;
 
 @Environment(EnvType.CLIENT)
 public class HomesteadClient implements ClientModInitializer {
@@ -78,10 +80,9 @@ public class HomesteadClient implements ClientModInitializer {
 
         HandledScreens.register(ModScreenHandlers.CURING_VAT_SCREEN_HANDLER, CuringVatScreen::new);
         HandledScreens.register(ModScreenHandlers.MILL_SCREEN_HANDLER, MillScreen::new);
-        HandledScreens.register(ModScreenHandlers.PRESS_SCREEN_HANDLER,
-                PressScreen::new);
-        HandledScreens.register(ModScreenHandlers.SOWING_BED_SCREEN_HANDLER,
-                jackclarke95.homestead.screen.custom.SowingBedScreen::new);
+        HandledScreens.register(ModScreenHandlers.PRESS_SCREEN_HANDLER, PressScreen::new);
+        HandledScreens.register(ModScreenHandlers.SOWING_BED_SCREEN_HANDLER, SowingBedScreen::new);
+        HandledScreens.register(ModScreenHandlers.HAMPER_SCREEN_HANDLER, HamperScreen::new);
 
         VerticleSlabPlacementPreview.register();
 

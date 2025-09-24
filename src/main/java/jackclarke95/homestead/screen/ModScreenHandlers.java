@@ -29,6 +29,12 @@ public class ModScreenHandlers {
             Registries.SCREEN_HANDLER, Identifier.of(Homestead.MOD_ID, "sowing_bed_screen_handler"),
             new ExtendedScreenHandlerType<>(SowingBedScreenHandler::new, BlockPos.PACKET_CODEC));
 
+    public static final ScreenHandlerType<jackclarke95.homestead.screen.custom.HamperScreenHandler> HAMPER_SCREEN_HANDLER = Registry
+            .register(
+                    Registries.SCREEN_HANDLER, Identifier.of(Homestead.MOD_ID, "hamper_screen_handler"),
+                    new ExtendedScreenHandlerType<>(jackclarke95.homestead.screen.custom.HamperScreenHandler::new,
+                            BlockPos.PACKET_CODEC));
+
     public static void registerScreenHandlers() {
         Homestead.LOGGER.info("Registering Screen Handlers for " + Homestead.MOD_ID);
     }

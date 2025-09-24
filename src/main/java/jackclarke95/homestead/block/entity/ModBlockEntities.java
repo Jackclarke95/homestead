@@ -56,6 +56,16 @@ public class ModBlockEntities {
                     ModBlocks.TROUGH)
                     .build());
 
+    // Hamper block entity registration
+    public static final BlockEntityType<jackclarke95.homestead.block.entity.custom.HamperBlockEntity> HAMPER_BE = Registry
+            .register(
+                    Registries.BLOCK_ENTITY_TYPE, Identifier.of(Homestead.MOD_ID, "hamper_be"),
+                    BlockEntityType.Builder
+                            .create((pos, state) -> new jackclarke95.homestead.block.entity.custom.HamperBlockEntity(
+                                    pos, state),
+                                    ModBlocks.HAMPER)
+                            .build());
+
     public static void registerBlockEntities() {
         Homestead.LOGGER.info("Registering Block Entities for " + Homestead.MOD_ID);
     }

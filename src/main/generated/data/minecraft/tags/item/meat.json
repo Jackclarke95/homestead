@@ -1,0 +1,12 @@
+{
+  "values": [
+    "homestead:beef_jerky",
+    "homestead:pork_jerky",
+    "homestead:mutton_jerky",
+    "homestead:chicken_jerky",
+    "homestead:rabbit_jerky",
+    "homestead:cod_jerky",
+    "homestead:salmon_jerky",
+    "homestead:suspicious_jerky"
+  ]
+}

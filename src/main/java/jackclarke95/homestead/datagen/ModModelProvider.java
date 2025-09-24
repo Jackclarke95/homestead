@@ -40,6 +40,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.RACK);
         blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.CURING_VAT);
         blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.PRESS);
+        blockStateModelGenerator.registerNorthDefaultHorizontalRotation(ModBlocks.HAMPER);
 
         BlockStateModelGenerator.BlockTexturePool thatchedHayPool = blockStateModelGenerator
                 .registerCubeAllModelTexturePool(ModBlocks.THATCHED_HAY_BLOCK);
