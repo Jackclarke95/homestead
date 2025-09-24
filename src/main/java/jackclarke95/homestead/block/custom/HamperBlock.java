@@ -18,6 +18,7 @@ import net.minecraft.component.type.ContainerComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
@@ -26,6 +27,12 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import net.minecraft.text.Text;
+import net.minecraft.text.MutableText;
+import net.minecraft.item.tooltip.TooltipType;
+
+import java.util.List;
 
 import java.util.stream.IntStream;
 
@@ -39,6 +46,34 @@ public class HamperBlock extends BlockWithEntity {
 
     public HamperBlock(Settings settings) {
         super(settings);
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip,
+            TooltipType options) {
+        ContainerComponent container = stack.get(DataComponentTypes.CONTAINER);
+        if (container != null && container != ContainerComponent.DEFAULT) {
+            int shown = 0;
+            int total = 0;
+            List<ItemStack> shownStacks = new java.util.ArrayList<>();
+            for (ItemStack s : container.iterateNonEmpty()) {
+                total++;
+                if (shown < 5) {
+                    shownStacks.add(s);
+                    shown++;
+                }
+            }
+            for (ItemStack s : shownStacks) {
+                MutableText name = s.getName().copy();
+                name.append(" x" + s.getCount());
+                tooltip.add(name);
+            }
+            int hidden = total - shown;
+            if (hidden > 0) {
+                MutableText more = Text.literal("and " + hidden + " more...").styled(style -> style.withItalic(true));
+                tooltip.add(more);
+            }
+        }
     }
 
     @Override
