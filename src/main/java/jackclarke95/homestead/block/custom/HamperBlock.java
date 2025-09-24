@@ -5,10 +5,16 @@ import net.minecraft.util.shape.VoxelShapes;
 
 import com.mojang.serialization.MapCodec;
 
+import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.custom.HamperBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ContainerComponent;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
@@ -16,6 +22,9 @@ import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+
+import java.util.stream.IntStream;
+
 import org.jetbrains.annotations.Nullable;
 import net.minecraft.state.StateManager.Builder;
 
@@ -66,8 +75,37 @@ public class HamperBlock extends BlockWithEntity {
 
     @Override
     protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        ItemScatterer.onStateReplaced(state, newState, world, pos);
-        super.onStateReplaced(state, world, pos, newState, moved);
+        if (!state.isOf(newState.getBlock())) {
+            BlockEntity be = world.getBlockEntity(pos);
+
+            if (be instanceof Inventory inventory) {
+                ItemStack hamperItem = new ItemStack(ModBlocks.HAMPER);
+
+                hamperItem.set(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(
+                        IntStream.range(0, inventory.size())
+                                .mapToObj(inventory::getStack)
+                                .toList()));
+
+                ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(), hamperItem);
+            } else {
+                super.onStateReplaced(state, world, pos, newState, moved);
+            }
+        }
+    }
+
+    @Override
+    public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+        if (!world.isClient) {
+            BlockEntity be = world.getBlockEntity(pos);
+
+            ContainerComponent container = itemStack.get(DataComponentTypes.CONTAINER);
+
+            if (container != null) {
+                if (be instanceof HamperBlockEntity hamperBE) {
+                    container.copyTo(hamperBE.getItems());
+                }
+            }
+        }
     }
 
     @Override

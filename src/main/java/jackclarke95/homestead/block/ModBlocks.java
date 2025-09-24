@@ -49,7 +49,7 @@ public class ModBlocks {
     public static final Block MILL = registerBlock("mill",
             new MillBlock(AbstractBlock.Settings.copy(Blocks.STONE)));
     public static final Block HAMPER = registerBlock("hamper",
-            new HamperBlock(AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque()));
+            new HamperBlock(AbstractBlock.Settings.copy(Blocks.CHEST).nonOpaque()), new Item.Settings().maxCount(1));
     public static final Block SOWING_BED = registerBlock("sowing_bed",
             new SowingBedBlock(AbstractBlock.Settings.copy(Blocks.DIRT).nonOpaque()));
     public static final Block SAWDUST = registerBlock("sawdust",
@@ -453,6 +453,12 @@ public class ModBlocks {
         });
     }
 
+    private static void registerBlockItem(String name, Block block, Item.Settings settings) {
+        Registry.register(
+                Registries.ITEM, Identifier.of(Homestead.MOD_ID, name),
+                new BlockItem(block, settings));
+    }
+
     private static void registerBlockItem(String name, Block block) {
         Registry.register(
                 Registries.ITEM, Identifier.of(Homestead.MOD_ID, name),
@@ -461,6 +467,12 @@ public class ModBlocks {
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
+
+        return Registry.register(Registries.BLOCK, Identifier.of(Homestead.MOD_ID, name), block);
+    }
+
+    private static Block registerBlock(String name, Block block, Item.Settings settings) {
+        registerBlockItem(name, block, settings);
 
         return Registry.register(Registries.BLOCK, Identifier.of(Homestead.MOD_ID, name), block);
     }

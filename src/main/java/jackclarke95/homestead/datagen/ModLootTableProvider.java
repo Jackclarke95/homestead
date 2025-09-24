@@ -111,7 +111,6 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.QUARTZ_BRICK_PATH);
         addDrop(ModBlocks.SMOOTH_QUARTZ_BLOCK_PATH);
         addDrop(ModBlocks.COARSE_DIRT_PATH);
-        addDrop(ModBlocks.HAMPER);
 
         addDrop(ModBlocks.HEATED_RACK, block -> LootTable.builder()
                 .pool(LootPool.builder()
