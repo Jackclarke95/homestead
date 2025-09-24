@@ -5,10 +5,14 @@ import net.minecraft.util.shape.VoxelShapes;
 
 import com.mojang.serialization.MapCodec;
 
+import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.custom.HamperBlockEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.component.Component;
+import net.minecraft.component.ComponentMap;
+import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ContainerComponent;
 import net.minecraft.entity.LivingEntity;
@@ -79,7 +83,16 @@ public class HamperBlock extends BlockWithEntity {
             BlockEntity be = world.getBlockEntity(pos);
 
             if (be instanceof Inventory inventory) {
+                ComponentMap components = be.getComponents();
+
                 ItemStack hamperItem = new ItemStack(ModBlocks.HAMPER);
+
+                components.iterator().forEachRemaining(x -> {
+                    Homestead.LOGGER.info("Copying component: " + x);
+
+                    Component rawComponent = x;
+                    hamperItem.set((ComponentType) rawComponent.type(), rawComponent.value());
+                });
 
                 hamperItem.set(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(
                         IntStream.range(0, inventory.size())
