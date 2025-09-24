@@ -12,7 +12,6 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.component.Component;
 import net.minecraft.component.ComponentMap;
-import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ContainerComponent;
 import net.minecraft.entity.LivingEntity;
@@ -131,12 +130,11 @@ public class HamperBlock extends BlockWithEntity {
 
                 ItemStack hamperItem = new ItemStack(ModBlocks.HAMPER);
 
-                components.iterator().forEachRemaining(x -> {
-                    Homestead.LOGGER.info("Copying component: " + x);
+                for (Component<?> component : components) {
+                    Homestead.LOGGER.info("Copying component: " + component);
 
-                    Component rawComponent = x;
-                    hamperItem.set((ComponentType) rawComponent.type(), rawComponent.value());
-                });
+                    setComponent(hamperItem, component);
+                }
 
                 hamperItem.set(DataComponentTypes.CONTAINER, ContainerComponent.fromStacks(
                         IntStream.range(0, inventory.size())
@@ -181,4 +179,10 @@ public class HamperBlock extends BlockWithEntity {
     protected void appendProperties(Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
+
+    // Helper method for type-safe component copying
+    private static <T> void setComponent(ItemStack stack, Component<T> component) {
+        stack.set(component.type(), component.value());
+    }
+
 }
