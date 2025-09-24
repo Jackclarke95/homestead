@@ -27,4 +27,11 @@ public class HamperScreen extends HandledScreen<HamperScreenHandler> {
         this.titleX = 8;
         this.playerInventoryTitleY = 128;
     }
+
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        super.render(context, mouseX, mouseY, delta);
+
+        drawMouseoverTooltip(context, mouseX, mouseY);
+    }
 }
