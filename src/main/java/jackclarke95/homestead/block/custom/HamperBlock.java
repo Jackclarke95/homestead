@@ -33,10 +33,10 @@ public class HamperBlock extends BlockWithEntity {
         switch (state.get(FACING)) {
             case EAST:
             case WEST:
-                return VoxelShapes.union(Block.createCuboidShape(2, 0, 1, 14, 7, 15));
+                return VoxelShapes.union(Block.createCuboidShape(1.5, 0, 0.5, 14.5, 7, 15.5));
             case NORTH:
             case SOUTH:
-                return VoxelShapes.union(Block.createCuboidShape(0, 0, 2, 15, 7, 14));
+                return VoxelShapes.union(Block.createCuboidShape(0.5, 0, 1.5, 15.5, 7, 14.5));
             default:
                 return VoxelShapes.fullCube();
         }

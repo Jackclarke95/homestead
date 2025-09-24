@@ -10,6 +10,7 @@ import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import jackclarke95.homestead.util.ModTags;
 import net.minecraft.util.math.BlockPos;
 
 public class HamperScreenHandler extends ScreenHandler {
@@ -30,12 +31,28 @@ public class HamperScreenHandler extends ScreenHandler {
         int index = 0;
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 9; col++) {
-                this.addSlot(new Slot(inventory, index++, 8 + col * 18, 18 + row * 18));
+                this.addSlot(new HamperSlot(inventory, index++, 8 + col * 18, 18 + row * 18));
             }
         }
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
+    }
+
+    // Custom slot to restrict insertion to allowed tags
+    private static class HamperSlot extends Slot {
+        public HamperSlot(Inventory inventory, int index, int x, int y) {
+            super(inventory, index, x, y);
+        }
+    }
+
+    @Override
+    public boolean canInsertIntoSlot(ItemStack stack, Slot slot) {
+        return stack != null && !stack.isEmpty() && (stack.isIn(ModTags.ItemTags.FRUITS)
+                || stack.isIn(ModTags.ItemTags.ROOT_VEGETABLES)
+                || stack.isIn(ModTags.ItemTags.CROP_SEEDS)
+                || stack.isIn(ModTags.ItemTags.FOODS)
+                || stack.isIn(ModTags.ItemTags.DRINKS));
     }
 
     @Override
@@ -76,14 +93,19 @@ public class HamperScreenHandler extends ScreenHandler {
     private void addPlayerInventory(PlayerInventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
-                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, 86 + i * 16));
+                int y = 86 + i * 16;
+                if (i == 0)
+                    y -= 2; // Move top row up by 2
+                if (i == 2)
+                    y += 2; // Move bottom row down by 2
+                this.addSlot(new Slot(playerInventory, l + i * 9 + 9, 8 + l * 18, y));
             }
         }
     }
 
     private void addPlayerHotbar(PlayerInventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 144 - 2));
+            this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 142));
         }
     }
 }

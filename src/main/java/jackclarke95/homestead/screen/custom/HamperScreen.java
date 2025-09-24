@@ -24,6 +24,6 @@ public class HamperScreen extends HandledScreen<HamperScreenHandler> {
     @Override
     protected void init() {
         super.init();
-        this.titleX = (this.backgroundWidth - this.textRenderer.getWidth(this.title)) / 2;
+        this.titleX = 8; // Left-align the label with a small margin
     }
 }

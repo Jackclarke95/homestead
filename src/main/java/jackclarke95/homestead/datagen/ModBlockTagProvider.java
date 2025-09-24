@@ -31,7 +31,8 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 ModBlocks.MILL,
                 ModBlocks.CURING_VAT,
                 ModBlocks.PRESS,
-                ModBlocks.WATTLE_AND_DAUB);
+                ModBlocks.WATTLE_AND_DAUB,
+                ModBlocks.HAMPER);
 
         getOrCreateTagBuilder(BlockTags.HOE_MINEABLE)
                 .add(ModBlocks.THATCHED_HAY_STAIRS)
