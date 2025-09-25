@@ -22,6 +22,8 @@ public class HomesteadReiClientPlugin implements REIClientPlugin {
 
     @Override
     public void registerCategories(CategoryRegistry registry) {
+        registry.add(new SimpleSowingCategory());
+        registry.addWorkstations(SimpleSowingCategory.ID, EntryStacks.of(ModBlocks.SOWING_BED));
         registry.add(new SimpleDryingCategory());
         registry.addWorkstations(SimpleDryingCategory.ID, EntryStacks.of(ModBlocks.RACK));
         registry.addWorkstations(SimpleDryingCategory.ID, EntryStacks.of(ModBlocks.HEATED_RACK));
@@ -42,6 +44,10 @@ public class HomesteadReiClientPlugin implements REIClientPlugin {
 
     @Override
     public void registerDisplays(DisplayRegistry registry) {
+        for (RecipeEntry<jackclarke95.homestead.recipe.SowingRecipe> entry : registry.getRecipeManager()
+                .listAllOfType(jackclarke95.homestead.recipe.ModRecipes.SOWING_TYPE)) {
+            registry.add(new SimpleSowingDisplay(entry.value()));
+        }
         List<RecipeEntry<DryingRecipe>> recipes = registry.getRecipeManager().listAllOfType(ModRecipes.HEATED_TYPE);
         for (RecipeEntry<DryingRecipe> entry : recipes) {
             registry.add(new SimpleDryingDisplay(entry.value()));

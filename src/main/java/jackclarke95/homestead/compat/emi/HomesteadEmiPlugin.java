@@ -12,6 +12,9 @@ import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.util.Identifier;
 
 public class HomesteadEmiPlugin implements EmiPlugin {
+    public static final Identifier SOWING_ID = Identifier.of(Homestead.MOD_ID, "sowing");
+    public static final EmiRecipeCategory SOWING_CATEGORY = new EmiRecipeCategory(SOWING_ID,
+            EmiStack.of(ModBlocks.SOWING_BED));
     public static final Identifier DRYING_ID = Identifier.of(Homestead.MOD_ID, "drying");
     public static final EmiRecipeCategory DRYING_CATEGORY = new EmiRecipeCategory(DRYING_ID,
             EmiStack.of(ModBlocks.RACK));
@@ -30,6 +33,8 @@ public class HomesteadEmiPlugin implements EmiPlugin {
 
     @Override
     public void register(EmiRegistry registry) {
+        registry.addCategory(SOWING_CATEGORY);
+        registry.addWorkstation(SOWING_CATEGORY, EmiStack.of(ModBlocks.SOWING_BED));
         // Category and workstations
         registry.addCategory(DRYING_CATEGORY);
         registry.addWorkstation(DRYING_CATEGORY, EmiStack.of(ModBlocks.RACK));
@@ -62,6 +67,10 @@ public class HomesteadEmiPlugin implements EmiPlugin {
         for (RecipeEntry<jackclarke95.homestead.recipe.PressingRecipe> entry : registry.getRecipeManager()
                 .listAllOfType(ModRecipes.PRESSING_TYPE)) {
             registry.addRecipe(new PressingEmiRecipe(entry.id(), entry.value()));
+        }
+        for (RecipeEntry<jackclarke95.homestead.recipe.SowingRecipe> entry : registry.getRecipeManager()
+                .listAllOfType(ModRecipes.SOWING_TYPE)) {
+            registry.addRecipe(new SowingEmiRecipe(entry.id(), entry.value()));
         }
     }
 }
