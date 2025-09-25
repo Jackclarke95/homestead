@@ -5,7 +5,6 @@ import net.minecraft.util.shape.VoxelShapes;
 
 import com.mojang.serialization.MapCodec;
 
-import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.custom.HamperBlockEntity;
 import net.minecraft.block.*;
@@ -131,8 +130,6 @@ public class HamperBlock extends BlockWithEntity {
                 ItemStack hamperItem = new ItemStack(ModBlocks.HAMPER);
 
                 for (Component<?> component : components) {
-                    Homestead.LOGGER.info("Copying component: " + component);
-
                     setComponent(hamperItem, component);
                 }
 
