@@ -18,7 +18,7 @@ import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.custom.HamperBlockEntity;
 
 @Mixin(ScreenHandler.class)
-public abstract class HamperInsertMixin {
+public abstract class HamperScreenInsertMixin {
     @Inject(method = "onSlotClick", at = @At("HEAD"), cancellable = true)
     private void homestead$insertIntoHamperSlot(int slotIndex, int button, SlotActionType actionType,
             PlayerEntity player, CallbackInfo ci) {

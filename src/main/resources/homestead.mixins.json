@@ -7,7 +7,7 @@
     "LivingEntityMixin",
     "ItemEntityPickupMixin",
     "ItemEntityAccessor",
-    "HamperInsertMixin"
+    "HamperScreenInsertMixin"
   ],
   "injectors": {
     "defaultRequire": 1

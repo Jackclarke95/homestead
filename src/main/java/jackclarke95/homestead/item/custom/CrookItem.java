@@ -116,7 +116,7 @@ public class CrookItem extends ToolItem {
 
                         stack.damage(1, player, LivingEntity.getSlotForHand(context.getHand()));
 
-                        return ActionResult.SUCCESS;
+                        return ActionResult.success(world.isClient);
                     }
                 }
             }
