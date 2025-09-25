@@ -7,13 +7,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class HamperScreen extends HandledScreen<HamperScreenHandler> {
-    private static final Identifier TEXTURE = Identifier.of("minecraft", "textures/gui/container/generic_54.png");
+    private static final Identifier TEXTURE = Identifier.of("minecraft", "textures/gui/container/shulker_box.png");
 
     public HamperScreen(HamperScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
         this.backgroundWidth = 176;
         this.backgroundHeight = 222;
-        this.playerInventoryTitleY = this.backgroundHeight - 94;
+        // this.playerInventoryTitleY = 70;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class HamperScreen extends HandledScreen<HamperScreenHandler> {
     protected void init() {
         super.init();
         this.titleX = 8;
-        this.playerInventoryTitleY = 128;
+        // this.playerInventoryTitleY = 70;
     }
 
     @Override

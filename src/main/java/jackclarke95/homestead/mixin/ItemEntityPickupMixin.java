@@ -63,7 +63,7 @@ public abstract class ItemEntityPickupMixin {
 
     private boolean hamperCanAccept(ItemStack hamper, ItemStack toInsert) {
         ContainerComponent container = hamper.get(DataComponentTypes.CONTAINER);
-        int maxSlots = 54;
+        int maxSlots = 27;
         DefaultedList<ItemStack> inventory = DefaultedList.ofSize(maxSlots, ItemStack.EMPTY);
         if (container != null) {
             container.copyTo(inventory);
@@ -88,7 +88,7 @@ public abstract class ItemEntityPickupMixin {
 
         // Get the hamper's inventory (ContainerComponent)
         ContainerComponent container = hamper.get(DataComponentTypes.CONTAINER);
-        int maxSlots = 54; // Hamper size
+        int maxSlots = 27; // Hamper size
         DefaultedList<ItemStack> inventory = DefaultedList
                 .ofSize(maxSlots, ItemStack.EMPTY);
         if (container != null) {

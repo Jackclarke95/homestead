@@ -36,7 +36,7 @@ public abstract class HamperInsertMixin {
 
             // Insert as much as possible into the hamper's ContainerComponent
             ContainerComponent container = slotStack.get(DataComponentTypes.CONTAINER);
-            int maxSlots = 54;
+            int maxSlots = 27;
             DefaultedList<ItemStack> inventory = DefaultedList.ofSize(maxSlots, ItemStack.EMPTY);
             if (container != null)
                 container.copyTo(inventory);
