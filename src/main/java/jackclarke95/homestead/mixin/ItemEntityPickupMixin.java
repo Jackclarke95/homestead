@@ -1,8 +1,13 @@
 package jackclarke95.homestead.mixin;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ContainerComponent;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.collection.DefaultedList;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,8 +45,11 @@ public abstract class ItemEntityPickupMixin {
                         Homestead.LOGGER.info("Hamper can accept {}", selfItemStack);
 
                         if (hamperCanAccept(hamperToInsertInto, selfItemStack)) {
-                            insertIntoHamper(hamperToInsertInto, hamperToInsertInto, self);
-                            ci.cancel();
+                            boolean insertedAllIntoHamper = insertIntoHamper(hamperToInsertInto, hamperToInsertInto,
+                                    self);
+                            if (insertedAllIntoHamper) {
+                                ci.cancel();
+                            }
                         }
                     }
                 }
@@ -54,13 +62,90 @@ public abstract class ItemEntityPickupMixin {
     }
 
     private boolean hamperCanAccept(ItemStack hamper, ItemStack toInsert) {
-        return true;
+        ContainerComponent container = hamper.get(DataComponentTypes.CONTAINER);
+        int maxSlots = 54;
+        DefaultedList<ItemStack> inventory = DefaultedList.ofSize(maxSlots, ItemStack.EMPTY);
+        if (container != null) {
+            container.copyTo(inventory);
+        }
+
+        for (int i = 0; i < inventory.size(); i++) {
+            ItemStack slot = inventory.get(i);
+
+            if (slot.isEmpty()) {
+                return true;
+            } else if (net.minecraft.item.ItemStack.areItemsAndComponentsEqual(slot, toInsert)
+                    && slot.getCount() < slot.getMaxCount()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private boolean insertIntoHamper(ItemStack hamper, ItemStack toInsert, ItemEntity itemEntity) {
         Homestead.LOGGER.info("Inserting {} into hamper", toInsert);
-        itemEntity.discard();
 
-        return true;
+        // Get the hamper's inventory (ContainerComponent)
+        ContainerComponent container = hamper.get(DataComponentTypes.CONTAINER);
+        int maxSlots = 54; // Hamper size
+        DefaultedList<ItemStack> inventory = DefaultedList
+                .ofSize(maxSlots, ItemStack.EMPTY);
+        if (container != null) {
+            container.copyTo(inventory);
+        }
+
+        ItemStack entityStack = itemEntity.getStack();
+        int toInsertCount = entityStack.getCount();
+        int remaining = toInsertCount;
+
+        for (int i = 0; i < inventory.size(); i++) {
+            ItemStack slot = inventory.get(i);
+            if (slot.isEmpty()) {
+                int insertAmount = Math.min(remaining, entityStack.getMaxCount());
+                ItemStack inserted = entityStack.copy();
+                inserted.setCount(insertAmount);
+                inventory.set(i, inserted);
+                remaining -= insertAmount;
+            } else if (net.minecraft.item.ItemStack.areItemsAndComponentsEqual(slot, entityStack)
+                    && slot.getCount() < slot.getMaxCount()) {
+                int space = slot.getMaxCount() - slot.getCount();
+                int insertAmount = Math.min(remaining, space);
+                slot.increment(insertAmount);
+                remaining -= insertAmount;
+            }
+            if (remaining <= 0)
+                break;
+        }
+
+        hamper.set(DataComponentTypes.CONTAINER,
+                ContainerComponent.fromStacks(inventory));
+
+        if (remaining <= 0) {
+            itemEntity.discard();
+            playHamperPickupSound(itemEntity);
+
+            return true;
+        } else {
+            entityStack.setCount(remaining);
+            playHamperPickupSound(itemEntity);
+
+            return false;
+        }
+    }
+
+    private void playHamperPickupSound(ItemEntity itemEntity) {
+        if (itemEntity.getWorld() != null && !itemEntity.getWorld().isClient) {
+            itemEntity.getWorld().playSound(
+                    null, // no specific player
+                    itemEntity.getX(),
+                    itemEntity.getY(),
+                    itemEntity.getZ(),
+                    SoundEvents.BLOCK_WOOL_BREAK,
+                    SoundCategory.PLAYERS,
+                    0.7F, // volume
+                    1.0F // pitch
+            );
+        }
     }
 }
