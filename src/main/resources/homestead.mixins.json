@@ -6,7 +6,8 @@
     "CampfireBlockMixin",
     "LivingEntityMixin",
     "ItemEntityPickupMixin",
-    "ItemEntityAccessor"
+    "ItemEntityAccessor",
+    "HamperInsertMixin"
   ],
   "injectors": {
     "defaultRequire": 1
