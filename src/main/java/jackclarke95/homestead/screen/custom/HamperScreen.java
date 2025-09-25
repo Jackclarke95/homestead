@@ -13,7 +13,6 @@ public class HamperScreen extends HandledScreen<HamperScreenHandler> {
         super(handler, inventory, title);
         this.backgroundWidth = 176;
         this.backgroundHeight = 222;
-        // this.playerInventoryTitleY = 70;
     }
 
     @Override
@@ -25,7 +24,6 @@ public class HamperScreen extends HandledScreen<HamperScreenHandler> {
     protected void init() {
         super.init();
         this.titleX = 8;
-        // this.playerInventoryTitleY = 70;
     }
 
     @Override
