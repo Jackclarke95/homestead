@@ -5,7 +5,7 @@ import jackclarke95.homestead.Homestead;
 public class ModItemGroups {
 
     public static void registerItemGroups() {
-        Homestead.LOGGER.info("Registering item groups for " + Homestead.MOD_ID);
+        Homestead.LOGGER.debug("Registering item groups for " + Homestead.MOD_ID);
     }
 
 }

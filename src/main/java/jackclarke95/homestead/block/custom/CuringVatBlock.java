@@ -2,7 +2,6 @@ package jackclarke95.homestead.block.custom;
 
 import com.mojang.serialization.MapCodec;
 
-import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.CuringVatBlockEntity;
 import net.minecraft.block.*;
@@ -152,9 +151,6 @@ public class CuringVatBlock extends BlockWithEntity {
                     propotionFull = 1 + Math.round(14.0f * (count - 1) / (max - 1));
                 }
             }
-
-            Homestead.LOGGER.info("Curing Vat at stack count: {}, max count: {}, comparator output: {}",
-                    stack.getCount(), stack.getMaxCount(), propotionFull);
 
             return propotionFull;
         }

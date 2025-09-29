@@ -320,7 +320,7 @@ public class ModBlocks {
             new GenericBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null));
 
     public static void registerModBlocks() {
-        Homestead.LOGGER.info("Registering Mod Blocks for " + Homestead.MOD_ID);
+        Homestead.LOGGER.debug("Registering Mod Blocks for " + Homestead.MOD_ID);
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
             entries.add(ModBlocks.COBBLESTONE_BRICKS);

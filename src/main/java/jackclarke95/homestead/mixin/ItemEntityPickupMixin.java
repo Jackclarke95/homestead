@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.entity.custom.HamperBlockEntity;
 
@@ -25,9 +24,6 @@ public abstract class ItemEntityPickupMixin {
             ItemEntity self = (ItemEntity) (Object) this;
 
             int delay = ((ItemEntityAccessor) self).homestead$getPickupDelay();
-
-            Homestead.LOGGER.info("Item age: {}", self.age);
-            Homestead.LOGGER.info("Item delay: {}", delay);
 
             if (self.age >= delay) {
                 ItemStack hamperToInsertInto = null;
@@ -42,10 +38,8 @@ public abstract class ItemEntityPickupMixin {
                     ItemStack selfItemStack = self.getStack();
 
                     if (HamperBlockEntity.isItemInFoodTags(selfItemStack)) {
-                        Homestead.LOGGER.info("Hamper can accept {}", selfItemStack);
-
                         if (hamperCanAccept(hamperToInsertInto, selfItemStack)) {
-                            boolean insertedAllIntoHamper = insertIntoHamper(hamperToInsertInto, hamperToInsertInto,
+                            boolean insertedAllIntoHamper = insertIntoHamper(hamperToInsertInto, selfItemStack,
                                     self);
                             if (insertedAllIntoHamper) {
                                 ci.cancel();
@@ -84,8 +78,6 @@ public abstract class ItemEntityPickupMixin {
     }
 
     private boolean insertIntoHamper(ItemStack hamper, ItemStack toInsert, ItemEntity itemEntity) {
-        Homestead.LOGGER.info("Inserting {} into hamper", toInsert);
-
         // Get the hamper's inventory (ContainerComponent)
         ContainerComponent container = hamper.get(DataComponentTypes.CONTAINER);
         int maxSlots = 27; // Hamper size

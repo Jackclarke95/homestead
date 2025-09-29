@@ -67,6 +67,6 @@ public class ModBlockEntities {
                             .build());
 
     public static void registerBlockEntities() {
-        Homestead.LOGGER.info("Registering Block Entities for " + Homestead.MOD_ID);
+        Homestead.LOGGER.debug("Registering Block Entities for " + Homestead.MOD_ID);
     }
 }

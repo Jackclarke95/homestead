@@ -86,7 +86,7 @@ public class ModVillagers {
     }
 
     public static void registerVillagers() {
-        Homestead.LOGGER.info("Registering Mod Villagers for " + Homestead.MOD_ID);
+        Homestead.LOGGER.debug("Registering Mod Villagers for " + Homestead.MOD_ID);
     }
 
     public static void registerVillagerTrades() {
@@ -314,19 +314,10 @@ public class ModVillagers {
 
                 ItemStack map;
                 if (biomeResult != null) {
-                    Homestead.LOGGER.info("Found biome {} at {},{},{}",
-                            selectedBiome.getValue().getPath(),
-                            biomeResult.getFirst().getX(),
-                            biomeResult.getFirst().getY(),
-                            biomeResult.getFirst().getZ());
-
                     BlockPos biomePos = biomeResult.getFirst();
 
                     map = createExplorerMapWithRedX(world, biomePos);
                 } else {
-                    Homestead.LOGGER.info("Biome {} not found, using villager position",
-                            selectedBiome.getValue().getPath());
-
                     map = FilledMapItem.createMap(world, villagerPos.getX(), villagerPos.getZ(), (byte) 0, true, true);
                 }
 

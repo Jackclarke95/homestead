@@ -36,6 +36,6 @@ public class ModScreenHandlers {
                             BlockPos.PACKET_CODEC));
 
     public static void registerScreenHandlers() {
-        Homestead.LOGGER.info("Registering Screen Handlers for " + Homestead.MOD_ID);
+        Homestead.LOGGER.debug("Registering Screen Handlers for " + Homestead.MOD_ID);
     }
 }

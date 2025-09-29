@@ -81,6 +81,6 @@ public class ModRecipes {
             });
 
     public static void registerRecipes() {
-        Homestead.LOGGER.info("Registering Custom Recipes for " + Homestead.MOD_ID);
+        Homestead.LOGGER.debug("Registering Custom Recipes for " + Homestead.MOD_ID);
     }
 }

@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 
 import com.mojang.serialization.MapCodec;
 
-import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.entity.ModBlockEntities;
 import jackclarke95.homestead.block.entity.custom.TroughBlockEntity;
 import net.minecraft.block.BlockState;
@@ -86,9 +85,6 @@ public class TroughBlock extends BlockWithEntity {
             return ItemActionResult.SUCCESS;
 
         ItemStack troughStack = trough.getStack(0);
-
-        Homestead.LOGGER.info("Trough before: " + troughStack);
-        Homestead.LOGGER.info("Max : " + troughStack.getMaxCount());
 
         if (troughStack.getCount() >= troughStack.getMaxCount()) {
             return ItemActionResult.SUCCESS;

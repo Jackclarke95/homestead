@@ -133,7 +133,7 @@ public class ModItems {
     }
 
     public static void registerModItems() {
-        Homestead.LOGGER.info("Registering Mod Items for " + Homestead.MOD_ID);
+        Homestead.LOGGER.debug("Registering Mod Items for " + Homestead.MOD_ID);
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
             entries.add(MUG);
