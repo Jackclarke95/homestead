@@ -16,5 +16,9 @@ public class ModBushGenerations {
                 BiomeSelectors.includeByKey(BiomeKeys.BIRCH_FOREST, BiomeKeys.OLD_GROWTH_BIRCH_FOREST,
                         BiomeKeys.DARK_FOREST),
                 GenerationStep.Feature.VEGETAL_DECORATION, ModPlacedFeatures.RASPBERRY_BUSH_PLACED_KEY);
+
+        BiomeModifications.addFeature(
+                BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
+                GenerationStep.Feature.VEGETAL_DECORATION, ModPlacedFeatures.STRAWBERRY_BUSH_PLACED_KEY);
     }
 }

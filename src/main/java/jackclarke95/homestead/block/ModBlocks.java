@@ -319,6 +319,9 @@ public class ModBlocks {
     public static GenericBerryBushBlock RASPBERRY_BUSH = (GenericBerryBushBlock) registerBlock("raspberry_bush",
             new GenericBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null));
 
+    public static GenericBerryBushBlock STRAWBERRY_BUSH = (GenericBerryBushBlock) registerBlock("strawberry_bush",
+            new GenericBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null));
+
     public static void registerModBlocks() {
         Homestead.LOGGER.debug("Registering Mod Blocks for " + Homestead.MOD_ID);
 
@@ -439,6 +442,7 @@ public class ModBlocks {
             entries.add(ModBlocks.STRIPPED_PEACH_TREE_WOOD);
             entries.add(ModBlocks.BLACKBERRY_BUSH);
             entries.add(ModBlocks.RASPBERRY_BUSH);
+            entries.add(ModBlocks.STRAWBERRY_BUSH);
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {

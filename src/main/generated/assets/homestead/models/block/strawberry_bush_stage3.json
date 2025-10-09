@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "homestead:block/strawberry_bush_stage3"
+  }
+}

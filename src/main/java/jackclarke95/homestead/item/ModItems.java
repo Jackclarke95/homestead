@@ -55,6 +55,7 @@ public class ModItems {
 
     public static Item BLACKBERRY;
     public static Item RASPBERRY;
+    public static Item STRAWBERRY;
     static {
         BLACKBERRY = registerItem("blackberry",
                 new AliasedBlockItem(ModBlocks.BLACKBERRY_BUSH,
@@ -62,10 +63,15 @@ public class ModItems {
         RASPBERRY = registerItem("raspberry",
                 new AliasedBlockItem(ModBlocks.RASPBERRY_BUSH,
                         new Item.Settings().food(ModFoodComponents.RASPBERRY)));
+        STRAWBERRY = registerItem("strawberry",
+                new AliasedBlockItem(ModBlocks.STRAWBERRY_BUSH,
+                        new Item.Settings().food(ModFoodComponents.STRAWBERRY)));
         ((GenericBerryBushBlock) ModBlocks.BLACKBERRY_BUSH)
                 .setBerryItem(BLACKBERRY);
         ((GenericBerryBushBlock) ModBlocks.RASPBERRY_BUSH)
                 .setBerryItem(RASPBERRY);
+        ((GenericBerryBushBlock) ModBlocks.STRAWBERRY_BUSH)
+                .setBerryItem(STRAWBERRY);
     }
 
     public static final Item APPLE_SEEDS = registerItem("apple_seeds",
@@ -162,6 +168,7 @@ public class ModItems {
             entries.add(LEMON);
             entries.add(ORANGE);
             entries.add(APRICOT);
+            entries.add(STRAWBERRY);
             entries.add(PEACH);
             entries.add(BLACKBERRY);
             entries.add(RASPBERRY);

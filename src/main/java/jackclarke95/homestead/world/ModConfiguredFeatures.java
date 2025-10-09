@@ -33,6 +33,7 @@ public class ModConfiguredFeatures {
 
     public static final RegistryKey<ConfiguredFeature<?, ?>> BLACKBERRY_BUSH_KEY = registerKey("blackberry_bush");
     public static final RegistryKey<ConfiguredFeature<?, ?>> RASPBERRY_BUSH_KEY = registerKey("raspberry_bush");
+    public static final RegistryKey<ConfiguredFeature<?, ?>> STRAWBERRY_BUSH_KEY = registerKey("strawberry_bush");
 
     public static void bootstrap(Registerable<ConfiguredFeature<?, ?>> context) {
         register(context, PEAR_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
@@ -87,6 +88,11 @@ public class ModConfiguredFeatures {
         register(context, RASPBERRY_BUSH_KEY, Feature.RANDOM_PATCH,
                 ConfiguredFeatures.createRandomPatchFeatureConfig(Feature.SIMPLE_BLOCK,
                         new SimpleBlockFeatureConfig((BlockStateProvider.of(ModBlocks.RASPBERRY_BUSH.getDefaultState()
+                                .with(GenericBerryBushBlock.AGE, Integer.valueOf(3))))),
+                        List.of(Blocks.GRASS_BLOCK), 64));
+        register(context, STRAWBERRY_BUSH_KEY, Feature.RANDOM_PATCH,
+                ConfiguredFeatures.createRandomPatchFeatureConfig(Feature.SIMPLE_BLOCK,
+                        new SimpleBlockFeatureConfig((BlockStateProvider.of(ModBlocks.STRAWBERRY_BUSH.getDefaultState()
                                 .with(GenericBerryBushBlock.AGE, Integer.valueOf(3))))),
                         List.of(Blocks.GRASS_BLOCK), 64));
     }

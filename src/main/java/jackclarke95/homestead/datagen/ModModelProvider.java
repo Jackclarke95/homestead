@@ -267,6 +267,8 @@ public class ModModelProvider extends FabricModelProvider {
                 BlockStateModelGenerator.TintType.NOT_TINTED, GenericBerryBushBlock.AGE, 0, 1, 2, 3);
         blockStateModelGenerator.registerTintableCrossBlockStateWithStages(ModBlocks.RASPBERRY_BUSH,
                 BlockStateModelGenerator.TintType.NOT_TINTED, GenericBerryBushBlock.AGE, 0, 1, 2, 3);
+        blockStateModelGenerator.registerTintableCrossBlockStateWithStages(ModBlocks.STRAWBERRY_BUSH,
+                BlockStateModelGenerator.TintType.NOT_TINTED, GenericBerryBushBlock.AGE, 0, 1, 2, 3);
     }
 
     public static void registerPathBlockModel(BlockStateModelGenerator blockStateModelGenerator,
@@ -649,8 +651,6 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.ORANGE, Models.GENERATED);
         itemModelGenerator.register(ModItems.APRICOT, Models.GENERATED);
         itemModelGenerator.register(ModItems.PEACH, Models.GENERATED);
-        // itemModelGenerator.register(ModItems.BLACKBERRY, Models.GENERATED);
-        // itemModelGenerator.register(ModItems.RASPBERRY, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.APPLE_SEEDS, Models.GENERATED);
         itemModelGenerator.register(ModItems.PEAR_SEEDS, Models.GENERATED);

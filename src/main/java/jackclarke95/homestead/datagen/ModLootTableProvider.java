@@ -188,6 +188,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
 
         addDrop(ModBlocks.BLACKBERRY_BUSH, berryBushDrops(ModBlocks.BLACKBERRY_BUSH, ModItems.BLACKBERRY));
         addDrop(ModBlocks.RASPBERRY_BUSH, berryBushDrops(ModBlocks.RASPBERRY_BUSH, ModItems.RASPBERRY));
+        addDrop(ModBlocks.STRAWBERRY_BUSH, berryBushDrops(ModBlocks.STRAWBERRY_BUSH, ModItems.STRAWBERRY));
     }
 
     private LootTable.Builder berryBushDrops(Block bushBlock, Item berryItem) {
