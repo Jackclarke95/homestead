@@ -5,6 +5,7 @@ import java.util.List;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.custom.GenericBerryBushBlock;
+import jackclarke95.homestead.block.custom.SpreadingBerryBushBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registerable;
 import net.minecraft.registry.RegistryKey;
@@ -93,7 +94,8 @@ public class ModConfiguredFeatures {
         register(context, STRAWBERRY_BUSH_KEY, Feature.RANDOM_PATCH,
                 ConfiguredFeatures.createRandomPatchFeatureConfig(Feature.SIMPLE_BLOCK,
                         new SimpleBlockFeatureConfig((BlockStateProvider.of(ModBlocks.STRAWBERRY_BUSH.getDefaultState()
-                                .with(GenericBerryBushBlock.AGE, Integer.valueOf(3))))),
+                                .with(SpreadingBerryBushBlock.AGE, Integer.valueOf(3))
+                                .with(SpreadingBerryBushBlock.SPREADING, false)))),
                         List.of(Blocks.GRASS_BLOCK), 64));
     }
 

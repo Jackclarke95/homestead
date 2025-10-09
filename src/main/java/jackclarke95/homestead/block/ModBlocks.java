@@ -4,6 +4,7 @@ import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.custom.CuringVatBlock;
 import jackclarke95.homestead.block.custom.FruitBearingLeaves;
 import jackclarke95.homestead.block.custom.GenericBerryBushBlock;
+import jackclarke95.homestead.block.custom.SpreadingBerryBushBlock;
 import jackclarke95.homestead.block.custom.HeatedRackBlock;
 import jackclarke95.homestead.block.custom.RackBlock;
 import jackclarke95.homestead.block.custom.TroughBlock;
@@ -319,8 +320,8 @@ public class ModBlocks {
     public static GenericBerryBushBlock RASPBERRY_BUSH = (GenericBerryBushBlock) registerBlock("raspberry_bush",
             new GenericBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null));
 
-    public static GenericBerryBushBlock STRAWBERRY_BUSH = (GenericBerryBushBlock) registerBlock("strawberry_bush",
-            new GenericBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null));
+    public static SpreadingBerryBushBlock STRAWBERRY_BUSH = (SpreadingBerryBushBlock) registerBlock("strawberry_bush",
+            new SpreadingBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null));
 
     public static void registerModBlocks() {
         Homestead.LOGGER.debug("Registering Mod Blocks for " + Homestead.MOD_ID);

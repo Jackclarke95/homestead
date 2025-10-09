@@ -3,6 +3,7 @@ package jackclarke95.homestead.datagen;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.custom.GenericBerryBushBlock;
+import jackclarke95.homestead.block.custom.SpreadingBerryBushBlock;
 import jackclarke95.homestead.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
@@ -268,7 +269,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerTintableCrossBlockStateWithStages(ModBlocks.RASPBERRY_BUSH,
                 BlockStateModelGenerator.TintType.NOT_TINTED, GenericBerryBushBlock.AGE, 0, 1, 2, 3);
         blockStateModelGenerator.registerTintableCrossBlockStateWithStages(ModBlocks.STRAWBERRY_BUSH,
-                BlockStateModelGenerator.TintType.NOT_TINTED, GenericBerryBushBlock.AGE, 0, 1, 2, 3);
+                BlockStateModelGenerator.TintType.NOT_TINTED, SpreadingBerryBushBlock.AGE, 0, 1, 2, 3);
     }
 
     public static void registerPathBlockModel(BlockStateModelGenerator blockStateModelGenerator,
