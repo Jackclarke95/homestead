@@ -55,17 +55,20 @@ public class SpreadingBerryBushBlock extends GenericBerryBushBlock {
 
     @Override
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        int age = state.get(AGE);
+        if (random.nextInt(20) == 0) {
+            int age = state.get(AGE);
 
-        // Handle growth
-        if (age < 3 && random.nextInt(5) == 0 && world.getBaseLightLevel(pos.up(), 0) >= 9) {
-            BlockState newState = state.with(AGE, age + 1);
-            world.setBlockState(pos, newState, 2);
-        }
-        // Handle spreading (only if age == 3 and spreading == true, which
-        // hasRandomTicks already verified)
-        else if (age == 3 && state.get(SPREADING)) {
-            attemptSpread(world, pos, random);
+            // Handle growth
+            if (age < 3 && random.nextInt(5) == 0 && world.getBaseLightLevel(pos.up(), 0) >= 9) {
+                BlockState newState = state.with(AGE, age + 1);
+                world.setBlockState(pos, newState, 2);
+            }
+            // Handle spreading (only if age == 3 and spreading == true, which
+            // hasRandomTicks already verified)
+            else if (age == 3 && state.get(SPREADING)) {
+                // Reduce spread frequency: 1 in 12 chance per tick
+                attemptSpread(world, pos, random);
+            }
         }
     }
 
