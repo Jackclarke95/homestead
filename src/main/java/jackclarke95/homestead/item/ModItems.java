@@ -48,8 +48,6 @@ public class ModItems {
             new Item(new Item.Settings().food(ModFoodComponents.LEMON)));
     public static final Item ORANGE = registerItem("orange",
             new Item(new Item.Settings().food(ModFoodComponents.ORANGE)));
-    public static final Item APRICOT = registerItem("apricot",
-            new Item(new Item.Settings().food(ModFoodComponents.APRICOT)));
     public static final Item PEACH = registerItem("peach",
             new Item(new Item.Settings().food(ModFoodComponents.PEACH)));
 
@@ -83,8 +81,6 @@ public class ModItems {
     public static final Item LEMON_SEEDS = registerItem("lemon_seeds",
             new Item(new Item.Settings()));
     public static final Item ORANGE_SEEDS = registerItem("orange_seeds",
-            new Item(new Item.Settings()));
-    public static final Item APRICOT_SEEDS = registerItem("apricot_seeds",
             new Item(new Item.Settings()));
     public static final Item PEACH_SEEDS = registerItem("peach_seeds",
             new Item(new Item.Settings()));
@@ -167,7 +163,6 @@ public class ModItems {
             entries.add(PLUM);
             entries.add(LEMON);
             entries.add(ORANGE);
-            entries.add(APRICOT);
             entries.add(STRAWBERRY);
             entries.add(PEACH);
             entries.add(BLACKBERRY);
@@ -189,7 +184,6 @@ public class ModItems {
             entries.add(PLUM_SEEDS);
             entries.add(LEMON_SEEDS);
             entries.add(ORANGE_SEEDS);
-            entries.add(APRICOT_SEEDS);
             entries.add(PEACH_SEEDS);
             entries.add(ALLIUM_SEEDS);
             entries.add(AZURE_BLUET_SEEDS);

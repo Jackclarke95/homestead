@@ -167,14 +167,6 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.ORANGE_TREE_SAPLING);
         addDrop(ModBlocks.ORANGE_TREE_LEAVES, block -> fruitLeavesDrops(ModBlocks.ORANGE_TREE_LEAVES,
                 ModBlocks.ORANGE_TREE_SAPLING, 0.0625f, ModItems.ORANGE));
-        addDrop(ModBlocks.APRICOT_TREE_LOG);
-        addDrop(ModBlocks.APRICOT_TREE_WOOD);
-        addDrop(ModBlocks.STRIPPED_APRICOT_TREE_LOG);
-        addDrop(ModBlocks.STRIPPED_APRICOT_TREE_WOOD);
-        addDrop(ModBlocks.APRICOT_TREE_PLANKS);
-        addDrop(ModBlocks.APRICOT_TREE_SAPLING);
-        addDrop(ModBlocks.APRICOT_TREE_LEAVES, block -> fruitLeavesDrops(ModBlocks.APRICOT_TREE_LEAVES,
-                ModBlocks.APRICOT_TREE_SAPLING, 0.0625f, ModItems.APRICOT));
         addDrop(ModBlocks.PEACH_TREE_LOG);
         addDrop(ModBlocks.PEACH_TREE_WOOD);
         addDrop(ModBlocks.STRIPPED_PEACH_TREE_LOG);

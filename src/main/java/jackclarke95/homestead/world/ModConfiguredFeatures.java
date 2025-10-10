@@ -28,7 +28,6 @@ public class ModConfiguredFeatures {
     public static final RegistryKey<ConfiguredFeature<?, ?>> PLUM_TREE_KEY = registerKey("plum_tree");
     public static final RegistryKey<ConfiguredFeature<?, ?>> LEMON_TREE_KEY = registerKey("lemon_tree");
     public static final RegistryKey<ConfiguredFeature<?, ?>> ORANGE_TREE_KEY = registerKey("orange_tree");
-    public static final RegistryKey<ConfiguredFeature<?, ?>> APRICOT_TREE_KEY = registerKey("apricot_tree");
     public static final RegistryKey<ConfiguredFeature<?, ?>> PEACH_TREE_KEY = registerKey("peach_tree");
     public static final RegistryKey<ConfiguredFeature<?, ?>> APPLE_TREE_KEY = registerKey("apple_tree");
 
@@ -66,12 +65,6 @@ public class ModConfiguredFeatures {
                 BlockStateProvider.of(ModBlocks.ORANGE_TREE_LOG),
                 new StraightTrunkPlacer(4, 2, 1),
                 BlockStateProvider.of(ModBlocks.ORANGE_TREE_LEAVES),
-                new BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(2), 4),
-                new TwoLayersFeatureSize(1, 1, 2)).build());
-        register(context, APRICOT_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(
-                BlockStateProvider.of(ModBlocks.APRICOT_TREE_LOG),
-                new StraightTrunkPlacer(4, 2, 1),
-                BlockStateProvider.of(ModBlocks.APRICOT_TREE_LEAVES),
                 new BlobFoliagePlacer(ConstantIntProvider.create(2), ConstantIntProvider.create(2), 4),
                 new TwoLayersFeatureSize(1, 1, 2)).build());
         register(context, PEACH_TREE_KEY, Feature.TREE, new TreeFeatureConfig.Builder(

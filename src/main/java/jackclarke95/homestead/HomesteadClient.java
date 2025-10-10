@@ -37,7 +37,6 @@ public class HomesteadClient implements ClientModInitializer {
                 ModBlocks.PLUM_TREE_SAPLING,
                 ModBlocks.LEMON_TREE_SAPLING,
                 ModBlocks.ORANGE_TREE_SAPLING,
-                ModBlocks.APRICOT_TREE_SAPLING,
                 ModBlocks.PEACH_TREE_SAPLING,
                 ModBlocks.BLACKBERRY_BUSH,
                 ModBlocks.RASPBERRY_BUSH,
@@ -51,7 +50,6 @@ public class HomesteadClient implements ClientModInitializer {
                 ModBlocks.PLUM_TREE_LEAVES,
                 ModBlocks.LEMON_TREE_LEAVES,
                 ModBlocks.ORANGE_TREE_LEAVES,
-                ModBlocks.APRICOT_TREE_LEAVES,
                 ModBlocks.PEACH_TREE_LEAVES);
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MinecraftClient.getInstance()
@@ -69,9 +67,6 @@ public class HomesteadClient implements ClientModInitializer {
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MinecraftClient.getInstance()
                 .getBlockColors().getColor(ModBlocks.ORANGE_TREE_LEAVES.getDefaultState(), null, null, tintIndex),
                 ModBlocks.ORANGE_TREE_LEAVES);
-        ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MinecraftClient.getInstance()
-                .getBlockColors().getColor(ModBlocks.APRICOT_TREE_LEAVES.getDefaultState(), null, null, tintIndex),
-                ModBlocks.APRICOT_TREE_LEAVES);
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> MinecraftClient.getInstance()
                 .getBlockColors().getColor(ModBlocks.PEACH_TREE_LEAVES.getDefaultState(), null, null, tintIndex),
                 ModBlocks.PEACH_TREE_LEAVES);

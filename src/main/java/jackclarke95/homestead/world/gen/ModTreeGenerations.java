@@ -22,10 +22,6 @@ public class ModTreeGenerations {
 
         BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.FOREST, BiomeKeys.PLAINS),
                 GenerationStep.Feature.VEGETAL_DECORATION,
-                ModPlacedFeatures.APRICOT_TREE_PLACED_KEY);
-
-        BiomeModifications.addFeature(BiomeSelectors.includeByKey(BiomeKeys.FOREST, BiomeKeys.PLAINS),
-                GenerationStep.Feature.VEGETAL_DECORATION,
                 ModPlacedFeatures.PEACH_TREE_PLACED_KEY);
 
         BiomeModifications.addFeature(

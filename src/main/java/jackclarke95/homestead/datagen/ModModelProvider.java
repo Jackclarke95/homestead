@@ -240,18 +240,6 @@ public class ModModelProvider extends FabricModelProvider {
         generateFruitLeavesModelsAndBlockstate(blockStateModelGenerator, this.output.getPath(),
                 ModBlocks.ORANGE_TREE_LEAVES);
 
-        blockStateModelGenerator.registerLog(ModBlocks.APRICOT_TREE_LOG)
-                .log(ModBlocks.APRICOT_TREE_LOG)
-                .wood(ModBlocks.APRICOT_TREE_WOOD);
-        blockStateModelGenerator.registerLog(ModBlocks.STRIPPED_APRICOT_TREE_LOG)
-                .log(ModBlocks.STRIPPED_APRICOT_TREE_LOG)
-                .wood(ModBlocks.STRIPPED_APRICOT_TREE_WOOD);
-        blockStateModelGenerator.registerSimpleCubeAll(ModBlocks.APRICOT_TREE_PLANKS);
-        blockStateModelGenerator.registerTintableCrossBlockState(ModBlocks.APRICOT_TREE_SAPLING,
-                BlockStateModelGenerator.TintType.NOT_TINTED);
-        generateFruitLeavesModelsAndBlockstate(blockStateModelGenerator, this.output.getPath(),
-                ModBlocks.APRICOT_TREE_LEAVES);
-
         blockStateModelGenerator.registerLog(ModBlocks.PEACH_TREE_LOG)
                 .log(ModBlocks.PEACH_TREE_LOG)
                 .wood(ModBlocks.PEACH_TREE_WOOD);
@@ -643,14 +631,12 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModBlocks.PLUM_TREE_SAPLING.asItem(), Models.GENERATED);
         itemModelGenerator.register(ModBlocks.LEMON_TREE_SAPLING.asItem(), Models.GENERATED);
         itemModelGenerator.register(ModBlocks.ORANGE_TREE_SAPLING.asItem(), Models.GENERATED);
-        itemModelGenerator.register(ModBlocks.APRICOT_TREE_SAPLING.asItem(), Models.GENERATED);
         itemModelGenerator.register(ModBlocks.PEACH_TREE_SAPLING.asItem(), Models.GENERATED);
 
         itemModelGenerator.register(ModItems.PEAR, Models.GENERATED);
         itemModelGenerator.register(ModItems.PLUM, Models.GENERATED);
         itemModelGenerator.register(ModItems.LEMON, Models.GENERATED);
         itemModelGenerator.register(ModItems.ORANGE, Models.GENERATED);
-        itemModelGenerator.register(ModItems.APRICOT, Models.GENERATED);
         itemModelGenerator.register(ModItems.PEACH, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.APPLE_SEEDS, Models.GENERATED);
@@ -658,7 +644,6 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.PLUM_SEEDS, Models.GENERATED);
         itemModelGenerator.register(ModItems.LEMON_SEEDS, Models.GENERATED);
         itemModelGenerator.register(ModItems.ORANGE_SEEDS, Models.GENERATED);
-        itemModelGenerator.register(ModItems.APRICOT_SEEDS, Models.GENERATED);
         itemModelGenerator.register(ModItems.PEACH_SEEDS, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.ALLIUM_SEEDS, Models.GENERATED);

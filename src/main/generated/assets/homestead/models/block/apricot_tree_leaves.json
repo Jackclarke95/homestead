@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/leaves",
-  "textures": {
-    "all": "homestead:block/apricot_tree_leaves"
-  }
-}

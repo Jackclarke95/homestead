@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cross",
-  "textures": {
-    "cross": "homestead:block/apricot_tree_sapling"
-  }
-}

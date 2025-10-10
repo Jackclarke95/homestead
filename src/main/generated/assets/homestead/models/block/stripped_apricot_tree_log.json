@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "homestead:block/stripped_apricot_tree_log_top",
-    "side": "homestead:block/stripped_apricot_tree_log"
-  }
-}

@@ -44,8 +44,6 @@ public class ModFoodComponents {
             .build();
     public static final FoodComponent ORANGE = new FoodComponent.Builder().nutrition(2).saturationModifier(1f)
             .build();
-    public static final FoodComponent APRICOT = new FoodComponent.Builder().nutrition(2).saturationModifier(1f)
-            .build();
     public static final FoodComponent PEACH = new FoodComponent.Builder().nutrition(3).saturationModifier(1f)
             .build();
 

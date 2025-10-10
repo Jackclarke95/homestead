@@ -740,9 +740,6 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         SowingRecipeJsonBuilder.create(Ingredient.ofItems(ModItems.ORANGE_SEEDS),
                 ModBlocks.ORANGE_TREE_SAPLING.asItem().getDefaultStack(), 200)
                 .offerTo(recipeExporter);
-        SowingRecipeJsonBuilder.create(Ingredient.ofItems(ModItems.APRICOT_SEEDS),
-                ModBlocks.APRICOT_TREE_SAPLING.asItem().getDefaultStack(), 200)
-                .offerTo(recipeExporter);
         SowingRecipeJsonBuilder.create(Ingredient.ofItems(ModItems.PEACH_SEEDS),
                 ModBlocks.PEACH_TREE_SAPLING.asItem().getDefaultStack(), 200)
                 .offerTo(recipeExporter);

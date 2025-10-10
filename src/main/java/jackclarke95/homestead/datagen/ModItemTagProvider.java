@@ -76,7 +76,6 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.PLUM)
                 .add(ModItems.LEMON)
                 .add(ModItems.ORANGE)
-                .add(ModItems.APRICOT)
                 .add(ModItems.PEACH)
                 .add(ModItems.BLACKBERRY)
                 .add(ModItems.RASPBERRY)
@@ -122,10 +121,6 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModBlocks.ORANGE_TREE_WOOD.asItem())
                 .add(ModBlocks.STRIPPED_ORANGE_TREE_LOG.asItem())
                 .add(ModBlocks.STRIPPED_ORANGE_TREE_WOOD.asItem())
-                .add(ModBlocks.APRICOT_TREE_LOG.asItem())
-                .add(ModBlocks.APRICOT_TREE_WOOD.asItem())
-                .add(ModBlocks.STRIPPED_APRICOT_TREE_LOG.asItem())
-                .add(ModBlocks.STRIPPED_APRICOT_TREE_WOOD.asItem())
                 .add(ModBlocks.PEACH_TREE_LOG.asItem())
                 .add(ModBlocks.PEACH_TREE_WOOD.asItem())
                 .add(ModBlocks.STRIPPED_PEACH_TREE_LOG.asItem())
@@ -136,7 +131,6 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModBlocks.PLUM_TREE_PLANKS.asItem())
                 .add(ModBlocks.LEMON_TREE_PLANKS.asItem())
                 .add(ModBlocks.ORANGE_TREE_PLANKS.asItem())
-                .add(ModBlocks.APRICOT_TREE_PLANKS.asItem())
                 .add(ModBlocks.PEACH_TREE_PLANKS.asItem());
 
         getOrCreateTagBuilder(ModTags.ItemTags.FRUITS)
@@ -145,7 +139,6 @@ public class ModItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(ModItems.PLUM)
                 .add(ModItems.LEMON)
                 .add(ModItems.ORANGE)
-                .add(ModItems.APRICOT)
                 .add(ModItems.PEACH)
                 .add(ModItems.BLACKBERRY)
                 .add(ModItems.RASPBERRY);

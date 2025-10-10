@@ -22,7 +22,7 @@
           "distance": "7",
           "fruit_stage": "0",
           "persistent": "false",
-          "waterlogged": "false"
+          "waterlogged": "true"
         }
       }
     },

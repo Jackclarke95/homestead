@@ -15,8 +15,6 @@ public class ModSaplingGenerators {
             Optional.empty(), Optional.of(ModConfiguredFeatures.LEMON_TREE_KEY), Optional.empty());
     public static final SaplingGenerator ORANGE_TREE = new SaplingGenerator(Homestead.MOD_ID + ":orange_tree",
             Optional.empty(), Optional.of(ModConfiguredFeatures.ORANGE_TREE_KEY), Optional.empty());
-    public static final SaplingGenerator APRICOT_TREE = new SaplingGenerator(Homestead.MOD_ID + ":apricot_tree",
-            Optional.empty(), Optional.of(ModConfiguredFeatures.APRICOT_TREE_KEY), Optional.empty());
     public static final SaplingGenerator APPLE_TREE = new SaplingGenerator(Homestead.MOD_ID + ":apple_tree",
             Optional.empty(), Optional.of(ModConfiguredFeatures.APPLE_TREE_KEY), Optional.empty());
     public static final SaplingGenerator PEACH_TREE = new SaplingGenerator(Homestead.MOD_ID + ":peach_tree",

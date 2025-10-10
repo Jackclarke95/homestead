@@ -24,7 +24,6 @@ public class ModPlacedFeatures {
     public static final RegistryKey<PlacedFeature> PEAR_TREE_PLACED_KEY = registerKey("pear_tree_placed");
     public static final RegistryKey<PlacedFeature> APPLE_TREE_PLACED_KEY = registerKey("apple_tree_placed");
     public static final RegistryKey<PlacedFeature> PLUM_TREE_PLACED_KEY = registerKey("plum_tree_placed");
-    public static final RegistryKey<PlacedFeature> APRICOT_TREE_PLACED_KEY = registerKey("apricot_tree_placed");
     public static final RegistryKey<PlacedFeature> PEACH_TREE_PLACED_KEY = registerKey("peach_tree_placed");
     public static final RegistryKey<PlacedFeature> LEMON_TREE_PLACED_KEY = registerKey("lemon_tree_placed");
     public static final RegistryKey<PlacedFeature> ORANGE_TREE_PLACED_KEY = registerKey("orange_tree_placed");
@@ -45,10 +44,6 @@ public class ModPlacedFeatures {
         register(context, PLUM_TREE_PLACED_KEY, configuredFeatures.getOrThrow((ModConfiguredFeatures.PLUM_TREE_KEY)),
                 VegetationPlacedFeatures.treeModifiersWithWouldSurvive(
                         PlacedFeatures.createCountExtraModifier(0, 0.01F, 1), ModBlocks.PLUM_TREE_SAPLING));
-        register(context, APRICOT_TREE_PLACED_KEY,
-                configuredFeatures.getOrThrow((ModConfiguredFeatures.APRICOT_TREE_KEY)),
-                VegetationPlacedFeatures.treeModifiersWithWouldSurvive(
-                        PlacedFeatures.createCountExtraModifier(0, 0.01F, 1), ModBlocks.APRICOT_TREE_SAPLING));
         register(context, PEACH_TREE_PLACED_KEY, configuredFeatures.getOrThrow((ModConfiguredFeatures.PEACH_TREE_KEY)),
                 VegetationPlacedFeatures.treeModifiersWithWouldSurvive(
                         PlacedFeatures.createCountExtraModifier(0, 0.01F, 1), ModBlocks.PEACH_TREE_SAPLING));

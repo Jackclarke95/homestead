@@ -283,22 +283,6 @@ public class ModBlocks {
             new SaplingBlock(ModSaplingGenerators.ORANGE_TREE,
                     AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
 
-    public static final Block APRICOT_TREE_LOG = registerBlock("apricot_tree_log",
-            new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
-    public static final Block APRICOT_TREE_WOOD = registerBlock("apricot_tree_wood",
-            new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_WOOD)));
-    public static final Block STRIPPED_APRICOT_TREE_LOG = registerBlock("stripped_apricot_tree_log",
-            new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_LOG)));
-    public static final Block STRIPPED_APRICOT_TREE_WOOD = registerBlock("stripped_apricot_tree_wood",
-            new PillarBlock(AbstractBlock.Settings.copy(Blocks.STRIPPED_OAK_WOOD)));
-    public static final Block APRICOT_TREE_PLANKS = registerBlock("apricot_tree_planks",
-            new Block(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)));
-    public static final Block APRICOT_TREE_LEAVES = registerBlock("apricot_tree_leaves",
-            new FruitBearingLeaves(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)));
-    public static final Block APRICOT_TREE_SAPLING = registerBlock("apricot_tree_sapling",
-            new SaplingBlock(ModSaplingGenerators.APRICOT_TREE,
-                    AbstractBlock.Settings.copy(Blocks.OAK_SAPLING)));
-
     public static final Block PEACH_TREE_LOG = registerBlock("peach_tree_log",
             new PillarBlock(AbstractBlock.Settings.copy(Blocks.OAK_LOG)));
     public static final Block PEACH_TREE_WOOD = registerBlock("peach_tree_wood",
@@ -429,12 +413,6 @@ public class ModBlocks {
             entries.add(ModBlocks.ORANGE_TREE_PLANKS);
             entries.add(ModBlocks.STRIPPED_ORANGE_TREE_LOG);
             entries.add(ModBlocks.STRIPPED_ORANGE_TREE_WOOD);
-            entries.add(ModBlocks.APRICOT_TREE_SAPLING);
-            entries.add(ModBlocks.APRICOT_TREE_LOG);
-            entries.add(ModBlocks.APRICOT_TREE_LEAVES);
-            entries.add(ModBlocks.APRICOT_TREE_PLANKS);
-            entries.add(ModBlocks.STRIPPED_APRICOT_TREE_LOG);
-            entries.add(ModBlocks.STRIPPED_APRICOT_TREE_WOOD);
             entries.add(ModBlocks.PEACH_TREE_SAPLING);
             entries.add(ModBlocks.PEACH_TREE_LOG);
             entries.add(ModBlocks.PEACH_TREE_LEAVES);
