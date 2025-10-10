@@ -72,6 +72,11 @@ public class ModItems {
                 .setBerryItem(STRAWBERRY);
     }
 
+    public static final Item RHUBARB = registerItem("rhubarb",
+            new Item(new Item.Settings().food(ModFoodComponents.RHUBARB)));
+    public static final Item RHUBARB_BULB = registerItem("rhubarb_bulb",
+            new AliasedBlockItem(ModBlocks.RHUBARB_CROP, new Item.Settings()));
+
     public static final Item APPLE_SEEDS = registerItem("apple_seeds",
             new Item(new Item.Settings()));
     public static final Item PEAR_SEEDS = registerItem("pear_seeds",
@@ -165,6 +170,7 @@ public class ModItems {
             entries.add(ORANGE);
             entries.add(STRAWBERRY);
             entries.add(PEACH);
+            entries.add(RHUBARB);
             entries.add(BLACKBERRY);
             entries.add(RASPBERRY);
             entries.add(SOFT_CHEESE);
@@ -179,6 +185,7 @@ public class ModItems {
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
+            entries.add(RHUBARB_BULB);
             entries.add(APPLE_SEEDS);
             entries.add(PEAR_SEEDS);
             entries.add(PLUM_SEEDS);

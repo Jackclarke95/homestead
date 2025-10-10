@@ -146,6 +146,8 @@
 
   "block.homestead.blackberry_bush": "Blackberry Bush",
   "block.homestead.raspberry_bush": "Raspberry Bush",
+  "block.homestead.strawberry_bush": "Strawberry Bush",
+  "block.homestead.rhubarb": "Rhubarb",
 
   "item.homestead.pear": "Pear",
   "item.homestead.plum": "Plum",
@@ -154,6 +156,8 @@
   "item.homestead.peach": "Peach",
   "item.homestead.blackberry": "Blackberry",
   "item.homestead.raspberry": "Raspberry",
+  "item.homestead.strawberry": "Strawberry",
+  "item.homestead.rhubarb": "Rhubarb",
 
   "item.homestead.apple_seeds": "Apple Seeds",
   "item.homestead.pear_seeds": "Pear Seeds",
@@ -161,6 +165,7 @@
   "item.homestead.lemon_seeds": "Lemon Seeds",
   "item.homestead.orange_seeds": "Orange Seeds",
   "item.homestead.peach_seeds": "Peach Seeds",
+  "item.homestead.rhubarb_bulb": "Rhubarb Bulb",
 
   "item.homestead.allium_seeds": "Allium Seeds",
   "item.homestead.azure_bluet_seeds": "Azure Bluet Seeds",

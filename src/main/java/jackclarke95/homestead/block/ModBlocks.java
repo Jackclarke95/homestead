@@ -15,6 +15,7 @@ import jackclarke95.homestead.block.custom.PathBlock;
 import jackclarke95.homestead.block.custom.SurfaceLayerConnectingBlock;
 import jackclarke95.homestead.block.custom.GrowableSurfaceLayerBlock;
 import jackclarke95.homestead.block.custom.HamperBlock;
+import jackclarke95.homestead.block.custom.RhubarbBlock;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -306,6 +307,10 @@ public class ModBlocks {
 
     public static SpreadingBerryBushBlock STRAWBERRY_BUSH = (SpreadingBerryBushBlock) registerBlock("strawberry_bush",
             new SpreadingBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null));
+
+    public static final Block RHUBARB_CROP = Registry.register(Registries.BLOCK,
+            Identifier.of(Homestead.MOD_ID, "rhubarb"),
+            new RhubarbBlock(AbstractBlock.Settings.copy(Blocks.BEETROOTS)));
 
     public static void registerModBlocks() {
         Homestead.LOGGER.debug("Registering Mod Blocks for " + Homestead.MOD_ID);

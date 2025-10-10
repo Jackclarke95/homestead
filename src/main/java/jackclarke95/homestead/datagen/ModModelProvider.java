@@ -3,6 +3,7 @@ package jackclarke95.homestead.datagen;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.custom.GenericBerryBushBlock;
+import jackclarke95.homestead.block.custom.RhubarbBlock;
 import jackclarke95.homestead.block.custom.SpreadingBerryBushBlock;
 import jackclarke95.homestead.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -258,6 +259,9 @@ public class ModModelProvider extends FabricModelProvider {
                 BlockStateModelGenerator.TintType.NOT_TINTED, GenericBerryBushBlock.AGE, 0, 1, 2, 3);
         blockStateModelGenerator.registerTintableCrossBlockStateWithStages(ModBlocks.STRAWBERRY_BUSH,
                 BlockStateModelGenerator.TintType.NOT_TINTED, SpreadingBerryBushBlock.AGE, 0, 1, 2, 3);
+
+        blockStateModelGenerator.registerCrop(ModBlocks.RHUBARB_CROP,
+                RhubarbBlock.AGE, 0, 1, 2, 3);
     }
 
     public static void registerPathBlockModel(BlockStateModelGenerator blockStateModelGenerator,
@@ -638,6 +642,8 @@ public class ModModelProvider extends FabricModelProvider {
         itemModelGenerator.register(ModItems.LEMON, Models.GENERATED);
         itemModelGenerator.register(ModItems.ORANGE, Models.GENERATED);
         itemModelGenerator.register(ModItems.PEACH, Models.GENERATED);
+
+        itemModelGenerator.register(ModItems.RHUBARB, Models.GENERATED);
 
         itemModelGenerator.register(ModItems.APPLE_SEEDS, Models.GENERATED);
         itemModelGenerator.register(ModItems.PEAR_SEEDS, Models.GENERATED);

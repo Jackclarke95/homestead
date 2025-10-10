@@ -71,6 +71,8 @@ public class HomesteadClient implements ClientModInitializer {
                 .getBlockColors().getColor(ModBlocks.PEACH_TREE_LEAVES.getDefaultState(), null, null, tintIndex),
                 ModBlocks.PEACH_TREE_LEAVES);
 
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.RHUBARB_CROP, RenderLayer.getCutout());
+
         BlockEntityRendererFactories.register(ModBlockEntities.RACK_BE, RackBlockEntityRenderer::new);
         BlockEntityRendererFactories.register(ModBlockEntities.HEATED_RACK_BE, RackBlockEntityRenderer::new);
 

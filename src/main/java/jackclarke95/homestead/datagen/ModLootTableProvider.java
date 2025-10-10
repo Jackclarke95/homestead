@@ -181,6 +181,35 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(ModBlocks.BLACKBERRY_BUSH, berryBushDrops(ModBlocks.BLACKBERRY_BUSH, ModItems.BLACKBERRY));
         addDrop(ModBlocks.RASPBERRY_BUSH, berryBushDrops(ModBlocks.RASPBERRY_BUSH, ModItems.RASPBERRY));
         addDrop(ModBlocks.STRAWBERRY_BUSH, berryBushDrops(ModBlocks.STRAWBERRY_BUSH, ModItems.STRAWBERRY));
+
+        addDrop(ModBlocks.RHUBARB_CROP, cropDrops(ModBlocks.RHUBARB_CROP, ModItems.RHUBARB, ModItems.RHUBARB_BULB));
+    }
+
+    private LootTable.Builder cropDrops(Block cropBlock, Item cropItem, Item seedItem) {
+        return this.applyExplosionDecay(cropBlock,
+                LootTable.builder()
+                        .pool(LootPool.builder()
+                                .with(ItemEntry.builder(cropItem))
+                                .conditionally(BlockStatePropertyLootCondition
+                                        .builder(cropBlock)
+                                        .properties(StatePredicate.Builder.create()
+                                                .exactMatch(net.minecraft.block.CropBlock.AGE, 3)))
+                                .apply(SetCountLootFunction.builder(
+                                        UniformLootNumberProvider.create(2.0F, 4.0F))))
+                        .pool(LootPool.builder()
+                                .with(ItemEntry.builder(seedItem))
+                                .conditionally(BlockStatePropertyLootCondition
+                                        .builder(cropBlock)
+                                        .properties(StatePredicate.Builder.create()
+                                                .exactMatch(net.minecraft.block.CropBlock.AGE, 3)))
+                                .apply(SetCountLootFunction.builder(
+                                        UniformLootNumberProvider.create(1.0F, 2.0F))))
+                        .pool(LootPool.builder()
+                                .with(ItemEntry.builder(seedItem))
+                                .apply(ApplyBonusLootFunction.binomialWithBonusCount(
+                                        this.registryLookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT)
+                                                .getOrThrow(Enchantments.FORTUNE),
+                                        0.5714286F, 3))));
     }
 
     private LootTable.Builder berryBushDrops(Block bushBlock, Item berryItem) {
