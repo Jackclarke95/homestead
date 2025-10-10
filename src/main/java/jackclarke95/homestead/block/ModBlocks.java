@@ -306,7 +306,7 @@ public class ModBlocks {
             new GenericBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null));
 
     public static SpreadingBerryBushBlock STRAWBERRY_BUSH = (SpreadingBerryBushBlock) registerBlock("strawberry_bush",
-            new SpreadingBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null));
+            new SpreadingBerryBushBlock(AbstractBlock.Settings.copy(Blocks.SWEET_BERRY_BUSH), null, false));
 
     public static final Block RHUBARB_CROP = Registry.register(Registries.BLOCK,
             Identifier.of(Homestead.MOD_ID, "rhubarb"),

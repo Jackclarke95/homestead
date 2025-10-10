@@ -3,6 +3,7 @@ package jackclarke95.homestead.block.custom;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.server.world.ServerWorld;
@@ -14,6 +15,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.world.BlockView;
+import net.minecraft.block.ShapeContext;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -26,8 +30,11 @@ public class SpreadingBerryBushBlock extends GenericBerryBushBlock {
     private static final int MAX_CLUSTER_SIZE = 5;
     private static final int MAX_SEARCH_DEPTH = 20; // Prevent infinite searches
 
-    public SpreadingBerryBushBlock(AbstractBlock.Settings settings, Item berryItem) {
+    private final boolean hurtsAndSlows;
+
+    public SpreadingBerryBushBlock(AbstractBlock.Settings settings, Item berryItem, boolean hurtsAndSlows) {
         super(settings, berryItem);
+        this.hurtsAndSlows = hurtsAndSlows;
         this.setDefaultState(this.stateManager.getDefaultState()
                 .with(AGE, 0)
                 .with(SPREADING, true));
@@ -244,5 +251,21 @@ public class SpreadingBerryBushBlock extends GenericBerryBushBlock {
         if (!world.isClient && sourceBlock == this) {
             reevaluateClusterSpreading(world, pos);
         }
+    }
+
+    @Override
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        if (hurtsAndSlows) {
+            super.onEntityCollision(state, world, pos, entity);
+        }
+        // else: do nothing (no damage or slowing)
+    }
+
+    private static final VoxelShape SLAB_SHAPE = Block.createCuboidShape(0, 0, 0, 16, 8, 16);
+
+    @Override
+    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos,
+            ShapeContext context) {
+        return SLAB_SHAPE;
     }
 }
