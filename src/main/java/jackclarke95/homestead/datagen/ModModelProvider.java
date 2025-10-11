@@ -3,7 +3,6 @@ package jackclarke95.homestead.datagen;
 import jackclarke95.homestead.Homestead;
 import jackclarke95.homestead.block.ModBlocks;
 import jackclarke95.homestead.block.custom.GenericBerryBushBlock;
-import jackclarke95.homestead.block.custom.RhubarbBlock;
 import jackclarke95.homestead.block.custom.SpreadingBerryBushBlock;
 import jackclarke95.homestead.item.ModItems;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -17,6 +16,7 @@ import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
 import net.minecraft.data.client.TexturedModel;
 import net.minecraft.registry.Registries;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 
 import java.io.IOException;
@@ -260,8 +260,7 @@ public class ModModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerTintableCrossBlockStateWithStages(ModBlocks.STRAWBERRY_BUSH,
                 BlockStateModelGenerator.TintType.NOT_TINTED, SpreadingBerryBushBlock.AGE, 0, 1, 2, 3);
 
-        blockStateModelGenerator.registerCrop(ModBlocks.RHUBARB_CROP,
-                RhubarbBlock.AGE, 0, 1, 2, 3);
+        blockStateModelGenerator.registerCrop(ModBlocks.RHUBARB_CROP, Properties.AGE_7, 0, 0, 1, 1, 2, 2, 2, 3);
     }
 
     public static void registerPathBlockModel(BlockStateModelGenerator blockStateModelGenerator,

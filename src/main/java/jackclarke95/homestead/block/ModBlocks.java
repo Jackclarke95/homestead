@@ -15,7 +15,8 @@ import jackclarke95.homestead.block.custom.PathBlock;
 import jackclarke95.homestead.block.custom.SurfaceLayerConnectingBlock;
 import jackclarke95.homestead.block.custom.GrowableSurfaceLayerBlock;
 import jackclarke95.homestead.block.custom.HamperBlock;
-import jackclarke95.homestead.block.custom.RhubarbBlock;
+import jackclarke95.homestead.block.custom.GenericCropBlock;
+import jackclarke95.homestead.item.ModItems;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -310,7 +311,9 @@ public class ModBlocks {
 
     public static final Block RHUBARB_CROP = Registry.register(Registries.BLOCK,
             Identifier.of(Homestead.MOD_ID, "rhubarb"),
-            new RhubarbBlock(AbstractBlock.Settings.copy(Blocks.BEETROOTS)));
+            new GenericCropBlock(
+                    AbstractBlock.Settings.copy(Blocks.BEETROOTS),
+                    ModItems.RHUBARB_BULB));
 
     public static void registerModBlocks() {
         Homestead.LOGGER.debug("Registering Mod Blocks for " + Homestead.MOD_ID);
