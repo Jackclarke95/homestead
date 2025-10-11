@@ -17,6 +17,7 @@ import net.minecraft.enchantment.Enchantments;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.CropBlock;
 import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -193,7 +194,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                                 .conditionally(BlockStatePropertyLootCondition
                                         .builder(cropBlock)
                                         .properties(StatePredicate.Builder.create()
-                                                .exactMatch(net.minecraft.block.CropBlock.AGE, 3)))
+                                                .exactMatch(CropBlock.AGE, 7)))
                                 .apply(SetCountLootFunction.builder(
                                         UniformLootNumberProvider.create(2.0F, 4.0F))))
                         .pool(LootPool.builder()
@@ -201,15 +202,26 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
                                 .conditionally(BlockStatePropertyLootCondition
                                         .builder(cropBlock)
                                         .properties(StatePredicate.Builder.create()
-                                                .exactMatch(net.minecraft.block.CropBlock.AGE, 3)))
+                                                .exactMatch(CropBlock.AGE, 7)))
                                 .apply(SetCountLootFunction.builder(
                                         UniformLootNumberProvider.create(1.0F, 2.0F))))
                         .pool(LootPool.builder()
                                 .with(ItemEntry.builder(seedItem))
+                                .conditionally(BlockStatePropertyLootCondition
+                                        .builder(cropBlock)
+                                        .properties(StatePredicate.Builder.create()
+                                                .exactMatch(CropBlock.AGE, 7)))
                                 .apply(ApplyBonusLootFunction.binomialWithBonusCount(
                                         this.registryLookup.getWrapperOrThrow(RegistryKeys.ENCHANTMENT)
                                                 .getOrThrow(Enchantments.FORTUNE),
-                                        0.5714286F, 3))));
+                                        0.5714286F, 3)))
+                        .pool(LootPool.builder()
+                                .with(ItemEntry.builder(seedItem))
+                                .conditionally(BlockStatePropertyLootCondition
+                                        .builder(cropBlock)
+                                        .properties(StatePredicate.Builder.create()
+                                                .exactMatch(CropBlock.AGE, 7))
+                                        .invert())));
     }
 
     private LootTable.Builder berryBushDrops(Block bushBlock, Item berryItem) {

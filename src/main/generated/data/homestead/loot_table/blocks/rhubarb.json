@@ -13,7 +13,7 @@
           "block": "homestead:rhubarb",
           "condition": "minecraft:block_state_property",
           "properties": {
-            "age": "3"
+            "age": "7"
           }
         }
       ],
@@ -43,7 +43,7 @@
           "block": "homestead:rhubarb",
           "condition": "minecraft:block_state_property",
           "properties": {
-            "age": "3"
+            "age": "7"
           }
         }
       ],
@@ -68,6 +68,15 @@
     },
     {
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "homestead:rhubarb",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "age": "7"
+          }
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
@@ -83,6 +92,28 @@
             "extra": 3,
             "probability": 0.5714286
           }
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "block": "homestead:rhubarb",
+            "condition": "minecraft:block_state_property",
+            "properties": {
+              "age": "7"
+            }
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "homestead:rhubarb_bulb"
         }
       ],
       "rolls": 1.0
