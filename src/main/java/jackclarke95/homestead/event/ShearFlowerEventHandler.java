@@ -41,6 +41,8 @@ public class ShearFlowerEventHandler {
         UseBlockCallback.EVENT.register(ShearFlowerEventHandler::onUseBlock);
     }
 
+    // TODO: Drop seed *instead of* flower, and yield more flowers in the sewing bed
+
     private static ActionResult onUseBlock(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
         if (world.isClient)
             return ActionResult.PASS;
